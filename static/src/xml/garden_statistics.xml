@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="garden.GardenStatistics">
+        <div class="o_action o_garden_statistics_action">
+            <style>
+                .o_garden_statistics_action { padding: 1rem 1.5rem; }
+                .o_garden_statistics_header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem }
+                .o_garden_charts { display:grid; grid-template-columns: 1fr 1fr; gap:1rem }
+                .o_garden_chart_card { padding:0.75rem; border:1px solid #e6e9ec; border-radius:6px; background:#fff }
+                .o_garden_chart_card h2 { margin:0 0 0.5rem 0; font-size:1.05rem }
+            </style>
+            <Layout display="display">
+                <div class="o_garden_statistics_header">
+                    <h1>Statistiques - Temps des actions</h1>
+                </div>
+                <div class="o_garden_charts">
+                    <div class="o_garden_chart_card">
+                        <h2>Consommation de temps par type d'action</h2>
+                        <canvas id="garden-pie-chart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="o_garden_chart_card">
+                        <h2>Temps par type d'action par variété (empilé)</h2>
+                        <canvas id="garden-stacked-chart" width="600" height="300"></canvas>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            </Layout>
+        </div>
+    </t>
+</templates>

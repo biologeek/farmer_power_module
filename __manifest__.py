@@ -25,6 +25,8 @@
         'web.assets_backend': [
             'odoo_garden/static/src/js/garden_bed_occupancy.js',
             'odoo_garden/static/src/xml/garden_bed_occupancy.xml',
+            'odoo_garden/static/src/js/garden_statistics.js',
+            'odoo_garden/static/src/xml/garden_statistics.xml',
         ],
     },
     'installable': True,
