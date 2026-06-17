@@ -1,0 +1,46 @@
+<odoo>
+    <record id="view_garden_loss_tree" model="ir.ui.view">
+        <field name="name">garden.loss.tree</field>
+        <field name="model">garden.loss</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="bed_id"/>
+                <field name="quantity"/>
+                <field name="reason"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_loss_form" model="ir.ui.view">
+        <field name="name">garden.loss.form</field>
+        <field name="model">garden.loss</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="date" string="Date" placeholder="Date de la perte (jj-mm-aaaa)"/>
+                    </group>
+                    <group>
+                        <field name="bed_id" string="Planche" placeholder="Planche concernée"/>
+                    </group>
+                    <group>
+                        <field name="quantity" string="Quantité" placeholder="Quantité perdue"/>
+                    </group>
+                    <group>
+                        <field name="reason" string="Raison" placeholder="Raison de la perte"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_garden_loss" model="ir.actions.act_window">
+        <field name="name">Pertes</field>
+        <field name="res_model">garden.loss</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première perte
+            </p>
+        </field>
+    </record>
+</odoo>

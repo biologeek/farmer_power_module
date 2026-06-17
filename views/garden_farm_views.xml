@@ -1,0 +1,37 @@
+<odoo>
+    <record id="view_garden_farm_tree" model="ir.ui.view">
+        <field name="name">garden.farm.tree</field>
+        <field name="model">garden.farm</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_farm_form" model="ir.ui.view">
+        <field name="name">garden.farm.form</field>
+        <field name="model">garden.farm</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" string="Nom" placeholder="Nom de la ferme"/>
+                    </group>
+                    <group>
+                        <field name="site_ids" string="Sites" placeholder="Sites rattachés à cette ferme"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_garden_farm" model="ir.actions.act_window">
+        <field name="name">Fermes</field>
+        <field name="res_model">garden.farm</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première ferme
+            </p>
+        </field>
+    </record>
+</odoo>

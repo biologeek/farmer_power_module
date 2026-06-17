@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_garden_bed_tree" model="ir.ui.view">
+        <field name="name">garden.bed.tree</field>
+        <field name="model">garden.bed</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="garden_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_bed_form" model="ir.ui.view">
+        <field name="name">garden.bed.form</field>
+        <field name="model">garden.bed</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" string="Nom" placeholder="Nom de la planche"/>
+                    </group>
+                    <group>
+                        <field name="garden_id" string="Jardin" placeholder="Jardin parent"/>
+                    </group>
+                    <group>
+                        <field name="action_ids" string="Actions" placeholder="Actions liées à cette planche"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_garden_bed" model="ir.actions.act_window">
+        <field name="name">Planches</field>
+        <field name="res_model">garden.bed</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première planche
+            </p>
+        </field>
+    </record>
+</odoo>

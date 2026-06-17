@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_garden_garden_tree" model="ir.ui.view">
+        <field name="name">garden.garden.tree</field>
+        <field name="model">garden.garden</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="site_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_garden_form" model="ir.ui.view">
+        <field name="name">garden.garden.form</field>
+        <field name="model">garden.garden</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" string="Nom" placeholder="Nom du jardin"/>
+                    </group>
+                    <group>
+                        <field name="site_id" string="Site" placeholder="Site parent"/>
+                    </group>
+                    <group>
+                        <field name="bed_ids" string="Planches" placeholder="Planches du jardin"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_garden_garden" model="ir.actions.act_window">
+        <field name="name">Jardins</field>
+        <field name="res_model">garden.garden</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier jardin
+            </p>
+        </field>
+    </record>
+</odoo>

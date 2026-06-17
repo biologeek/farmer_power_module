@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+garden_farm_access,garden.farm,model_garden_farm,,1,1,1,1
+garden_site_access,garden.site,model_garden_site,,1,1,1,1
+garden_garden_access,garden.garden,model_garden_garden,,1,1,1,1
+garden_bed_access,garden.bed,model_garden_bed,,1,1,1,1
+garden_crop_catalog_access,garden.crop.catalog,model_garden_crop_catalog,,1,1,1,1
+garden_action_access,garden.action,model_garden_action,,1,1,1,1
+garden_postprocess_access,garden.postprocess,model_garden_postprocess,,1,1,1,1
+garden_loss_access,garden.loss,model_garden_loss,,1,1,1,1
+garden_crop_access,garden.crop,model_garden_crop,,1,1,1,1
+garden_action_type_access,garden.action.type,model_garden_action_type,,1,1,1,1

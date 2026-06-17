@@ -1,0 +1,14 @@
+<odoo>
+    <menuitem id="menu_garden_root" name="Maraîchage" sequence="10"/>
+    <menuitem id="menu_garden_exploitation" name="Exploitation" parent="menu_garden_root" sequence="5"/>
+    <menuitem id="menu_garden_farm" name="Fermes" parent="menu_garden_exploitation" action="action_garden_farm"/>
+    <menuitem id="menu_garden_site" name="Sites" parent="menu_garden_exploitation" action="action_garden_site"/>
+    <menuitem id="menu_garden_garden" name="Jardins" parent="menu_garden_exploitation" action="action_garden_garden"/>
+    <menuitem id="menu_garden_bed" name="Planches" parent="menu_garden_exploitation" action="action_garden_bed"/>
+    <menuitem id="menu_garden_production" name="Production" parent="menu_garden_root" sequence="10"/>
+    <menuitem id="menu_garden_crop" name="Cultures" parent="menu_garden_production" action="action_garden_crop"/>
+    <menuitem id="menu_garden_crop_catalog" name="Catalogue de cultures" parent="menu_garden_exploitation" action="action_garden_crop_catalog"/>
+    <menuitem id="menu_garden_action" name="Actions" parent="menu_garden_production" action="action_garden_action"/>
+    <menuitem id="menu_garden_postprocess" name="Post-process" parent="menu_garden_production" action="action_garden_postprocess"/>
+    <menuitem id="menu_garden_loss" name="Pertes" parent="menu_garden_production" action="action_garden_loss"/>
+</odoo>

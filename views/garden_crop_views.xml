@@ -1,0 +1,71 @@
+<odoo>
+    <record id="view_garden_crop_tree" model="ir.ui.view">
+        <field name="name">garden.crop.tree</field>
+        <field name="model">garden.crop</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="catalog_id"/>
+                <field name="bed_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_crop_form" model="ir.ui.view">
+        <field name="name">garden.crop.form</field>
+        <field name="model">garden.crop</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="catalog_id" string="Catalogue" placeholder="Sélectionnez une culture du catalogue"/>
+                        </group>
+                        <group>
+                            <field name="bed_id" string="Planche" placeholder="Sélectionnez la planche"/>
+                        </group>
+                        <group>
+                            <field name="date_start" string="Date de début" placeholder="Date de début (jj-mm-aaaa)"/>
+                        </group>
+                        <group>
+                            <field name="date_end" string="Date de fin" placeholder="Date de fin (jj-mm-aaaa)"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="quantity_harvested" string="Quantité récoltée" placeholder="Quantité récoltée en kg"/>
+                        </group>
+                        <group>
+                            <field name="value_harvested" string="Valeur récoltée" placeholder="Valeur récoltée en €"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" string="Notes" placeholder="Notes sur la culture"/>
+                    </group>
+                    <notebook>
+                        <page string="Actions">
+                            <field name="action_ids" string="Actions" placeholder="Actions réalisées sur cette culture">
+                                    <list>
+                                        <field name="type_id" string="Action" placeholder="Type d'action"/>
+                                        <field name="date" string="Date" placeholder="Date de l'action"/>
+                                        <field name="duration" string="Durée" placeholder="Durée de l'action (minutes)"/>
+                                        <field name="description" string="Description" placeholder="Description de l'action"/>
+                                    </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_garden_crop" model="ir.actions.act_window">
+        <field name="name">Cultures</field>
+        <field name="res_model">garden.crop</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première culture sur planche
+            </p>
+        </field>
+    </record>
+</odoo>
