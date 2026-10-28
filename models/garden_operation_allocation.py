@@ -43,6 +43,11 @@ class GardenOperationAllocation(models.Model):
         groups='odoo_garden.group_garden_chef',
         help="Coût de main-d'œuvre de l'opération × part de la culture.",
     )
+    input_cost = fields.Float(
+        'Coût des intrants', compute='_compute_input_cost', store=True, digits='Product Price',
+        groups='odoo_garden.group_garden_chef',
+        help="Coût des intrants de l'opération × part de la culture.",
+    )
 
     @api.depends('operation_id.total_hours', 'share')
     def _compute_amounts(self):
@@ -53,6 +58,11 @@ class GardenOperationAllocation(models.Model):
     def _compute_labour_cost(self):
         for allocation in self:
             allocation.labour_cost = allocation.operation_id.labour_cost * allocation.share / 100.0
+
+    @api.depends('operation_id.input_cost', 'share')
+    def _compute_input_cost(self):
+        for allocation in self:
+            allocation.input_cost = allocation.operation_id.input_cost * allocation.share / 100.0
 
     @api.model
     def get_statistics_data(self, params=None):

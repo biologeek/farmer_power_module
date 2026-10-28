@@ -157,6 +157,11 @@ class GardenCrop(models.Model):
         groups='odoo_garden.group_garden_chef',
         help="Somme du coût de main-d'œuvre réparti sur la culture par les opérations faites.",
     )
+    input_cost = fields.Float(
+        'Coût des intrants', compute='_compute_labour', store=True, digits='Product Price',
+        groups='odoo_garden.group_garden_chef',
+        help="Somme du coût des intrants réparti sur la culture par les opérations faites.",
+    )
     operation_count = fields.Integer(
         'Nombre d\'opérations', compute='_compute_operation_count',
         help="Opérations qui visent la culture ou qui lui sont réparties (planche, îlot).",
@@ -194,11 +199,12 @@ class GardenCrop(models.Model):
             )
             crop.occupation_end = crop.date_end or crop.planned_harvest_end or crop.planned_harvest_start
 
-    @api.depends('allocation_ids.hours', 'allocation_ids.labour_cost')
+    @api.depends('allocation_ids.hours', 'allocation_ids.labour_cost', 'allocation_ids.input_cost')
     def _compute_labour(self):
         for crop in self:
             crop.labour_hours = sum(crop.allocation_ids.mapped('hours'))
             crop.labour_cost = sum(crop.allocation_ids.mapped('labour_cost'))
+            crop.input_cost = sum(crop.allocation_ids.mapped('input_cost'))
 
     def _get_operations_domain(self):
         self.ensure_one()

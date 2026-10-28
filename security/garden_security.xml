@@ -91,6 +91,11 @@
             <field name="model_id" ref="model_garden_operation_allocation"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
+        <record id="garden_operation_input_company_rule" model="ir.rule">
+            <field name="name">Intrant d'opération : multi-société</field>
+            <field name="model_id" ref="model_garden_operation_input"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
         <record id="garden_season_company_rule" model="ir.rule">
             <field name="name">Saison : multi-société</field>
             <field name="model_id" ref="model_garden_season"/>

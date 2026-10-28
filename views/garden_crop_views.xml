@@ -100,6 +100,7 @@
                                     <field name="value_harvested" placeholder="Valeur récoltée en €"/>
                                     <field name="labour_hours" widget="float_time"/>
                                     <field name="labour_cost" groups="odoo_garden.group_garden_chef"/>
+                                    <field name="input_cost" groups="odoo_garden.group_garden_chef"/>
                                 </group>
                             </group>
                         </page>
@@ -125,6 +126,7 @@
                                     <field name="share"/>
                                     <field name="hours" widget="float_time" sum="Total"/>
                                     <field name="labour_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
+                                    <field name="input_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
                                 </list>
                             </field>
                         </page>

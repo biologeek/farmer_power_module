@@ -318,8 +318,21 @@
         <field name="arch" type="xml">
             <filter name="filter_to_sell" position="before">
                 <filter name="garden_products" string="Produits maraîchers" domain="[('is_garden_product', '=', True)]"/>
+                <filter name="garden_inputs" string="Intrants maraîchers" domain="[('garden_input_type', '!=', False)]"/>
                 <separator/>
             </filter>
+        </field>
+    </record>
+    <record id="view_product_template_form_garden" model="ir.ui.view">
+        <field name="name">product.template.form.garden</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_standard_price']" position="after">
+                <group name="garden_group" string="Maraîchage">
+                    <field name="garden_input_type"/>
+                </group>
+            </xpath>
         </field>
     </record>
     <record id="action_garden_product" model="ir.actions.act_window">

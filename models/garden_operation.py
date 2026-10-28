@@ -1,6 +1,7 @@
-from datetime import timedelta
+from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models
+from odoo.tools import float_round
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -118,6 +119,22 @@ class GardenOperation(models.Model):
     )
     description = fields.Text('Description', help="Consignes ou compte rendu du travail.")
 
+    # Intrants et mouvements de stock
+    input_ids = fields.One2many(
+        'garden.operation.input', 'operation_id', string='Intrants', copy=True,
+        help="Produits consommés par l'opération. Les mouvements de stock sont créés quand elle est faite.",
+    )
+    input_cost = fields.Float(
+        'Coût des intrants', compute='_compute_input_cost', store=True, digits='Product Price',
+        groups='odoo_garden.group_garden_chef',
+        help="Somme du coût des intrants (quantité × coût du produit).",
+    )
+    move_ids = fields.One2many(
+        'stock.move', 'garden_operation_id', string='Mouvements de stock', readonly=True,
+        groups='odoo_garden.group_garden_chef',
+        help="Mouvements de consommation et de récolte créés par l'opération, avec leurs annulations.",
+    )
+
     # Spécifique à la catégorie
     harvest_product_id = fields.Many2one(
         'product.product', string='Produit récolté', compute='_compute_harvest_product', store=True,
@@ -167,6 +184,11 @@ class GardenOperation(models.Model):
                 )
             else:
                 operation.labour_cost = operation.duration * default_rate
+
+    @api.depends('input_ids.cost')
+    def _compute_input_cost(self):
+        for operation in self:
+            operation.input_cost = sum(operation.input_ids.mapped('cost'))
 
     def _recompute_labour_cost(self):
         """Force le recalcul du coût (changement du taux horaire par défaut)."""
@@ -285,6 +307,10 @@ class GardenOperation(models.Model):
                 raise UserError(self.env._(
                     "Renseignez la quantité récoltée avant de terminer l'opération « %s ».", operation.name,
                 ))
+            if operation.category == 'harvest' and operation.harvest_qty > 0 and not operation.harvest_product_id:
+                raise UserError(self.env._(
+                    "Renseignez le produit récolté avant de terminer l'opération « %s ».", operation.name,
+                ))
             operation.write({
                 'state': 'done',
                 'date': operation.date or fields.Date.context_today(operation),
@@ -361,11 +387,209 @@ class GardenOperation(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         operations = super().create(vals_list)
-        operations.filtered(lambda o: o.state == 'done')._update_allocations()
+        done = operations.filtered(lambda o: o.state == 'done')
+        done._update_allocations()
+        done._sync_stock()
         return operations
 
     def write(self, vals):
+        if self._STOCK_LOCKED_FIELDS & vals.keys():
+            self._check_stock_unlocked(vals)
         result = super().write(vals)
         if self._ALLOCATION_FIELDS & vals.keys():
             self._update_allocations()
+        if 'state' in vals:
+            self._sync_stock()
         return result
+
+    def unlink(self):
+        # les mouvements de stock d'une opération supprimée sont annulés (mouvements inverses)
+        self.filtered(lambda o: o.state == 'done')._stock_reopen()
+        return super().unlink()
+
+    # ------------------------------------------------------------------
+    # Stock : consommation des intrants et entrée en stock des récoltes
+    # ------------------------------------------------------------------
+    # À la validation (état « faite »), l'opération :
+    # - consomme ses intrants : mouvement stock -> « Consommation maraîchage », au coût du produit ;
+    # - pour une récolte, crée l'entrée en stock de `harvest_product_id` depuis « Production maraîchage »,
+    #   répartie entre les cultures au prorata de la répartition (un mouvement et un lot par culture quand
+    #   le produit est suivi par lots).
+    # À la réouverture ou à la suppression, les mouvements ne sont jamais supprimés : un mouvement inverse
+    # les annule (historique de stock conservé). Les mouvements sont créés en `sudo()` : l'ouvrier n'a
+    # aucun droit sur le stock.
+    _STOCK_LOCKED_FIELDS = {
+        'harvest_qty', 'harvest_product_id', 'harvest_uom_id', 'scope', 'crop_ids', 'bed_ids', 'garden_id', 'date',
+    }
+
+    def _check_stock_unlocked(self, vals):
+        """Refuse de modifier une récolte déjà passée en stock (sauf si l'état change dans le même temps)."""
+        if vals.get('state', 'done') != 'done':
+            return
+        for operation in self.filtered(lambda o: o.state == 'done'):
+            if operation._get_active_moves('harvest'):
+                raise UserError(self.env._(
+                    "La récolte « %s » est déjà en stock : remettez l'opération en planifiée avant de la modifier.",
+                    operation.name,
+                ))
+
+    def _get_active_moves(self, kind=None):
+        """Mouvements de l'opération en vigueur (non annulés par un mouvement inverse), éventuellement d'un type."""
+        self.ensure_one()
+        moves = self.sudo().move_ids
+        reversed_moves = moves.garden_reverse_of_id
+        return moves.filtered(lambda m: m not in reversed_moves and (not kind or m.garden_kind == kind)
+                              and m.state == 'done')
+
+    def _sync_stock(self):
+        for operation in self:
+            if operation.state == 'done':
+                operation._stock_done()
+            else:
+                operation._stock_reopen()
+
+    def _stock_done(self):
+        self.ensure_one()
+        self.input_ids._consume()
+        self._stock_harvest()
+
+    def _stock_reopen(self):
+        for operation in self:
+            operation.input_ids._unconsume()
+            for move in operation._get_active_moves('harvest'):
+                operation._reverse_stock_move(move, 'harvest_return')
+
+    def _prepare_stock_move_vals(self, product, quantity, uom, source, destination, lot, kind, origin=None, crop=None):
+        """Valeurs d'un mouvement terminé (quantité faite et cochée) pour ``stock.move``."""
+        self.ensure_one()
+        return {
+            'origin': origin or self.name,
+            'company_id': self.company_id.id,
+            'product_id': product.id,
+            'product_uom': uom.id,
+            'product_uom_qty': quantity,
+            'location_id': source.id,
+            'location_dest_id': destination.id,
+            'state': 'draft',
+            'picked': True,
+            'garden_operation_id': self.id,
+            'garden_crop_id': crop.id if crop else False,
+            'garden_kind': kind,
+            'move_line_ids': [(0, 0, {
+                'product_id': product.id,
+                'product_uom_id': uom.id,
+                'quantity': quantity,
+                'location_id': source.id,
+                'location_dest_id': destination.id,
+                'lot_id': lot.id if lot else False,
+                'picked': True,
+            })],
+        }
+
+    def _set_move_date(self, move):
+        """Date du mouvement (et de ses lignes) = date de réalisation de l'opération."""
+        self.ensure_one()
+        if self.date:
+            moment = datetime.combine(self.date, time(12, 0))
+            move.write({'date': moment})
+            move.move_line_ids.write({'date': moment})
+
+    def _reverse_stock_move(self, move, kind):
+        """Crée le mouvement inverse d'un mouvement terminé (même lot, même quantité)."""
+        self.ensure_one()
+        move = move.sudo()
+        lines = move.move_line_ids
+        reverse = self.env['stock.move'].sudo().with_company(self.company_id).create(
+            dict(
+                self._prepare_stock_move_vals(
+                    move.product_id, move.product_uom_qty, move.product_uom, move.location_dest_id,
+                    move.location_id, lines[:1].lot_id, kind=kind,
+                    origin=self.env._("Annulation : %s", self.name), crop=move.garden_crop_id,
+                ),
+                garden_reverse_of_id=move.id,
+            ),
+        )
+        reverse._action_done()
+        self._set_move_date(reverse)
+        return reverse
+
+    # Récolte ------------------------------------------------------------
+    def _get_harvest_shares(self):
+        """Quantité récoltée par culture : ``[(culture, quantité)]``, au prorata de la répartition.
+
+        Le reste d'arrondi va à la dernière culture pour conserver le total. Sans répartition
+        (aucune culture en place), retourne ``[(culture vide, quantité totale)]``.
+        """
+        self.ensure_one()
+        allocations = self.allocation_ids.sudo().sorted('id')
+        if not allocations:
+            return [(self.env['garden.crop'], self.harvest_qty)]
+        total_share = sum(allocations.mapped('share')) or 100.0
+        precision = self.env['decimal.precision'].precision_get('Product Unit')
+        shares, assigned = [], 0.0
+        for index, allocation in enumerate(allocations):
+            if index == len(allocations) - 1:
+                quantity = float_round(self.harvest_qty - assigned, precision_digits=precision)
+            else:
+                quantity = float_round(self.harvest_qty * allocation.share / total_share, precision_digits=precision)
+            assigned += quantity
+            shares.append((allocation.crop_id, quantity))
+        return shares
+
+    def _get_harvest_lot(self, product, crop):
+        """Lot de récolte de la culture pour le produit (créé au besoin, nommé d'après la référence de la culture)."""
+        self.ensure_one()
+        Lot = self.env['stock.lot'].sudo()
+        lot = Lot.search([
+            ('product_id', '=', product.id), ('name', '=', crop.name),
+            ('company_id', 'in', (self.company_id.id, False)),
+        ], limit=1)
+        if not lot:
+            lot = Lot.create({
+                'name': crop.name, 'product_id': product.id, 'company_id': self.company_id.id,
+            })
+        if lot.garden_crop_id != crop:
+            lot.garden_crop_id = crop
+        return lot
+
+    def _stock_harvest(self):
+        self.ensure_one()
+        if self.category != 'harvest' or self.harvest_qty <= 0 or not self.harvest_product_id:
+            return
+        if self._get_active_moves('harvest'):
+            return
+        company = self.company_id
+        source = company.garden_production_location_id
+        destination = company._get_garden_stock_location()
+        if not source or not destination:
+            raise UserError(self.env._(
+                "Configurez l'emplacement de stockage et l'emplacement « Production maraîchage » de la société « %s ».",
+                company.name,
+            ))
+        product = self.harvest_product_id.sudo()
+        uom = self.harvest_uom_id or product.uom_id
+        if product.tracking == 'serial':
+            raise UserError(self.env._(
+                "Un produit récolté suivi par numéro de série n'est pas géré (« %s »).", product.display_name,
+            ))
+        shares = self._get_harvest_shares()
+        if product.tracking == 'lot' and not all(crop for crop, _qty in shares):
+            raise UserError(self.env._(
+                "Le produit « %s » est suivi par lots : aucune culture en place à la date de l'opération pour nommer le lot.",
+                product.display_name,
+            ))
+        Move = self.env['stock.move'].sudo().with_company(company)
+        for crop, quantity in shares:
+            if quantity <= 0:
+                continue
+            lot = self._get_harvest_lot(product, crop) if product.tracking == 'lot' else self.env['stock.lot']
+            move = Move.create(self._prepare_stock_move_vals(
+                product, quantity, uom, source, destination, lot, kind='harvest', crop=crop,
+            ))
+            move._action_done()
+            self._set_move_date(move)
+        if not all(crop for crop, _qty in shares):
+            self.message_post(
+                body=self.env._("Récolte mise en stock sans culture ni lot : aucune culture en place à la date de l'opération."),
+                subtype_xmlid='mail.mt_note',
+            )

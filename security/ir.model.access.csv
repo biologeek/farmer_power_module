@@ -36,3 +36,7 @@ garden_loss_chef,garden.loss chef,model_garden_loss,group_garden_chef,1,1,1,1
 garden_season_worker,garden.season worker,model_garden_season,group_garden_worker,1,0,0,0
 garden_season_chef,garden.season chef,model_garden_season,group_garden_chef,1,1,1,1
 garden_season_plan_wizard_chef,garden.season.plan.wizard chef,model_garden_season_plan_wizard,group_garden_chef,1,1,1,1
+garden_operation_input_worker,garden.operation.input worker,model_garden_operation_input,group_garden_worker,1,1,1,1
+garden_operation_input_chef,garden.operation.input chef,model_garden_operation_input,group_garden_chef,1,1,1,1
+garden_stock_lot_worker,stock.lot garden worker (lecture),stock.model_stock_lot,group_garden_worker,1,0,0,0
+garden_stock_move_chef,stock.move garden chef (lecture),stock.model_stock_move,group_garden_chef,1,0,0,0

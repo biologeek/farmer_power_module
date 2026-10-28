@@ -14,6 +14,7 @@
                 <field name="duration" widget="float_time" optional="show"/>
                 <field name="total_hours" widget="float_time" optional="show" sum="Total"/>
                 <field name="labour_cost" optional="show" sum="Total" groups="odoo_garden.group_garden_chef"/>
+                <field name="input_cost" optional="hide" sum="Total" groups="odoo_garden.group_garden_chef"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
                 <field name="state" widget="badge"
                        decoration-info="state in ('planned', 'in_progress')" decoration-success="state == 'done'"
@@ -87,6 +88,26 @@
                                 </list>
                             </field>
                         </page>
+                        <page string="Intrants" name="inputs">
+                            <field name="input_ids" readonly="state == 'done'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" options="{'no_create': True}"/>
+                                    <field name="garden_input_type" optional="show"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id" options="{'no_create': True}"/>
+                                    <field name="tracking" column_invisible="True"/>
+                                    <field name="lot_id" required="tracking != 'none'" invisible="tracking == 'none'"
+                                           options="{'no_create': True}"/>
+                                    <field name="unit_cost" groups="odoo_garden.group_garden_chef" optional="show"/>
+                                    <field name="cost" groups="odoo_garden.group_garden_chef" sum="Total"/>
+                                    <field name="consumed" optional="show"/>
+                                </list>
+                            </field>
+                            <group invisible="not input_ids">
+                                <field name="input_cost" groups="odoo_garden.group_garden_chef"/>
+                            </group>
+                        </page>
                         <page string="Récolte" name="harvest" invisible="category != 'harvest'">
                             <group>
                                 <field name="harvest_product_id"/>
@@ -116,6 +137,7 @@
                                     <field name="share"/>
                                     <field name="hours" widget="float_time" sum="Total"/>
                                     <field name="labour_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
+                                    <field name="input_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
                                 </list>
                             </field>
                         </page>
