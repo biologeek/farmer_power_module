@@ -1,0 +1,97 @@
+<odoo>
+    <record id="view_garden_season_tree" model="ir.ui.view">
+        <field name="name">garden.season.tree</field>
+        <field name="model">garden.season</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="crop_count"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'"
+                       decoration-success="state == 'validated'" decoration-muted="state == 'closed'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_season_form" model="ir.ui.view">
+        <field name="name">garden.season.form</field>
+        <field name="model">garden.season</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_validate" string="Valider" type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_close" string="Clôturer" type="object"
+                            invisible="state != 'validated'"/>
+                    <button name="action_reset_draft" string="Remettre en brouillon" type="object"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_crops" type="object" class="oe_stat_button" icon="fa-leaf">
+                            <field name="crop_count" widget="statinfo" string="Cultures"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Saison 2027"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Cultures" name="crops">
+                            <field name="crop_ids" context="{'default_season_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="template_id"/>
+                                    <field name="bed_id"/>
+                                    <field name="bed_share"/>
+                                    <field name="area"/>
+                                    <field name="planned_sowing_date"/>
+                                    <field name="planned_harvest_start"/>
+                                    <field name="planned_harvest_end"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_garden_season_search" model="ir.ui.view">
+        <field name="name">garden.season.search</field>
+        <field name="model">garden.season</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="filter_draft" string="Brouillon" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_validated" string="Validées" domain="[('state', '=', 'validated')]"/>
+                <filter name="filter_closed" string="Clôturées" domain="[('state', '=', 'closed')]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_garden_season" model="ir.actions.act_window">
+        <field name="name">Saisons</field>
+        <field name="res_model">garden.season</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première saison de culture
+            </p>
+            <p>Une saison regroupe le plan de culture d'une année : cultures, planches et dates prévues.</p>
+        </field>
+    </record>
+</odoo>

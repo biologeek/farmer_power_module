@@ -4,10 +4,21 @@
         <field name="model">garden.crop</field>
         <field name="arch" type="xml">
             <list>
+                <field name="name"/>
+                <field name="season_id" optional="show"/>
                 <field name="template_id"/>
                 <field name="bed_id"/>
-                <field name="date_start"/>
-                <field name="date_end"/>
+                <field name="bed_share" optional="hide"/>
+                <field name="area" optional="show" sum="Total"/>
+                <field name="planned_sowing_date" optional="show"/>
+                <field name="planned_transplant_date" optional="hide"/>
+                <field name="planned_harvest_start" optional="show"/>
+                <field name="planned_harvest_end" optional="show"/>
+                <field name="date_start" optional="hide"/>
+                <field name="date_end" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'planned'" decoration-success="state in ('sown', 'in_place', 'harvesting')"
+                       decoration-muted="state in ('done', 'cancelled')"/>
             </list>
         </field>
     </record>
@@ -16,48 +27,101 @@
         <field name="model">garden.crop</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"
+                           statusbar_visible="planned,sown,in_place,harvesting,done"/>
+                </header>
                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
                     <group>
-                        <group>
-                            <field name="template_id" string="Itinéraire technique" placeholder="Sélectionnez un itinéraire"/>
+                        <group string="Culture" name="crop">
+                            <field name="season_id"/>
+                            <field name="template_id" placeholder="Sélectionnez un itinéraire"/>
                             <field name="variety_id"/>
                             <field name="species_id"/>
+                            <field name="family"/>
                         </group>
-                        <group>
-                            <field name="bed_id" string="Planche" placeholder="Sélectionnez la planche"/>
+                        <group string="Planche" name="bed">
+                            <field name="bed_id" placeholder="Sélectionnez la planche"/>
+                            <field name="bed_area"/>
+                            <field name="bed_share"/>
+                            <field name="area"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
                         </group>
-                        <group>
-                            <field name="date_start" string="Date de début" placeholder="Date de début (jj-mm-aaaa)"/>
-                        </group>
-                        <group>
-                            <field name="date_end" string="Date de fin" placeholder="Date de fin (jj-mm-aaaa)"/>
-                        </group>
-                    </group>
-                    <group>
-                        <group>
-                            <field name="quantity_harvested" string="Quantité récoltée" placeholder="Quantité récoltée en kg"/>
-                        </group>
-                        <group>
-                            <field name="value_harvested" string="Valeur récoltée" placeholder="Valeur récoltée en €"/>
-                        </group>
-                    </group>
-                    <group>
-                        <field name="notes" string="Notes" placeholder="Notes sur la culture"/>
                     </group>
                     <notebook>
-                        <page string="Actions">
-                            <field name="action_ids" string="Actions" placeholder="Actions réalisées sur cette culture">
-                                    <list>
-                                        <field name="type_id" string="Action" placeholder="Type d'action"/>
-                                        <field name="date" string="Date" placeholder="Date de l'action"/>
-                                        <field name="duration" string="Durée" placeholder="Durée de l'action (minutes)"/>
-                                        <field name="description" string="Description" placeholder="Description de l'action"/>
-                                    </list>
+                        <page string="Planification" name="planning">
+                            <group>
+                                <group string="Dates prévues" name="planned_dates">
+                                    <field name="planned_sowing_date"/>
+                                    <field name="planned_transplant_date"/>
+                                    <field name="planned_harvest_start"/>
+                                    <field name="planned_harvest_end"/>
+                                </group>
+                                <group string="Dates réelles" name="real_dates">
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="occupation_start"/>
+                                    <field name="occupation_end"/>
+                                </group>
+                                <group string="Prévisionnel" name="forecast">
+                                    <field name="planned_plant_qty"/>
+                                    <field name="expected_yield_qty"/>
+                                    <field name="expected_revenue"/>
+                                </group>
+                                <group string="Réalisé" name="actual">
+                                    <field name="sowing_quantity"/>
+                                    <field name="planted_quantity"/>
+                                    <field name="quantity_harvested" placeholder="Quantité récoltée en kg"/>
+                                    <field name="value_harvested" placeholder="Valeur récoltée en €"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Actions" name="actions">
+                            <field name="action_ids" placeholder="Actions réalisées sur cette culture">
+                                <list>
+                                    <field name="type_id" string="Action" placeholder="Type d'action"/>
+                                    <field name="date" string="Date" placeholder="Date de l'action"/>
+                                    <field name="duration" string="Durée" placeholder="Durée de l'action (minutes)"/>
+                                    <field name="description" string="Description" placeholder="Description de l'action"/>
+                                </list>
                             </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Notes sur la culture"/>
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
+        </field>
+    </record>
+    <record id="view_garden_crop_search" model="ir.ui.view">
+        <field name="name">garden.crop.search</field>
+        <field name="model">garden.crop</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="season_id"/>
+                <field name="bed_id"/>
+                <field name="template_id"/>
+                <field name="variety_id"/>
+                <field name="species_id"/>
+                <filter name="filter_planned" string="Planifiées" domain="[('state', '=', 'planned')]"/>
+                <filter name="filter_ongoing" string="En cours" domain="[('state', 'in', ('sown', 'in_place', 'harvesting'))]"/>
+                <filter name="filter_done" string="Terminées" domain="[('state', '=', 'done')]"/>
+                <filter name="filter_cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="group_season" string="Saison" context="{'group_by': 'season_id'}"/>
+                    <filter name="group_bed" string="Planche" context="{'group_by': 'bed_id'}"/>
+                    <filter name="group_species" string="Espèce" context="{'group_by': 'species_id'}"/>
+                    <filter name="group_variety" string="Variété" context="{'group_by': 'variety_id'}"/>
+                    <filter name="group_family" string="Famille botanique" context="{'group_by': 'family'}"/>
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
         </field>
     </record>
     <record id="action_garden_crop" model="ir.actions.act_window">

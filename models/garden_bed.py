@@ -50,13 +50,14 @@ class GardenBed(models.Model):
         for bed in self:
             bed.area = bed.length * bed.width
 
-    @api.depends('crop_ids.date_start', 'crop_ids.date_end')
+    @api.depends('crop_ids.occupation_start', 'crop_ids.occupation_end', 'crop_ids.state')
     def _compute_current_crop_ids(self):
         today = fields.Date.context_today(self)
         for bed in self:
             bed.current_crop_ids = bed.crop_ids.filtered(
-                lambda crop: crop.date_start and crop.date_start <= today
-                and (not crop.date_end or crop.date_end >= today)
+                lambda crop: crop.state != 'cancelled'
+                and crop.occupation_start and crop.occupation_start <= today
+                and (not crop.occupation_end or crop.occupation_end >= today)
             )
 
     @api.model

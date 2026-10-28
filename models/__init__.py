@@ -7,6 +7,7 @@ from . import garden_species
 from . import garden_variety
 from . import garden_crop_template
 from . import garden_action_type
+from . import garden_season
 from . import garden_crop
 from . import garden_action
 from . import garden_postprocess

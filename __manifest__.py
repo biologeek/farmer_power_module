@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Odoo Garden',
-    'version': '19.0.1.1.0',
+    'version': '19.0.1.2.0',
     'category': 'Agriculture',
     'summary': 'Gestion du maraîchage : fermes, sites, îlots, planches, catalogue (espèces, variétés, itinéraires), cultures, actions, traçabilité, post-process, pertes, rétro-planning, statistiques.',
     'author': 'Votre Nom',
@@ -15,6 +15,7 @@
         'views/garden_site_views.xml',
         'views/garden_garden_views.xml',
         'views/garden_bed_views.xml',
+        'views/garden_season_views.xml',
         'views/garden_crop_views.xml',
         'views/garden_catalog_views.xml',
         'views/garden_action_views.xml',

@@ -42,18 +42,22 @@
                         <page string="Cultures" name="crops">
                             <field name="crop_ids">
                                 <list>
+                                    <field name="name"/>
                                     <field name="template_id"/>
-                                    <field name="date_start"/>
-                                    <field name="date_end"/>
+                                    <field name="occupation_start"/>
+                                    <field name="occupation_end"/>
+                                    <field name="state"/>
                                 </list>
                             </field>
                         </page>
                         <page string="Cultures en place" name="current_crops">
                             <field name="current_crop_ids">
                                 <list>
+                                    <field name="name"/>
                                     <field name="template_id"/>
-                                    <field name="date_start"/>
-                                    <field name="date_end"/>
+                                    <field name="occupation_start"/>
+                                    <field name="occupation_end"/>
+                                    <field name="state"/>
                                 </list>
                             </field>
                         </page>

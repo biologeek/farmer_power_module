@@ -31,3 +31,5 @@ garden_postprocess_worker,garden.postprocess worker,model_garden_postprocess,gro
 garden_postprocess_chef,garden.postprocess chef,model_garden_postprocess,group_garden_chef,1,1,1,1
 garden_loss_worker,garden.loss worker,model_garden_loss,group_garden_worker,1,1,1,0
 garden_loss_chef,garden.loss chef,model_garden_loss,group_garden_chef,1,1,1,1
+garden_season_worker,garden.season worker,model_garden_season,group_garden_worker,1,0,0,0
+garden_season_chef,garden.season chef,model_garden_season,group_garden_chef,1,1,1,1
