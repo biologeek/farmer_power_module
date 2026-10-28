@@ -1,0 +1,6 @@
+<odoo>
+    <record id="action_garden_bed_occupancy" model="ir.actions.client">
+        <field name="name">Plan de culture</field>
+        <field name="tag">garden_bed_occupancy</field>
+    </record>
+</odoo>

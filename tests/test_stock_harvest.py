@@ -167,19 +167,6 @@ class TestGardenHarvest(GardenHarvestCase):
         self.assertAlmostEqual(self._qty(self.carrot), 2.5)
         self.assertAlmostEqual(crop.harvested_qty, 2.5)
 
-    def test_production_statistics_use_harvested_qty(self):
-        crop = self._crop(planned_sowing_date='2027-03-01', date_start='2027-03-05')
-        self._harvest(crop, 12.0)
-        data = self.env['garden.crop'].get_production_statistics_data()
-        beds = {row['bed']: row for row in data['bed_totals']}
-        self.assertAlmostEqual(beds[self.bed.name]['quantity'], 12.0)
-        months = {row['period']: row for row in data['month_totals']}
-        self.assertAlmostEqual(months['2027-03']['quantity'], 12.0)
-        crops = {row['crop']: row for row in data['crop_totals']}
-        self.assertAlmostEqual(crops[self.template.name]['quantity'], 12.0)
-        for rows in data.values():
-            self.assertTrue(all('value' not in row for row in rows))
-
     def test_worker_harvests_without_stock_access(self):
         crop = self._crop(planned_sowing_date='2027-03-01')
         operation = self.env['garden.operation'].with_user(self.worker).create({

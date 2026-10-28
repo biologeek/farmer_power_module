@@ -63,34 +63,3 @@ class GardenOperationAllocation(models.Model):
     def _compute_input_cost(self):
         for allocation in self:
             allocation.input_cost = allocation.operation_id.input_cost * allocation.share / 100.0
-
-    @api.model
-    def get_statistics_data(self, params=None):
-        """Temps de travail réparti par type d'opération, pour les écrans de statistiques.
-
-        Retourne ``pie`` (liste de ``{label, value}``, heures par type) et ``stacked``
-        (``categories`` : itinéraires, ``series`` : une série par type avec les heures par itinéraire).
-        """
-        groups = self._read_group([], ['type_id', 'template_id'], ['hours:sum'])
-        totals = {}
-        categories = []
-        for operation_type, template, hours in groups:
-            totals[operation_type] = totals.get(operation_type, 0.0) + hours
-            name = template.name or self.env._("Sans itinéraire")
-            if name not in categories:
-                categories.append(name)
-        pie = [
-            {'label': operation_type.name or self.env._("Sans type"), 'value': hours}
-            for operation_type, hours in sorted(totals.items(), key=lambda item: item[0].sequence)
-        ]
-        series = {}
-        for operation_type, template, hours in groups:
-            data = series.setdefault(operation_type.name, [0.0] * len(categories))
-            data[categories.index(template.name or self.env._("Sans itinéraire"))] += hours
-        return {
-            'pie': pie,
-            'stacked': {
-                'categories': categories,
-                'series': [{'name': name, 'data': data} for name, data in series.items()],
-            },
-        }

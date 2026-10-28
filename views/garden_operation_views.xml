@@ -279,4 +279,56 @@
             <p>Les opérations planifiées du jour et en retard qui vous sont affectées apparaissent ici. Retirez le filtre « Mes opérations » pour voir celles de toute l'équipe.</p>
         </field>
     </record>
+    <!-- Statistiques de temps : heures réparties sur les cultures (remplacent l'ancien écran Chart.js) -->
+    <record id="view_garden_time_pivot" model="ir.ui.view">
+        <field name="name">garden.operation.allocation.pivot</field>
+        <field name="model">garden.operation.allocation</field>
+        <field name="arch" type="xml">
+            <pivot string="Temps de travail" disable_linking="1">
+                <field name="category" type="row"/>
+                <field name="template_id" type="col"/>
+                <field name="hours" type="measure" widget="float_time"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_garden_time_graph" model="ir.ui.view">
+        <field name="name">garden.operation.allocation.graph</field>
+        <field name="model">garden.operation.allocation</field>
+        <field name="arch" type="xml">
+            <graph string="Temps de travail" type="bar" stacked="1">
+                <field name="category"/>
+                <field name="template_id"/>
+                <field name="hours" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_garden_time_search" model="ir.ui.view">
+        <field name="name">garden.operation.allocation.search</field>
+        <field name="model">garden.operation.allocation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="crop_id"/>
+                <field name="type_id"/>
+                <field name="bed_id"/>
+                <field name="template_id"/>
+                <group>
+                    <filter name="group_category" string="Catégorie" context="{'group_by': 'category'}"/>
+                    <filter name="group_type" string="Type d'opération" context="{'group_by': 'type_id'}"/>
+                    <filter name="group_template" string="Itinéraire" context="{'group_by': 'template_id'}"/>
+                    <filter name="group_bed" string="Planche" context="{'group_by': 'bed_id'}"/>
+                    <filter name="group_month" string="Mois" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_garden_time_statistics" model="ir.actions.act_window">
+        <field name="name">Temps de travail</field>
+        <field name="res_model">garden.operation.allocation</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="view_garden_time_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucun temps de travail réparti</p>
+            <p>Les heures apparaissent quand les opérations sont faites.</p>
+        </field>
+    </record>
 </odoo>

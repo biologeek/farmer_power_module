@@ -47,21 +47,17 @@ class TestGardenInstall(TransactionCase):
         # domain=None doit aussi fonctionner
         self.assertIn('beds', self.env['garden.bed'].get_occupancy_data(None))
 
-    def test_operation_statistics(self):
-        self.operation.action_done()
-        data = self.env['garden.operation.allocation'].get_statistics_data()
-        self.assertIn('pie', data)
-        self.assertIn('stacked', data)
-        self.assertIn('categories', data['stacked'])
-        self.assertIn('series', data['stacked'])
-        self.assertIn('Arrosage (test)', [p.get('label') or p.get('name') for p in data['pie']])
-
-    def test_production_statistics(self):
-        data = self.env['garden.crop'].get_production_statistics_data()
-        for key in ('month_totals', 'bed_totals', 'crop_totals'):
-            self.assertIn(key, data)
-        self.assertIn('Planche test', [b['bed'] for b in data['bed_totals']])
-        self.assertIn('Tomate', [c['crop'] for c in data['crop_totals']])
+    def test_old_statistics_screens_removed(self):
+        tags = self.env['ir.actions.client'].search([('tag', 'like', 'garden_%')]).mapped('tag')
+        self.assertCountEqual(tags, ['garden_bed_occupancy', 'garden_dashboard'])
+        for xmlid in (
+            'action_garden_statistics', 'action_garden_statistics_charts', 'action_garden_production_statistics',
+            'menu_garden_statistics_graphics', 'menu_garden_production_statistics',
+        ):
+            self.assertFalse(self.env.ref('odoo_garden.' + xmlid, raise_if_not_found=False), xmlid)
+        self.assertFalse(hasattr(self.env['garden.crop'], 'get_production_statistics_data'))
+        self.assertFalse(hasattr(self.env['garden.operation.allocation'], 'get_statistics_data'))
+        self.assertTrue(self.env.ref('odoo_garden.menu_garden_time_statistics'))
 
     def test_farm_action_xmlid(self):
         self.assertTrue(self.env.ref('odoo_garden.action_garden_farm'))

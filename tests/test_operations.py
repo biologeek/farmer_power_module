@@ -394,34 +394,28 @@ class TestGardenOperationGeneration(GardenOperationCase):
 @tagged('post_install', '-at_install')
 class TestGardenOperationStatistics(GardenOperationCase):
 
-    def test_statistics_use_allocations(self):
+    def test_time_statistics_use_allocations(self):
         crop = self._crop(planned_sowing_date='2027-03-01')
         other = self._crop(bed_id=self.bed2.id, planned_sowing_date='2027-03-01')
         for operation_type, hours in ((self.type_weeding, 2.0), (self.type_sowing, 1.0)):
             self._operation(
                 type_id=operation_type.id, crop_ids=[(6, 0, crop.ids)], duration=hours, date='2027-04-01',
             ).action_done()
-        # opération d'îlot répartie entre deux itinéraires
+        # opération d'îlot répartie entre les cultures en place
         self._operation(
             type_id=self.type_irrigation.id, scope='garden', garden_id=self.garden.id, duration=4.6, date='2027-04-01',
         ).action_done()
         # une opération non faite n'est pas comptée
         self._operation(type_id=self.type_weeding.id, crop_ids=[(6, 0, other.ids)], duration=9.0)
-        data = self.env['garden.operation.allocation'].get_statistics_data()
-        pie = {p['label']: p['value'] for p in data['pie']}
-        self.assertGreaterEqual(pie[self.type_weeding.name], 2.0)
-        self.assertLess(pie[self.type_weeding.name], 9.0)
-        self.assertGreaterEqual(pie[self.type_irrigation.name], 4.6 - 1e-6)
-        stacked = data['stacked']
-        self.assertEqual(len(stacked['categories']), len(set(stacked['categories'])))
-        by_type = {s['name']: s['data'] for s in stacked['series']}
-        index = stacked['categories'].index(self.template.name)
-        self.assertGreaterEqual(by_type[self.type_irrigation.name][index], 4.6 * 36 / 46 - 1e-6)
-        for series in stacked['series']:
-            self.assertEqual(len(series['data']), len(stacked['categories']))
-        # les heures du camembert sont celles de la répartition
-        total = sum(self.env['garden.operation.allocation'].search([]).mapped('hours'))
-        self.assertAlmostEqual(sum(pie.values()), total)
+        action = self.env.ref('odoo_garden.action_garden_time_statistics')
+        self.assertEqual(action.res_model, 'garden.operation.allocation')
+        by_category = dict(self.env['garden.operation.allocation']._read_group(
+            [('crop_id', 'in', (crop | other).ids)], ['category'], ['hours:sum'],
+        ))
+        self.assertAlmostEqual(by_category['weeding'], 2.0)
+        self.assertAlmostEqual(by_category['sowing'], 1.0)
+        self.assertAlmostEqual(by_category['irrigation'], 4.6)
+
 
 
 @tagged('post_install', '-at_install')
