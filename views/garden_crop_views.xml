@@ -39,6 +39,11 @@
                            statusbar_visible="planned,sown,in_place,harvesting,done"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_operations" type="object" class="oe_stat_button" icon="fa-tasks">
+                            <field name="operation_count" widget="statinfo" string="Opérations"/>
+                        </button>
+                    </div>
                     <div class="alert alert-warning" role="alert" invisible="not overlap_warning">
                         <field name="overlap_warning" nolabel="1"/>
                     </div>
@@ -91,11 +96,15 @@
                                     <field name="planted_quantity"/>
                                     <field name="quantity_harvested" placeholder="Quantité récoltée en kg"/>
                                     <field name="value_harvested" placeholder="Valeur récoltée en €"/>
+                                    <field name="labour_hours" widget="float_time"/>
+                                    <field name="labour_cost" groups="odoo_garden.group_garden_chef"/>
                                 </group>
                             </group>
                         </page>
                         <page string="Opérations" name="operations">
-                            <field name="operation_ids" placeholder="Opérations sur cette culture">
+                            <button name="action_new_operation" type="object" string="Nouvelle opération"
+                                    class="btn btn-secondary mb-2"/>
+                            <field name="operation_ids" readonly="1" placeholder="Opérations sur cette culture">
                                 <list>
                                     <field name="name"/>
                                     <field name="type_id"/>
@@ -103,6 +112,17 @@
                                     <field name="date"/>
                                     <field name="duration" widget="float_time"/>
                                     <field name="state"/>
+                                </list>
+                            </field>
+                            <separator string="Travail réparti sur la culture"/>
+                            <field name="allocation_ids" readonly="1">
+                                <list>
+                                    <field name="operation_id"/>
+                                    <field name="type_id"/>
+                                    <field name="date"/>
+                                    <field name="share"/>
+                                    <field name="hours" widget="float_time" sum="Total"/>
+                                    <field name="labour_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
                                 </list>
                             </field>
                         </page>

@@ -208,3 +208,117 @@ class TestGardenLabour(GardenOperationCase):
         })
         worker_op.write({'duration': 2.0})
         self.assertEqual(worker_op.sudo().total_hours, 2.0)
+
+
+@tagged('post_install', '-at_install')
+class TestGardenAllocation(GardenOperationCase):
+
+    def _done(self, **vals):
+        vals.setdefault('date', '2027-04-15')
+        operation = self._operation(**vals)
+        operation.action_done()
+        return operation
+
+    def _shares(self, operation):
+        return {a.crop_id: a.share for a in operation.allocation_ids}
+
+    def test_crop_scope_prorata_of_area(self):
+        # planche 12 : 36 m² ; planche 13 : 10 m²
+        big = self._crop(planned_sowing_date='2027-03-01')
+        small = self._crop(bed_id=self.bed2.id, planned_sowing_date='2027-03-01')
+        operation = self._done(
+            crop_ids=[(6, 0, (big | small).ids)], employee_ids=[(6, 0, self.alice.ids)], duration=4.6,
+        )
+        shares = self._shares(operation)
+        self.assertAlmostEqual(shares[big], 36 / 46 * 100, places=3)
+        self.assertAlmostEqual(shares[small], 10 / 46 * 100, places=3)
+        self.assertAlmostEqual(sum(operation.allocation_ids.mapped('hours')), 4.6)
+        self.assertAlmostEqual(sum(operation.allocation_ids.mapped('labour_cost')), 4.6 * 20)
+        by_crop = {a.crop_id: a for a in operation.allocation_ids}
+        self.assertAlmostEqual(by_crop[small].hours, 1.0)
+        self.assertAlmostEqual(big.labour_hours, 3.6)
+        self.assertAlmostEqual(small.labour_cost, 20.0)
+
+    def test_single_crop_gets_everything(self):
+        crop = self._crop(planned_sowing_date='2027-03-01')
+        operation = self._done(crop_ids=[(6, 0, crop.ids)], duration=2.0)
+        self.assertEqual(len(operation.allocation_ids), 1)
+        self.assertAlmostEqual(operation.allocation_ids.share, 100.0)
+        self.assertAlmostEqual(operation.allocation_ids.hours, 2.0)
+
+    def test_bed_scope_uses_crops_in_place_at_date(self):
+        # deux cultures en place sur la planche 12 en avril 2027 (moitié chacune) ; une troisième plus tard
+        half_a = self._crop(planned_sowing_date='2027-03-01', bed_share=50)
+        half_b = self._crop(planned_sowing_date='2027-03-10', bed_share=25)
+        later = self._crop(planned_sowing_date='2027-11-01')
+        cancelled = self._crop(planned_sowing_date='2027-03-01', state='cancelled')
+        operation = self._done(type_id=self.type_weeding.id, scope='bed', bed_ids=[(6, 0, self.bed.ids)], duration=3.0)
+        shares = self._shares(operation)
+        self.assertEqual(set(shares), {half_a, half_b})
+        self.assertNotIn(later, shares)
+        self.assertNotIn(cancelled, shares)
+        self.assertAlmostEqual(shares[half_a], 100 * 18 / 27, places=3)
+        self.assertAlmostEqual(shares[half_b], 100 * 9 / 27, places=3)
+        self.assertAlmostEqual(sum(shares.values()), 100.0)
+
+    def test_garden_scope_spreads_over_all_beds(self):
+        a = self._crop(planned_sowing_date='2027-03-01')  # 36 m²
+        b = self._crop(bed_id=self.bed2.id, planned_sowing_date='2027-03-01')  # 10 m²
+        operation = self._done(
+            type_id=self.type_irrigation.id, scope='garden', garden_id=self.garden.id,
+            employee_ids=[(6, 0, (self.alice | self.bob).ids)], duration=1.0,
+        )
+        shares = self._shares(operation)
+        self.assertEqual(set(shares), {a, b})
+        self.assertAlmostEqual(shares[a], 36 / 46 * 100, places=3)
+        # 2 employés × 1 h = 2 h réparties
+        self.assertAlmostEqual(sum(operation.allocation_ids.mapped('hours')), 2.0)
+        self.assertAlmostEqual(sum(operation.allocation_ids.mapped('labour_cost')), 32.0)
+
+    def test_no_crop_in_place(self):
+        operation = self._done(
+            type_id=self.type_weeding.id, scope='bed', bed_ids=[(6, 0, self.bed2.ids)], duration=1.0,
+        )
+        self.assertEqual(operation.state, 'done')
+        self.assertFalse(operation.allocation_ids)
+        self.assertTrue(operation.allocation_warning)
+        self.assertEqual(sum(operation.allocation_ids.mapped('hours')), 0.0)
+
+    def test_zero_area_crops_share_equally(self):
+        bed = self.env['garden.bed'].create({'name': 'Sans dimension', 'code': 'SD', 'garden_id': self.garden.id})
+        c1 = self._crop(bed_id=bed.id, planned_sowing_date='2027-03-01')
+        c2 = self._crop(bed_id=bed.id, planned_sowing_date='2027-03-01')
+        operation = self._done(scope='bed', bed_ids=[(6, 0, bed.ids)], duration=1.0)
+        self.assertEqual(self._shares(operation), {c1: 50.0, c2: 50.0})
+
+    def test_recomputed_when_reopened_or_modified(self):
+        a = self._crop(planned_sowing_date='2027-03-01')
+        b = self._crop(bed_id=self.bed2.id, planned_sowing_date='2027-03-01')
+        operation = self._done(crop_ids=[(6, 0, a.ids)], duration=2.0)
+        self.assertEqual(a.labour_hours, 2.0)
+        operation.crop_ids = a | b
+        self.assertEqual(set(self._shares(operation)), {a, b})
+        operation.duration = 4.6
+        self.assertAlmostEqual(b.labour_hours, 1.0)
+        operation.action_reset_planned()
+        self.assertFalse(operation.allocation_ids)
+        self.assertEqual(a.labour_hours, 0.0)
+        operation.action_done()
+        self.assertEqual(len(operation.allocation_ids), 2)
+        operation.action_cancel()  # une opération faite ne peut pas être annulée
+        self.assertEqual(operation.state, 'done')
+
+    def test_planned_operation_has_no_allocation(self):
+        operation = self._operation(duration=2.0)
+        self.assertFalse(operation.allocation_ids)
+        self.assertFalse(operation.allocation_warning)
+
+    def test_crop_operation_count_and_actions(self):
+        crop = self._crop(planned_sowing_date='2027-03-01')
+        direct = self._operation(crop_ids=[(6, 0, crop.ids)])
+        by_bed = self._done(scope='bed', bed_ids=[(6, 0, self.bed.ids)], duration=1.0)
+        self.assertEqual(crop.operation_count, 2)
+        action = crop.action_view_operations()
+        found = self.env['garden.operation'].search(action['domain'])
+        self.assertEqual(found, direct | by_bed)
+        self.assertEqual(crop.action_new_operation()['context']['default_crop_ids'], [(6, 0, crop.ids)])

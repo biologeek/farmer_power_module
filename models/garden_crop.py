@@ -144,6 +144,23 @@ class GardenCrop(models.Model):
     notes = fields.Text('Notes', help="Observations libres sur la culture.")
     quantity_harvested = fields.Float('Quantité récoltée (kg)', help="Quantité récoltée, saisie à la main (remplacée par un calcul en phase 4).")
     value_harvested = fields.Float('Valeur récoltée (€)', help="Valeur de la récolte, saisie à la main (remplacée par un calcul en phase 5).")
+    allocation_ids = fields.One2many(
+        'garden.operation.allocation', 'crop_id', string='Travail réparti',
+        help="Part des opérations faites (sur cette culture, des planches ou un îlot) attribuée à la culture.",
+    )
+    labour_hours = fields.Float(
+        'Heures de travail', compute='_compute_labour', store=True,
+        help="Somme des heures réparties sur la culture par les opérations faites.",
+    )
+    labour_cost = fields.Float(
+        'Coût main-d\'œuvre', compute='_compute_labour', store=True, digits='Product Price',
+        groups='odoo_garden.group_garden_chef',
+        help="Somme du coût de main-d'œuvre réparti sur la culture par les opérations faites.",
+    )
+    operation_count = fields.Integer(
+        'Nombre d\'opérations', compute='_compute_operation_count',
+        help="Opérations qui visent la culture ou qui lui sont réparties (planche, îlot).",
+    )
     operation_ids = fields.Many2many(
         'garden.operation', 'garden_operation_crop_rel', 'crop_id', 'operation_id', string='Opérations',
         help="Opérations dont la cible est directement cette culture (périmètre « Culture »).",
@@ -176,6 +193,38 @@ class GardenCrop(models.Model):
                 or crop.date_start or crop.planned_sowing_date or crop.planned_transplant_date
             )
             crop.occupation_end = crop.date_end or crop.planned_harvest_end or crop.planned_harvest_start
+
+    @api.depends('allocation_ids.hours', 'allocation_ids.labour_cost')
+    def _compute_labour(self):
+        for crop in self:
+            crop.labour_hours = sum(crop.allocation_ids.mapped('hours'))
+            crop.labour_cost = sum(crop.allocation_ids.mapped('labour_cost'))
+
+    def _get_operations_domain(self):
+        self.ensure_one()
+        return ['|', ('crop_ids', 'in', self.ids), ('allocation_ids.crop_id', 'in', self.ids)]
+
+    def _compute_operation_count(self):
+        for crop in self:
+            crop.operation_count = self.env['garden.operation'].search_count(crop._get_operations_domain())
+
+    def action_view_operations(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_operation')
+        action['domain'] = self._get_operations_domain()
+        action['context'] = {'default_scope': 'crop', 'default_crop_ids': [(6, 0, self.ids)]}
+        return action
+
+    def action_new_operation(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': self.env._("Nouvelle opération"),
+            'res_model': 'garden.operation',
+            'view_mode': 'form',
+            'target': 'current',
+            'context': {'default_scope': 'crop', 'default_crop_ids': [(6, 0, self.ids)]},
+        }
 
     @api.depends('area', 'template_id.density', 'template_id.expected_yield', 'template_id.expected_price')
     def _compute_forecast(self):

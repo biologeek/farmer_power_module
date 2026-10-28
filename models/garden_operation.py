@@ -98,6 +98,14 @@ class GardenOperation(models.Model):
         help="Somme de la durée × coût horaire de chaque employé ; à défaut de coût horaire sur l'employé "
              "(ou sans employé), le taux horaire par défaut des paramètres s'applique.",
     )
+    allocation_ids = fields.One2many(
+        'garden.operation.allocation', 'operation_id', string='Répartition',
+        help="Répartition du temps et du coût entre les cultures, calculée quand l'opération est faite.",
+    )
+    allocation_warning = fields.Char(
+        'Avertissement de répartition', compute='_compute_allocation_warning',
+        help="Renseigné si l'opération est faite mais qu'aucune culture n'était en place : rien n'est alloué.",
+    )
     timer_start = fields.Datetime(
         'Début du chronomètre', copy=False, readonly=True,
         help="Heure de démarrage du chronomètre ; renseigné tant que le chronomètre tourne.",
@@ -281,6 +289,80 @@ class GardenOperation(models.Model):
 
     def action_reset_planned(self):
         self.write({'state': 'planned', 'timer_start': False})
+
+    # ------------------------------------------------------------------
+    # Répartition sur les cultures
+    # ------------------------------------------------------------------
+    # Une opération « faite » est répartie entre les cultures concernées au prorata de leur surface
+    # occupée (``garden.crop.area``) :
+    # - périmètre « culture » : les cultures choisies ;
+    # - périmètre « planche » ou « îlot » : les cultures en place sur ces planches (ou sur les planches
+    #   de l'îlot) à la date de l'opération, hors cultures annulées.
+    # La répartition est recalculée quand l'opération est modifiée, et supprimée si elle est rouverte.
+    # Sans culture en place, rien n'est alloué (avertissement non bloquant).
+    _ALLOCATION_FIELDS = {'state', 'date', 'planned_date', 'scope', 'crop_ids', 'bed_ids', 'garden_id'}
+
+    def _get_allocation_date(self):
+        self.ensure_one()
+        return self.date or self.planned_date or fields.Date.context_today(self)
+
+    def _get_allocation_crops(self):
+        """Cultures sur lesquelles l'opération est répartie."""
+        self.ensure_one()
+        if self.scope == 'crop':
+            return self.crop_ids
+        beds = self.bed_ids if self.scope == 'bed' else self.garden_id.bed_ids
+        day = self._get_allocation_date()
+        return beds.crop_ids.filtered(
+            lambda crop: crop.state != 'cancelled'
+            and crop.occupation_start and crop.occupation_start <= day
+            and (not crop.occupation_end or crop.occupation_end >= day)
+        )
+
+    @api.depends('state', 'allocation_ids')
+    def _compute_allocation_warning(self):
+        for operation in self:
+            if operation.state == 'done' and not operation.allocation_ids:
+                operation.allocation_warning = self.env._(
+                    "Aucune culture en place à la date de l'opération : le temps et le coût ne sont alloués à aucune culture.",
+                )
+            else:
+                operation.allocation_warning = False
+
+    def _update_allocations(self):
+        """(Re)calcule la répartition des opérations faites ; supprime celle des autres."""
+        Allocation = self.env['garden.operation.allocation'].sudo()
+        for operation in self:
+            operation.allocation_ids.sudo().unlink()
+            if operation.state != 'done':
+                continue
+            crops = operation._get_allocation_crops()
+            if not crops:
+                operation.message_post(
+                    body=operation.allocation_warning, subtype_xmlid='mail.mt_note',
+                )
+                continue
+            total = sum(crops.mapped('area'))
+            Allocation.create([
+                {
+                    'operation_id': operation.id,
+                    'crop_id': crop.id,
+                    'share': (crop.area / total if total > 0 else 1.0 / len(crops)) * 100.0,
+                }
+                for crop in crops
+            ])
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        operations = super().create(vals_list)
+        operations.filtered(lambda o: o.state == 'done')._update_allocations()
+        return operations
+
+    def write(self, vals):
+        result = super().write(vals)
+        if self._ALLOCATION_FIELDS & vals.keys():
+            self._update_allocations()
+        return result
 
     # ------------------------------------------------------------------
     # Statistiques

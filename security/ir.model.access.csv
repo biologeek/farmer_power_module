@@ -26,6 +26,9 @@ garden_crop_chef,garden.crop chef,model_garden_crop,group_garden_chef,1,1,1,1
 garden_operation_worker,garden.operation worker,model_garden_operation,group_garden_worker,1,1,1,0
 garden_operation_chef,garden.operation chef,model_garden_operation,group_garden_chef,1,1,1,0
 garden_operation_manager,garden.operation manager,model_garden_operation,group_garden_manager,1,1,1,1
+garden_operation_allocation_worker,garden.operation.allocation worker,model_garden_operation_allocation,group_garden_worker,1,0,0,0
+garden_operation_allocation_chef,garden.operation.allocation chef,model_garden_operation_allocation,group_garden_chef,1,0,0,0
+garden_operation_allocation_manager,garden.operation.allocation manager,model_garden_operation_allocation,group_garden_manager,1,1,1,1
 garden_operation_worker_line_worker,garden.operation.worker worker,model_garden_operation_worker,group_garden_worker,1,1,1,1
 garden_operation_worker_line_chef,garden.operation.worker chef,model_garden_operation_worker,group_garden_chef,1,1,1,1
 garden_loss_worker,garden.loss worker,model_garden_loss,group_garden_worker,1,1,1,0

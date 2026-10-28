@@ -42,6 +42,9 @@
                 </header>
                 <sheet>
                     <field name="category" invisible="1"/>
+                    <div class="alert alert-warning" role="alert" invisible="not allocation_warning">
+                        <field name="allocation_warning" nolabel="1"/>
+                    </div>
                     <field name="timer_start" invisible="1"/>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="Libellé de l'opération"/></h1>
@@ -104,6 +107,17 @@
                                 <field name="target"/>
                                 <field name="weather_notes"/>
                             </group>
+                        </page>
+                        <page string="Répartition" name="allocations" invisible="state != 'done'">
+                            <field name="allocation_ids" readonly="1">
+                                <list>
+                                    <field name="crop_id"/>
+                                    <field name="bed_id"/>
+                                    <field name="share"/>
+                                    <field name="hours" widget="float_time" sum="Total"/>
+                                    <field name="labour_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Description" name="description">
                             <field name="description" placeholder="Consignes ou compte rendu"/>
