@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Odoo Garden',
-    'version': '19.0.1.3.0',
+    'version': '19.0.1.4.0',
     'category': 'Agriculture',
-    'summary': 'Gestion du maraîchage : fermes, sites, îlots, planches, catalogue (espèces, variétés, itinéraires), cultures, opérations et main-d’œuvre, pertes, rétro-planning, statistiques.',
+    'summary': 'Gestion du maraîchage : fermes, sites, îlots, planches, catalogue (espèces, variétés, itinéraires), cultures, opérations et main-d’œuvre, stock (intrants, récoltes, pertes, traçabilité), rétro-planning, statistiques.',
     'author': 'Votre Nom',
     'website': 'https://votresite.com',
     'depends': ['base', 'web', 'product', 'uom', 'mail', 'hr', 'stock'],
@@ -31,6 +31,7 @@
     ],
     'demo': [
         'demo/garden_demo.xml',
+        'demo/garden_stock_demo.xml',
     ],
     'assets': {
         'web.assets_backend': [

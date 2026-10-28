@@ -171,6 +171,6 @@ class TestGardenTraceability(GardenHarvestCase):
         lines = self.env['stock.move.line'].search(harvests['domain'])
         self.assertEqual(lines.move_id.garden_kind, 'harvest')
         self.assertTrue(self.env.ref('odoo_garden.menu_garden_lots'))
-        self.assertEqual(self.env['stock.lot'].search(literal_eval(self.env.ref('odoo_garden.action_garden_lots').domain)), lot)
+        self.assertIn(lot, self.env['stock.lot'].search(literal_eval(self.env.ref('odoo_garden.action_garden_lots').domain)))
         # le lot affiche sa culture
         self.assertEqual(lot.garden_crop_id, crop)

@@ -93,6 +93,16 @@ class TestGardenInputs(GardenStockCase):
         self.assertEqual(self._qty(self.fertilizer), 95)
         self.assertEqual(len(operation.move_ids), 1)
 
+    def test_operation_created_done_with_inputs(self):
+        # cas des données de démonstration : état « faite » dès la création
+        operation = self._operation(
+            state='done', date='2027-04-15',
+            input_ids=[(0, 0, {'product_id': self.fertilizer.id, 'quantity': 7})],
+        )
+        self.assertTrue(operation.input_ids.consumed)
+        self.assertEqual(self._qty(self.fertilizer), 93)
+        self.assertEqual(len(operation.allocation_ids), 1)
+
     def test_unit_cost_converted_to_line_uom(self):
         gram = self.env['uom.uom'].create({
             'name': 'g test', 'relative_uom_id': self.fertilizer.uom_id.id, 'relative_factor': 0.001,

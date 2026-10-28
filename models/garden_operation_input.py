@@ -101,6 +101,8 @@ class GardenOperationInput(models.Model):
     _LOCKED_FIELDS = {'product_id', 'quantity', 'uom_id', 'lot_id', 'operation_id'}
 
     def _check_operation_open(self, operations=None):
+        if self.env.context.get('garden_creating_operation'):
+            return
         for operation in (operations or self.operation_id):
             if operation.state == 'done':
                 raise UserError(self.env._(

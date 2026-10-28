@@ -386,7 +386,9 @@ class GardenOperation(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        operations = super().create(vals_list)
+        # les lignes d'intrants créées avec l'opération ne sont pas verrouillées (état « faite » dès la création)
+        operations = super(GardenOperation, self.with_context(garden_creating_operation=True)).create(vals_list)
+        operations = operations.with_context(garden_creating_operation=False)
         done = operations.filtered(lambda o: o.state == 'done')
         done._update_allocations()
         done._sync_stock()

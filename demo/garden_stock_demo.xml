@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 4 : intrants, stock initial, consommations, récolte avec lot et pertes (saison 2027). -->
+
+    <!-- Semence de tomate : suivie par lots, en grammes. Produit récolté : suivi par lots (un lot par culture).
+         La récolte de laitue de la phase 3 reste un exemple de produit non stockable. -->
+    <record id="demo_seed_tomato_coeur" model="product.product">
+        <field name="uom_id" ref="uom.product_uom_gram"/>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="garden_input_type">seed</field>
+        <field name="standard_price">0.45</field>
+    </record>
+    <record id="demo_harvest_tomato_coeur" model="product.product">
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+    </record>
+    <record id="demo_input_potting_soil" model="product.product">
+        <field name="name">Terreau de semis (sac 50 L)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="garden_input_type">substrate</field>
+        <field name="standard_price">12.0</field>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="demo_input_fertilizer" model="product.product">
+        <field name="name">Engrais organique (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">fertilizer</field>
+        <field name="standard_price">1.8</field>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="demo_input_copper" model="product.product">
+        <field name="name">Bouillie bordelaise (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">phytosanitary</field>
+        <field name="standard_price">6.5</field>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+
+    <record id="demo_lot_seed_tomato" model="stock.lot">
+        <field name="name">SEM-TOM-2027-A</field>
+        <field name="product_id" ref="demo_seed_tomato_coeur"/>
+    </record>
+
+    <!-- Stock initial (inventaire) à l'emplacement de stockage maraîchage. -->
+    <record id="demo_stock_potting_soil" model="stock.quant">
+        <field name="product_id" ref="demo_input_potting_soil"/>
+        <field name="inventory_quantity">40</field>
+        <field name="location_id" model="stock.location" eval="obj().env.ref('base.main_company')._get_garden_stock_location().id"/>
+    </record>
+    <record id="demo_stock_fertilizer" model="stock.quant">
+        <field name="product_id" ref="demo_input_fertilizer"/>
+        <field name="inventory_quantity">200</field>
+        <field name="location_id" model="stock.location" eval="obj().env.ref('base.main_company')._get_garden_stock_location().id"/>
+    </record>
+    <record id="demo_stock_copper" model="stock.quant">
+        <field name="product_id" ref="demo_input_copper"/>
+        <field name="inventory_quantity">25</field>
+        <field name="location_id" model="stock.location" eval="obj().env.ref('base.main_company')._get_garden_stock_location().id"/>
+    </record>
+    <record id="demo_stock_seed_tomato" model="stock.quant">
+        <field name="product_id" ref="demo_seed_tomato_coeur"/>
+        <field name="lot_id" ref="demo_lot_seed_tomato"/>
+        <field name="inventory_quantity">300</field>
+        <field name="location_id" model="stock.location" eval="obj().env.ref('base.main_company')._get_garden_stock_location().id"/>
+    </record>
+    <function model="stock.quant" name="action_apply_inventory">
+        <function eval="[[('id', 'in', (ref('demo_stock_potting_soil'), ref('demo_stock_fertilizer'),
+                                        ref('demo_stock_copper'), ref('demo_stock_seed_tomato')))]]"
+                  model="stock.quant" name="search"/>
+    </function>
+
+    <!-- Semis de la tomate Cœur de bœuf : semence (lot) et terreau consommés. -->
+    <record id="demo_operation_sowing_tomato" model="garden.operation">
+        <field name="type_id" ref="operation_type_sowing"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_tomato_coeur_s1_01')])]"/>
+        <field name="planned_date">2027-03-10</field>
+        <field name="date">2027-03-10</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
+        <field name="duration">1.5</field>
+        <field name="description">Semis en godets sous abri.</field>
+        <field name="input_ids" eval="[
+            Command.create({'product_id': ref('demo_seed_tomato_coeur'), 'quantity': 8, 'lot_id': ref('demo_lot_seed_tomato')}),
+            Command.create({'product_id': ref('demo_input_potting_soil'), 'quantity': 3}),
+        ]"/>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_operation_fertilization_tomato" model="garden.operation">
+        <field name="type_id" ref="operation_type_fertilization"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_tomato_coeur_s1_01')])]"/>
+        <field name="planned_date">2027-05-05</field>
+        <field name="date">2027-05-05</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_2')])]"/>
+        <field name="duration">0.75</field>
+        <field name="input_ids" eval="[Command.create({'product_id': ref('demo_input_fertilizer'), 'quantity': 12})]"/>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_operation_treatment_tomato" model="garden.operation">
+        <field name="type_id" ref="operation_type_treatment"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_tomato_coeur_s1_01')])]"/>
+        <field name="planned_date">2027-06-12</field>
+        <field name="date">2027-06-12</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
+        <field name="duration">0.5</field>
+        <field name="target">Mildiou</field>
+        <field name="input_ids" eval="[Command.create({'product_id': ref('demo_input_copper'), 'quantity': 1.5})]"/>
+        <field name="state">done</field>
+    </record>
+
+    <!-- Récolte de tomates : entrée en stock sur le lot de la culture. -->
+    <record id="demo_operation_harvest_tomato" model="garden.operation">
+        <field name="type_id" ref="operation_type_harvest"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_tomato_coeur_s1_01')])]"/>
+        <field name="planned_date">2027-07-20</field>
+        <field name="date">2027-07-20</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_2'), ref('demo_employee_3')])]"/>
+        <field name="duration">2.0</field>
+        <field name="harvest_qty">45.0</field>
+        <field name="state">done</field>
+    </record>
+
+    <!-- Pertes : une au champ (avant récolte), une après récolte (rebut sur le lot). -->
+    <record id="demo_loss_tomato_pre" model="garden.loss">
+        <field name="crop_id" ref="demo_crop_2027_tomato_coeur_s1_01"/>
+        <field name="date">2027-07-05</field>
+        <field name="stage">pre_harvest</field>
+        <field name="cause">disease</field>
+        <field name="quantity">3.0</field>
+        <field name="notes">Plants touchés par le mildiou avant la récolte.</field>
+    </record>
+    <record id="demo_loss_tomato_post" model="garden.loss">
+        <field name="crop_id" ref="demo_crop_2027_tomato_coeur_s1_01"/>
+        <field name="date">2027-07-25</field>
+        <field name="stage">post_harvest</field>
+        <field name="cause">unsold</field>
+        <field name="quantity">4.0</field>
+        <field name="notes">Fruits abîmés invendus du marché.</field>
+    </record>
+
+</odoo>

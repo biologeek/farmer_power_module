@@ -55,3 +55,48 @@ class TestGardenDemo(TransactionCase):
         # « Ma journée » : des opérations du jour et en retard pour l'employé de l'administrateur
         late = ref('odoo_garden.demo_operation_late_treatment')
         self.assertEqual(late.employee_ids.user_id, ref('base.user_admin'))
+
+    def test_demo_stock(self):
+        ref = self.env.ref
+        if not ref('odoo_garden.demo_season_2027', raise_if_not_found=False):
+            self.skipTest("Données de démonstration non installées.")
+        company = self.env.company
+        stock = company._get_garden_stock_location()
+
+        def qty(product, lot=None):
+            domain = [('product_id', '=', product.id), ('location_id', '=', stock.id)]
+            if lot:
+                domain.append(('lot_id', '=', lot.id))
+            return sum(self.env['stock.quant'].search(domain).mapped('quantity'))
+
+        crop = ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01')
+        self.assertEqual(ref('odoo_garden.demo_operation_sowing_tomato').state, 'done')
+        # intrants consommés : 300 g de semence - 8, 40 sacs - 3, 200 kg - 12, 25 kg - 1,5
+        self.assertAlmostEqual(qty(ref('odoo_garden.demo_input_potting_soil')), 37.0)
+        self.assertAlmostEqual(qty(ref('odoo_garden.demo_input_fertilizer')), 188.0)
+        self.assertAlmostEqual(qty(ref('odoo_garden.demo_input_copper')), 23.5)
+        seed_lot = ref('odoo_garden.demo_lot_seed_tomato')
+        self.assertAlmostEqual(qty(ref('odoo_garden.demo_seed_tomato_coeur'), seed_lot), 292.0)
+        # coûts d'intrants (lecture en administrateur)
+        self.assertAlmostEqual(
+            ref('odoo_garden.demo_operation_sowing_tomato').input_cost, 8 * 0.45 + 3 * 12.0,
+        )
+        self.assertAlmostEqual(crop.input_cost, 8 * 0.45 + 36.0 + 12 * 1.8 + 1.5 * 6.5)
+        # récolte : 45 kg sur le lot de la culture, 3 kg perdus avant récolte, 4 kg rebutés
+        lot = crop.lot_ids
+        self.assertEqual(len(lot), 1)
+        self.assertEqual(lot.name, crop.name)
+        self.assertAlmostEqual(crop.harvested_qty, 45.0)
+        self.assertAlmostEqual(qty(ref('odoo_garden.demo_harvest_tomato_coeur'), lot), 41.0)
+        self.assertFalse(ref('odoo_garden.demo_loss_tomato_pre').scrap_id)
+        self.assertEqual(ref('odoo_garden.demo_loss_tomato_post').scrap_id.lot_id, lot)
+        self.assertAlmostEqual(crop.loss_rate, 7.0 / 52.0, places=3)
+        # traçabilité depuis le lot de récolte : lot de semence utilisé
+        trace = self.env['garden.traceability'].browse(lot.action_garden_traceability()['res_id'])
+        self.assertEqual(trace.seed_lot_ids, seed_lot)
+        self.assertEqual(len(trace.out_line_ids), 1)
+        # la récolte de laitue de la phase 3 reste valide (produit non stockable, sans lot)
+        lettuce = ref('odoo_garden.demo_operation_harvest_lettuce')
+        self.assertEqual(lettuce.move_ids.garden_kind, 'harvest')
+        self.assertFalse(lettuce.move_ids.move_line_ids.lot_id)
+        self.assertAlmostEqual(lettuce.crop_ids.harvested_qty, 28.0)

@@ -1,8 +1,8 @@
 # Odoo Garden
 
-Module Odoo 19 (`odoo_garden`, version `19.0.1.3.0`, licence LGPL-3) pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), pertes et statistiques.
+Module Odoo 19 (`odoo_garden`, version `19.0.1.4.0`, licence LGPL-3) pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), stock (intrants consommés, récoltes en entrée de stock avec lot de culture, pertes et rebuts, traçabilité) et statistiques.
 
-Le module dépend de `base`, `web`, `product`, `uom`, `mail` et `hr` et s'installe comme une application (menu **Maraîchage**). Il est livré à la **phase 3** (opérations et main-d'œuvre) de la feuille de route (`docs/SPECIFICATIONS.md`, § 7).
+Le module dépend de `base`, `web`, `product`, `uom`, `mail`, `hr` et `stock` et s'installe comme une application (menu **Maraîchage**). Il est livré à la **phase 4** (stock : intrants, récoltes, pertes, traçabilité) de la feuille de route (`docs/SPECIFICATIONS.md`, § 7).
 
 ## Installation
 
@@ -27,8 +27,8 @@ report/
 security/
   garden_security.xml     Catégorie, privilège, groupes et règles multi-société
   ir.model.access.csv     Droits d'accès par groupe
-data/                     Types d'opération par défaut (noupdate)
-demo/                     Données de démonstration (ferme, sites, îlots, planches, catalogue)
+data/                     Types d'opération par défaut et emplacements virtuels de stock (noupdate)
+demo/                     Données de démonstration (ferme, sites, îlots, planches, catalogue, opérations, stock)
 tests/                    Tests Odoo (post_install)
 ```
 
@@ -43,10 +43,13 @@ res.company
                 ├── garden.crop (Culture) ──> garden.crop.template (Itinéraire) ──> garden.variety ──> garden.species
                 │   ├── garden.season (Saison / plan de culture)
                 │   │                               └── garden.crop.template.step ──> garden.operation.type
-                │   └── garden.operation.allocation ──> garden.operation ──> garden.operation.type
-                │                                        ├── garden.operation.worker ──> hr.employee
-                │                                        └── (scope) cultures / planches / îlot
-                └── garden.loss (Perte)
+                │   ├── garden.operation.allocation ──> garden.operation ──> garden.operation.type
+                │   │                                        ├── garden.operation.worker ──> hr.employee
+                │   │                                        ├── garden.operation.input ──> stock.move (consommation)
+                │   │                                        ├── stock.move (récolte, avec stock.lot)
+                │   │                                        └── (scope) cultures / planches / îlot
+                │   ├── stock.lot (lots de récolte, garden_crop_id)
+                │   └── garden.loss (Perte) ──> stock.scrap (après récolte)
 product.template ──(garden_variety_ids, calculé)── garden.variety
 ```
 
@@ -62,15 +65,20 @@ product.template ──(garden_variety_ids, calculé)── garden.variety
 | `garden.crop.template.step` | `garden_crop_template.py` | `template_id`*, `sequence`, `operation_type_id`*, `day_offset`, `expected_duration` (h/m²) |
 | `garden.operation.type` | `garden_operation_type.py` | `name`*, `category`* (préparation du sol, semis, repiquage, plantation, irrigation, désherbage, fertilisation, traitement, paillage, récolte, après récolte, autre), `default_scope`*, `requires_quantity` (calculé d'après la catégorie, modifiable), `icon` (classe Font Awesome, calculée, modifiable), `description`, `sequence`, `active` ; remplace `garden.action.type` |
 | `garden.season` | `garden_season.py` | `name`* (unique par société), `date_start`*, `date_end`*, `company_id`*, `state` (brouillon / validé / clôturé), `crop_ids`, `crop_count`, `notes` ; hérite de `mail.thread` |
-| `garden.crop` | `garden_crop.py` | `name` (référence `T-2027-P12-01`, future étiquette de lot), `season_id`, `template_id`*, `variety_id`, `species_id` et `family` (liés, stockés), `bed_id`*, `bed_share` (%), `area` (m², calculée), `company_id` (lié à la planche), `state` (planifiée / semée / en place / en récolte / terminée / annulée), dates prévues `planned_sowing_date`, `planned_transplant_date`, `planned_harvest_start`, `planned_harvest_end`, dates réelles `date_start`, `date_end`, `occupation_start` / `occupation_end` (calculées), prévisionnel `planned_plant_qty`, `expected_yield_qty`, `expected_revenue`, `planned_seed_count`, `planned_seed_qty` (g), avertissements `has_overlap`, `overlap_share`, `overlap_warning`, `has_rotation_conflict`, `rotation_warning` (calculés, non stockés), `sowing_quantity`, `planted_quantity`, `quantity_harvested` (kg) et `value_harvested` (€) (saisis, conservés jusqu'aux phases 4-5), `notes`, `operation_ids` (opérations directes), `allocation_ids`, `labour_hours`, `labour_cost` (calculés depuis les répartitions), `operation_count` ; hérite de `mail.thread` |
+| `garden.crop` | `garden_crop.py` | `name` (référence `T-2027-P12-01`, future étiquette de lot), `season_id`, `template_id`*, `variety_id`, `species_id` et `family` (liés, stockés), `bed_id`*, `bed_share` (%), `area` (m², calculée), `company_id` (lié à la planche), `state` (planifiée / semée / en place / en récolte / terminée / annulée), dates prévues `planned_sowing_date`, `planned_transplant_date`, `planned_harvest_start`, `planned_harvest_end`, dates réelles `date_start`, `date_end`, `occupation_start` / `occupation_end` (calculées), prévisionnel `planned_plant_qty`, `expected_yield_qty`, `expected_revenue`, `planned_seed_count`, `planned_seed_qty` (g), avertissements `has_overlap`, `overlap_share`, `overlap_warning`, `has_rotation_conflict`, `rotation_warning` (calculés, non stockés), `sowing_quantity`, `planted_quantity`, `harvested_qty` (calculé et stocké : somme des mouvements de récolte), `lot_ids` / `lot_count` (lots de récolte), `harvest_move_ids` (chef de culture), `loss_ids`, `loss_count`, `loss_qty`, `loss_rate` (calculés), `notes`, `operation_ids` (opérations directes), `allocation_ids`, `labour_hours`, `labour_cost` et `input_cost` (calculés depuis les répartitions), `operation_count` ; boutons intelligents Opérations, Récolté, Pertes, Traçabilité, Lots ; `quantity_harvested` et `value_harvested` (saisis) sont supprimés ; hérite de `mail.thread` |
 | `garden.season.plan.wizard` | `garden_season_plan_wizard.py` | Assistant transitoire : `season_id`, `template_id`, `bed_ids`, `target` (récolte / semis), `target_date`, `stagger_days`, `bed_share`, `preview` |
-| `res.config.settings` (extension) | `res_config_settings.py` | `garden_seed_margin` (paramètre système `odoo_garden.seed_margin`, défaut 20 %), `garden_default_hourly_rate` (paramètre système `odoo_garden.default_hourly_rate`, défaut 15 par heure) |
-| `garden.operation` | `garden_operation.py` | `name` (proposé : type et cible), `type_id`*, `category` (liée), `state`* (planifiée / en cours / faite / annulée), `planned_date`, `date`, `company_id`*, `scope`* (culture / planche / îlot) avec `crop_ids`, `bed_ids` ou `garden_id`, `garden_main_id` (îlot principal, stocké), `employee_ids` (`hr.employee`), `duration` (h par employé, `float_time`), `worker_ids`, `total_hours`, `labour_cost` (chef de culture et gérant), `timer_start`, récolte (`harvest_product_id`, `harvest_qty`, `harvest_uom_id`), irrigation (`water_volume`), traitement (`target`, `weather_notes`), `template_step_id`, `allocation_ids`, `allocation_warning`, `description` ; hérite de `mail.thread` et `hr.mixin` ; remplace `garden.action` et `garden.postprocess` |
+| `res.config.settings` (extension) | `res_config_settings.py` | `garden_seed_margin` (paramètre système `odoo_garden.seed_margin`, défaut 20 %), `garden_default_hourly_rate` (paramètre système `odoo_garden.default_hourly_rate`, défaut 15 par heure), et `garden_stock_location_id`, `garden_production_location_id`, `garden_consumption_location_id` (liés à la société, voir « Stock ») |
+| `garden.operation` | `garden_operation.py` | `name` (proposé : type et cible), `type_id`*, `category` (liée), `state`* (planifiée / en cours / faite / annulée), `planned_date`, `date`, `company_id`*, `scope`* (culture / planche / îlot) avec `crop_ids`, `bed_ids` ou `garden_id`, `garden_main_id` (îlot principal, stocké), `employee_ids` (`hr.employee`), `duration` (h par employé, `float_time`), `worker_ids`, `total_hours`, `labour_cost` (chef de culture et gérant), `timer_start`, récolte (`harvest_product_id`, `harvest_qty`, `harvest_uom_id`), irrigation (`water_volume`), traitement (`target`, `weather_notes`), `input_ids`, `input_cost` (chef de culture et gérant), `move_ids` (mouvements de stock, chef de culture), `template_step_id`, `allocation_ids`, `allocation_warning`, `description` ; hérite de `mail.thread` et `hr.mixin` ; remplace `garden.action` et `garden.postprocess` |
 | `garden.operation.worker` | `garden_operation_worker.py` | `operation_id`*, `employee_id`* (unique par opération), `duration` (h), `labour_cost` (chef de culture et gérant), `company_id` (lié) |
-| `garden.operation.allocation` | `garden_operation_allocation.py` | `operation_id`*, `crop_id`*, `share` (%), `hours`, `labour_cost` (chef de culture et gérant), `company_id`, `date`, `type_id`, `category`, `bed_id`, `template_id`, `variety_id` (liés, stockés) |
+| `garden.operation.allocation` | `garden_operation_allocation.py` | `operation_id`*, `crop_id`*, `share` (%), `hours`, `labour_cost` et `input_cost` (chef de culture et gérant), `company_id`, `date`, `type_id`, `category`, `bed_id`, `template_id`, `variety_id` (liés, stockés) |
+| `garden.operation.input` | `garden_operation_input.py` | `operation_id`*, `product_id`* (produits avec un type d'intrant), `garden_input_type` et `tracking` (liés), `quantity`*, `uom_id`*, `lot_id`, `move_id` (dernier mouvement de consommation), `consumed`, `unit_cost` et `cost` (chef de culture et gérant), `company_id` (lié), `sequence` |
 | `hr.employee` (extension) | `hr_employee.py` | `garden_hourly_cost` (coût horaire maraîchage, chef de culture et gérant) |
-| `garden.loss` | `garden_loss.py` | `date`, `bed_id`, `quantity`, `reason` |
-| `product.template` (extension) | `product_template.py` | `garden_variety_ids` et `is_garden_product` (calculés, avec recherche) |
+| `garden.loss` | `garden_loss.py` | `crop_id`*, `date`*, `stage`* (avant / après récolte), `product_id` (proposé d'après la variété), `quantity`*, `uom_id`*, `quantity_ref` (convertie dans l'unité du produit), `cause`* (maladie, ravageur, météo, invendu, autre), `notes`, `scrap_id`, `lot_id` (lié), `bed_id` et `company_id` (liés, stockés) ; hérite de `mail.thread` |
+| `garden.traceability` | `garden_traceability.py` | Modèle transitoire en lecture seule : `lot_id`, `crop_id`, `lot_ids`, `operation_ids`, `input_ids`, `seed_input_ids`, `seed_lot_ids`, `seed_receipt_line_ids`, `harvest_line_ids`, `out_line_ids`, `usage_input_ids` (calculés en sudo) |
+| `res.company` (extension) | `res_company.py` | `garden_production_location_id`, `garden_consumption_location_id`, `garden_stock_location_id` |
+| `stock.move` (extension) | `stock_move.py` | `garden_operation_id`, `garden_crop_id`, `garden_kind` (consommation, annulation de consommation, récolte, annulation de récolte), `garden_reverse_of_id`, `garden_reversal_ids` |
+| `stock.lot` (extension) | `stock_move.py`, `garden_traceability.py` | `garden_crop_id` (culture d'origine), `action_garden_traceability()` |
+| `product.template` (extension) | `product_template.py` | `garden_input_type` (semence, plant, engrais, amendement, phytosanitaire, substrat, autre), `garden_variety_ids` et `is_garden_product` (calculés, avec recherche ; un produit avec un type d'intrant est un produit maraîcher) |
 
 \* champ obligatoire.
 
@@ -88,7 +96,7 @@ Notes :
 - **Maraîchage › Ma journée** : kanban mobile des opérations du jour et en retard (voir « Opérations et main-d'œuvre »)
 - **Maraîchage › Exploitation** : Fermes, Sites, Îlots, Planches
 - **Maraîchage › Planification** : Saisons, Plan de culture (Gantt), Calendrier, Besoins en semences, Planifier en série (chef de culture)
-- **Maraîchage › Production** : Cultures (avec un onglet Opérations), Opérations, Calendrier des opérations, Pertes
+- **Maraîchage › Production** : Cultures (avec les onglets Opérations, Récoltes et Pertes), Opérations (onglet Intrants), Calendrier des opérations, Pertes, Lots de récolte
 - **Maraîchage › Statistiques** : Statistiques (Graphiques), Production
 - **Maraîchage › Configuration** (chef de culture) : Espèces, Variétés, Itinéraires techniques, Types d'opération, Paramètres (administrateur : marge de semis), Produits maraîchers (produits filtrés sur ceux liés à une variété)
 
@@ -99,16 +107,16 @@ Les écrans de statistiques sont des actions client OWL (`ir.actions.client`, d�
 | Tag client | Méthode serveur | Contenu |
 |---|---|---|
 | `garden_statistics` | `garden.operation.allocation.get_statistics_data()` | Heures de travail réparties par type d'opération (camembert et tableau) et par type et itinéraire (barres empilées, Chart.js) ; seules les opérations faites comptent |
-| `garden_production_statistics` | `garden.crop.get_production_statistics_data()` | Quantité (kg) et valeur (€) récoltées par mois (`date_end`, à défaut `date_start`), par planche et par culture |
+| `garden_production_statistics` | `garden.crop.get_production_statistics_data()` | Quantité récoltée (kg, `harvested_qty`) par mois (`date_end`, à défaut `date_start`), par planche et par culture |
 | `garden_bed_occupancy` | `garden.bed.get_occupancy_data(domain, season_id, site_id)` | Plan de culture : voir la section « Planification » |
 
-Les statistiques de temps utilisent `_read_group` sur les répartitions (règles d'accès et multi-société respectées). Les statistiques de production (`get_production_statistics_data`) restent en SQL brut, sans règles d'accès ni multi-société, jusqu'à leur remplacement en phase 5.
+Les statistiques de temps utilisent `_read_group` sur les répartitions (règles d'accès et multi-société respectées). Les statistiques de production (`get_production_statistics_data`) restent en SQL brut, sans règles d'accès ni multi-société, jusqu'à leur remplacement en phase 5 ; elles somment désormais `harvested_qty` (calculé depuis le stock). La colonne « valeur » est retirée jusqu'à la phase 5 (le chiffre d'affaires viendra des ventes) ; les mois sont toujours ceux des dates de la culture (`date_end`, à défaut `date_start`), pas ceux des mouvements de récolte.
 
 ## Planification (phase 2)
 
 **Saison** : `garden.season` regroupe les cultures d'une année (brouillon, validé, clôturé). Les boutons de la saison changent l'état ; le bouton « Planifier en série » ouvre l'assistant.
 
-**Référence de la culture** : `<initiale de l'espèce>-<année de la saison>-<code de la planche>-<numéro>` (ex. `T-2027-P12-01`), attribuée à la création et recalculée si la planche, l'itinéraire ou la saison change. Elle servira de nom de lot de traçabilité (phase 4).
+**Référence de la culture** : `<initiale de l'espèce>-<année de la saison>-<code de la planche>-<numéro>` (ex. `T-2027-P12-01`), attribuée à la création et recalculée si la planche, l'itinéraire ou la saison change. Elle sert de nom de lot de traçabilité (phase 4).
 
 **Rétro-planning** (`garden.crop.template._plan_dates`) :
 - depuis le semis : repiquage = semis + `days_to_transplant` (vide en semis direct), début de récolte = semis + `days_to_maturity`, fin = début + `harvest_window_days` ;
@@ -144,7 +152,7 @@ UX : saisir ou modifier le **semis prévu** recalcule repiquage, début et fin d
 - Les coûts (`labour_cost` de l'opération, des lignes, des répartitions et de la culture, `garden_hourly_cost` de l'employé) ne sont visibles que du chef de culture et du gérant (`groups=` sur les champs, vues comprises). Modifier `garden_hourly_cost` suppose en plus le droit d'écriture sur les employés (officier RH).
 - Changer le taux par défaut recalcule le coût des opérations. Changer le taux d'un employé recalcule automatiquement celui de ses opérations.
 
-**Champs par catégorie** : récolte (`harvest_product_id` proposé d'après la variété, `harvest_qty`, `harvest_uom_id`) ; irrigation (`water_volume` = durée × débit de l'îlot, modifiable) ; traitement (`target`, `weather_notes`). Ces champs ne créent aucun mouvement de stock (phase 4).
+**Champs par catégorie** : récolte (`harvest_product_id` proposé d'après la variété, `harvest_qty`, `harvest_uom_id`) ; irrigation (`water_volume` = durée × débit de l'îlot, modifiable) ; traitement (`target`, `weather_notes`). La récolte crée une entrée en stock et les intrants des mouvements de consommation (voir « Stock »).
 
 **Répartition** (`garden.operation.allocation`), calculée quand l'opération passe à « faite », recalculée si l'opération est modifiée et supprimée si elle est rouverte :
 - périmètre culture : les cultures choisies ;
@@ -158,6 +166,22 @@ UX : saisir ou modifier le **semis prévu** recalcule repiquage, début et fin d
 
 **Étiquettes QR** : l'impression de planches (menu Imprimer de la liste ou bouton « Étiquette QR » du formulaire) produit un PDF d'une étiquette par planche (site, îlot, nom, code, surface, QR code). Le QR code est une image du contrôleur `/report/barcode/` encodant `{web.base.url}/odoo/action-odoo_garden.action_garden_bed/{id}`, qui ouvre la planche. La planche a aussi un bouton « Nouvelle opération » et un bouton intelligent « Opérations ».
 
+## Stock : intrants, récoltes, pertes, traçabilité (phase 4)
+
+**Emplacements** (par société, champs de `res.company`, réglables dans Paramètres › Stock) : « Production maraîchage » et « Consommation maraîchage » (usage `production`, créés à l'installation : données XML pour la société principale, `create_missing_garden_locations` pour les autres sociétés, `res.company.create` pour les nouvelles) et l'emplacement de stockage (entrée des récoltes, sortie des intrants ; vide = stock principal du premier entrepôt de la société). Les mouvements sont créés en `sudo()` ciblé, avec la société de l'opération : l'ouvrier n'a aucun droit sur les mouvements, quants, rebuts ou lots en écriture.
+
+**Intrants** (`garden.operation.input`, onglet « Intrants » de l'opération) : seuls les produits dont le type d'intrant maraîcher (`garden_input_type`) est renseigné sont proposés ; le lot est obligatoire pour un produit suivi par lots. À la validation « faite », chaque ligne génère un mouvement stock > « Consommation maraîchage » daté de l'opération, et son coût unitaire (coût standard du produit converti dans l'unité de la ligne) est figé. `input_cost` est cumulé sur l'opération, réparti dans `garden.operation.allocation.input_cost` au prorata de la part (comme `labour_cost`) et sommé sur la culture ; ces coûts ne sont visibles que du chef de culture et du gérant. Il n'y a pas de contrôle de stock disponible (le stock peut devenir négatif, comme dans Inventaire).
+
+**Récoltes** : à la validation d'une opération de récolte, `harvest_qty` (en `harvest_uom_id`) entre en stock depuis « Production maraîchage ». La quantité est répartie entre les cultures au prorata de la répartition de l'opération (reste d'arrondi sur la dernière culture) : un mouvement par culture et, si le produit est suivi par lots (suivi par numéro de série non géré), un lot nommé d'après la référence de la culture (`stock.lot.garden_crop_id`), réutilisé aux récoltes suivantes. Un produit sans suivi par lots entre sans lot. Sans culture en place à la date (récolte de planche ou d'îlot), un produit non suivi entre en stock sans culture (note dans le fil de discussion) ; un produit suivi par lots bloque la validation. Le produit récolté est obligatoire. `garden.crop.harvested_qty` (stocké) est la somme des mouvements de récolte terminés moins leurs annulations, en unité du produit (supposée être le kg) : c'est la source de vérité des statistiques.
+
+**Annulation** : réouvrir une opération faite (« Remettre en planifiée ») ou la supprimer ne supprime aucun mouvement : un **mouvement inverse** (même lot, même quantité, `garden_kind` = annulation, `garden_reverse_of_id`) est créé, ce qui conserve l'historique de stock ; une nouvelle validation crée de nouveaux mouvements. Tant qu'une opération est faite, ses intrants et, pour une récolte déjà en stock, sa quantité, son produit, son unité, son périmètre et sa date sont verrouillés (message d'erreur : rouvrez-la d'abord). Annuler une opération non faite ne touche pas au stock.
+
+**Pertes** (`garden.loss`) : une perte *avant récolte* n'a aucun effet sur le stock ; une perte *après récolte* crée et valide un `stock.scrap` sur le lot de la culture (emplacement où le lot est en stock, à défaut l'emplacement de stockage), après contrôle du stock disponible, daté du jour de la perte. Elle est ensuite verrouillée (seules la cause et les notes se modifient) et ne peut pas être supprimée : corriger par un ajustement d'inventaire. Taux de perte de la culture (`loss_rate`, widget pourcentage) = pertes / (récolte + pertes), avec les quantités converties dans l'unité du produit récolté : les pertes avant récolte sont donc supposées saisies en kg (ou une unité convertible).
+
+**Traçabilité** : `garden.traceability` (modèle transitoire, ORM uniquement, sans vue SQL) s'ouvre par le bouton « Traçabilité maraîchage » du lot (formulaire `stock.lot`, qui affiche aussi la culture) ou « Traçabilité » de la culture. *Amont* : culture, opérations faites (directes ou réparties), intrants consommés, lots de semence ou de plant (intrants de type semence/plant des opérations de semis, repiquage ou plantation) et leur réception fournisseur, entrées de récolte. *Aval* : sorties du lot lues dans `stock.move.line` (lignes terminées qui quittent un emplacement interne vers un emplacement non interne : livraisons, ventes, point de vente, rebuts, consommation), sans dépendre du module Ventes, et opérations qui ont consommé le lot comme intrant (utile depuis un lot de semence). Aucun coût n'y figure.
+
+**Données de démonstration** (`demo/garden_stock_demo.xml`) : produits d'intrants (semence de tomate en grammes avec lot, terreau, engrais, bouillie bordelaise) avec stock initial, semis / fertilisation / traitement avec intrants, récolte de 45 kg de tomates sur le lot de la culture, une perte avant récolte et une après récolte (rebut) ; la récolte de laitue de la phase 3 reste un exemple de produit non stockable.
+
 ## Contrôleur
 
 `GET /odoo/garden` redirige un utilisateur connecté vers l'action des fermes, et un visiteur anonyme vers la page de connexion.
@@ -166,7 +190,7 @@ UX : saisir ou modifier le **semis prévu** recalcule repiquage, début et fin d
 
 Trois groupes sous le privilège **Maraîchage** (`security/garden_security.xml`), chacun impliquant le précédent ; l'ouvrier implique `base.group_user`. `admin` et `OdooBot` sont dans le groupe Gérant.
 
-| Groupe | Structure (ferme, site, îlot, planche) | Catalogue (espèce, variété, itinéraire, type d'opération) | Cultures, pertes | Opérations |
+| Groupe | Structure (ferme, site, îlot, planche) | Catalogue (espèce, variété, itinéraire, type d'opération) | Cultures, pertes | Opérations et intrants |
 |---|---|---|---|
 | Ouvrier | lecture | lecture | lecture, écriture, création (pas de suppression) ; saisons : lecture seule | lecture, écriture, création, sans suppression ; ses opérations seulement (voir ci-dessous) ; aucun coût |
 | Chef de culture | lecture, écriture, création | tous droits | tous droits | tout sauf suppression ; voit tous les coûts |
@@ -176,9 +200,11 @@ Le menu racine est réservé au groupe Ouvrier (donc à tous ses groupes impliqu
 
 Les saisons et l'assistant de planification en série sont réservés au chef de culture (et au gérant) en écriture ; l'ouvrier lit les saisons.
 
-Règles multi-société (`ir.rule`, `company_id in company_ids`) sur `garden.farm`, `garden.site`, `garden.garden`, `garden.bed`, `garden.season` et `garden.crop`. Les opérations, leurs lignes de temps (`garden.operation.worker`) et leurs répartitions portent `company_id` et ont leur règle multi-société. `garden.loss` ne porte pas encore de société (phase 4).
+Règles multi-société (`ir.rule`, `company_id in company_ids`) sur `garden.farm`, `garden.site`, `garden.garden`, `garden.bed`, `garden.season` et `garden.crop`. Les opérations, leurs lignes de temps (`garden.operation.worker`), leurs intrants (`garden.operation.input`), leurs répartitions et les pertes (`garden.loss`) portent `company_id` et ont leur règle multi-société.
 
-**Règle ouvrier** (`ir.rule`) : un ouvrier ne voit et ne modifie que les opérations où il est employé (`employee_ids.user_id`) ou qui n'ont aucun employé ; une règle du groupe chef de culture lève cette restriction. Démarrer une opération sans employé y affecte l'employé de l'utilisateur. Les répartitions sont créées par le serveur (droits élevés) : l'ouvrier et le chef de culture ne peuvent que les lire, seul le gérant peut les modifier. Les lignes de temps par employé suivent les droits de l'opération (l'ouvrier peut les créer et les supprimer).
+**Stock** : les groupes maraîchage n'impliquent aucun groupe Inventaire. L'ouvrier peut lire les lots (`stock.lot`, pour choisir le lot d'un intrant), saisir des intrants, des récoltes et des pertes dans ses opérations, mais n'écrit pas dans le stock directement (aucun droit sur `stock.move`, `stock.scrap`, création de lot ou de quant ; les mouvements sont créés par le serveur). Le chef de culture lit en plus les mouvements de stock (`stock.move`). Comme tout utilisateur interne, l'ouvrier garde les droits de lecture standard d'Inventaire (emplacements, quants) et de lecture/écriture des lignes de mouvement (`stock.move.line`) accordés à `base.group_user`. Les coûts d'intrants (`unit_cost`, `cost`, `input_cost`) sont masqués à l'ouvrier (champs et vues).
+
+**Règle ouvrier** (`ir.rule`) : un ouvrier ne voit et ne modifie que les opérations où il est employé (`employee_ids.user_id`) ou qui n'ont aucun employé ; une règle du groupe chef de culture lève cette restriction. Démarrer une opération sans employé y affecte l'employé de l'utilisateur. Les répartitions sont créées par le serveur (droits élevés) : l'ouvrier et le chef de culture ne peuvent que les lire, seul le gérant peut les modifier. Les lignes de temps par employé et les lignes d'intrants suivent les droits de l'opération (l'ouvrier peut les créer et les supprimer, tant que l'opération n'est pas faite pour les intrants).
 
 ## Tests
 
@@ -191,7 +217,12 @@ Le dossier `tests/` contient (tests `post_install`, `-at_install`) :
 - `test_gantt.py` : données du Gantt (groupes, lignes, filtres), vue calendrier, tours navigateur `garden_gantt_tour` et `garden_my_day_tour` (« Ma journée » : démarrer puis terminer une opération) ;
 - `test_operations.py` : opérations (valeurs par défaut, périmètre, états, irrigation, récolte), main-d'œuvre (coût durée × employés, détail par employé, taux par défaut, chronomètre, coûts masqués à l'ouvrier), répartition (culture, planche, îlot, prorata de surface, aucune culture, recalcul), génération idempotente des opérations planifiées, statistiques, « Ma journée » (domaine du jour, vues) et règle ouvrier ;
 - `test_labels.py` : URL du QR code, résolution de la route `/odoo/action-...`, rendu HTML du rapport d'étiquettes, route `/report/barcode` (ignorée si reportlab n'a pas de moteur PNG), boutons de la planche ;
-- `test_demo.py` : plan de culture et opérations de démonstration (ignoré sans données de démo).
+- `test_stock_setup.py` : emplacements virtuels par société, emplacement de stockage par défaut, paramètres ;
+- `test_stock_inputs.py` : type d'intrant, consommation (mouvement, valeur figée, conversion d'unité, lot obligatoire), annulation et nouvelle validation, verrou, suppression, répartition du coût d'intrants, emplacement de stockage personnalisé, droits de l'ouvrier (aucun accès au stock global ni aux coûts) ;
+- `test_stock_harvest.py` : entrée en stock, lot de culture, produit sans lot, répartition entre cultures (et reste d'arrondi), récolte de planche, réutilisation du lot, annulation, verrou, unités, `harvested_qty`, statistiques de production, droits de l'ouvrier ;
+- `test_stock_losses.py` : perte avant / après récolte (rebut sur le lot), stock insuffisant, verrou, taux de perte, unités, droits, règle multi-société ;
+- `test_stock_traceability.py` : traçabilité amont (opérations, intrants, lots de semence et leur réception) et aval (livraison, rebut), lot de semence, culture à plusieurs lots, lecture de l'écran par l'ouvrier et le chef, boutons et menu ;
+- `test_demo.py` : plan de culture, opérations, intrants, récolte, pertes et traçabilité de démonstration (ignoré sans données de démo).
 
 Le tour navigateur nécessite Chrome et le paquet Python `websocket-client` ; sans lui Odoo l'ignore (« skipped »). Pour l'exécuter sans modifier l'environnement : `pip install --target /tmp/pylibs websocket-client` puis `PYTHONPATH=/tmp/pylibs ./run.sh ...`.
 
@@ -199,7 +230,7 @@ Le tour navigateur nécessite Chrome et le paquet Python `websocket-client` ; sa
 cd <racine du projet> && ./run.sh -d garden_test -i odoo_garden --test-enable --test-tags /odoo_garden --stop-after-init
 ```
 
-La démo contient la saison 2027 (12 cultures dont un chevauchement sur N1-01 et une rotation sur S1-03 grâce à la tomate 2026), une saison 2026 close, trois employés (plus l'employé administrateur de `hr`, avec un coût horaire), des opérations faites (dont un arrosage d'îlot réparti 40 / 40 / 20 % entre trois cultures le 10 juin 2027, un désherbage de deux planches, une récolte et un détail par employé), des opérations planifiées autour de la date du jour pour « Ma journée » et les opérations prévues par les itinéraires de la saison 2027. Les données de démonstration ne sont chargées qu'avec `--with-demo` (désactivées par défaut en Odoo 19). Ajouter `--http-port=<port>` si le serveur de développement tourne déjà.
+Les tests sont lancés sans `--with-demo` par défaut ; avec elle, `test_demo.py` s'exécute aussi (un échec du chargement des données de démo n'est qu'un avertissement dans le journal : le vérifier). La démo contient la saison 2027 (12 cultures dont un chevauchement sur N1-01 et une rotation sur S1-03 grâce à la tomate 2026), une saison 2026 close, trois employés (plus l'employé administrateur de `hr`, avec un coût horaire), des opérations faites (dont un arrosage d'îlot réparti 40 / 40 / 20 % entre trois cultures le 10 juin 2027, un désherbage de deux planches, une récolte et un détail par employé), des opérations planifiées autour de la date du jour pour « Ma journée » et les opérations prévues par les itinéraires de la saison 2027. Les données de démonstration ne sont chargées qu'avec `--with-demo` (désactivées par défaut en Odoo 19). Ajouter `--http-port=<port>` si le serveur de développement tourne déjà.
 
 ## Points connus / à corriger
 
@@ -212,7 +243,13 @@ La démo contient la saison 2027 (12 cultures dont un chevauchement sur N1-01 et
 - **Avertissements non stockés** : `has_overlap` et `has_rotation_conflict` ne sont pas filtrables dans la recherche.
 - **Anciennes cultures** : `date_start` / `date_end` sont désormais les dates *réelles* ; les cultures sans dates prévues n'apparaissent pas dans le calendrier.
 - **Paramètres** : l'écran de configuration est réservé à l'administrateur système (groupe `base.group_system`).
-- **Statistiques de production** : `garden_production_statistics` lit encore `quantity_harvested` et `value_harvested` saisis à la main.
+- **Statistiques de production** : toujours en SQL brut (voir « Statistiques »), regroupées par les dates de la culture ; la valeur récoltée reviendra en phase 5.
+- **État de la culture** : la validation d'une opération ne met pas encore à jour l'état ni les dates réelles de la culture (§ 3.4, point 3 du cahier des charges, non traité en phases 3 et 4).
+- **Unités de la récolte et des pertes** : `harvested_qty` et `loss_rate` additionnent les quantités dans l'unité du produit récolté, sans contrôle qu'il s'agit de kg ; les pertes avant récolte exprimées en plants fausseraient le taux.
+- **Stock des intrants** : la consommation n'est pas bloquée si le stock est insuffisant (quant négatif) ; le coût vient du coût standard du produit (pas de valorisation FIFO / AVCO ni de comptabilité de stock).
+- **Rebut** : une perte après récolte est irréversible depuis le module (ajustement d'inventaire).
+- **Lot de récolte** : nommé d'après la référence de la culture au moment de la première récolte ; renommer ensuite la culture ne renomme pas le lot (le lien reste `garden_crop_id`).
+- **Accès aux lots** : l'ouvrier lit tous les lots de sa société (nécessaire au choix du lot d'un intrant).
 - **Chart.js** : chargé par une balise `<script>` dans le template OWL depuis un CDN, sans version fixée, avec un `setTimeout` de 50 ms avant le rendu ; les graphiques peuvent rester vides.
 - **Manifeste** : `author` et `website` contiennent encore des valeurs par défaut.
 - **`action_garden_statistics`** n'est rattachée à aucun menu.
@@ -224,6 +261,6 @@ La démo contient la saison 2027 (12 cultures dont un chevauchement sur N1-01 et
 
 La feuille de route complète (version payante intégrée aux applications Odoo) est décrite dans [`docs/SPECIFICATIONS.md`](docs/SPECIFICATIONS.md).
 
-- Traçabilité de la graine au client
+- Ventes, chiffre d'affaires par culture et rentabilité (phase 5)
 - Prise en compte des pertes dans les statistiques (taux de perte, rendement)
 - Schéma visuel des sites et planches
