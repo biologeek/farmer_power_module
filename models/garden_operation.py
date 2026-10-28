@@ -98,6 +98,10 @@ class GardenOperation(models.Model):
         help="Somme de la durée × coût horaire de chaque employé ; à défaut de coût horaire sur l'employé "
              "(ou sans employé), le taux horaire par défaut des paramètres s'applique.",
     )
+    template_step_id = fields.Many2one(
+        'garden.crop.template.step', string="Étape d'itinéraire", copy=False, index=True, ondelete='set null',
+        help="Étape de l'itinéraire à l'origine de l'opération planifiée ; évite de la générer deux fois.",
+    )
     allocation_ids = fields.One2many(
         'garden.operation.allocation', 'operation_id', string='Répartition',
         help="Répartition du temps et du coût entre les cultures, calculée quand l'opération est faite.",

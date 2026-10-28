@@ -420,7 +420,7 @@ class GardenCrop(models.Model):
         Retourne une liste de dicts triés par date : ``step`` (étape d'itinéraire),
         ``operation_type`` (``garden.operation.type``), ``date`` (semis prévu + ``day_offset``) et
         ``duration`` (heures : durée attendue par m² × surface occupée). Voir
-        ``action_generate_operations`` pour la création des ``garden.operation`` correspondantes.
+        ``_generate_operations`` pour la création des ``garden.operation`` correspondantes.
         """
         self.ensure_one()
         if not self.planned_sowing_date:
@@ -435,6 +435,41 @@ class GardenCrop(models.Model):
             for step in self.template_id.step_ids
         ]
         return sorted(steps, key=lambda s: (s['date'], s['step'].sequence, s['step'].id))
+
+    def _generate_operations(self):
+        """Crée une opération planifiée par étape de l'itinéraire (``_get_planned_steps``).
+
+        Idempotent : une étape déjà générée pour la culture (même annulée ou faite) n'est pas recréée.
+        Les cultures terminées, annulées ou sans semis prévu sont ignorées. Retourne les opérations créées.
+        """
+        Operation = self.env['garden.operation']
+        vals_list = []
+        for crop in self.filtered(lambda c: c.state not in ('done', 'cancelled') and c.planned_sowing_date):
+            done_steps = Operation.search([
+                ('crop_ids', 'in', crop.id), ('template_step_id', '!=', False),
+            ]).template_step_id
+            for planned in crop._get_planned_steps():
+                if planned['step'] in done_steps:
+                    continue
+                vals_list.append({
+                    'type_id': planned['operation_type'].id,
+                    'scope': 'crop',
+                    'crop_ids': [(6, 0, crop.ids)],
+                    'planned_date': planned['date'],
+                    'duration': planned['duration'],
+                    'company_id': crop.company_id.id,
+                    'template_step_id': planned['step'].id,
+                })
+        return Operation.create(vals_list)
+
+    def action_generate_operations(self):
+        """Bouton « Générer les opérations » : crée les opérations manquantes puis les affiche."""
+        self._generate_operations()
+        if len(self) == 1:
+            return self.action_view_operations()
+        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_operation')
+        action['domain'] = [('crop_ids', 'in', self.ids)]
+        return action
 
     # ------------------------------------------------------------------
     # Référence (nom de culture / de lot)

@@ -322,3 +322,69 @@ class TestGardenAllocation(GardenOperationCase):
         found = self.env['garden.operation'].search(action['domain'])
         self.assertEqual(found, direct | by_bed)
         self.assertEqual(crop.action_new_operation()['context']['default_crop_ids'], [(6, 0, crop.ids)])
+
+
+@tagged('post_install', '-at_install')
+class TestGardenOperationGeneration(GardenOperationCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        Step = cls.env['garden.crop.template.step']
+        cls.step_sowing = Step.create({
+            'template_id': cls.template.id, 'sequence': 10, 'operation_type_id': cls.type_sowing.id,
+            'day_offset': 0, 'expected_duration': 0.01,
+        })
+        cls.step_weeding = Step.create({
+            'template_id': cls.template.id, 'sequence': 20, 'operation_type_id': cls.type_weeding.id,
+            'day_offset': 45, 'expected_duration': 0.02,
+        })
+
+    def test_generate_from_crop(self):
+        crop = self._crop(planned_sowing_date='2027-03-01')  # 36 m²
+        operations = crop._generate_operations()
+        self.assertEqual(len(operations), 2)
+        by_step = {o.template_step_id: o for o in operations}
+        sowing = by_step[self.step_sowing]
+        self.assertEqual(sowing.state, 'planned')
+        self.assertEqual(sowing.type_id, self.type_sowing)
+        self.assertEqual(sowing.crop_ids, crop)
+        self.assertEqual(str(sowing.planned_date), '2027-03-01')
+        self.assertAlmostEqual(sowing.duration, 0.36)
+        weeding = by_step[self.step_weeding]
+        self.assertEqual(str(weeding.planned_date), '2027-04-15')
+        self.assertAlmostEqual(weeding.duration, 0.72)
+        self.assertEqual(weeding.company_id, crop.company_id)
+
+    def test_generation_is_idempotent(self):
+        crop = self._crop(planned_sowing_date='2027-03-01')
+        first = crop._generate_operations()
+        self.assertFalse(crop._generate_operations())
+        self.assertEqual(self.env['garden.operation'].search_count([('crop_ids', '=', crop.id)]), 2)
+        # une étape ajoutée à l'itinéraire est générée seule, une opération annulée n'est pas recréée
+        first[0].action_cancel()
+        step = self.env['garden.crop.template.step'].create({
+            'template_id': self.template.id, 'operation_type_id': self.type_harvest.id, 'day_offset': 120,
+        })
+        again = crop._generate_operations()
+        self.assertEqual(again.template_step_id, step)
+        action = crop.action_generate_operations()
+        self.assertEqual(self.env['garden.operation'].search_count(action['domain']), 3)
+
+    def test_generation_skips_unplanned_and_closed_crops(self):
+        no_date = self._crop()
+        cancelled = self._crop(planned_sowing_date='2027-03-01', state='cancelled')
+        finished = self._crop(planned_sowing_date='2027-03-01', state='done')
+        self.assertFalse((no_date | cancelled | finished)._generate_operations())
+
+    def test_season_validation_generates_operations(self):
+        crop_a = self._crop(planned_sowing_date='2027-03-01')
+        crop_b = self._crop(bed_id=self.bed2.id, planned_sowing_date='2027-04-01')
+        self.season.action_validate()
+        for crop in (crop_a, crop_b):
+            self.assertEqual(self.env['garden.operation'].search_count([('crop_ids', '=', crop.id)]), 2)
+        # relancer la validation ou le bouton ne crée pas de doublons
+        self.season.action_reset_draft()
+        self.season.action_validate()
+        self.season.action_generate_operations()
+        self.assertEqual(self.env['garden.operation'].search_count([('crop_ids', 'in', (crop_a | crop_b).ids)]), 4)

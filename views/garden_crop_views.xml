@@ -35,6 +35,8 @@
                             invisible="not planned_sowing_date or state in ('done', 'cancelled')"/>
                     <button name="action_plan_from_harvest" string="Recalculer depuis la récolte" type="object"
                             invisible="not planned_harvest_start or state in ('done', 'cancelled')"/>
+                    <button name="action_generate_operations" string="Générer les opérations" type="object"
+                            invisible="not planned_sowing_date or state in ('done', 'cancelled')"/>
                     <field name="state" widget="statusbar" options="{'clickable': '1'}"
                            statusbar_visible="planned,sown,in_place,harvesting,done"/>
                 </header>

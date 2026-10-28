@@ -47,6 +47,11 @@ class GardenSeason(models.Model):
 
     def action_validate(self):
         self.state = 'validated'
+        self.action_generate_operations()
+
+    def action_generate_operations(self):
+        """Crée les opérations planifiées manquantes des cultures de la saison (idempotent)."""
+        self.crop_ids._generate_operations()
 
     def action_close(self):
         self.state = 'closed'
