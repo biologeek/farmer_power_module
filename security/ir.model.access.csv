@@ -43,3 +43,5 @@ garden_stock_move_chef,stock.move garden chef (lecture),stock.model_stock_move,g
 garden_traceability_worker,garden.traceability worker,model_garden_traceability,group_garden_worker,1,1,1,1
 garden_crop_profitability_manager,garden.crop.profitability manager,model_garden_crop_profitability,group_garden_manager,1,0,0,0
 garden_crop_sale_chef,garden.crop.sale chef,model_garden_crop_sale,group_garden_chef,1,0,0,0
+garden_compliance_wizard_chef,garden.compliance.wizard chef,model_garden_compliance_wizard,group_garden_chef,1,1,1,1
+garden_compliance_line_chef,garden.compliance.line chef,model_garden_compliance_line,group_garden_chef,1,1,1,1

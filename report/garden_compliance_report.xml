@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_garden_compliance" model="report.paperformat">
+        <field name="name">Registres réglementaires (A4 paysage)</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">12</field>
+        <field name="margin_bottom">12</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_garden_compliance" model="ir.actions.report">
+        <field name="name">Registre réglementaire</field>
+        <field name="model">garden.compliance.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">odoo_garden.report_garden_compliance</field>
+        <field name="report_file">odoo_garden.report_garden_compliance</field>
+        <field name="print_report_name">'Registre-%s' % object.register</field>
+        <field name="paperformat_id" ref="paperformat_garden_compliance"/>
+    </record>
+
+    <template id="report_garden_compliance">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page o_garden_compliance">
+                        <t t-if="doc.register == 'phyto'">
+                            <h2>Registre phytosanitaire</h2>
+                        </t>
+                        <p style="font-size:9pt; color:#555;">
+                            <strong t-out="doc.env.company.name"/>
+                            <span t-if="doc.date_from or doc.date_to"> — période :
+                                <span t-out="doc.date_from" t-options="{'widget': 'date'}"/> au
+                                <span t-out="doc.date_to" t-options="{'widget': 'date'}"/></span>
+                            <span t-if="doc.season_id"> — saison : <span t-out="doc.season_id.name"/></span>
+                            <span t-if="doc.crop_ids"> — cultures : <span t-out="', '.join(doc.crop_ids.mapped('name'))"/></span>
+                            — édité le <span t-out="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                        </p>
+                        <table t-if="doc.register == 'phyto'" class="table table-sm table-bordered o_garden_register_phyto"
+                               style="font-size:8pt;">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Culture</th>
+                                    <th>Parcelle</th>
+                                    <th class="text-end">Surface traitée (m²)</th>
+                                    <th>Produit</th>
+                                    <th>N° AMM</th>
+                                    <th class="text-end">Dose (par ha)</th>
+                                    <th class="text-end">Quantité</th>
+                                    <th>Opérateur</th>
+                                    <th>Cible</th>
+                                    <th>Conditions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.phyto_line_ids" t-as="line" style="page-break-inside:avoid;">
+                                    <td><span t-out="line.date" t-options="{'widget': 'date'}"/></td>
+                                    <td><span t-out="line.crop_id.name"/></td>
+                                    <td><span t-out="line.parcel"/></td>
+                                    <td class="text-end"><span t-out="line.treated_area" t-options="{'widget': 'float', 'precision': 1}"/></td>
+                                    <td><span t-out="line.product_id.display_name"/></td>
+                                    <td><span t-out="line.amm_number"/></td>
+                                    <td class="text-end"><span t-out="line.dose" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                    <td class="text-end">
+                                        <span t-out="line.quantity" t-options="{'widget': 'float', 'precision': 3}"/>
+                                        <span t-out="line.uom_id.name"/>
+                                    </td>
+                                    <td><span t-out="line.operator"/></td>
+                                    <td><span t-out="line.target"/></td>
+                                    <td><span t-out="line.weather_notes"/></td>
+                                </tr>
+                                <tr t-if="not doc.phyto_line_ids">
+                                    <td colspan="11" class="text-center text-muted">Aucun traitement sur la période.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

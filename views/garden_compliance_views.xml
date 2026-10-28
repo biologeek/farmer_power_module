@@ -1,0 +1,88 @@
+<odoo>
+    <record id="view_garden_compliance_line_phyto_list" model="ir.ui.view">
+        <field name="name">garden.compliance.line.phyto.list</field>
+        <field name="model">garden.compliance.line</field>
+        <field name="arch" type="xml">
+            <list string="Registre phytosanitaire" create="0" edit="0" delete="0">
+                <field name="date"/>
+                <field name="crop_id"/>
+                <field name="parcel"/>
+                <field name="treated_area" sum="Total"/>
+                <field name="product_id"/>
+                <field name="amm_number"/>
+                <field name="dose"/>
+                <field name="quantity"/>
+                <field name="uom_id"/>
+                <field name="operator" optional="show"/>
+                <field name="target" optional="show"/>
+                <field name="weather_notes" optional="show"/>
+                <field name="season_id" optional="hide"/>
+                <field name="operation_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_garden_compliance_line_search" model="ir.ui.view">
+        <field name="name">garden.compliance.line.search</field>
+        <field name="model">garden.compliance.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="crop_id"/>
+                <field name="product_id"/>
+                <field name="parcel"/>
+                <field name="operator"/>
+                <group>
+                    <filter name="group_crop" string="Culture" context="{'group_by': 'crop_id'}"/>
+                    <filter name="group_product" string="Produit" context="{'group_by': 'product_id'}"/>
+                    <filter name="group_season" string="Saison" context="{'group_by': 'season_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_garden_compliance_wizard_form" model="ir.ui.view">
+        <field name="name">garden.compliance.wizard.form</field>
+        <field name="model">garden.compliance.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Registre réglementaire" create="0" delete="0">
+                <header>
+                    <button name="action_compute" string="Calculer" type="object" class="btn-primary"/>
+                    <button name="action_print" string="Imprimer (PDF)" type="object"/>
+                    <button name="action_export_xlsx" string="Exporter (XLSX)" type="object"/>
+                </header>
+                <sheet>
+                    <field name="register" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="register" readonly="1" nolabel="1"/></h1>
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        Registre propre à la réglementation française, calculé à partir des opérations faites.
+                        Choisissez la période, la saison ou les cultures puis cliquez sur « Calculer », « Imprimer »
+                        ou « Exporter ».
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="season_id" options="{'no_create': True}"/>
+                            <field name="crop_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <field name="line_count" invisible="1"/>
+                    <field name="phyto_line_ids" nolabel="1" invisible="register != 'phyto' or not line_count"
+                           readonly="1" context="{'list_view_ref': 'odoo_garden.view_garden_compliance_line_phyto_list'}"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_garden_compliance_phyto" model="ir.actions.act_window">
+        <field name="name">Registre phytosanitaire</field>
+        <field name="res_model">garden.compliance.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_register': 'phyto'}</field>
+    </record>
+</odoo>

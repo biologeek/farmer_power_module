@@ -24,3 +24,4 @@ from . import garden_revenue
 from . import garden_crop_profitability
 from . import garden_crop_sale
 from . import res_config_settings
+from . import garden_compliance
