@@ -107,3 +107,26 @@ class TestGardenMyDayTour(HttpCase):
         operation.invalidate_recordset()
         self.assertEqual(operation.state, 'done')
         self.assertFalse(operation.timer_start)
+
+
+@tagged('post_install', '-at_install')
+class TestGardenDashboardTour(HttpCase):
+
+    def test_dashboard_tour(self):
+        farm = self.env['garden.farm'].create({'name': 'Ferme Dash'})
+        site = self.env['garden.site'].create({'name': 'Site Dash', 'farm_id': farm.id})
+        garden = self.env['garden.garden'].create({'name': 'Îlot Dash', 'site_id': site.id})
+        bed = self.env['garden.bed'].create({
+            'name': 'Planche Dash', 'code': 'DASH', 'garden_id': garden.id, 'length': 10, 'width': 1,
+        })
+        species = self.env['garden.species'].create({'name': 'Tomate tour'})
+        variety = self.env['garden.variety'].create({'name': 'Variété tour', 'species_id': species.id})
+        template = self.env['garden.crop.template'].create({'name': 'Tomate tour', 'variety_id': variety.id})
+        crop = self.env['garden.crop'].create({
+            'template_id': template.id, 'bed_id': bed.id, 'planned_sowing_date': '2027-03-01',
+        })
+        self.env['garden.operation'].create({
+            'type_id': self.env.ref('odoo_garden.operation_type_weeding').id,
+            'crop_ids': [(6, 0, crop.ids)], 'duration': 2.0, 'date': '2027-04-01', 'state': 'done',
+        })
+        self.start_tour('/odoo/action-odoo_garden.action_garden_dashboard', 'garden_dashboard_tour', login='admin')
