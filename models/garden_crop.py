@@ -2,6 +2,8 @@ import re
 import unicodedata
 from datetime import timedelta
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
 
 
@@ -85,6 +87,16 @@ class GardenCrop(models.Model):
         help="Récolte attendue × prix de vente attendu.",
     )
 
+    # Avertissements (jamais bloquants)
+    overlap_share = fields.Float(
+        'Occupation maximale (%)', compute='_compute_warnings',
+        help="Somme maximale des parts de planche occupées simultanément, cette culture comprise.",
+    )
+    has_overlap = fields.Boolean('Chevauchement', compute='_compute_warnings')
+    overlap_warning = fields.Text('Avertissement de chevauchement', compute='_compute_warnings')
+    has_rotation_conflict = fields.Boolean('Rotation non respectée', compute='_compute_warnings')
+    rotation_warning = fields.Text('Avertissement de rotation', compute='_compute_warnings')
+
     sowing_quantity = fields.Float('Nombre de plants semés')
     planted_quantity = fields.Float('Nombre de plants plantés')
     notes = fields.Text('Notes')
@@ -122,6 +134,87 @@ class GardenCrop(models.Model):
             crop.planned_plant_qty = crop.area * template.density
             crop.expected_yield_qty = crop.area * template.expected_yield
             crop.expected_revenue = crop.expected_yield_qty * template.expected_price
+
+    # ------------------------------------------------------------------
+    # Contrôles : chevauchement et rotation
+    # ------------------------------------------------------------------
+    def _get_bed_neighbours(self):
+        """Autres cultures (non annulées) de la même planche, avec une période d'occupation."""
+        self.ensure_one()
+        origin_id = self._origin.id
+        return self.bed_id.crop_ids.filtered(
+            lambda c: c.id != origin_id and c.state != 'cancelled' and c.occupation_start
+        )
+
+    def _get_overlap_info(self):
+        """Retourne ``(part maximale occupée en %, cultures concurrentes)``.
+
+        Deux cultures se chevauchent si leurs périodes d'occupation se recoupent. La part est
+        évaluée à chaque début de période (cette culture comprise), pour ne pas additionner des
+        cultures concurrentes qui ne sont jamais présentes en même temps.
+        """
+        self.ensure_one()
+        start = self.occupation_start
+        end = self.occupation_end or start
+        rivals = self._get_bed_neighbours().filtered(
+            lambda c: c.occupation_start <= end and (c.occupation_end or c.occupation_start) >= start
+        )
+        checkpoints = {start} | {c.occupation_start for c in rivals if c.occupation_start > start}
+        peak = max(
+            self.bed_share + sum(
+                c.bed_share for c in rivals
+                if c.occupation_start <= day <= (c.occupation_end or c.occupation_start)
+            )
+            for day in checkpoints
+        )
+        return peak, rivals
+
+    def _get_rotation_conflicts(self):
+        """Cultures antérieures de la même famille botanique sur la planche, revenues trop tôt.
+
+        Le délai est ``rotation_years`` de l'espèce de cette culture, compté entre la fin de
+        l'occupation précédente et le début de celle-ci. La famille « Autre » n'est pas contrôlée.
+        """
+        self.ensure_one()
+        years = self.species_id.rotation_years
+        if not years or not self.family or self.family == 'other':
+            return self.browse()
+        limit = self.occupation_start - relativedelta(years=years)
+        return self._get_bed_neighbours().filtered(
+            lambda c: c.family == self.family and c.occupation_start < self.occupation_start
+            and (c.occupation_end or c.occupation_start) > limit
+        )
+
+    @api.depends(
+        'bed_id', 'bed_share', 'state', 'occupation_start', 'occupation_end', 'species_id.rotation_years', 'family',
+        'bed_id.crop_ids.occupation_start', 'bed_id.crop_ids.occupation_end', 'bed_id.crop_ids.bed_share',
+        'bed_id.crop_ids.state', 'bed_id.crop_ids.family',
+    )
+    def _compute_warnings(self):
+        for crop in self:
+            crop.overlap_share = 0.0
+            crop.has_overlap = crop.has_rotation_conflict = False
+            crop.overlap_warning = crop.rotation_warning = False
+            if not crop.bed_id or crop.state == 'cancelled' or not crop.occupation_start:
+                continue
+            peak, rivals = crop._get_overlap_info()
+            if rivals and peak > 100.0 + 1e-6:
+                crop.overlap_share = peak
+                crop.has_overlap = True
+                crop.overlap_warning = self.env._(
+                    "Chevauchement sur la planche %(bed)s : %(share).0f %% de la planche occupés en même temps "
+                    "(avec %(crops)s).",
+                    bed=crop.bed_id.display_name, share=peak, crops=", ".join(rivals.mapped('name')),
+                )
+            conflicts = crop._get_rotation_conflicts()
+            if conflicts:
+                crop.has_rotation_conflict = True
+                crop.rotation_warning = self.env._(
+                    "Rotation : la famille %(family)s a déjà été cultivée sur cette planche moins de "
+                    "%(years)s an(s) avant (%(crops)s).",
+                    family=dict(crop.species_id._fields['family'].selection).get(crop.family),
+                    years=crop.species_id.rotation_years, crops=", ".join(conflicts.mapped('name')),
+                )
 
     # ------------------------------------------------------------------
     # Rétro-planning

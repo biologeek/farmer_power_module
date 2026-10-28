@@ -3,7 +3,7 @@
         <field name="name">garden.crop.tree</field>
         <field name="model">garden.crop</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-warning="has_overlap or has_rotation_conflict">
                 <field name="name"/>
                 <field name="season_id" optional="show"/>
                 <field name="template_id"/>
@@ -16,6 +16,9 @@
                 <field name="planned_harvest_end" optional="show"/>
                 <field name="date_start" optional="hide"/>
                 <field name="date_end" optional="hide"/>
+                <field name="overlap_share" optional="hide" string="Occupation max (%)"/>
+                <field name="has_overlap" optional="show"/>
+                <field name="has_rotation_conflict" optional="show"/>
                 <field name="state" widget="badge"
                        decoration-info="state == 'planned'" decoration-success="state in ('sown', 'in_place', 'harvesting')"
                        decoration-muted="state in ('done', 'cancelled')"/>
@@ -36,6 +39,12 @@
                            statusbar_visible="planned,sown,in_place,harvesting,done"/>
                 </header>
                 <sheet>
+                    <div class="alert alert-warning" role="alert" invisible="not overlap_warning">
+                        <field name="overlap_warning" nolabel="1"/>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not rotation_warning">
+                        <field name="rotation_warning" nolabel="1"/>
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>
                     </div>

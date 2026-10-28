@@ -320,3 +320,94 @@ class TestGardenPlanWizard(GardenPlanningCase):
             self._wizard(user=worker, target_date='2027-07-01')
         wizard = self._wizard(user=chef, target_date='2027-07-01', bed_ids=[(6, 0, self.bed.ids)])
         self.assertEqual(len(self.env['garden.crop'].search(wizard.action_create_crops()['domain'])), 1)
+
+
+@tagged('post_install', '-at_install')
+class TestGardenWarnings(GardenPlanningCase):
+
+    def _period(self, start, end, **vals):
+        """Culture en semis direct de chou (période d'occupation = semis → fin de récolte)."""
+        vals.setdefault('template_id', self.template_direct.id)
+        return self._crop(planned_sowing_date=start, planned_harvest_end=end, **vals)
+
+    def test_no_warning_alone(self):
+        crop = self._period('2027-03-01', '2027-06-30')
+        self.assertFalse(crop.has_overlap or crop.has_rotation_conflict)
+        self.assertFalse(crop.overlap_warning or crop.rotation_warning)
+
+    def test_overlap_detected_on_both_crops(self):
+        first = self._period('2027-03-01', '2027-06-30')
+        second = self._period('2027-05-01', '2027-08-30')
+        for crop, other in ((first, second), (second, first)):
+            self.assertTrue(crop.has_overlap)
+            self.assertAlmostEqual(crop.overlap_share, 200.0)
+            self.assertIn(other.name, crop.overlap_warning)
+
+    def test_no_overlap_when_shares_fit(self):
+        first = self._period('2027-03-01', '2027-06-30', bed_share=50)
+        second = self._period('2027-04-01', '2027-06-30', bed_share=50)
+        self.assertFalse(first.has_overlap or second.has_overlap)
+        second.bed_share = 60
+        self.assertTrue(first.has_overlap and second.has_overlap)
+        self.assertAlmostEqual(first.overlap_share, 110.0)
+
+    def test_no_overlap_when_periods_disjoint_or_other_bed(self):
+        first = self._period('2027-03-01', '2027-06-30')
+        after = self._period('2027-07-01', '2027-09-30')
+        elsewhere = self._period('2027-03-01', '2027-06-30', bed_id=self.bed2.id)
+        self.assertFalse(first.has_overlap or after.has_overlap or elsewhere.has_overlap)
+
+    def test_overlap_ignores_chained_non_concurrent_crops(self):
+        # B (50 %) et C (50 %) chevauchent A (50 %) mais jamais entre eux : 100 % au maximum
+        a = self._period('2027-03-01', '2027-09-30', bed_share=50)
+        b = self._period('2027-03-01', '2027-05-31', bed_share=50)
+        c = self._period('2027-06-15', '2027-09-30', bed_share=50)
+        self.assertFalse(a.has_overlap or b.has_overlap or c.has_overlap)
+
+    def test_cancelled_crop_does_not_overlap(self):
+        first = self._period('2027-03-01', '2027-06-30')
+        second = self._period('2027-05-01', '2027-08-30')
+        second.state = 'cancelled'
+        self.assertFalse(first.has_overlap or second.has_overlap)
+
+    def test_rotation_conflict(self):
+        previous = self._crop(
+            planned_sowing_date='2025-03-01', template_id=self.template_direct.id,
+            planned_harvest_end='2025-09-30',
+        )
+        # chou (rotation 2 ans) : 2025-09-30 → 2027-04-01 = moins de 2 ans
+        too_soon = self._period('2027-04-01', '2027-08-31')
+        self.assertTrue(too_soon.has_rotation_conflict)
+        self.assertIn(previous.name, too_soon.rotation_warning)
+        self.assertFalse(previous.has_rotation_conflict)
+        # après le délai (la culture trop proche est annulée) : plus de conflit
+        too_soon.state = 'cancelled'
+        later = self._period('2027-10-01', '2027-12-15')
+        self.assertFalse(later.has_rotation_conflict)
+
+    def test_rotation_ignores_other_families_and_beds(self):
+        self._period('2026-03-01', '2026-09-30')  # chou sur P12
+        tomato = self._crop(planned_sowing_date='2027-03-01', planned_harvest_end='2027-09-30')
+        self.assertFalse(tomato.has_rotation_conflict)
+        other_bed = self._period('2027-03-01', '2027-09-30', bed_id=self.bed2.id)
+        self.assertFalse(other_bed.has_rotation_conflict)
+
+    def test_rotation_family_other_not_checked(self):
+        species = self.env['garden.species'].create({'name': 'Divers plan', 'family': 'other'})
+        variety = self.env['garden.variety'].create({'name': 'Div', 'species_id': species.id})
+        template = self.env['garden.crop.template'].create({'name': 'Div', 'variety_id': variety.id})
+        self._period('2026-03-01', '2026-09-30', template_id=template.id)
+        crop = self._period('2027-03-01', '2027-09-30', template_id=template.id)
+        self.assertFalse(crop.has_rotation_conflict)
+
+    def test_rotation_disabled_when_zero_years(self):
+        self.brassica.rotation_years = 0
+        self._period('2026-03-01', '2026-09-30')
+        self.assertFalse(self._period('2027-03-01', '2027-09-30').has_rotation_conflict)
+
+    def test_warnings_update_on_change(self):
+        first = self._period('2027-03-01', '2027-06-30')
+        second = self._period('2027-05-01', '2027-08-30')
+        self.assertTrue(first.has_overlap)
+        second.bed_id = self.bed2
+        self.assertFalse(first.has_overlap)
