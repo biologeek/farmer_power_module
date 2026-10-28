@@ -178,9 +178,10 @@ class TestGardenLabour(GardenOperationCase):
     def test_cost_hidden_from_worker(self):
         worker = new_test_user(self.env, login='garden_labour_worker', groups='odoo_garden.group_garden_worker')
         chef = new_test_user(self.env, login='garden_labour_chef', groups='odoo_garden.group_garden_chef')
+        own = self.env['hr.employee'].create({'name': 'Fred test', 'user_id': worker.id, 'garden_hourly_cost': 20.0})
         operation = self._operation(
-            employee_ids=[(6, 0, self.alice.ids)], duration=2.0,
-            worker_ids=[(0, 0, {'employee_id': self.alice.id, 'duration': 2.0})],
+            employee_ids=[(6, 0, own.ids)], duration=2.0,
+            worker_ids=[(0, 0, {'employee_id': own.id, 'duration': 2.0})],
         )
         as_worker = operation.with_user(worker)
         self.assertEqual(as_worker.read(['total_hours'])[0]['total_hours'], 2.0)
@@ -421,3 +422,95 @@ class TestGardenOperationStatistics(GardenOperationCase):
         # les heures du camembert sont celles de la répartition
         total = sum(self.env['garden.operation.allocation'].search([]).mapped('hours'))
         self.assertAlmostEqual(sum(pie.values()), total)
+
+
+@tagged('post_install', '-at_install')
+class TestGardenMyDay(GardenOperationCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.worker = new_test_user(cls.env, login='garden_day_worker', groups='odoo_garden.group_garden_worker')
+        cls.worker_employee = cls.env['hr.employee'].create({'name': 'Eve test', 'user_id': cls.worker.id})
+        cls.chef = new_test_user(cls.env, login='garden_day_chef', groups='odoo_garden.group_garden_chef')
+        cls.today = fields.Date.context_today(cls.env['garden.operation'])
+
+    def _day_domain(self, *filters):
+        """Domaine des filtres de la vue de recherche, évalué comme le fait le client web."""
+        arch = self.env['garden.operation'].get_view(
+            self.env.ref('odoo_garden.view_garden_operation_search').id, 'search',
+        )['arch']
+        from lxml import etree
+        from odoo.tools.safe_eval import safe_eval
+        domain = []
+        for node in etree.fromstring(arch).iter('filter'):
+            if node.get('name') in filters:
+                domain += safe_eval(node.get('domain'), {
+                    'context_today': lambda: self.today, 'uid': self.worker.id, 'time': None,
+                })
+        return domain
+
+    def test_day_filter(self):
+        crop = self._crop(planned_sowing_date='2027-03-01')
+        make = lambda planned, **kw: self._operation(  # noqa: E731
+            crop_ids=[(6, 0, crop.ids)], planned_date=planned, **kw)
+        late = make(self.today - timedelta(days=3))
+        today = make(self.today)
+        in_progress = make(self.today)
+        in_progress.action_start()
+        tomorrow = make(self.today + timedelta(days=1))
+        done = make(self.today)
+        done.action_done()
+        cancelled = make(self.today)
+        cancelled.action_cancel()
+        domain = self._day_domain('filter_today_overdue')
+        found = self.env['garden.operation'].search(domain) & (late | today | in_progress | tomorrow | done | cancelled)
+        self.assertEqual(found, late | today | in_progress)
+
+    def test_my_operations_filter(self):
+        crop = self._crop(planned_sowing_date='2027-03-01')
+        mine = self._operation(crop_ids=[(6, 0, crop.ids)], employee_ids=[(6, 0, self.worker_employee.ids)])
+        others = self._operation(crop_ids=[(6, 0, crop.ids)], employee_ids=[(6, 0, self.alice.ids)])
+        domain = self._day_domain('filter_my_operations')
+        found = self.env['garden.operation'].search(domain)
+        self.assertIn(mine, found)
+        self.assertNotIn(others, found)
+
+    def test_views_and_actions(self):
+        Operation = self.env['garden.operation']
+        for view_type in ('kanban', 'calendar', 'list', 'form', 'search'):
+            arch = Operation.with_user(self.worker).get_view(view_type=view_type)['arch']
+            self.assertTrue(arch)
+        action = self.env.ref('odoo_garden.action_garden_operation_today')
+        self.assertTrue(action.view_mode.startswith('kanban'))
+        self.assertIn('search_default_filter_my_operations', action.context)
+        # le kanban est regroupé par îlot
+        kanban = self.env.ref('odoo_garden.view_garden_operation_kanban')
+        self.assertIn('default_group_by="garden_main_id"', kanban.arch_db)
+        # la liste s'ouvre pour l'ouvrier avec le domaine du jour (lecture web)
+        crop = self._crop(planned_sowing_date='2027-03-01')
+        operation = self._operation(crop_ids=[(6, 0, crop.ids)], planned_date=self.today)
+        result = Operation.with_user(self.worker).web_search_read(
+            self._day_domain('filter_today_overdue'), {'name': {}, 'state': {}, 'garden_main_id': {}},
+        )
+        self.assertIn(operation.id, [r['id'] for r in result['records']])
+        groups = Operation.with_user(self.worker).formatted_read_group(
+            self._day_domain('filter_today_overdue'), ['garden_main_id'], ['__count'],
+        )
+        self.assertTrue(groups)
+
+    def test_worker_rule(self):
+        crop = self._crop(planned_sowing_date='2027-03-01')
+        mine = self._operation(crop_ids=[(6, 0, crop.ids)], employee_ids=[(6, 0, self.worker_employee.ids)])
+        free = self._operation(crop_ids=[(6, 0, crop.ids)])
+        others = self._operation(crop_ids=[(6, 0, crop.ids)], employee_ids=[(6, 0, self.alice.ids)])
+        Operation = self.env['garden.operation']
+        everything = mine | free | others
+        self.assertEqual(Operation.with_user(self.worker).search([('id', 'in', everything.ids)]), mine | free)
+        self.assertEqual(Operation.with_user(self.chef).search([('id', 'in', everything.ids)]), everything)
+        with self.assertRaises(AccessError):
+            others.with_user(self.worker).write({'duration': 1})
+        mine.with_user(self.worker).write({'duration': 1})
+        # une opération sans employé peut être démarrée : l'ouvrier s'y affecte
+        free.with_user(self.worker).action_start()
+        self.assertEqual(free.employee_ids, self.worker_employee)

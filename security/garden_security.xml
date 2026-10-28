@@ -69,6 +69,18 @@
             <field name="model_id" ref="model_garden_operation"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
+        <record id="garden_operation_worker_rule" model="ir.rule">
+            <field name="name">Opération : l'ouvrier voit ses opérations et celles sans employé</field>
+            <field name="model_id" ref="model_garden_operation"/>
+            <field name="groups" eval="[Command.link(ref('group_garden_worker'))]"/>
+            <field name="domain_force">['|', ('employee_ids', '=', False), ('employee_ids.user_id', '=', user.id)]</field>
+        </record>
+        <record id="garden_operation_chef_rule" model="ir.rule">
+            <field name="name">Opération : le chef de culture voit tout</field>
+            <field name="model_id" ref="model_garden_operation"/>
+            <field name="groups" eval="[Command.link(ref('group_garden_chef'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
         <record id="garden_operation_worker_company_rule" model="ir.rule">
             <field name="name">Temps par employé : multi-société</field>
             <field name="model_id" ref="model_garden_operation_worker"/>

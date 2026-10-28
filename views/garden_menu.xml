@@ -1,6 +1,8 @@
 <odoo>
     <menuitem id="menu_garden_root" name="Maraîchage" sequence="10" groups="group_garden_worker"/>
 
+    <menuitem id="menu_garden_today" name="Ma journée" parent="menu_garden_root" action="action_garden_operation_today" sequence="1"/>
+
     <menuitem id="menu_garden_exploitation" name="Exploitation" parent="menu_garden_root" sequence="5"/>
     <menuitem id="menu_garden_farm" name="Fermes" parent="menu_garden_exploitation" action="action_garden_farm" sequence="10"/>
     <menuitem id="menu_garden_site" name="Sites" parent="menu_garden_exploitation" action="action_garden_site" sequence="20"/>
@@ -17,6 +19,7 @@
     <menuitem id="menu_garden_production" name="Production" parent="menu_garden_root" sequence="10"/>
     <menuitem id="menu_garden_crop" name="Cultures" parent="menu_garden_production" action="action_garden_crop"/>
     <menuitem id="menu_garden_operation" name="Opérations" parent="menu_garden_production" action="action_garden_operation"/>
+    <menuitem id="menu_garden_operation_calendar" name="Calendrier des opérations" parent="menu_garden_production" action="action_garden_operation_calendar"/>
     <menuitem id="menu_garden_loss" name="Pertes" parent="menu_garden_production" action="action_garden_loss"/>
 
     <menuitem id="menu_garden_statistics" name="Statistiques" parent="menu_garden_root" sequence="20"/>

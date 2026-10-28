@@ -23,6 +23,8 @@ class GardenOperation(models.Model):
     category = fields.Selection(
         related='type_id.category', string='Catégorie', store=True, index=True,
     )
+    type_icon = fields.Char(related='type_id.icon', string='Icône du type')
+    requires_quantity = fields.Boolean(related='type_id.requires_quantity', string='Quantité obligatoire')
     state = fields.Selection(
         [
             ('planned', 'Planifiée'),
