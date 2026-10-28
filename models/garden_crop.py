@@ -11,6 +11,9 @@ from odoo import api, fields, models
 class GardenCrop(models.Model):
     _name = 'garden.crop'
     _description = 'Culture sur planche'
+    # Culture d'une variété sur (une part d') une planche pendant une saison : porte le plan (dates
+    # prévues, surface, prévisionnel, besoins en semences, avertissements) et l'état d'avancement.
+    # Le réalisé calculé (heures, marge...) arrivera aux phases 3 à 5.
     _inherit = ['mail.thread']
     _order = 'planned_sowing_date, id'
     _rec_names_search = ['name', 'template_id']
@@ -22,9 +25,11 @@ class GardenCrop(models.Model):
     )
     season_id = fields.Many2one(
         'garden.season', string='Saison', index=True, ondelete='restrict', tracking=True,
+        help="Plan de culture annuel auquel appartient la culture.",
     )
     template_id = fields.Many2one(
         'garden.crop.template', string='Itinéraire technique', required=True, index=True, tracking=True,
+        help="Itinéraire qui fournit la variété, la densité, les délais et le rendement attendus.",
     )
     variety_id = fields.Many2one(
         'garden.variety', string='Variété', related='template_id.variety_id', store=True, index=True,
@@ -33,8 +38,11 @@ class GardenCrop(models.Model):
         'garden.species', string='Espèce', related='template_id.species_id', store=True, index=True,
     )
     family = fields.Selection(related='species_id.family', string='Famille botanique', store=True)
-    bed_id = fields.Many2one('garden.bed', string='Planche', required=True, index=True, tracking=True)
-    bed_area = fields.Float('Surface de la planche (m²)', related='bed_id.area')
+    bed_id = fields.Many2one(
+        'garden.bed', string='Planche', required=True, index=True, tracking=True,
+        help="Planche sur laquelle la culture est installée.",
+    )
+    bed_area = fields.Float('Surface de la planche (m²)', related='bed_id.area', help="Surface totale de la planche.")
     bed_share = fields.Float(
         'Part de la planche (%)', default=100.0, tracking=True,
         help="Part de la planche occupée par cette culture (100 = toute la planche).",
@@ -56,16 +64,28 @@ class GardenCrop(models.Model):
             ('cancelled', 'Annulée'),
         ],
         string='État', required=True, default='planned', copy=False, tracking=True, index=True,
+        help="Avancement : planifiée, semée, en place, en récolte, terminée ou annulée. "
+             "Une culture annulée n'est plus prise en compte dans les contrôles ni les besoins en semences.",
     )
 
     # Dates prévues
-    planned_sowing_date = fields.Date('Semis prévu', tracking=True)
-    planned_transplant_date = fields.Date('Repiquage prévu')
-    planned_harvest_start = fields.Date('Début de récolte prévu', tracking=True)
-    planned_harvest_end = fields.Date('Fin de récolte prévue')
+    planned_sowing_date = fields.Date(
+        'Semis prévu', tracking=True,
+        help="Date de semis visée. La modifier recalcule repiquage, début et fin de récolte.",
+    )
+    planned_transplant_date = fields.Date(
+        'Repiquage prévu', help="Date de mise en place des plants en planche (semis direct : vide).",
+    )
+    planned_harvest_start = fields.Date(
+        'Début de récolte prévu', tracking=True,
+        help="Date de première récolte visée. La modifier recalcule le semis (rétro-planning).",
+    )
+    planned_harvest_end = fields.Date(
+        'Fin de récolte prévue', help="Fin de la fenêtre de récolte (début de récolte + fenêtre de l'itinéraire).",
+    )
     # Dates réelles (alimentées par les opérations réalisées à partir de la phase 3)
-    date_start = fields.Date('Début réel')
-    date_end = fields.Date('Fin réelle')
+    date_start = fields.Date('Début réel', help="Date réelle du premier semis ou de la mise en place.")
+    date_end = fields.Date('Fin réelle', help="Date réelle de fin de la culture (planche libérée).")
     occupation_start = fields.Date(
         'Début d\'occupation', compute='_compute_occupation', store=True,
         help="Date d'arrivée en planche : repiquage prévu pour les plants, sinon début réel ou semis prévu.",
@@ -102,16 +122,28 @@ class GardenCrop(models.Model):
         'Occupation maximale (%)', compute='_compute_warnings',
         help="Somme maximale des parts de planche occupées simultanément, cette culture comprise.",
     )
-    has_overlap = fields.Boolean('Chevauchement', compute='_compute_warnings')
-    overlap_warning = fields.Text('Avertissement de chevauchement', compute='_compute_warnings')
-    has_rotation_conflict = fields.Boolean('Rotation non respectée', compute='_compute_warnings')
-    rotation_warning = fields.Text('Avertissement de rotation', compute='_compute_warnings')
+    has_overlap = fields.Boolean(
+        'Chevauchement', compute='_compute_warnings',
+        help="Vrai si la planche est occupée à plus de 100 % pendant la période de la culture.",
+    )
+    overlap_warning = fields.Text(
+        'Avertissement de chevauchement', compute='_compute_warnings',
+        help="Détail du chevauchement avec les autres cultures de la planche.",
+    )
+    has_rotation_conflict = fields.Boolean(
+        'Rotation non respectée', compute='_compute_warnings',
+        help="Vrai si la même famille botanique a été cultivée sur la planche depuis moins que le délai de rotation.",
+    )
+    rotation_warning = fields.Text(
+        'Avertissement de rotation', compute='_compute_warnings',
+        help="Détail des cultures précédentes de la même famille sur la planche.",
+    )
 
-    sowing_quantity = fields.Float('Nombre de plants semés')
-    planted_quantity = fields.Float('Nombre de plants plantés')
-    notes = fields.Text('Notes')
-    quantity_harvested = fields.Float('Quantité récoltée (kg)')
-    value_harvested = fields.Float('Valeur récoltée (€)')
+    sowing_quantity = fields.Float('Nombre de plants semés', help="Nombre de plants effectivement semés.")
+    planted_quantity = fields.Float('Nombre de plants plantés', help="Nombre de plants effectivement plantés.")
+    notes = fields.Text('Notes', help="Observations libres sur la culture.")
+    quantity_harvested = fields.Float('Quantité récoltée (kg)', help="Quantité récoltée, saisie à la main (remplacée par un calcul en phase 4).")
+    value_harvested = fields.Float('Valeur récoltée (€)', help="Valeur de la récolte, saisie à la main (remplacée par un calcul en phase 5).")
     action_ids = fields.One2many('garden.action', 'crop_id', string='Actions')
 
     _bed_share_range = models.Constraint(

@@ -5,24 +5,32 @@ from odoo.exceptions import UserError
 
 
 class GardenSeasonPlanWizard(models.TransientModel):
+    """Crée en série des cultures d'une saison sur une liste de planches, éventuellement échelonnées."""
     _name = 'garden.season.plan.wizard'
     _description = 'Assistant de planification en série'
 
-    season_id = fields.Many2one('garden.season', string='Saison', required=True)
-    template_id = fields.Many2one('garden.crop.template', string='Itinéraire technique', required=True)
-    bed_ids = fields.Many2many('garden.bed', string='Planches', required=True)
+    season_id = fields.Many2one('garden.season', string='Saison', required=True, help="Saison qui recevra les cultures créées.")
+    template_id = fields.Many2one(
+        'garden.crop.template', string='Itinéraire technique', required=True,
+        help="Itinéraire appliqué à toutes les cultures créées.",
+    )
+    bed_ids = fields.Many2many(
+        'garden.bed', string='Planches', required=True,
+        help="Une culture est créée sur chacune de ces planches.",
+    )
     target = fields.Selection(
         [('harvest', 'Début de récolte visé'), ('sowing', 'Date de semis')],
         string='Date visée', required=True, default='harvest',
+        help="Indique si la date saisie est celle du début de récolte (rétro-planning) ou celle du semis.",
     )
-    target_date = fields.Date('Date', required=True)
+    target_date = fields.Date('Date', required=True, help="Date visée pour la première planche.")
     stagger_days = fields.Integer(
         'Décalage entre planches (jours)', default=0,
         help="Nombre de jours ajouté à la date visée à chaque planche successive, pour échelonner "
              "les cultures (0 = toutes les planches à la même date).",
     )
-    bed_share = fields.Float('Part de la planche (%)', default=100.0)
-    preview = fields.Text('Aperçu', compute='_compute_preview')
+    bed_share = fields.Float('Part de la planche (%)', default=100.0, help="Part de chaque planche occupée par la culture.")
+    preview = fields.Text('Aperçu', compute='_compute_preview', help="Dates calculées pour chaque planche avant création.")
 
     def _get_dates_per_bed(self):
         """Liste de (planche, dates prévues) ; la planche n°i est décalée de i × ``stagger_days``."""

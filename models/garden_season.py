@@ -8,18 +8,23 @@ class GardenSeason(models.Model):
     _inherit = ['mail.thread']
     _order = 'date_start desc, id desc'
 
-    name = fields.Char('Nom', required=True, tracking=True)
-    date_start = fields.Date('Début', required=True, tracking=True)
-    date_end = fields.Date('Fin', required=True, tracking=True)
+    # Une saison regroupe le plan de culture d'une année (ou d'une campagne) : ses cultures, leurs
+    # planches et leurs dates prévues. Les contrôles et les besoins en semences s'y rapportent.
+
+    name = fields.Char('Nom', required=True, tracking=True, help="Libellé de la saison, par exemple « Saison 2027 ». Unique par société.")
+    date_start = fields.Date('Début', required=True, tracking=True, help="Premier jour de la saison.")
+    date_end = fields.Date('Fin', required=True, tracking=True, help="Dernier jour de la saison ; ne peut pas précéder le début.")
     company_id = fields.Many2one(
         'res.company', string='Société', required=True, default=lambda self: self.env.company, index=True,
+        help="Société propriétaire du plan de culture.",
     )
     state = fields.Selection(
         [('draft', 'Brouillon'), ('validated', 'Validé'), ('closed', 'Clôturé')],
         string='État', required=True, default='draft', tracking=True, copy=False,
+        help="Brouillon : plan en préparation. Validé : plan arrêté. Clôturé : saison terminée.",
     )
-    crop_ids = fields.One2many('garden.crop', 'season_id', string='Cultures')
-    crop_count = fields.Integer('Nombre de cultures', compute='_compute_crop_count')
+    crop_ids = fields.One2many('garden.crop', 'season_id', string='Cultures', help="Cultures planifiées pendant cette saison.")
+    crop_count = fields.Integer('Nombre de cultures', compute='_compute_crop_count', help="Nombre de cultures rattachées à la saison.")
     notes = fields.Text('Notes')
 
     _name_company_uniq = models.Constraint(
