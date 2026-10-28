@@ -332,6 +332,10 @@ Chaque phase se termine par : module installable sur une base vierge, mise à jo
 ### Phase 7 — Ponts optionnels et publication
 - `odoo_garden_purchase` (demandes de prix de semences), `odoo_garden_pos` (CA des marchés), en `auto_install`.
 - Traductions : `i18n/fr.pot` et `fr.po` (les libellés sources passent en anglais, voir § 8).
+  - **À prévoir : traductions dans les principaux marchés d'Odoo**, en plus du français. Langues à retenir (à confirmer avant la phase 7) : anglais (langue source), espagnol, allemand, néerlandais, italien, portugais (Brésil), éventuellement arabe, chinois et japonais.
+  - Générer le `.pot` à partir de l'interface (export des termes d'Odoo), produire un `.po` par langue, et relire les termes agricoles (rotation, planche, îlot, délai avant récolte), qui se traduisent mal automatiquement.
+  - Les données par défaut (types d'opération, familles botaniques) et les rapports (étiquettes QR, registres) doivent être traduisibles aussi, pas seulement les vues.
+  - Les registres réglementaires de la phase 6 sont propres à la France : prévoir de les isoler pour ne pas les présenter aux autres marchés comme une obligation locale.
 - Publication sur l'Apps Store :
   - licence `OPL-1`, `price` et `currency` dans le manifeste
   - `static/description/index.html`, `icon.png`, captures d'écran
