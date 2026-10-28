@@ -45,6 +45,12 @@
                             </div>
                         </setting>
                     </block>
+                    <block title="Conformité" name="garden_compliance_setting_container">
+                        <setting string="Registres réglementaires (France)" id="garden_compliance_setting"
+                                 help="Registre phytosanitaire, registre de fertilisation et export de certification bio, propres à la réglementation française. À désactiver pour les autres marchés.">
+                            <field name="garden_compliance_enabled"/>
+                        </setting>
+                    </block>
                     <block title="Stock" name="garden_stock_setting_container">
                         <setting string="Emplacement de stockage" id="garden_stock_location_setting"
                                  help="Les récoltes entrent dans cet emplacement et les intrants en sortent. Vide : stock principal de l'entrepôt de la société.">

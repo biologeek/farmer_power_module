@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ResConfigSettings(models.TransientModel):
@@ -27,6 +27,14 @@ class ResConfigSettings(models.TransientModel):
              "Laisser à 0 pour ne pas imputer de charges fixes.",
     )
 
+    garden_compliance_enabled = fields.Boolean(
+        'Registres réglementaires (France)', config_parameter='odoo_garden.compliance_enabled', default=True,
+        help="Affiche le menu « Conformité » (registre phytosanitaire, registre de fertilisation, export "
+             "de certification bio) au chef de culture et au gérant. À décocher hors de France : les menus "
+             "et les exports sont alors masqués et refusés. Le contrôle du délai avant récolte reste actif "
+             "(il ne bloque que les produits qui ont un délai).",
+    )
+
     garden_stock_location_id = fields.Many2one(
         'stock.location', string='Emplacement de stockage', domain="[('usage', '=', 'internal')]",
         related='company_id.garden_stock_location_id', readonly=False, check_company=True,
@@ -44,11 +52,32 @@ class ResConfigSettings(models.TransientModel):
         help="Emplacement virtuel où partent les intrants consommés (créé à l'installation).",
     )
 
+    @api.model
+    def _garden_set_compliance_group(self, enabled):
+        """Ajoute ou retire le groupe des registres réglementaires au chef de culture (et donc au gérant)."""
+        chef = self.env.ref('odoo_garden.group_garden_chef')
+        compliance = self.env.ref('odoo_garden.group_garden_compliance')
+        if enabled:
+            chef._apply_group(compliance)
+        else:
+            chef._remove_group(compliance)
+
+    @api.model
+    def _garden_init_compliance(self):
+        """À l'installation et à la mise à jour : active les registres tant que le paramètre n'a jamais été réglé."""
+        params = self.env['ir.config_parameter'].sudo()
+        if params.get_param('odoo_garden.compliance_enabled') is False:
+            params.set_param('odoo_garden.compliance_enabled', 'True')
+            self._garden_set_compliance_group(True)
+
     def set_values(self):
         params = self.env['ir.config_parameter'].sudo()
         previous_margin = float(params.get_param('odoo_garden.seed_margin', 20.0))
         previous_rate = float(params.get_param('odoo_garden.default_hourly_rate', 15.0))
         super().set_values()
+        # set_param(False) supprimerait le paramètre, qui vaut « activé » par défaut : on stocke 'False' explicitement
+        params.set_param('odoo_garden.compliance_enabled', 'True' if self.garden_compliance_enabled else 'False')
+        self._garden_set_compliance_group(self.garden_compliance_enabled)
         if self.garden_seed_margin != previous_margin:
             # les besoins en semences stockés sur les cultures dépendent de ce paramètre système
             self.env['garden.crop'].sudo().search([])._recompute_seed_needs()

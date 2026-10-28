@@ -38,6 +38,15 @@
         <field name="user_ids" eval="[Command.link(ref('base.user_root')), Command.link(ref('base.user_admin'))]"/>
     </record>
 
+    <!-- Groupe technique : donne accès aux menus des registres réglementaires français. Il est impliqué par
+         le chef de culture tant que le paramètre « Registres réglementaires (France) » est activé
+         (Paramètres > Maraîchage) ; res.config.settings l'ajoute ou le retire du chef de culture. -->
+    <record id="group_garden_compliance" model="res.groups">
+        <field name="name">Registres réglementaires (France)</field>
+        <field name="sequence">40</field>
+        <field name="comment">Technique : menus des registres réglementaires français (activés par le paramètre du module).</field>
+    </record>
+
     <data noupdate="1">
         <record id="garden_farm_company_rule" model="ir.rule">
             <field name="name">Ferme : multi-société</field>

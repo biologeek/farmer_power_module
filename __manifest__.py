@@ -15,6 +15,7 @@
         'security/ir.model.access.csv',
         'data/garden_operation_type_data.xml',
         'data/garden_stock_data.xml',
+        'data/garden_compliance_data.xml',
         'report/garden_bed_report.xml',
         'report/garden_compliance_report.xml',
         'views/garden_farm_views.xml',

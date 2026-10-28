@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Active les registres réglementaires (France) tant que le paramètre n'a jamais été réglé : donne le groupe
+         technique « Registres réglementaires » au chef de culture. Idempotent : une mise à jour ne réactive pas
+         des registres désactivés dans les paramètres. -->
+    <function model="res.config.settings" name="_garden_init_compliance"/>
+</odoo>

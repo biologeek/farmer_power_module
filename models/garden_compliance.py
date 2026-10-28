@@ -286,9 +286,19 @@ class GardenComplianceWizard(models.TransientModel):
         if not self.env.user.has_group('odoo_garden.group_garden_chef'):
             raise AccessError(self.env._("Les registres réglementaires sont réservés au chef de culture et au gérant."))
 
+    @api.model
+    def _is_compliance_enabled(self):
+        """Paramètre système ``odoo_garden.compliance_enabled`` (activé par défaut)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.compliance_enabled', 'True')
+        return str(value).strip().lower() not in ('false', '0', '')
+
     def _compute_lines(self):
         """Recalcule les lignes du registre (supprime les précédentes)."""
         self._check_access_chef()
+        if not self._is_compliance_enabled():
+            raise UserError(self.env._(
+                "Les registres réglementaires (France) sont désactivés : activez-les dans Paramètres > Maraîchage."
+            ))
         for wizard in self:
             wizard.line_ids.unlink()
             getter = getattr(wizard, '_get_%s_line_vals' % wizard.register)

@@ -28,7 +28,7 @@
     <menuitem id="menu_garden_profitability_dashboard" name="Tableau de bord" parent="menu_garden_profitability" action="action_garden_dashboard" sequence="5"/>
     <menuitem id="menu_garden_profitability_settings" name="Paramètres de rentabilité" parent="menu_garden_profitability" action="action_garden_settings" sequence="90" groups="base.group_system"/>
 
-    <menuitem id="menu_garden_compliance" name="Conformité (registres réglementaires, France)" parent="menu_garden_root" sequence="18" groups="group_garden_chef"/>
+    <menuitem id="menu_garden_compliance" name="Conformité (registres réglementaires, France)" parent="menu_garden_root" sequence="18" groups="group_garden_compliance"/>
     <menuitem id="menu_garden_compliance_phyto" name="Registre phytosanitaire" parent="menu_garden_compliance" action="action_garden_compliance_phyto" sequence="10"/>
     <menuitem id="menu_garden_compliance_fertilization" name="Registre de fertilisation" parent="menu_garden_compliance" action="action_garden_compliance_fertilization" sequence="20"/>
     <menuitem id="menu_garden_compliance_organic" name="Export certification bio" parent="menu_garden_compliance" action="action_garden_compliance_organic" sequence="30"/>

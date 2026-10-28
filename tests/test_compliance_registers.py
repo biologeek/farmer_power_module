@@ -401,3 +401,55 @@ class TestGardenOrganicExport(GardenRegisterCase):
             wizard.action_print()
         with self.assertRaises(AccessError):
             self.env['garden.compliance.wizard'].with_user(self.worker).create({'register': 'organic'})
+
+
+@tagged('post_install', '-at_install')
+class TestGardenComplianceSetting(GardenRegisterCase):
+
+    def _set_enabled(self, enabled):
+        self.env['res.config.settings'].create({'garden_compliance_enabled': enabled}).execute()
+
+    def test_enabled_by_default_for_chef_and_manager_only(self):
+        self.assertTrue(self.env['garden.compliance.wizard']._is_compliance_enabled())
+        for user in (self.chef, self.manager):
+            self.assertTrue(user.has_group('odoo_garden.group_garden_compliance'))
+        self.assertFalse(self.worker.has_group('odoo_garden.group_garden_compliance'))
+        menu = self.env.ref('odoo_garden.menu_garden_compliance')
+        self.assertIn(self.env.ref('odoo_garden.group_garden_compliance'), menu.group_ids)
+        visible = self.env['ir.ui.menu'].with_user(self.chef)._visible_menu_ids()
+        self.assertIn(menu.id, visible)
+        self.assertIn(self.env.ref('odoo_garden.menu_garden_compliance_phyto').id, visible)
+        visible_worker = self.env['ir.ui.menu'].with_user(self.worker)._visible_menu_ids()
+        for xmlid in ('menu_garden_compliance', 'menu_garden_compliance_phyto',
+                      'menu_garden_compliance_fertilization', 'menu_garden_compliance_organic'):
+            self.assertNotIn(self.env.ref('odoo_garden.' + xmlid).id, visible_worker)
+
+    def test_disabling_hides_menus_and_blocks_exports(self):
+        self._treatment('2027-06-10')
+        wizard = self._wizard()
+        self._set_enabled(False)
+        self.assertFalse(self.env['garden.compliance.wizard']._is_compliance_enabled())
+        for user in (self.chef, self.manager):
+            self.assertFalse(user.has_group('odoo_garden.group_garden_compliance'))
+            self.assertTrue(user.has_group('odoo_garden.group_garden_chef'))
+        visible = self.env['ir.ui.menu'].with_user(self.chef)._visible_menu_ids()
+        self.assertNotIn(self.env.ref('odoo_garden.menu_garden_compliance').id, visible)
+        self.assertIn(self.env.ref('odoo_garden.menu_garden_today').id, visible)
+        with self.assertRaises(UserError):
+            wizard.with_user(self.chef).action_print()
+        with self.assertRaises(UserError):
+            wizard.with_user(self.chef)._get_xlsx()
+        # le contrôle DAR reste actif
+        harvest = self._harvest('2027-06-12')
+        with self.assertRaises(Exception):
+            harvest.action_done()
+        # réactivation
+        self._set_enabled(True)
+        self.assertTrue(self.chef.has_group('odoo_garden.group_garden_compliance'))
+        self.assertTrue(wizard.with_user(self.chef)._get_xlsx())
+
+    def test_init_does_not_reactivate(self):
+        self._set_enabled(False)
+        self.env['res.config.settings']._garden_init_compliance()
+        self.assertFalse(self.env['garden.compliance.wizard']._is_compliance_enabled())
+        self.assertFalse(self.chef.has_group('odoo_garden.group_garden_compliance'))
