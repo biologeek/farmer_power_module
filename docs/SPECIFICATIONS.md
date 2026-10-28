@@ -163,7 +163,7 @@ Sur `product.template`, ajouter `garden_variety_ids` et un filtre « Produits ma
 - `employee_ids` (`hr.employee`), `duration` (heures, widget `float_time`)
   - Le temps total vaut durée × nombre d'employés, sauf saisie détaillée en lignes par employé (`garden.operation.worker` : `employee_id`, `duration`).
 - Chronomètre : `timer_start`, boutons Démarrer / Arrêter
-- `labour_cost` (calculé) : somme de durée × taux horaire de l'employé (`hourly_cost`, sinon taux par défaut de la configuration)
+- `labour_cost` (calculé) : somme de durée × taux horaire de l'employé (champ `garden_hourly_cost` ajouté sur `hr.employee`, car `hourly_cost` n'existe que dans le module `hr_hourly_cost`, sinon taux par défaut de la configuration)
 - `input_ids` : `garden.operation.input` (`product_id`, `quantity`, `uom_id`, `lot_id`, `move_id`)
 - Récolte : `harvest_product_id`, `harvest_qty`, `harvest_uom_id`
 - Irrigation : `water_volume` (= durée × débit de l'îlot)
@@ -211,7 +211,7 @@ Fonctionnalités :
 | `product`, `uom` | Variétés liées aux produits ; unités kg / botte / pièce / plant |
 | `stock` | Récoltes (entrées), consommations d'intrants, rebuts, lots de traçabilité, emplacements virtuels créés à l'installation |
 | `sale_management`, `account` | Chiffre d'affaires par culture (via lots ou au prorata, § 5.3) |
-| `hr` | Employés, coût horaire |
+| `hr` | Employés ; coût horaire porté par `garden_hourly_cost` (`hourly_cost` appartient à `hr_hourly_cost`) |
 | `mail` | Fil de discussion et pièces jointes (photos) sur cultures, planches et opérations |
 | `purchase` (pont optionnel `odoo_garden_purchase`) | Demandes de prix de semences depuis les besoins du plan |
 | `point_of_sale` (pont optionnel `odoo_garden_pos`) | Ventes des marchés intégrées au chiffre d'affaires |

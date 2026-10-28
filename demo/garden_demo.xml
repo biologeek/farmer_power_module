@@ -845,4 +845,126 @@
         <field name="bed_share">100</field>
         <field name="planned_harvest_start">2027-08-20</field>
     </record>
+
+    <!-- Main-d'œuvre : trois employés (l'administrateur de démo en est un quatrième, avec un coût horaire). -->
+    <record id="demo_employee_1" model="hr.employee">
+        <field name="name">Léa Maraîchère</field>
+        <field name="garden_hourly_cost">18.0</field>
+    </record>
+    <record id="demo_employee_2" model="hr.employee">
+        <field name="name">Hugo Cultivateur</field>
+        <field name="garden_hourly_cost">15.0</field>
+    </record>
+    <record id="demo_employee_3" model="hr.employee">
+        <field name="name">Sarah Saisonnière</field>
+        <!-- sans coût horaire : taux horaire par défaut des paramètres -->
+    </record>
+    <record id="hr.employee_admin" model="hr.employee">
+        <field name="garden_hourly_cost">20.0</field>
+    </record>
+
+    <!-- Opérations de la saison 2027 : le 10 juin 2027, la carotte et la courgette (36 m² chacune) et le haricot
+         (18 m²) sont en place sur l'îlot Nord 1, ce qui donne une répartition 40 % / 40 % / 20 %. -->
+    <record id="demo_operation_sowing_carrot" model="garden.operation">
+        <field name="type_id" ref="operation_type_sowing"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_carrot_nantes_n1_01')])]"/>
+        <field name="planned_date">2027-02-14</field>
+        <field name="date">2027-02-14</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
+        <field name="duration">0.75</field>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_operation_weeding_beds" model="garden.operation">
+        <field name="type_id" ref="operation_type_weeding"/>
+        <field name="scope">bed</field>
+        <field name="bed_ids" eval="[Command.set([ref('demo_bed_n1_01'), ref('demo_bed_n1_05')])]"/>
+        <field name="planned_date">2027-06-10</field>
+        <field name="date">2027-06-10</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_2'), ref('demo_employee_3')])]"/>
+        <field name="duration">1.5</field>
+        <field name="description">Désherbage manuel des planches N1-01 et N1-05.</field>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_operation_irrigation_n1" model="garden.operation">
+        <field name="type_id" ref="operation_type_irrigation"/>
+        <field name="scope">garden</field>
+        <field name="garden_id" ref="demo_garden_n1"/>
+        <field name="planned_date">2027-06-10</field>
+        <field name="date">2027-06-10</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
+        <field name="duration">2.0</field>
+        <field name="description">Arrosage de tout l'îlot : le temps est réparti entre les cultures en place.</field>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_operation_harvest_lettuce" model="garden.operation">
+        <field name="type_id" ref="operation_type_harvest"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_lettuce_batavia_n1_01')])]"/>
+        <field name="planned_date">2027-05-12</field>
+        <field name="date">2027-05-12</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_2')])]"/>
+        <field name="duration">1.0</field>
+        <field name="harvest_qty">28.0</field>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_operation_weeding_zucchini" model="garden.operation">
+        <field name="type_id" ref="operation_type_weeding"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_zucchini_verte_n1_03')])]"/>
+        <field name="planned_date">2027-06-20</field>
+        <field name="date">2027-06-20</field>
+        <field name="duration">0</field>
+        <field name="description">Saisie détaillée du temps par employé.</field>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_operation_weeding_zucchini_worker_1" model="garden.operation.worker">
+        <field name="operation_id" ref="demo_operation_weeding_zucchini"/>
+        <field name="employee_id" ref="demo_employee_1"/>
+        <field name="duration">1.5</field>
+    </record>
+    <record id="demo_operation_weeding_zucchini_worker_2" model="garden.operation.worker">
+        <field name="operation_id" ref="demo_operation_weeding_zucchini"/>
+        <field name="employee_id" ref="demo_employee_3"/>
+        <field name="duration">2.0</field>
+    </record>
+
+    <!-- Opérations planifiées autour d'aujourd'hui, pour « Ma journée » (employé de l'administrateur). -->
+    <record id="demo_operation_today_irrigation" model="garden.operation">
+        <field name="type_id" ref="operation_type_irrigation"/>
+        <field name="scope">garden</field>
+        <field name="garden_id" ref="demo_garden_s1"/>
+        <field name="planned_date" eval="DateTime.today().strftime('%Y-%m-%d')"/>
+        <field name="employee_ids" eval="[Command.set([ref('hr.employee_admin')])]"/>
+        <field name="duration">0.5</field>
+    </record>
+    <record id="demo_operation_late_treatment" model="garden.operation">
+        <field name="type_id" ref="operation_type_treatment"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_tomato_coeur_s1_01')])]"/>
+        <field name="planned_date" eval="(DateTime.today() - relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+        <field name="employee_ids" eval="[Command.set([ref('hr.employee_admin')])]"/>
+        <field name="duration">0.75</field>
+        <field name="target">Mildiou</field>
+        <field name="description">Traitement préventif à la bouillie bordelaise.</field>
+    </record>
+    <record id="demo_operation_tomorrow_weeding" model="garden.operation">
+        <field name="type_id" ref="operation_type_weeding"/>
+        <field name="scope">bed</field>
+        <field name="bed_ids" eval="[Command.set([ref('demo_bed_n1_03')])]"/>
+        <field name="planned_date" eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
+        <field name="duration">1.0</field>
+    </record>
+    <record id="demo_operation_unassigned_mulching" model="garden.operation">
+        <field name="type_id" ref="operation_type_mulching"/>
+        <field name="scope">bed</field>
+        <field name="bed_ids" eval="[Command.set([ref('demo_bed_s1_01')])]"/>
+        <field name="planned_date" eval="DateTime.today().strftime('%Y-%m-%d')"/>
+        <field name="duration">1.0</field>
+        <field name="description">Sans employé : n'importe quel ouvrier peut la démarrer.</field>
+    </record>
+
+    <!-- Opérations prévues par les itinéraires pour toutes les cultures de la saison 2027. -->
+    <function model="garden.season" name="action_generate_operations" eval="[[ref('demo_season_2027')]]"/>
 </odoo>
