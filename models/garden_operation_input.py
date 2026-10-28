@@ -32,6 +32,17 @@ class GardenOperationInput(models.Model):
         'uom.uom', string='Unité', compute='_compute_uom_id', store=True, readonly=False, precompute=True,
         required=True, help="Unité de la quantité (proposée d'après le produit).",
     )
+    treated_area = fields.Float(
+        'Surface traitée (m²)', compute='_compute_treated_area', store=True, readonly=False, digits=(16, 2),
+        help="Surface sur laquelle le produit est appliqué (registre phytosanitaire). Proposée d'après la cible "
+             "de l'opération (surface occupée des cultures, des planches ou de l'îlot) ; modifiable si seule une "
+             "partie est traitée. Figée une fois l'opération faite.",
+    )
+    dose = fields.Float(
+        'Dose (par ha)', compute='_compute_dose', store=True, digits=(16, 3),
+        help="Quantité appliquée par hectare, dans l'unité de la ligne (ex. kg/ha, L/ha) : "
+             "quantité × 10 000 / surface traitée.",
+    )
     lot_id = fields.Many2one(
         'stock.lot', string='Lot', domain="[('product_id', '=', product_id)]", ondelete='restrict',
         help="Lot du produit consommé, obligatoire pour un produit suivi par lots (ex. lot de semences).",
@@ -66,6 +77,26 @@ class GardenOperationInput(models.Model):
         for line in self:
             line.uom_id = line.product_id.uom_id
 
+    @api.depends(
+        'operation_id.scope', 'operation_id.crop_ids.area', 'operation_id.bed_ids.area', 'operation_id.garden_id.area',
+    )
+    def _compute_treated_area(self):
+        for line in self:
+            operation = line.operation_id
+            if operation.state == 'done' and line.treated_area:
+                continue  # la surface d'une application faite ne bouge plus (registre)
+            line.treated_area = operation._get_target_area() if operation.scope else 0.0
+
+    @api.depends('quantity', 'treated_area')
+    def _compute_dose(self):
+        for line in self:
+            line.dose = line.quantity * 10000.0 / line.treated_area if line.treated_area > 0 else 0.0
+
+    @api.constrains('treated_area')
+    def _check_treated_area(self):
+        if any(line.treated_area < 0 for line in self):
+            raise ValidationError(self.env._("La surface traitée ne peut pas être négative."))
+
     @api.depends('move_id.garden_reversal_ids')
     def _compute_consumed(self):
         for line in self:
@@ -98,7 +129,7 @@ class GardenOperationInput(models.Model):
     # ------------------------------------------------------------------
     # Verrou : les lignes d'une opération faite ne se modifient plus
     # ------------------------------------------------------------------
-    _LOCKED_FIELDS = {'product_id', 'quantity', 'uom_id', 'lot_id', 'operation_id'}
+    _LOCKED_FIELDS = {'product_id', 'quantity', 'uom_id', 'lot_id', 'operation_id', 'treated_area'}
 
     def _check_operation_open(self, operations=None):
         if self.env.context.get('garden_creating_operation'):

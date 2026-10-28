@@ -331,6 +331,15 @@
             <xpath expr="//group[@name='group_standard_price']" position="after">
                 <group name="garden_group" string="Maraîchage">
                     <field name="garden_input_type"/>
+                    <field name="amm_number" invisible="garden_input_type != 'phytosanitary'"
+                           groups="odoo_garden.group_garden_chef" placeholder="Ex. 2010000"/>
+                    <field name="pre_harvest_interval_days" invisible="garden_input_type != 'phytosanitary'"
+                           groups="odoo_garden.group_garden_chef"/>
+                    <field name="is_organic_allowed"
+                           invisible="garden_input_type not in ('phytosanitary', 'fertilizer', 'amendment', 'substrate')"
+                           groups="odoo_garden.group_garden_chef"/>
+                    <field name="nitrogen_content" invisible="garden_input_type != 'fertilizer'"
+                           groups="odoo_garden.group_garden_chef"/>
                 </group>
             </xpath>
         </field>

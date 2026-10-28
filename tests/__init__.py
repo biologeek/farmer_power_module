@@ -15,3 +15,4 @@ from . import test_progress
 from . import test_revenue
 from . import test_profitability
 from . import test_demo
+from . import test_compliance_fields

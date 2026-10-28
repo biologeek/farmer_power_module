@@ -96,6 +96,8 @@
                                     <field name="garden_input_type" optional="show"/>
                                     <field name="quantity"/>
                                     <field name="uom_id" options="{'no_create': True}"/>
+                                    <field name="treated_area" optional="show" invisible="garden_input_type != 'phytosanitary'"/>
+                                    <field name="dose" optional="show" invisible="garden_input_type != 'phytosanitary'"/>
                                     <field name="tracking" column_invisible="True"/>
                                     <field name="lot_id" required="tracking != 'none'" invisible="tracking == 'none'"
                                            options="{'no_create': True}"/>

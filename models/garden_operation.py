@@ -205,6 +205,15 @@ class GardenOperation(models.Model):
         self.ensure_one()
         return {'crop': self.crop_ids, 'bed': self.bed_ids, 'garden': self.garden_id}[self.scope]
 
+    def _get_target_area(self):
+        """Surface (m²) de la cible : cultures (surface occupée), planches ou îlot (surface totale)."""
+        self.ensure_one()
+        if self.scope == 'crop':
+            return sum(self.crop_ids.mapped('area'))
+        if self.scope == 'bed':
+            return sum(self.bed_ids.mapped('area'))
+        return self.garden_id.area
+
     def _get_gardens(self):
         """Îlots concernés par l'opération."""
         self.ensure_one()
