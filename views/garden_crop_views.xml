@@ -54,6 +54,8 @@
                         <button name="action_view_losses" type="object" class="oe_stat_button" icon="fa-trash-o">
                             <field name="loss_count" widget="statinfo" string="Pertes"/>
                         </button>
+                        <button name="action_garden_traceability" type="object" class="oe_stat_button" icon="fa-leaf"
+                                invisible="not lot_count" string="Traçabilité"/>
                         <button name="action_view_lots" type="object" class="oe_stat_button" icon="fa-barcode"
                                 invisible="not lot_count">
                             <field name="lot_count" widget="statinfo" string="Lots"/>

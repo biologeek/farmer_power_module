@@ -1,0 +1,144 @@
+<odoo>
+    <record id="view_garden_traceability_form" model="ir.ui.view">
+        <field name="name">garden.traceability.form</field>
+        <field name="model">garden.traceability</field>
+        <field name="arch" type="xml">
+            <form string="Traçabilité" create="0" edit="0" delete="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Traçabilité</h1>
+                    </div>
+                    <group>
+                        <group name="origin">
+                            <field name="crop_id"/>
+                            <field name="lot_id" invisible="not lot_id"/>
+                            <field name="lot_ids" widget="many2many_tags" invisible="lot_id"/>
+                        </group>
+                        <group name="stock">
+                            <field name="product_id"/>
+                            <field name="on_hand_qty"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Amont : culture" name="upstream">
+                            <separator string="Opérations faites sur la culture"/>
+                            <field name="operation_ids" nolabel="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="type_id"/>
+                                    <field name="total_hours" widget="float_time"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                            <separator string="Intrants consommés"/>
+                            <field name="input_ids" nolabel="1">
+                                <list>
+                                    <field name="operation_id"/>
+                                    <field name="product_id"/>
+                                    <field name="garden_input_type"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="lot_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Amont : semences et plants" name="seeds">
+                            <separator string="Lots de semence ou de plant utilisés"/>
+                            <field name="seed_input_ids" nolabel="1">
+                                <list>
+                                    <field name="operation_id"/>
+                                    <field name="product_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                </list>
+                            </field>
+                            <separator string="Réception des lots (fournisseur)"/>
+                            <field name="seed_receipt_line_ids" nolabel="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="reference"/>
+                                    <field name="picking_partner_id"/>
+                                    <field name="product_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="quantity"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Récolte" name="harvest">
+                            <field name="harvest_line_ids" nolabel="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="reference"/>
+                                    <field name="product_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="quantity"/>
+                                    <field name="location_dest_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Aval : sorties du lot" name="downstream">
+                            <separator string="Livraisons, ventes et rebuts"/>
+                            <field name="out_line_ids" nolabel="1">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="reference"/>
+                                    <field name="picking_partner_id"/>
+                                    <field name="product_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="quantity"/>
+                                    <field name="location_id"/>
+                                    <field name="location_dest_id"/>
+                                </list>
+                            </field>
+                            <separator string="Consommé par les opérations"/>
+                            <field name="usage_input_ids" nolabel="1">
+                                <list>
+                                    <field name="operation_id"/>
+                                    <field name="product_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_garden_lots" model="ir.actions.act_window">
+        <field name="name">Lots de récolte</field>
+        <field name="res_model">stock.lot</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('garden_crop_id', '!=', False)]</field>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Aucun lot de récolte
+            </p>
+            <p>Un lot est créé pour chaque culture à la première récolte d'un produit suivi par lots.</p>
+        </field>
+    </record>
+
+    <record id="view_stock_lot_form_garden" model="ir.ui.view">
+        <field name="name">stock.lot.form.garden</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_garden_traceability" type="object" class="oe_stat_button" icon="fa-leaf"
+                        groups="odoo_garden.group_garden_worker">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Traçabilité maraîchage</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="garden_crop_id" groups="odoo_garden.group_garden_worker" invisible="not garden_crop_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

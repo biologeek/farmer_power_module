@@ -10,4 +10,5 @@ from . import test_stock_setup
 from . import test_stock_inputs
 from . import test_stock_harvest
 from . import test_stock_losses
+from . import test_stock_traceability
 from . import test_demo

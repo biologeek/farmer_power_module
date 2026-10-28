@@ -280,6 +280,11 @@ class GardenCrop(models.Model):
         action['name'] = self.env._("Récoltes : %s", self.name)
         return action
 
+    def action_garden_traceability(self):
+        """Bouton « Traçabilité » de la culture : amont (opérations, intrants, semences) et aval (sorties)."""
+        self.ensure_one()
+        return self.env['garden.traceability']._open(crop=self)
+
     def action_view_lots(self):
         self.ensure_one()
         action = self.env['ir.actions.act_window']._for_xml_id('stock.action_production_lot_form')

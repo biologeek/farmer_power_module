@@ -14,6 +14,7 @@ from . import garden_operation_worker
 from . import garden_operation_allocation
 from . import garden_operation_input
 from . import stock_move
+from . import garden_traceability
 from . import hr_employee
 from . import garden_loss
 from . import product_template

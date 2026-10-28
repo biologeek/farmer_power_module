@@ -40,3 +40,4 @@ garden_operation_input_worker,garden.operation.input worker,model_garden_operati
 garden_operation_input_chef,garden.operation.input chef,model_garden_operation_input,group_garden_chef,1,1,1,1
 garden_stock_lot_worker,stock.lot garden worker (lecture),stock.model_stock_lot,group_garden_worker,1,0,0,0
 garden_stock_move_chef,stock.move garden chef (lecture),stock.model_stock_move,group_garden_chef,1,0,0,0
+garden_traceability_worker,garden.traceability worker,model_garden_traceability,group_garden_worker,1,1,1,1
