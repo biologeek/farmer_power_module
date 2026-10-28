@@ -21,6 +21,7 @@
         <field name="type">consu</field>
         <field name="is_storable" eval="True"/>
         <field name="garden_input_type">substrate</field>
+        <field name="is_organic_allowed" eval="True"/>
         <field name="standard_price">12.0</field>
         <field name="list_price">0</field>
         <field name="sale_ok" eval="False"/>
@@ -31,6 +32,8 @@
         <field name="is_storable" eval="True"/>
         <field name="uom_id" ref="uom.product_uom_kgm"/>
         <field name="garden_input_type">fertilizer</field>
+        <field name="nitrogen_content">5.0</field>
+        <field name="is_organic_allowed" eval="True"/>
         <field name="standard_price">1.8</field>
         <field name="list_price">0</field>
         <field name="sale_ok" eval="False"/>
@@ -41,6 +44,10 @@
         <field name="is_storable" eval="True"/>
         <field name="uom_id" ref="uom.product_uom_kgm"/>
         <field name="garden_input_type">phytosanitary</field>
+        <!-- Phase 6 : numéro d'AMM FICTIF (données de démonstration, ne pas utiliser pour un vrai registre). -->
+        <field name="amm_number">AMM-DEMO-0000000 (numéro fictif)</field>
+        <field name="pre_harvest_interval_days">7</field>
+        <field name="is_organic_allowed" eval="True"/>
         <field name="standard_price">6.5</field>
         <field name="list_price">0</field>
         <field name="sale_ok" eval="False"/>
@@ -115,11 +122,28 @@
         <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
         <field name="duration">0.5</field>
         <field name="target">Mildiou</field>
+        <field name="weather_notes">Matin sec, 18 °C, vent faible.</field>
         <field name="input_ids" eval="[Command.create({'product_id': ref('demo_input_copper'), 'quantity': 1.5})]"/>
         <field name="state">done</field>
     </record>
 
-    <!-- Récolte de tomates : entrée en stock sur le lot de la culture. -->
+    <!-- Phase 6 : second traitement (laitue, 22 jours avant la récolte du 12 mai 2027 : délai avant récolte respecté). -->
+    <record id="demo_operation_treatment_lettuce" model="garden.operation">
+        <field name="type_id" ref="operation_type_treatment"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_lettuce_batavia_n1_01')])]"/>
+        <field name="planned_date">2027-04-20</field>
+        <field name="date">2027-04-20</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
+        <field name="duration">0.5</field>
+        <field name="target">Mildiou de la laitue</field>
+        <field name="weather_notes">Ciel couvert, 14 °C, sans vent, pas de pluie prévue dans les 6 heures.</field>
+        <field name="input_ids" eval="[Command.create({'product_id': ref('demo_input_copper'), 'quantity': 0.4})]"/>
+        <field name="state">done</field>
+    </record>
+
+    <!-- Récolte de tomates : entrée en stock sur le lot de la culture (38 jours après le traitement du 12 juin
+         2027, donc conforme au délai avant récolte de 7 jours). -->
     <record id="demo_operation_harvest_tomato" model="garden.operation">
         <field name="type_id" ref="operation_type_harvest"/>
         <field name="scope">crop</field>

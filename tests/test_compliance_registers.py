@@ -9,6 +9,8 @@ from .test_compliance_fields import GardenComplianceCase
 class GardenRegisterCase(GardenComplianceCase):
 
     def _wizard(self, user=None, register='phyto', **vals):
+        # période récente par défaut : les tests ignorent ainsi les données de démonstration (2027)
+        vals.setdefault('date_from', '2030-01-01')
         wizard = self.env['garden.compliance.wizard'].with_user(user or self.chef).create(
             dict(vals, register=register),
         )
@@ -21,13 +23,13 @@ class TestGardenPhytoRegister(GardenRegisterCase):
 
     def test_register_content(self):
         operation = self._treatment(
-            '2027-06-10', quantity=0.18, target='Mildiou', weather_notes='Sec, 18 °C, vent faible',
+            '2031-06-10', quantity=0.18, target='Mildiou', weather_notes='Sec, 18 °C, vent faible',
             employee_ids=[(6, 0, (self.alice | self.bob).ids)],
         )
         wizard = self._wizard()
         line = wizard.phyto_line_ids
         self.assertEqual(len(line), 1)
-        self.assertEqual(str(line.date), '2027-06-10')
+        self.assertEqual(str(line.date), '2031-06-10')
         self.assertEqual(line.crop_id, self.crop)
         self.assertEqual(line.season_id, self.season)
         self.assertEqual(line.bed_id, self.bed)
@@ -46,24 +48,24 @@ class TestGardenPhytoRegister(GardenRegisterCase):
     def test_only_done_phytosanitary_inputs(self):
         # planifiée, annulée, ou produit non phytosanitaire : absents du registre
         self._operation(
-            type_id=self.type_treatment.id, crop_ids=[(6, 0, self.crop.ids)], date='2027-06-01',
+            type_id=self.type_treatment.id, crop_ids=[(6, 0, self.crop.ids)], date='2031-06-01',
             input_ids=[(0, 0, {'product_id': self.phyto.id, 'quantity': 1})],
         )
-        cancelled = self._treatment('2027-06-02')
+        cancelled = self._treatment('2031-06-02')
         cancelled.action_reset_planned()
         cancelled.action_cancel()
         self._operation(
-            type_id=self.type_fertilization.id, crop_ids=[(6, 0, self.crop.ids)], date='2027-06-03',
+            type_id=self.type_fertilization.id, crop_ids=[(6, 0, self.crop.ids)], date='2031-06-03',
             input_ids=[(0, 0, {'product_id': self.nitro.id, 'quantity': 1})],
         ).action_done()
-        done = self._treatment('2027-06-04')
+        done = self._treatment('2031-06-04')
         self.assertEqual(self._wizard().phyto_line_ids.operation_id, done)
 
     def test_operation_split_between_crops(self):
-        other = self._crop(planned_sowing_date='2027-03-01', bed_id=self.bed2.id)  # 10 m²
+        other = self._crop(planned_sowing_date='2031-03-01', bed_id=self.bed2.id)  # 10 m²
         operation = self._operation(
             type_id=self.type_treatment.id, scope='bed', bed_ids=[(6, 0, (self.bed | self.bed2).ids)],
-            date='2027-06-10', input_ids=[(0, 0, {'product_id': self.phyto.id, 'quantity': 4.6})],
+            date='2031-06-10', input_ids=[(0, 0, {'product_id': self.phyto.id, 'quantity': 4.6})],
         )
         operation.action_done()
         lines = self._wizard().phyto_line_ids
@@ -77,28 +79,28 @@ class TestGardenPhytoRegister(GardenRegisterCase):
 
     def test_filters(self):
         other_season = self.env['garden.season'].create({
-            'name': 'Saison 2028 test', 'date_start': '2028-01-01', 'date_end': '2028-12-31',
+            'name': 'Saison 2032 test', 'date_start': '2032-01-01', 'date_end': '2032-12-31',
         })
-        other = self._crop(planned_sowing_date='2028-03-01', bed_id=self.bed2.id, season_id=other_season.id)
-        first = self._treatment('2027-06-10')
-        second = self._treatment('2028-06-10', crop=other)
+        other = self._crop(planned_sowing_date='2032-03-01', bed_id=self.bed2.id, season_id=other_season.id)
+        first = self._treatment('2031-06-10')
+        second = self._treatment('2032-06-10', crop=other)
         self.assertEqual(self._wizard().phyto_line_ids.operation_id, first | second)
-        self.assertEqual(self._wizard(date_from='2028-01-01').phyto_line_ids.operation_id, second)
-        self.assertEqual(self._wizard(date_to='2027-12-31').phyto_line_ids.operation_id, first)
+        self.assertEqual(self._wizard(date_from='2032-01-01').phyto_line_ids.operation_id, second)
+        self.assertEqual(self._wizard(date_to='2031-12-31').phyto_line_ids.operation_id, first)
         self.assertEqual(
-            self._wizard(date_from='2027-06-10', date_to='2027-06-10').phyto_line_ids.operation_id, first,
+            self._wizard(date_from='2031-06-10', date_to='2031-06-10').phyto_line_ids.operation_id, first,
         )
         self.assertEqual(self._wizard(season_id=other_season.id).phyto_line_ids.operation_id, second)
         self.assertEqual(self._wizard(crop_ids=[(6, 0, self.crop.ids)]).phyto_line_ids.operation_id, first)
-        self.assertFalse(self._wizard(season_id=other_season.id, date_to='2027-12-31').phyto_line_ids)
+        self.assertFalse(self._wizard(season_id=other_season.id, date_to='2031-12-31').phyto_line_ids)
 
     def test_recompute_replaces_lines(self):
-        self._treatment('2027-06-10')
+        self._treatment('2031-06-10')
         wizard = self._wizard()
         self.assertEqual(len(wizard.line_ids), 1)
         wizard._compute_lines()
         self.assertEqual(len(wizard.line_ids), 1)
-        self._treatment('2027-06-20')
+        self._treatment('2031-06-20')
         wizard._compute_lines()
         self.assertEqual(len(wizard.line_ids), 2)
 
@@ -110,7 +112,7 @@ class TestGardenPhytoRegister(GardenRegisterCase):
         self.assertTrue(self._wizard(user=self.chef))
         self.assertTrue(self._wizard(user=self.manager))
         # le chef de culture lit le registre sans coût ni droits sur les produits
-        self._treatment('2027-06-10')
+        self._treatment('2031-06-10')
         line = self._wizard(user=self.chef).phyto_line_ids
         self.assertEqual(line.amm_number, 'AMM-TEST-0001')
         wizard = self._wizard(user=self.chef)
@@ -119,8 +121,8 @@ class TestGardenPhytoRegister(GardenRegisterCase):
 
     def test_multi_company_registers(self):
         other_company = self.env['res.company'].create({'name': 'Autre ferme'})
-        self._treatment('2027-06-10')
-        wizard = self.env['garden.compliance.wizard'].with_user(self.chef).with_company(self.company).create({})
+        self._treatment('2031-06-10')
+        wizard = self.env['garden.compliance.wizard'].with_user(self.chef).with_company(self.company).create({'date_from': '2030-01-01'})
         self.assertEqual(wizard.env.companies, self.company)
         wizard._compute_lines()
         self.assertEqual(len(wizard.line_ids), 1)
@@ -129,13 +131,13 @@ class TestGardenPhytoRegister(GardenRegisterCase):
             'company_ids': [(6, 0, other_company.ids)],
             'group_ids': [(6, 0, [self.env.ref('odoo_garden.group_garden_chef').id])],
         })
-        other_wizard = self.env['garden.compliance.wizard'].with_user(other_chef).with_company(other_company).create({})
+        other_wizard = self.env['garden.compliance.wizard'].with_user(other_chef).with_company(other_company).create({'date_from': '2030-01-01'})
         other_wizard._compute_lines()
         self.assertFalse(other_wizard.line_ids)
 
     def test_xlsx_export(self):
         import openpyxl
-        self._treatment('2027-06-10', quantity=0.36, target='Mildiou', weather_notes='Sec')
+        self._treatment('2031-06-10', quantity=0.36, target='Mildiou', weather_notes='Sec')
         wizard = self._wizard()
         filename, content = wizard.with_user(self.chef)._get_xlsx()
         self.assertTrue(filename.endswith('.xlsx'))
@@ -153,12 +155,12 @@ class TestGardenPhytoRegister(GardenRegisterCase):
         self.assertAlmostEqual(values['Quantité utilisée'], 0.36)
         self.assertAlmostEqual(values['Surface traitée (m²)'], 36.0)
         self.assertEqual(values['Cible'], 'Mildiou')
-        self.assertEqual(values['Date'].strftime('%Y-%m-%d'), '2027-06-10')
+        self.assertEqual(values['Date'].strftime('%Y-%m-%d'), '2031-06-10')
         with self.assertRaises(AccessError):
             wizard.with_user(self.worker)._get_xlsx()
 
     def test_pdf_report_renders(self):
-        self._treatment('2027-06-10', target='Mildiou')
+        self._treatment('2031-06-10', target='Mildiou')
         wizard = self._wizard()
         report = self.env.ref('odoo_garden.action_report_garden_compliance')
         self.assertEqual(report.report_type, 'qweb-pdf')
@@ -179,7 +181,7 @@ class TestGardenComplianceDownload(HttpCase, GardenRegisterCase):
 
     def test_xlsx_download(self):
         import openpyxl
-        self._treatment('2027-06-10')
+        self._treatment('2031-06-10')
         wizard = self._wizard()
         self.authenticate('garden_stock_chef', 'garden_stock_chef')
         response = self.url_open('/odoo_garden/compliance/xlsx/%d' % wizard.id)
@@ -208,7 +210,7 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
         return operation
 
     def test_nitrogen_units(self):
-        self._fertilize('2027-04-10', 10.0)  # 10 kg à 10 % = 1 kg N sur 36 m²
+        self._fertilize('2031-04-10', 10.0)  # 10 kg à 10 % = 1 kg N sur 36 m²
         line = self._wizard(register='fertilization').fertilization_line_ids
         self.assertEqual(len(line), 1)
         self.assertEqual(line.season_id, self.season)
@@ -222,12 +224,12 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
 
     def test_unit_conversion_and_missing_data(self):
         gram = self.env.ref('uom.product_uom_gram')
-        self._fertilize('2027-04-10', 500.0, uom=gram)  # 0,5 kg
+        self._fertilize('2031-04-10', 500.0, uom=gram)  # 0,5 kg
         poor = self._storable('Engrais sans azote', garden_input_type='fertilizer', uom_id=self.env.ref('uom.product_uom_kgm').id)
         self._set_stock(poor, 10)
-        self._fertilize('2027-04-11', 2.0, product=poor)
+        self._fertilize('2031-04-11', 2.0, product=poor)
         litre = self.env.ref('uom.product_uom_litre')
-        self._fertilize('2027-04-12', 3.0, uom=litre)
+        self._fertilize('2031-04-12', 3.0, uom=litre)
         lines = {l.date.day: l for l in self._wizard(register='fertilization').fertilization_line_ids}
         self.assertAlmostEqual(lines[10].nitrogen_kg, 0.05)
         self.assertAlmostEqual(lines[10].quantity_kg, 0.5)
@@ -237,10 +239,10 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
         self.assertIn('Unité non convertible', lines[12].note)
 
     def test_summary_per_bed_and_season(self):
-        other = self._crop(planned_sowing_date='2027-03-01', bed_id=self.bed2.id)  # 10 m²
-        self._fertilize('2027-04-10', 10.0)
-        self._fertilize('2027-05-10', 5.0)
-        self._fertilize('2027-04-10', 2.0, crop=other)
+        other = self._crop(planned_sowing_date='2031-03-01', bed_id=self.bed2.id)  # 10 m²
+        self._fertilize('2031-04-10', 10.0)
+        self._fertilize('2031-05-10', 5.0)
+        self._fertilize('2031-04-10', 2.0, crop=other)
         wizard = self._wizard(register='fertilization')
         summary = {bed: (kg, per_ha) for _season, bed, kg, per_ha in wizard._get_fertilization_summary()}
         self.assertAlmostEqual(summary[self.bed][0], 1.5)
@@ -248,20 +250,20 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
         self.assertAlmostEqual(summary[self.bed2][0], 0.2)
         self.assertAlmostEqual(summary[self.bed2][1], 0.2 * 10000 / 10, delta=0.01)
         # filtre de période
-        wizard = self._wizard(register='fertilization', date_from='2027-05-01')
+        wizard = self._wizard(register='fertilization', date_from='2031-05-01')
         self.assertEqual(len(wizard.fertilization_line_ids), 1)
         # les opérations non faites ne comptent pas
         self._operation(
-            type_id=self.type_fertilization.id, crop_ids=[(6, 0, self.crop.ids)], date='2027-06-01',
+            type_id=self.type_fertilization.id, crop_ids=[(6, 0, self.crop.ids)], date='2031-06-01',
             input_ids=[(0, 0, {'product_id': self.nitro.id, 'quantity': 50})],
         )
         self.assertEqual(len(self._wizard(register='fertilization').fertilization_line_ids), 3)
 
     def test_partial_area_and_split(self):
-        other = self._crop(planned_sowing_date='2027-03-01', bed_id=self.bed2.id)
+        other = self._crop(planned_sowing_date='2031-03-01', bed_id=self.bed2.id)
         operation = self._operation(
             type_id=self.type_fertilization.id, scope='bed', bed_ids=[(6, 0, (self.bed | self.bed2).ids)],
-            date='2027-04-10', input_ids=[(0, 0, {'product_id': self.nitro.id, 'quantity': 4.6})],
+            date='2031-04-10', input_ids=[(0, 0, {'product_id': self.nitro.id, 'quantity': 4.6})],
         )
         operation.action_done()
         lines = self._wizard(register='fertilization').fertilization_line_ids
@@ -272,7 +274,7 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
 
     def test_exports_and_pivot(self):
         import openpyxl
-        self._fertilize('2027-04-10', 10.0)
+        self._fertilize('2031-04-10', 10.0)
         wizard = self._wizard(register='fertilization')
         _filename, content = wizard._get_xlsx()
         workbook = openpyxl.load_workbook(io.BytesIO(content))
@@ -327,7 +329,7 @@ class TestGardenOrganicExport(GardenRegisterCase):
         picking.move_ids.picked = True
         picking._action_done()
         self.sowing = self._operation(
-            type_id=self.type_sowing.id, crop_ids=[(6, 0, self.crop.ids)], date='2027-03-02',
+            type_id=self.type_sowing.id, crop_ids=[(6, 0, self.crop.ids)], date='2031-03-02',
             input_ids=[(0, 0, {'product_id': self.seed.id, 'quantity': 2, 'lot_id': self.seed_lot2.id})],
         )
         self.sowing.action_done()
@@ -345,12 +347,12 @@ class TestGardenOrganicExport(GardenRegisterCase):
         self._set_stock(no_organic, 10)
         organic_ok = self._storable('Purin bio', garden_input_type='amendment', is_organic_allowed=True)
         self._set_stock(organic_ok, 10)
-        self._treatment('2027-05-01', product=no_organic)
-        self._treatment('2027-05-02', product=organic_ok)
+        self._treatment('2031-05-01', product=no_organic)
+        self._treatment('2031-05-02', product=organic_ok)
         conventional = self.env['garden.variety'].create({'name': 'Conventionnelle', 'species_id': self.solanaceae.id})
         template = self.env['garden.crop.template'].create({'name': 'Tomate conv', 'variety_id': conventional.id})
-        other = self._crop(template_id=template.id, bed_id=self.bed2.id, planned_sowing_date='2027-03-01')
-        self._treatment('2027-05-03', crop=other, product=no_organic)
+        other = self._crop(template_id=template.id, bed_id=self.bed2.id, planned_sowing_date='2031-03-01')
+        self._treatment('2031-05-03', crop=other, product=no_organic)
         wizard = self._wizard(register='organic')
         lines = wizard.organic_line_ids
         flagged = lines.filtered('alert')
@@ -371,7 +373,7 @@ class TestGardenOrganicExport(GardenRegisterCase):
     def test_xlsx_one_sheet_per_theme(self):
         no_organic = self._storable('Phyto de synthèse', garden_input_type='phytosanitary')
         self._set_stock(no_organic, 10)
-        self._treatment('2027-05-01', product=no_organic)
+        self._treatment('2031-05-01', product=no_organic)
         tabs = self._tabs(self._wizard(register='organic'))
         self.assertEqual(list(tabs), ['Semences', 'Intrants', 'Alertes bio'])
         header, seed_row = tabs['Semences']
@@ -393,9 +395,9 @@ class TestGardenOrganicExport(GardenRegisterCase):
         self.assertEqual(alert['Non autorisé en bio'], 'Oui')
 
     def test_period_filter_and_no_pdf(self):
-        wizard = self._wizard(register='organic', date_to='2027-03-01')
+        wizard = self._wizard(register='organic', date_to='2031-03-01')
         self.assertFalse(wizard.organic_line_ids)
-        wizard = self._wizard(register='organic', date_from='2027-03-01')
+        wizard = self._wizard(register='organic', date_from='2031-03-01')
         self.assertEqual(len(wizard.organic_line_ids), 1)
         with self.assertRaises(UserError):
             wizard.action_print()
@@ -425,7 +427,7 @@ class TestGardenComplianceSetting(GardenRegisterCase):
             self.assertNotIn(self.env.ref('odoo_garden.' + xmlid).id, visible_worker)
 
     def test_disabling_hides_menus_and_blocks_exports(self):
-        self._treatment('2027-06-10')
+        self._treatment('2031-06-10')
         wizard = self._wizard()
         self._set_enabled(False)
         self.assertFalse(self.env['garden.compliance.wizard']._is_compliance_enabled())
@@ -440,7 +442,7 @@ class TestGardenComplianceSetting(GardenRegisterCase):
         with self.assertRaises(UserError):
             wizard.with_user(self.chef)._get_xlsx()
         # le contrôle DAR reste actif
-        harvest = self._harvest('2027-06-12')
+        harvest = self._harvest('2031-06-12')
         with self.assertRaises(Exception):
             harvest.action_done()
         # réactivation
@@ -453,3 +455,15 @@ class TestGardenComplianceSetting(GardenRegisterCase):
         self.env['res.config.settings']._garden_init_compliance()
         self.assertFalse(self.env['garden.compliance.wizard']._is_compliance_enabled())
         self.assertFalse(self.chef.has_group('odoo_garden.group_garden_compliance'))
+
+
+@tagged('post_install', '-at_install')
+class TestGardenComplianceTour(HttpCase, GardenRegisterCase):
+
+    def test_compliance_tour(self):
+        self.phyto.product_tmpl_id.amm_number = 'AMM-TOUR-0001'
+        self._treatment('2031-06-10')
+        self.start_tour(
+            '/odoo/action-odoo_garden.action_garden_compliance_phyto', 'garden_compliance_tour',
+            login='garden_stock_chef',
+        )

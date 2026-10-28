@@ -71,10 +71,10 @@ class TestGardenDemo(TransactionCase):
 
         crop = ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01')
         self.assertEqual(ref('odoo_garden.demo_operation_sowing_tomato').state, 'done')
-        # intrants consommés : 300 g de semence - 8, 40 sacs - 3, 200 kg - 12, 25 kg - 1,5
+        # intrants consommés : 300 g de semence - 8, 40 sacs - 3, 200 kg - 12, 25 kg - 1,5 - 0,4 (traitement de la laitue)
         self.assertAlmostEqual(qty(ref('odoo_garden.demo_input_potting_soil')), 37.0)
         self.assertAlmostEqual(qty(ref('odoo_garden.demo_input_fertilizer')), 188.0)
-        self.assertAlmostEqual(qty(ref('odoo_garden.demo_input_copper')), 23.5)
+        self.assertAlmostEqual(qty(ref('odoo_garden.demo_input_copper')), 23.1)
         seed_lot = ref('odoo_garden.demo_lot_seed_tomato')
         self.assertAlmostEqual(qty(ref('odoo_garden.demo_seed_tomato_coeur'), seed_lot), 292.0)
         # coûts d'intrants (lecture en administrateur)
@@ -123,3 +123,49 @@ class TestGardenDemo(TransactionCase):
         self.assertTrue(lines.filtered(lambda line: line.margin_per_hour < 0) or lines.filtered('margin_per_hour'))
         data = profit.get_dashboard_data()
         self.assertTrue(data['best'] and data['monthly_revenue'] and data['hours_by_category'])
+
+
+@tagged('post_install', '-at_install')
+class TestGardenComplianceDemo(TransactionCase):
+    """Données de démonstration de la phase 6 : produits réglementés, registres, délai avant récolte."""
+
+    def setUp(self):
+        super().setUp()
+        if not self.env.ref('odoo_garden.demo_season_2027', raise_if_not_found=False):
+            self.skipTest("Données de démonstration non installées.")
+
+    def test_demo_products(self):
+        copper = self.env.ref('odoo_garden.demo_input_copper')
+        self.assertEqual(copper.pre_harvest_interval_days, 7)
+        self.assertIn('fictif', copper.amm_number)
+        fertilizer = self.env.ref('odoo_garden.demo_input_fertilizer')
+        self.assertEqual(fertilizer.nitrogen_content, 5.0)
+
+    def test_demo_registers(self):
+        ref = self.env.ref
+        wizard = self.env['garden.compliance.wizard'].create({'register': 'phyto'})
+        wizard._compute_lines()
+        lines = wizard.phyto_line_ids
+        self.assertEqual(
+            lines.crop_id,
+            ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01') | ref('odoo_garden.demo_crop_2027_lettuce_batavia_n1_01'),
+        )
+        tomato = lines.filtered(lambda l: l.crop_id == ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01'))
+        self.assertEqual(tomato.target, 'Mildiou')
+        self.assertIn('fictif', tomato.amm_number)
+        self.assertTrue(all(lines.mapped('treated_area')))
+        fertilization = self.env['garden.compliance.wizard'].create({'register': 'fertilization'})
+        fertilization._compute_lines()
+        self.assertAlmostEqual(sum(fertilization.fertilization_line_ids.mapped('nitrogen_kg')), 12 * 0.05)
+        organic = self.env['garden.compliance.wizard'].create({'register': 'organic'})
+        organic._compute_lines()
+        self.assertTrue(organic.organic_line_ids)
+        self.assertFalse(organic.alert_count)
+
+    def test_demo_harvests_respect_the_interval(self):
+        harvests = self.env['garden.operation'].search([('category', '=', 'harvest'), ('state', '=', 'done')])
+        self.assertTrue(harvests)
+        for harvest in harvests:
+            self.assertFalse(harvest._get_dar_conflicts(), harvest.name)
+        tomato = self.env.ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01')
+        self.assertEqual(str(tomato.harvest_allowed_from), '2027-06-19')

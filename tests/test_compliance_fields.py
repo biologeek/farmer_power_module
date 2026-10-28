@@ -30,9 +30,9 @@ class GardenComplianceCase(GardenStockCase):
 
     def setUp(self):
         super().setUp()
-        self.crop = self._crop(planned_sowing_date='2027-03-01')  # 36 m² (planche P12 : 30 x 1,2)
+        self.crop = self._crop(planned_sowing_date='2031-03-01')  # 36 m² (planche P12 : 30 x 1,2)
 
-    def _treatment(self, date='2027-06-10', quantity=0.5, crop=None, product=None, **vals):
+    def _treatment(self, date='2031-06-10', quantity=0.5, crop=None, product=None, **vals):
         """Traitement fait le ``date`` avec un intrant phytosanitaire."""
         crop = crop or self.crop
         operation = self._operation(
