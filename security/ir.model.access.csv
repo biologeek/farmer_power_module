@@ -23,12 +23,9 @@ garden_operation_type_worker,garden.operation.type worker,model_garden_operation
 garden_operation_type_chef,garden.operation.type chef,model_garden_operation_type,group_garden_chef,1,1,1,1
 garden_crop_worker,garden.crop worker,model_garden_crop,group_garden_worker,1,1,1,0
 garden_crop_chef,garden.crop chef,model_garden_crop,group_garden_chef,1,1,1,1
-garden_action_worker,garden.action worker,model_garden_action,group_garden_worker,1,1,1,0
-garden_action_chef,garden.action chef,model_garden_action,group_garden_chef,1,1,1,1
-garden_action_type_worker,garden.action.type worker,model_garden_action_type,group_garden_worker,1,1,1,0
-garden_action_type_chef,garden.action.type chef,model_garden_action_type,group_garden_chef,1,1,1,1
-garden_postprocess_worker,garden.postprocess worker,model_garden_postprocess,group_garden_worker,1,1,1,0
-garden_postprocess_chef,garden.postprocess chef,model_garden_postprocess,group_garden_chef,1,1,1,1
+garden_operation_worker,garden.operation worker,model_garden_operation,group_garden_worker,1,1,1,0
+garden_operation_chef,garden.operation chef,model_garden_operation,group_garden_chef,1,1,1,0
+garden_operation_manager,garden.operation manager,model_garden_operation,group_garden_manager,1,1,1,1
 garden_loss_worker,garden.loss worker,model_garden_loss,group_garden_worker,1,1,1,0
 garden_loss_chef,garden.loss chef,model_garden_loss,group_garden_chef,1,1,1,1
 garden_season_worker,garden.season worker,model_garden_season,group_garden_worker,1,0,0,0

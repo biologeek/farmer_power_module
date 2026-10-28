@@ -38,7 +38,10 @@ class GardenBed(models.Model):
     current_crop_ids = fields.One2many(
         'garden.crop', string='Cultures en place', compute='_compute_current_crop_ids',
     )
-    action_ids = fields.One2many('garden.action', 'bed_id', string='Actions')
+    operation_ids = fields.Many2many(
+        'garden.operation', 'garden_operation_bed_rel', 'bed_id', 'operation_id', string='Opérations',
+        help="Opérations dont la cible est directement cette planche (périmètre « Planche »).",
+    )
 
     _code_site_uniq = models.Constraint(
         'UNIQUE (site_id, code)',

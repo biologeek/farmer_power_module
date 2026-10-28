@@ -94,13 +94,15 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Actions" name="actions">
-                            <field name="action_ids" placeholder="Actions réalisées sur cette culture">
+                        <page string="Opérations" name="operations">
+                            <field name="operation_ids" placeholder="Opérations sur cette culture">
                                 <list>
-                                    <field name="type_id" string="Action" placeholder="Type d'action"/>
-                                    <field name="date" string="Date" placeholder="Date de l'action"/>
-                                    <field name="duration" string="Durée" placeholder="Durée de l'action (minutes)"/>
-                                    <field name="description" string="Description" placeholder="Description de l'action"/>
+                                    <field name="name"/>
+                                    <field name="type_id"/>
+                                    <field name="planned_date"/>
+                                    <field name="date"/>
+                                    <field name="duration" widget="float_time"/>
+                                    <field name="state"/>
                                 </list>
                             </field>
                         </page>

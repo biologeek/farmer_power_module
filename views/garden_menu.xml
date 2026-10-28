@@ -16,8 +16,7 @@
 
     <menuitem id="menu_garden_production" name="Production" parent="menu_garden_root" sequence="10"/>
     <menuitem id="menu_garden_crop" name="Cultures" parent="menu_garden_production" action="action_garden_crop"/>
-    <menuitem id="menu_garden_action" name="Actions" parent="menu_garden_production" action="action_garden_action"/>
-    <menuitem id="menu_garden_postprocess" name="Post-process" parent="menu_garden_production" action="action_garden_postprocess"/>
+    <menuitem id="menu_garden_operation" name="Opérations" parent="menu_garden_production" action="action_garden_operation"/>
     <menuitem id="menu_garden_loss" name="Pertes" parent="menu_garden_production" action="action_garden_loss"/>
 
     <menuitem id="menu_garden_statistics" name="Statistiques" parent="menu_garden_root" sequence="20"/>

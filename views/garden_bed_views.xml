@@ -61,8 +61,16 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Actions" name="actions">
-                            <field name="action_ids" placeholder="Actions liées à cette planche"/>
+                        <page string="Opérations" name="operations">
+                            <field name="operation_ids" placeholder="Opérations dont la cible est cette planche">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="type_id"/>
+                                    <field name="planned_date"/>
+                                    <field name="date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Notes" name="notes">
                             <field name="notes"/>

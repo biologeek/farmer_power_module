@@ -23,16 +23,20 @@ class TestGardenInstall(TransactionCase):
             'quantity_harvested': 12.5,
             'value_harvested': 50.0,
         })
-        cls.action_type = cls.env['garden.action.type'].create({'name': 'Arrosage'})
-        cls.action = cls.env['garden.action'].create({
-            'type_id': cls.action_type.id,
-            'crop_id': cls.crop.id,
+        cls.operation_type = cls.env['garden.operation.type'].create({'name': 'Arrosage (test)'})
+        cls.operation = cls.env['garden.operation'].create({
+            'type_id': cls.operation_type.id,
+            'scope': 'crop',
+            'crop_ids': [(6, 0, cls.crop.ids)],
+            'planned_date': '2026-04-01',
             'date': '2026-04-01',
-            'duration': 30,
+            'duration': 0.5,
         })
 
-    def test_action_bed_from_crop(self):
-        self.assertEqual(self.action.bed_id, self.bed)
+    def test_operation_links(self):
+        self.assertEqual(self.operation.garden_main_id, self.garden)
+        self.assertEqual(self.crop.operation_ids, self.operation)
+        self.assertIn(self.crop.name, self.operation.name)
 
     def test_occupancy_data(self):
         data = self.env['garden.bed'].get_occupancy_data([])
@@ -45,13 +49,14 @@ class TestGardenInstall(TransactionCase):
         # domain=None doit aussi fonctionner
         self.assertIn('beds', self.env['garden.bed'].get_occupancy_data(None))
 
-    def test_action_statistics(self):
-        data = self.env['garden.action'].get_statistics_data()
+    def test_operation_statistics(self):
+        self.operation.action_done()
+        data = self.env['garden.operation'].get_statistics_data()
         self.assertIn('pie', data)
         self.assertIn('stacked', data)
         self.assertIn('categories', data['stacked'])
         self.assertIn('series', data['stacked'])
-        self.assertIn('Arrosage', [p.get('label') or p.get('name') for p in data['pie']])
+        self.assertIn('Arrosage (test)', [p.get('label') or p.get('name') for p in data['pie']])
 
     def test_production_statistics(self):
         data = self.env['garden.crop'].get_production_statistics_data()
@@ -63,9 +68,12 @@ class TestGardenInstall(TransactionCase):
     def test_farm_action_xmlid(self):
         self.assertTrue(self.env.ref('odoo_garden.action_garden_farm'))
 
-    def test_action_method_removed_from_action_model(self):
-        self.assertFalse(hasattr(self.env['garden.action'], 'get_production_statistics_data'))
+    def test_action_method_removed_from_operation_model(self):
+        self.assertFalse(hasattr(self.env['garden.operation'], 'get_production_statistics_data'))
 
     def test_removed_models(self):
-        for model in ('garden.plot', 'garden.culture.mode', 'garden.crop.catalog'):
+        for model in (
+            'garden.plot', 'garden.culture.mode', 'garden.crop.catalog',
+            'garden.action', 'garden.action.type', 'garden.postprocess',
+        ):
             self.assertNotIn(model, self.env)

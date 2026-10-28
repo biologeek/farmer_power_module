@@ -144,7 +144,10 @@ class GardenCrop(models.Model):
     notes = fields.Text('Notes', help="Observations libres sur la culture.")
     quantity_harvested = fields.Float('Quantité récoltée (kg)', help="Quantité récoltée, saisie à la main (remplacée par un calcul en phase 4).")
     value_harvested = fields.Float('Valeur récoltée (€)', help="Valeur de la récolte, saisie à la main (remplacée par un calcul en phase 5).")
-    action_ids = fields.One2many('garden.action', 'crop_id', string='Actions')
+    operation_ids = fields.Many2many(
+        'garden.operation', 'garden_operation_crop_rel', 'crop_id', 'operation_id', string='Opérations',
+        help="Opérations dont la cible est directement cette culture (périmètre « Culture »).",
+    )
 
     _bed_share_range = models.Constraint(
         'CHECK (bed_share > 0 AND bed_share <= 100)',
@@ -367,8 +370,8 @@ class GardenCrop(models.Model):
 
         Retourne une liste de dicts triés par date : ``step`` (étape d'itinéraire),
         ``operation_type`` (``garden.operation.type``), ``date`` (semis prévu + ``day_offset``) et
-        ``duration`` (heures : durée attendue par m² × surface occupée). La création des
-        ``garden.operation`` correspondantes est prévue en phase 3.
+        ``duration`` (heures : durée attendue par m² × surface occupée). Voir
+        ``action_generate_operations`` pour la création des ``garden.operation`` correspondantes.
         """
         self.ensure_one()
         if not self.planned_sowing_date:

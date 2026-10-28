@@ -64,6 +64,11 @@
             <field name="model_id" ref="model_garden_crop"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
+        <record id="garden_operation_company_rule" model="ir.rule">
+            <field name="name">Opération : multi-société</field>
+            <field name="model_id" ref="model_garden_operation"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
         <record id="garden_season_company_rule" model="ir.rule">
             <field name="name">Saison : multi-société</field>
             <field name="model_id" ref="model_garden_season"/>

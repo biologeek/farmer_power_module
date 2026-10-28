@@ -1,0 +1,145 @@
+<odoo>
+    <record id="view_garden_operation_tree" model="ir.ui.view">
+        <field name="name">garden.operation.list</field>
+        <field name="model">garden.operation</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state in ('done', 'cancelled')" decoration-info="state == 'in_progress'">
+                <field name="name"/>
+                <field name="type_id"/>
+                <field name="scope" optional="show"/>
+                <field name="garden_main_id" optional="show"/>
+                <field name="planned_date"/>
+                <field name="date" optional="show"/>
+                <field name="employee_ids" widget="many2many_tags" optional="show"/>
+                <field name="duration" widget="float_time" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('planned', 'in_progress')" decoration-success="state == 'done'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_garden_operation_form" model="ir.ui.view">
+        <field name="name">garden.operation.form</field>
+        <field name="model">garden.operation</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" string="Démarrer" type="object" class="btn-primary"
+                            invisible="state != 'planned'"/>
+                    <button name="action_done" string="Terminer" type="object" class="btn-primary"
+                            invisible="state not in ('planned', 'in_progress')"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_reset_planned" string="Remettre en planifiée" type="object"
+                            invisible="state not in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="planned,in_progress,done"/>
+                </header>
+                <sheet>
+                    <field name="category" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Libellé de l'opération"/></h1>
+                    </div>
+                    <group>
+                        <group name="target">
+                            <field name="type_id" options="{'no_create': True}"/>
+                            <field name="scope"/>
+                            <field name="crop_ids" widget="many2many_tags" invisible="scope != 'crop'"
+                                   required="scope == 'crop'"/>
+                            <field name="bed_ids" widget="many2many_tags" invisible="scope != 'bed'"
+                                   required="scope == 'bed'"/>
+                            <field name="garden_id" invisible="scope != 'garden'" required="scope == 'garden'"/>
+                            <field name="garden_main_id" invisible="1"/>
+                        </group>
+                        <group name="dates">
+                            <field name="planned_date"/>
+                            <field name="date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Travail" name="work">
+                            <group>
+                                <group>
+                                    <field name="employee_ids" widget="many2many_avatar_employee"/>
+                                    <field name="duration" widget="float_time"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Récolte" name="harvest" invisible="category != 'harvest'">
+                            <group>
+                                <field name="harvest_product_id"/>
+                                <label for="harvest_qty"/>
+                                <div class="o_row">
+                                    <field name="harvest_qty"/>
+                                    <field name="harvest_uom_id" options="{'no_create': True}"/>
+                                </div>
+                            </group>
+                        </page>
+                        <page string="Irrigation" name="irrigation" invisible="category != 'irrigation'">
+                            <group>
+                                <field name="water_volume"/>
+                            </group>
+                        </page>
+                        <page string="Traitement" name="treatment" invisible="category != 'treatment'">
+                            <group>
+                                <field name="target"/>
+                                <field name="weather_notes"/>
+                            </group>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Consignes ou compte rendu"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_garden_operation_search" model="ir.ui.view">
+        <field name="name">garden.operation.search</field>
+        <field name="model">garden.operation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="type_id"/>
+                <field name="crop_ids"/>
+                <field name="bed_ids"/>
+                <field name="garden_id"/>
+                <field name="employee_ids"/>
+                <filter name="filter_planned" string="Planifiées" domain="[('state', '=', 'planned')]"/>
+                <filter name="filter_in_progress" string="En cours" domain="[('state', '=', 'in_progress')]"/>
+                <filter name="filter_done" string="Faites" domain="[('state', '=', 'done')]"/>
+                <filter name="filter_cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="filter_todo" string="À faire" domain="[('state', 'in', ('planned', 'in_progress'))]"/>
+                <filter name="filter_today_overdue" string="Du jour et en retard"
+                        domain="[('state', 'in', ('planned', 'in_progress')), ('planned_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="filter_my_operations" string="Mes opérations"
+                        domain="[('employee_ids.user_id', '=', uid)]"/>
+                <group>
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'type_id'}"/>
+                    <filter name="group_category" string="Catégorie" context="{'group_by': 'category'}"/>
+                    <filter name="group_garden" string="Îlot" context="{'group_by': 'garden_main_id'}"/>
+                    <filter name="group_date" string="Date prévue" context="{'group_by': 'planned_date:week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_garden_operation" model="ir.actions.act_window">
+        <field name="name">Opérations</field>
+        <field name="res_model">garden.operation</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_garden_operation_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première opération
+            </p>
+            <p>Une opération est un travail (semis, arrosage, récolte...) sur une culture, des planches ou un îlot.</p>
+        </field>
+    </record>
+</odoo>

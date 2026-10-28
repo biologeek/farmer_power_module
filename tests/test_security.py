@@ -47,14 +47,14 @@ class TestGardenSecurity(TransactionCase):
         crop = self.env['garden.crop'].with_user(self.worker).create({
             'template_id': self.template.id, 'bed_id': self.bed.id,
         })
-        action_type = self.env['garden.action.type'].create({'name': 'Binage'})
-        action = self.env['garden.action'].with_user(self.worker).create({
-            'type_id': action_type.id, 'crop_id': crop.id, 'duration': 15,
+        operation_type = self.env['garden.operation.type'].create({'name': 'Binage'})
+        operation = self.env['garden.operation'].with_user(self.worker).create({
+            'type_id': operation_type.id, 'crop_ids': [(6, 0, crop.ids)], 'duration': 0.25,
         })
-        action.write({'duration': 20})
+        operation.write({'duration': 0.5})
         self.env['garden.loss'].with_user(self.worker).create({'bed_id': self.bed.id, 'quantity': 1})
         with self.assertRaises(AccessError):
-            action.unlink()
+            operation.unlink()
 
     def test_chef_manages_catalog_and_structure(self):
         species = self.env['garden.species'].with_user(self.chef).create({'name': 'Chef espèce'})

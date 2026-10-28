@@ -9,6 +9,8 @@
                 <field name="name"/>
                 <field name="category"/>
                 <field name="default_scope"/>
+                <field name="requires_quantity" optional="show"/>
+                <field name="icon" optional="hide"/>
                 <field name="active" column_invisible="True"/>
             </list>
         </field>
@@ -25,8 +27,11 @@
                         <field name="name"/>
                         <field name="category"/>
                         <field name="default_scope"/>
+                        <field name="requires_quantity"/>
+                        <field name="icon"/>
                         <field name="sequence"/>
                     </group>
+                    <field name="description" placeholder="Description du type d'opération"/>
                 </sheet>
             </form>
         </field>
