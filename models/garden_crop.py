@@ -1,5 +1,6 @@
 import re
 import unicodedata
+from datetime import timedelta
 
 from odoo import api, fields, models
 
@@ -123,6 +124,80 @@ class GardenCrop(models.Model):
             crop.expected_revenue = crop.expected_yield_qty * template.expected_price
 
     # ------------------------------------------------------------------
+    # Rétro-planning
+    # ------------------------------------------------------------------
+    # UX : saisir (ou modifier) le semis prévu recalcule repiquage, début et fin de récolte ;
+    # saisir (ou modifier) le début de récolte visé recalcule le semis et les autres dates.
+    # Le repiquage et la fin de récolte restent libres (ajustement manuel sans cascade).
+    # Changer d'itinéraire recalcule à partir du semis s'il est saisi, sinon de la récolte.
+    # Les boutons « Recalculer depuis le semis / la récolte » appliquent la même logique.
+    def _plan_from_sowing(self):
+        for crop in self:
+            if crop.planned_sowing_date:
+                crop.update(crop.template_id._plan_dates(sowing_date=crop.planned_sowing_date))
+
+    def _plan_from_harvest(self):
+        for crop in self:
+            if crop.planned_harvest_start:
+                crop.update(crop.template_id._plan_dates(harvest_start=crop.planned_harvest_start))
+
+    def action_plan_from_sowing(self):
+        self._plan_from_sowing()
+
+    def action_plan_from_harvest(self):
+        self._plan_from_harvest()
+
+    @api.onchange('planned_sowing_date')
+    def _onchange_planned_sowing_date(self):
+        self._plan_from_sowing()
+
+    @api.onchange('planned_harvest_start')
+    def _onchange_planned_harvest_start(self):
+        self._plan_from_harvest()
+
+    @api.onchange('template_id')
+    def _onchange_template_id_dates(self):
+        if self.planned_sowing_date:
+            self._plan_from_sowing()
+        else:
+            self._plan_from_harvest()
+
+    @api.model
+    def _complete_planned_dates(self, vals):
+        """Complète à la création les dates prévues manquantes depuis le semis ou la récolte fournis."""
+        template = self.env['garden.crop.template'].browse(vals.get('template_id'))
+        if template and (vals.get('planned_sowing_date') or vals.get('planned_harvest_start')):
+            computed = template._plan_dates(vals.get('planned_sowing_date'), vals.get('planned_harvest_start'))
+            for key, value in computed.items():
+                vals.setdefault(key, value)
+        return vals
+
+    # ------------------------------------------------------------------
+    # Étapes prévues de l'itinéraire
+    # ------------------------------------------------------------------
+    def _get_planned_steps(self):
+        """Étapes planifiées de la culture, d'après l'itinéraire et le semis prévu.
+
+        Retourne une liste de dicts triés par date : ``step`` (étape d'itinéraire),
+        ``operation_type`` (``garden.operation.type``), ``date`` (semis prévu + ``day_offset``) et
+        ``duration`` (heures : durée attendue par m² × surface occupée). La création des
+        ``garden.operation`` correspondantes est prévue en phase 3.
+        """
+        self.ensure_one()
+        if not self.planned_sowing_date:
+            return []
+        steps = [
+            {
+                'step': step,
+                'operation_type': step.operation_type_id,
+                'date': self.planned_sowing_date + timedelta(days=step.day_offset),
+                'duration': step.expected_duration * self.area,
+            }
+            for step in self.template_id.step_ids
+        ]
+        return sorted(steps, key=lambda s: (s['date'], s['step'].sequence, s['step'].id))
+
+    # ------------------------------------------------------------------
     # Référence (nom de culture / de lot)
     # ------------------------------------------------------------------
     def _get_name_prefix(self):
@@ -151,6 +226,7 @@ class GardenCrop(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        vals_list = [self._complete_planned_dates(dict(vals)) for vals in vals_list]
         crops = super().create(vals_list)
         crops.filtered(lambda c: c.name == '/')._assign_names()
         return crops

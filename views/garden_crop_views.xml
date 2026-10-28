@@ -28,6 +28,10 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="action_plan_from_sowing" string="Recalculer depuis le semis" type="object"
+                            invisible="not planned_sowing_date or state in ('done', 'cancelled')"/>
+                    <button name="action_plan_from_harvest" string="Recalculer depuis la récolte" type="object"
+                            invisible="not planned_harvest_start or state in ('done', 'cancelled')"/>
                     <field name="state" widget="statusbar" options="{'clickable': '1'}"
                            statusbar_visible="planned,sown,in_place,harvesting,done"/>
                 </header>

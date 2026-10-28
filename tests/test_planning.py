@@ -190,3 +190,81 @@ class TestGardenPlanningSecurity(GardenPlanningCase):
         chef = self.chef.with_company(self.env.company)
         self.assertNotIn(season2, self.env['garden.season'].with_user(chef).search([]))
         self.assertIn(self.season, self.env['garden.season'].with_user(chef).search([]))
+
+
+@tagged('post_install', '-at_install')
+class TestGardenBackPlanning(GardenPlanningCase):
+
+    def test_plan_dates_from_harvest(self):
+        dates = self.template._plan_dates(harvest_start='2027-07-01')
+        self.assertEqual(dates['planned_sowing_date'], Date.to_date('2027-04-02'))
+        self.assertEqual(dates['planned_transplant_date'], Date.to_date('2027-05-02'))
+        self.assertEqual(dates['planned_harvest_start'], Date.to_date('2027-07-01'))
+        self.assertEqual(dates['planned_harvest_end'], Date.to_date('2027-08-10'))
+
+    def test_plan_dates_from_sowing(self):
+        dates = self.template._plan_dates(sowing_date='2027-03-01')
+        self.assertEqual(dates['planned_transplant_date'], Date.to_date('2027-03-31'))
+        self.assertEqual(dates['planned_harvest_start'], Date.to_date('2027-05-30'))
+        self.assertEqual(dates['planned_harvest_end'], Date.to_date('2027-07-09'))
+        self.assertEqual(self.template._plan_dates(), {})
+
+    def test_direct_sowing_has_no_transplant(self):
+        dates = self.template_direct._plan_dates(harvest_start='2027-09-01')
+        self.assertFalse(dates['planned_transplant_date'])
+        self.assertEqual(dates['planned_sowing_date'], Date.to_date('2027-05-24'))
+        self.assertEqual(dates['planned_harvest_end'], Date.to_date('2027-09-21'))
+
+    def test_create_completes_dates(self):
+        from_harvest = self._crop(planned_harvest_start='2027-07-01')
+        self.assertEqual(from_harvest.planned_sowing_date, Date.to_date('2027-04-02'))
+        self.assertEqual(from_harvest.planned_transplant_date, Date.to_date('2027-05-02'))
+        self.assertEqual(from_harvest.planned_harvest_end, Date.to_date('2027-08-10'))
+        from_sowing = self._crop(planned_sowing_date='2027-03-01')
+        self.assertEqual(from_sowing.planned_harvest_start, Date.to_date('2027-05-30'))
+        # une date explicite n'est pas écrasée
+        manual = self._crop(planned_sowing_date='2027-03-01', planned_harvest_end='2027-09-01')
+        self.assertEqual(manual.planned_harvest_end, Date.to_date('2027-09-01'))
+
+    def test_onchange_and_buttons(self):
+        crop = self._crop(planned_sowing_date='2027-03-01')
+        crop.planned_harvest_start = Date.to_date('2027-07-01')
+        crop._onchange_planned_harvest_start()
+        self.assertEqual(crop.planned_sowing_date, Date.to_date('2027-04-02'))
+        crop.planned_sowing_date = Date.to_date('2027-03-01')
+        crop.action_plan_from_sowing()
+        self.assertEqual(crop.planned_harvest_start, Date.to_date('2027-05-30'))
+        crop.planned_harvest_start = Date.to_date('2027-06-15')
+        crop.action_plan_from_harvest()
+        self.assertEqual(crop.planned_sowing_date, Date.to_date('2027-03-17'))
+        self.assertEqual(crop.planned_transplant_date, Date.to_date('2027-04-16'))
+        # changer d'itinéraire recalcule depuis le semis
+        crop.template_id = self.template_direct
+        crop._onchange_template_id_dates()
+        self.assertFalse(crop.planned_transplant_date)
+        self.assertEqual(crop.planned_harvest_start, Date.to_date('2027-06-25'))
+
+    def test_get_planned_steps(self):
+        sowing = self.env['garden.operation.type'].create({'name': 'Semis test'})
+        weeding = self.env['garden.operation.type'].create({'name': 'Désherbage test'})
+        harvest = self.env['garden.operation.type'].create({'name': 'Récolte test'})
+        Step = self.env['garden.crop.template.step']
+        Step.create([
+            {'template_id': self.template.id, 'operation_type_id': harvest.id, 'sequence': 30,
+             'day_offset': 90, 'expected_duration': 0.1},
+            {'template_id': self.template.id, 'operation_type_id': sowing.id, 'sequence': 10,
+             'day_offset': 0, 'expected_duration': 0.01},
+            {'template_id': self.template.id, 'operation_type_id': weeding.id, 'sequence': 20,
+             'day_offset': 45, 'expected_duration': 0.05},
+        ])
+        crop = self._crop(planned_sowing_date='2027-03-01', bed_share=50)  # 18 m²
+        steps = crop._get_planned_steps()
+        self.assertEqual([s['operation_type'] for s in steps], [sowing, weeding, harvest])
+        self.assertEqual(
+            [s['date'] for s in steps],
+            [Date.to_date('2027-03-01'), Date.to_date('2027-04-15'), Date.to_date('2027-05-30')],
+        )
+        self.assertAlmostEqual(steps[0]['duration'], 0.18)
+        self.assertAlmostEqual(steps[2]['duration'], 1.8)
+        # sans semis prévu, aucune étape
+        self.assertEqual(self._crop()._get_planned_steps(), [])
