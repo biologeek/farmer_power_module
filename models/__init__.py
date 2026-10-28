@@ -19,4 +19,6 @@ from . import hr_employee
 from . import garden_loss
 from . import product_template
 from . import res_company
+from . import account_move
+from . import garden_revenue
 from . import res_config_settings

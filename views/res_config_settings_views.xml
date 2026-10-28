@@ -27,6 +27,24 @@
                             </div>
                         </setting>
                     </block>
+                    <block title="Rentabilité" name="garden_profitability_setting_container">
+                        <setting string="Attribution du chiffre d'affaires" id="garden_revenue_method_setting"
+                                 help="Par lot : via les lots livrés (produits suivis par lots, commandes de vente). Au prorata : selon les quantités récoltées du mois pour chaque produit.">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <field name="garden_revenue_method" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Charges fixes" id="garden_fixed_cost_setting"
+                                 help="Coût annuel par m² imputé aux cultures (surface × jours d'occupation / 365) dans la marge. 0 : pas de charges fixes.">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <field name="garden_fixed_cost_per_m2" class="oe_inline"/> par m² et par an
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
                     <block title="Stock" name="garden_stock_setting_container">
                         <setting string="Emplacement de stockage" id="garden_stock_location_setting"
                                  help="Les récoltes entrent dans cet emplacement et les intrants en sortent. Vide : stock principal de l'entrepôt de la société.">

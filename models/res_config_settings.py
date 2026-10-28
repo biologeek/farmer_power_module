@@ -13,6 +13,19 @@ class ResConfigSettings(models.TransientModel):
         help="Coût horaire appliqué au temps de travail quand l'employé n'a pas de coût horaire "
              "renseigné ou qu'aucun employé n'est affecté à l'opération.",
     )
+    garden_revenue_method = fields.Selection(
+        [('prorata', 'Au prorata des récoltes du mois'), ('lot', 'Par lot de livraison')],
+        string="Attribution du chiffre d'affaires", config_parameter='odoo_garden.revenue_method',
+        default='prorata',
+        help="Par lot : le chiffre d'affaires d'une facture revient aux cultures dont les lots ont été livrés "
+             "(produits suivis par lots, factures issues de commandes de vente). Au prorata : pour chaque "
+             "produit et chaque mois, le chiffre d'affaires est réparti entre les cultures selon leurs récoltes du mois.",
+    )
+    garden_fixed_cost_per_m2 = fields.Float(
+        'Charges fixes annuelles par m²', config_parameter='odoo_garden.fixed_cost_per_m2', default=0.0,
+        help="Option : coût annuel par m² imputé aux cultures (coût × surface × jours d'occupation / 365). "
+             "Laisser à 0 pour ne pas imputer de charges fixes.",
+    )
 
     garden_stock_location_id = fields.Many2one(
         'stock.location', string='Emplacement de stockage', domain="[('usage', '=', 'internal')]",

@@ -185,6 +185,60 @@ class GardenCrop(models.Model):
         groups='odoo_garden.group_garden_chef',
         help="Somme du coût des intrants réparti sur la culture par les opérations faites.",
     )
+    expected_hours = fields.Float(
+        'Heures attendues', compute='_compute_expected_hours', store=True,
+        help="Somme des durées attendues (h/m²) des étapes de l'itinéraire × surface occupée.",
+    )
+    occupation_days = fields.Integer(
+        "Jours d'occupation", compute='_compute_occupation_days', store=True,
+        help="Nombre de jours entre le début et la fin d'occupation (bornes comprises) ; sert aux charges fixes.",
+    )
+
+    # Rentabilité (phase 5). Champs non stockés : le chiffre d'affaires vient des factures clients
+    # (autre modèle, modifiable à tout moment), il est donc recalculé à chaque lecture. Le rapport
+    # `garden.crop.profitability` en garde une copie, actualisée à la demande et chaque nuit. Les calculs
+    # tournent en ``sudo`` (comptabilité inaccessible au chef de culture), mais la lecture reste réservée
+    # au chef de culture et au gérant.
+    revenue = fields.Float(
+        "Chiffre d'affaires", compute='_compute_revenue', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef',
+        help="Montant HT des factures clients comptabilisées attribué à la culture, selon la méthode choisie "
+             "dans les paramètres (par lot ou au prorata des récoltes du mois).",
+    )
+    sale_line_count = fields.Integer(
+        'Lignes de vente', compute='_compute_revenue', compute_sudo=True, groups='odoo_garden.group_garden_chef',
+        help="Nombre de lignes de factures clients attribuées (en tout ou partie) à la culture.",
+    )
+    fixed_cost = fields.Float(
+        'Charges fixes', compute='_compute_margin', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef',
+        help="Option : coût annuel par m² (paramètres) × surface × jours d'occupation / 365. Nul si le coût "
+             "par m² est à zéro.",
+    )
+    margin = fields.Float(
+        'Marge', compute='_compute_margin', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef',
+        help="Chiffre d'affaires - coût de main-d'œuvre - coût des intrants - charges fixes.",
+    )
+    margin_per_hour = fields.Float(
+        'Marge par heure', compute='_compute_margin', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef', help="Marge / heures de travail (0 sans heures).",
+    )
+    margin_per_m2 = fields.Float(
+        'Marge par m²', compute='_compute_margin', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef', help="Marge / surface occupée (0 sans surface).",
+    )
+    yield_gap = fields.Float(
+        'Écart de récolte (kg)', compute='_compute_gaps', digits='Product Unit',
+        help="Quantité récoltée - récolte attendue.",
+    )
+    hours_gap = fields.Float(
+        'Écart d\'heures', compute='_compute_gaps', help="Heures de travail - heures attendues.",
+    )
+    revenue_gap = fields.Float(
+        "Écart de chiffre d'affaires", compute='_compute_revenue_gap', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef', help="Chiffre d'affaires - chiffre d'affaires attendu.",
+    )
     operation_count = fields.Integer(
         'Nombre d\'opérations', compute='_compute_operation_count',
         help="Opérations qui visent la culture ou qui lui sont réparties (planche, îlot).",
@@ -221,6 +275,56 @@ class GardenCrop(models.Model):
                 or crop.date_start or crop.planned_sowing_date or crop.planned_transplant_date
             )
             crop.occupation_end = crop.date_end or crop.planned_harvest_end or crop.planned_harvest_start
+
+    @api.depends('area', 'template_id.step_ids.expected_duration')
+    def _compute_expected_hours(self):
+        for crop in self:
+            crop.expected_hours = crop.area * sum(crop.template_id.step_ids.mapped('expected_duration'))
+
+    @api.depends('occupation_start', 'occupation_end')
+    def _compute_occupation_days(self):
+        for crop in self:
+            if crop.occupation_start and crop.occupation_end:
+                crop.occupation_days = max((crop.occupation_end - crop.occupation_start).days + 1, 0)
+            else:
+                crop.occupation_days = 0
+
+    @api.model
+    def _get_fixed_cost_per_m2(self):
+        """Charges fixes annuelles par m² (paramètre système ``odoo_garden.fixed_cost_per_m2``, défaut 0)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.fixed_cost_per_m2', '0')
+        try:
+            return max(float(value), 0.0)
+        except ValueError:
+            return 0.0
+
+    @api.depends('harvested_qty', 'lot_ids')
+    def _compute_revenue(self):
+        attribution = self.env['garden.revenue'].get_attribution(self)
+        for crop in self:
+            lines = attribution.get(crop.id, {})
+            crop.revenue = sum(lines.values())
+            crop.sale_line_count = len(lines)
+
+    @api.depends('revenue', 'labour_cost', 'input_cost', 'labour_hours', 'area', 'occupation_days')
+    def _compute_margin(self):
+        rate = self._get_fixed_cost_per_m2()
+        for crop in self:
+            crop.fixed_cost = rate * crop.area * crop.occupation_days / 365.0 if rate > 0 else 0.0
+            crop.margin = crop.revenue - crop.labour_cost - crop.input_cost - crop.fixed_cost
+            crop.margin_per_hour = crop.margin / crop.labour_hours if crop.labour_hours > 0 else 0.0
+            crop.margin_per_m2 = crop.margin / crop.area if crop.area > 0 else 0.0
+
+    @api.depends('harvested_qty', 'expected_yield_qty', 'labour_hours', 'expected_hours')
+    def _compute_gaps(self):
+        for crop in self:
+            crop.yield_gap = crop.harvested_qty - crop.expected_yield_qty
+            crop.hours_gap = crop.labour_hours - crop.expected_hours
+
+    @api.depends('revenue', 'expected_revenue')
+    def _compute_revenue_gap(self):
+        for crop in self:
+            crop.revenue_gap = crop.revenue - crop.expected_revenue
 
     @api.depends('allocation_ids.hours', 'allocation_ids.labour_cost', 'allocation_ids.input_cost')
     def _compute_labour(self):

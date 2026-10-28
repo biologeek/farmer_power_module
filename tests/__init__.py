@@ -12,4 +12,5 @@ from . import test_stock_harvest
 from . import test_stock_losses
 from . import test_stock_traceability
 from . import test_progress
+from . import test_revenue
 from . import test_demo
