@@ -4,3 +4,4 @@ from . import test_catalog
 from . import test_security
 from . import test_planning
 from . import test_gantt
+from . import test_demo

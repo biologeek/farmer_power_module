@@ -734,4 +734,115 @@
         <field name="template_id" ref="demo_template_pepper_corne"/><field name="sequence">40</field>
         <field name="operation_type_id" ref="operation_type_harvest"/><field name="day_offset">105</field><field name="expected_duration">0.04</field>
     </record>
+
+    <!-- Plan de culture : saison 2026 (historique pour la rotation) et saison 2027 (12 cultures). -->
+    <record id="demo_season_2026" model="garden.season">
+        <field name="name">Saison 2026</field>
+        <field name="date_start">2026-01-01</field><field name="date_end">2026-12-31</field>
+        <field name="state">closed</field>
+    </record>
+    <record id="demo_season_2027" model="garden.season">
+        <field name="name">Saison 2027</field>
+        <field name="date_start">2027-01-01</field><field name="date_end">2027-12-31</field>
+        <field name="state">validated</field>
+    </record>
+
+    <!-- 2026 : tomate sur S1-03, qui déclenche l'avertissement de rotation du poivron 2027 (même famille). -->
+    <record id="demo_crop_2026_tomato_s1_03" model="garden.crop">
+        <field name="season_id" ref="demo_season_2026"/>
+        <field name="template_id" ref="demo_template_tomato_cerise"/>
+        <field name="bed_id" ref="demo_bed_s1_03"/>
+        <field name="planned_harvest_start">2026-07-20</field>
+        <field name="date_start">2026-03-10</field><field name="date_end">2026-10-15</field>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_crop_2027_tomato_coeur_s1_01" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_tomato_coeur"/>
+        <field name="bed_id" ref="demo_bed_s1_01"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-07-15</field>
+    </record>
+    <record id="demo_crop_2027_tomato_roma_s1_02" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_tomato_roma"/>
+        <field name="bed_id" ref="demo_bed_s1_02"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-08-01</field>
+    </record>
+    <!-- rotation -->
+    <record id="demo_crop_2027_pepper_doux_s1_03" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_pepper_doux"/>
+        <field name="bed_id" ref="demo_bed_s1_03"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-07-20</field>
+    </record>
+    <!-- chevauchement -->
+    <record id="demo_crop_2027_lettuce_batavia_n1_01" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_lettuce_batavia"/>
+        <field name="bed_id" ref="demo_bed_n1_01"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-05-10</field>
+    </record>
+    <!-- chevauchement -->
+    <record id="demo_crop_2027_carrot_nantes_n1_01" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_carrot_nantes"/>
+        <field name="bed_id" ref="demo_bed_n1_01"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-05-25</field>
+    </record>
+    <record id="demo_crop_2027_leek_bleu_n1_02" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_leek_bleu"/>
+        <field name="bed_id" ref="demo_bed_n1_02"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-11-01</field>
+    </record>
+    <record id="demo_crop_2027_zucchini_verte_n1_03" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_zucchini_verte"/>
+        <field name="bed_id" ref="demo_bed_n1_03"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-07-01</field>
+    </record>
+    <record id="demo_crop_2027_cabbage_milan_n1_04" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_cabbage_milan"/>
+        <field name="bed_id" ref="demo_bed_n1_04"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-10-15</field>
+    </record>
+    <!-- part de planche -->
+    <record id="demo_crop_2027_cabbage_kale_n1_05" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_cabbage_kale"/>
+        <field name="bed_id" ref="demo_bed_n1_05"/>
+        <field name="bed_share">50</field>
+        <field name="planned_harvest_start">2027-10-01</field>
+    </record>
+    <!-- part de planche -->
+    <record id="demo_crop_2027_bean_contender_n1_05" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_bean_contender"/>
+        <field name="bed_id" ref="demo_bed_n1_05"/>
+        <field name="bed_share">50</field>
+        <field name="planned_harvest_start">2027-08-01</field>
+    </record>
+    <record id="demo_crop_2027_beet_detroit_n2_01" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_beet_detroit"/>
+        <field name="bed_id" ref="demo_bed_n2_01"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-07-10</field>
+    </record>
+    <record id="demo_crop_2027_onion_stuttgart_n2_02" model="garden.crop">
+        <field name="season_id" ref="demo_season_2027"/>
+        <field name="template_id" ref="demo_template_onion_stuttgart"/>
+        <field name="bed_id" ref="demo_bed_n2_02"/>
+        <field name="bed_share">100</field>
+        <field name="planned_harvest_start">2027-08-20</field>
+    </record>
 </odoo>
