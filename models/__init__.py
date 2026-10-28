@@ -21,4 +21,5 @@ from . import product_template
 from . import res_company
 from . import account_move
 from . import garden_revenue
+from . import garden_crop_profitability
 from . import res_config_settings

@@ -29,6 +29,7 @@
         'views/garden_loss_views.xml',
         'views/garden_traceability_views.xml',
         'views/garden_statistics_views.xml',
+        'views/garden_profitability_views.xml',
         'views/res_config_settings_views.xml',
         'views/garden_menu.xml',
     ],

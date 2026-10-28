@@ -1,0 +1,192 @@
+from odoo import api, fields, models
+from odoo.tools import SQL
+
+
+class GardenCropProfitability(models.Model):
+    _name = 'garden.crop.profitability'
+    _description = 'Rentabilité par culture'
+    _order = 'margin_per_hour desc, id'
+    _rec_name = 'crop_id'
+    # Modèle de reporting : une ligne par culture (non annulée), recalculée par ``refresh()`` à partir de
+    # l'ORM (champs de rentabilité de ``garden.crop`` et service ``garden.revenue``).
+    #
+    # Choix de conception : le chiffre d'affaires dépend de l'attribution par lot (facture -> commande ->
+    # livraison -> lot) ou au prorata mensuel des récoltes, ce qui est fragile et dupliqué en SQL pur. La
+    # règle d'attribution reste donc écrite une seule fois, en Python (``garden.revenue``), et ce modèle
+    # en garde une copie stockée, actualisée à l'ouverture du rapport et du tableau de bord, par le bouton
+    # « Actualiser » et chaque nuit (cron). Le SQL n'est utilisé que pour agréger les ratios (moyennes
+    # pondérées) dans les vues pivot et graphique.
+    #
+    # Les montants sont dans la monnaie de la société de chaque culture ; additionner des sociétés de
+    # monnaies différentes n'a pas de sens (limite connue).
+
+    crop_id = fields.Many2one(
+        'garden.crop', string='Culture', required=True, index=True, ondelete='cascade', readonly=True,
+    )
+    company_id = fields.Many2one('res.company', string='Société', readonly=True, index=True)
+    currency_id = fields.Many2one('res.currency', string='Monnaie', related='company_id.currency_id')
+    season_id = fields.Many2one('garden.season', string='Saison', readonly=True, index=True)
+    site_id = fields.Many2one('garden.site', string='Site', readonly=True, index=True)
+    garden_id = fields.Many2one('garden.garden', string='Îlot', readonly=True, index=True)
+    bed_id = fields.Many2one('garden.bed', string='Planche', readonly=True, index=True)
+    species_id = fields.Many2one('garden.species', string='Espèce', readonly=True, index=True)
+    family = fields.Selection(
+        related='species_id.family', string='Famille botanique', store=True, readonly=True,
+    )
+    variety_id = fields.Many2one('garden.variety', string='Variété', readonly=True, index=True)
+    state = fields.Selection(
+        related='crop_id.state', string='État', store=True, readonly=True,
+    )
+    date = fields.Date(
+        'Début', readonly=True, help="Début d'occupation de la planche (réel, à défaut prévu).",
+    )
+    area = fields.Float('Surface (m²)', readonly=True, aggregator='sum')
+    occupation_days = fields.Integer("Jours d'occupation", readonly=True, aggregator='sum')
+
+    hours = fields.Float('Heures de travail', readonly=True, aggregator='sum')
+    labour_cost = fields.Float("Coût main-d'œuvre", readonly=True, aggregator='sum')
+    input_cost = fields.Float('Coût des intrants', readonly=True, aggregator='sum')
+    fixed_cost = fields.Float('Charges fixes', readonly=True, aggregator='sum')
+    harvested_qty = fields.Float('Quantité récoltée (kg)', readonly=True, aggregator='sum')
+    loss_qty = fields.Float('Quantité perdue (kg)', readonly=True, aggregator='sum')
+    revenue = fields.Float("Chiffre d'affaires", readonly=True, aggregator='sum')
+    margin = fields.Float('Marge', readonly=True, aggregator='sum')
+
+    # Ratios : en vue pivot ou graphique, la valeur d'un groupe est le ratio des sommes (pondérée),
+    # pas la moyenne des ratios (voir ``_read_group_select``).
+    margin_per_hour = fields.Float(
+        'Marge par heure', readonly=True, aggregator='avg',
+        help="Marge / heures de travail. Sur un groupe : somme des marges / somme des heures.",
+    )
+    margin_per_m2 = fields.Float(
+        'Marge par m²', readonly=True, aggregator='avg',
+        help="Marge / surface. Sur un groupe : somme des marges / somme des surfaces.",
+    )
+    yield_per_m2 = fields.Float(
+        'Rendement (kg/m²)', readonly=True, aggregator='avg',
+        help="Quantité récoltée / surface. Sur un groupe : somme des récoltes / somme des surfaces.",
+    )
+    loss_rate = fields.Float(
+        'Taux de perte', readonly=True, aggregator='avg', digits=(16, 4),
+        help="Pertes / (récolte + pertes). Sur un groupe : calculé sur les sommes.",
+    )
+
+    expected_yield_qty = fields.Float('Récolte attendue (kg)', readonly=True, aggregator='sum')
+    expected_revenue = fields.Float("Chiffre d'affaires attendu", readonly=True, aggregator='sum')
+    expected_hours = fields.Float('Heures attendues', readonly=True, aggregator='sum')
+    yield_gap = fields.Float('Écart de récolte (kg)', readonly=True, aggregator='sum')
+    revenue_gap = fields.Float("Écart de chiffre d'affaires", readonly=True, aggregator='sum')
+    hours_gap = fields.Float("Écart d'heures", readonly=True, aggregator='sum')
+
+    _crop_unique = models.Constraint('UNIQUE (crop_id)', 'Une seule ligne de rentabilité par culture.')
+
+    # ------------------------------------------------------------------
+    # Agrégation des ratios (le seul endroit où du SQL est écrit)
+    # ------------------------------------------------------------------
+    def _read_group_select(self, aggregate_spec, query):
+        ratios = {
+            'margin_per_hour:avg': ('margin', 'hours'),
+            'margin_per_m2:avg': ('margin', 'area'),
+            'yield_per_m2:avg': ('harvested_qty', 'area'),
+        }
+        if aggregate_spec in ratios:
+            numerator, denominator = ratios[aggregate_spec]
+            return SQL(
+                'SUM(%(num)s) / NULLIF(SUM(%(den)s), 0.0)',
+                num=self._field_to_sql(self._table, numerator, query),
+                den=self._field_to_sql(self._table, denominator, query),
+            )
+        if aggregate_spec == 'loss_rate:avg':
+            lost = self._field_to_sql(self._table, 'loss_qty', query)
+            harvested = self._field_to_sql(self._table, 'harvested_qty', query)
+            return SQL('SUM(%(lost)s) / NULLIF(SUM(%(harvested)s) + SUM(%(lost)s), 0.0)', lost=lost, harvested=harvested)
+        return super()._read_group_select(aggregate_spec, query)
+
+    # ------------------------------------------------------------------
+    # Actualisation
+    # ------------------------------------------------------------------
+    @api.model
+    def _prepare_values(self, crops):
+        """Valeurs des lignes de rentabilité des cultures (calculées en ``sudo``, en lot)."""
+        values = {}
+        for crop in crops.sudo():
+            bed = crop.bed_id
+            hours, area = crop.labour_hours, crop.area
+            lost = crop.loss_qty
+            total = crop.harvested_qty + lost
+            values[crop.id] = {
+                'crop_id': crop.id,
+                'company_id': crop.company_id.id,
+                'season_id': crop.season_id.id,
+                'site_id': bed.site_id.id,
+                'garden_id': bed.garden_id.id,
+                'bed_id': bed.id,
+                'species_id': crop.species_id.id,
+                'variety_id': crop.variety_id.id,
+                'date': crop.occupation_start,
+                'area': area,
+                'occupation_days': crop.occupation_days,
+                'hours': hours,
+                'labour_cost': crop.labour_cost,
+                'input_cost': crop.input_cost,
+                'fixed_cost': crop.fixed_cost,
+                'harvested_qty': crop.harvested_qty,
+                'loss_qty': lost,
+                'revenue': crop.revenue,
+                'margin': crop.margin,
+                'margin_per_hour': crop.margin_per_hour,
+                'margin_per_m2': crop.margin_per_m2,
+                'yield_per_m2': crop.harvested_qty / area if area > 0 else 0.0,
+                'loss_rate': lost / total if total > 0 else 0.0,
+                'expected_yield_qty': crop.expected_yield_qty,
+                'expected_revenue': crop.expected_revenue,
+                'expected_hours': crop.expected_hours,
+                'yield_gap': crop.yield_gap,
+                'revenue_gap': crop.revenue_gap,
+                'hours_gap': crop.hours_gap,
+            }
+        return values
+
+    @api.model
+    def refresh(self):
+        """Recalcule le rapport : une ligne par culture non annulée (créée, mise à jour ou supprimée)."""
+        self = self.sudo()
+        Crop = self.env['garden.crop'].with_context(active_test=False)
+        crops = Crop.search([('state', '!=', 'cancelled')])
+        crops.invalidate_recordset(['revenue', 'sale_line_count', 'margin', 'margin_per_hour', 'margin_per_m2',
+                                    'fixed_cost', 'revenue_gap'])
+        values = self._prepare_values(crops)
+        existing = {line.crop_id.id: line for line in self.search([])}
+        stale = self.browse([line.id for crop_id, line in existing.items() if crop_id not in values])
+        stale.unlink()
+        to_create = []
+        for crop_id, vals in values.items():
+            line = existing.get(crop_id)
+            if not line:
+                to_create.append(vals)
+                continue
+            changed = {
+                key: value for key, value in vals.items()
+                if key != 'crop_id' and line._fields[key].convert_to_write(line[key], line) != value
+            }
+            if changed:
+                line.write(changed)
+        if to_create:
+            self.create(to_create)
+        return True
+
+    @api.model
+    def _cron_refresh(self):
+        self.refresh()
+
+    @api.model
+    def action_open(self, xmlid='odoo_garden.action_garden_profitability'):
+        """Actualise le rapport puis ouvre l'action donnée (menus Rentabilité)."""
+        self.refresh()
+        return self.env['ir.actions.act_window']._for_xml_id(xmlid)
+
+    @api.model
+    def action_refresh(self):
+        """Bouton « Actualiser » : recalcule puis recharge la vue."""
+        self.refresh()
+        return {'type': 'ir.actions.client', 'tag': 'soft_reload'}
