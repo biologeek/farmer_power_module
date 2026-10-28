@@ -51,7 +51,7 @@ class TestGardenInstall(TransactionCase):
 
     def test_operation_statistics(self):
         self.operation.action_done()
-        data = self.env['garden.operation'].get_statistics_data()
+        data = self.env['garden.operation.allocation'].get_statistics_data()
         self.assertIn('pie', data)
         self.assertIn('stacked', data)
         self.assertIn('categories', data['stacked'])

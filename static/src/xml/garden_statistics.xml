@@ -11,15 +11,24 @@
             </style>
             <Layout display="display">
                 <div class="o_garden_statistics_header">
-                    <h1>Statistiques - Temps des actions</h1>
+                    <h1>Statistiques - Temps des opérations</h1>
                 </div>
                 <div class="o_garden_charts">
                     <div class="o_garden_chart_card">
-                        <h2>Consommation de temps par type d'action</h2>
+                        <h2>Temps de travail (heures) par type d'opération</h2>
                         <canvas id="garden-pie-chart" width="400" height="300"></canvas>
+                        <table class="table table-sm o_garden_pie_table">
+                            <thead><tr><th>Type d'opération</th><th>Heures</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="state.pie" t-as="row" t-key="row.label">
+                                    <td t-esc="row.label"/>
+                                    <td t-esc="row.value.toFixed(2)"/>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="o_garden_chart_card">
-                        <h2>Temps par type d'action par variété (empilé)</h2>
+                        <h2>Heures par type d'opération et par itinéraire (empilé)</h2>
                         <canvas id="garden-stacked-chart" width="600" height="300"></canvas>
                     </div>
                 </div>

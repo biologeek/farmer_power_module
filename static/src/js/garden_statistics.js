@@ -20,7 +20,7 @@ class GardenStatisticsAction extends Component {
     }
 
     async _loadData() {
-        const data = await this.orm.call("garden.operation", "get_statistics_data", [this.props.action.context || {}]);
+        const data = await this.orm.call("garden.operation.allocation", "get_statistics_data", [this.props.action.context || {}]);
         this.state.pie = data.pie || [];
         this.state.stacked = data.stacked || { categories: [], series: [] };
         // render charts after DOM update

@@ -367,18 +367,3 @@ class GardenOperation(models.Model):
         if self._ALLOCATION_FIELDS & vals.keys():
             self._update_allocations()
         return result
-
-    # ------------------------------------------------------------------
-    # Statistiques
-    # ------------------------------------------------------------------
-    @api.model
-    def get_statistics_data(self, params=None):
-        """Temps de travail par type d'opération pour les écrans de statistiques.
-
-        Retourne ``pie`` (liste de ``{label, value}``) et ``stacked`` (``categories`` et ``series``).
-        """
-        pie = [
-            {'label': operation_type.name, 'value': hours}
-            for operation_type, hours in self._read_group([('state', '=', 'done')], ['type_id'], ['duration:sum'])
-        ]
-        return {'pie': pie, 'stacked': {'categories': [], 'series': []}}
