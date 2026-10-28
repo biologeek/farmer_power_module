@@ -139,6 +139,26 @@
             </search>
         </field>
     </record>
+    <record id="view_garden_crop_calendar" model="ir.ui.view">
+        <field name="name">garden.crop.calendar</field>
+        <field name="model">garden.crop</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendrier des cultures" date_start="planned_sowing_date" date_stop="planned_harvest_end"
+                      color="species_id" mode="month" quick_create="0" event_open_popup="1">
+                <field name="bed_id"/>
+                <field name="season_id"/>
+                <field name="planned_harvest_start"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+    <record id="action_garden_crop_calendar" model="ir.actions.act_window">
+        <field name="name">Calendrier des cultures</field>
+        <field name="res_model">garden.crop</field>
+        <field name="view_mode">calendar,list,form</field>
+        <field name="domain">[('state', '!=', 'cancelled')]</field>
+        <field name="search_view_id" ref="view_garden_crop_search"/>
+    </record>
     <record id="action_garden_crop" model="ir.actions.act_window">
         <field name="name">Cultures</field>
         <field name="res_model">garden.crop</field>

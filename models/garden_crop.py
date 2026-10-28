@@ -13,6 +13,7 @@ class GardenCrop(models.Model):
     _description = 'Culture sur planche'
     _inherit = ['mail.thread']
     _order = 'planned_sowing_date, id'
+    _rec_names_search = ['name', 'template_id']
 
     name = fields.Char(
         'Référence', default='/', copy=False, readonly=True, index=True,
@@ -117,6 +118,11 @@ class GardenCrop(models.Model):
         'CHECK (bed_share > 0 AND bed_share <= 100)',
         'La part de la planche doit être comprise entre 0 (exclu) et 100 %.',
     )
+
+    @api.depends('name', 'template_id.name')
+    def _compute_display_name(self):
+        for crop in self:
+            crop.display_name = "%s - %s" % (crop.name, crop.template_id.name) if crop.template_id else crop.name
 
     @api.depends('bed_id.area', 'bed_share')
     def _compute_area(self):

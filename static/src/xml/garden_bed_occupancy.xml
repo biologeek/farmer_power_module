@@ -1,128 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="garden.GardenBedOccupancy">
-        <div class="o_action o_garden_occupancy_action">
-            <style>
-                .o_garden_occupancy_action {
-                    padding: 1rem 1.5rem;
-                }
-                .o_garden_occupancy_header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 1rem;
-                    gap: 1rem;
-                }
-                .o_garden_occupancy_chart {
-                    display: grid;
-                    grid-template-columns: 200px 1fr;
-                    gap: 0.75rem;
-                    align-items: start;
-                }
-                .o_garden_occupancy_yaxis {
-                    display: grid;
-                    grid-auto-rows: minmax(2.4rem, auto);
-                    gap: 0.5rem;
-                }
-                .o_garden_occupancy_bed_label {
-                    display: flex;
-                    align-items: center;
-                    min-height: 2.4rem;
-                    padding: 0 0.5rem;
-                    font-weight: 600;
-                    color: #2c3e50;
-                    border-right: 1px solid #dfe3e8;
-                }
-                .o_garden_occupancy_body {
-                    position: relative;
-                    width: 100%;
-                }
-                .o_garden_occupancy_timeline {
-                    display: grid;
-                    grid-auto-rows: minmax(2.4rem, auto);
-                    gap: 0.5rem;
-                    padding-right: 0.5rem;
-                }
-                .o_garden_occupancy_row {
-                    position: relative;
-                    min-height: 2.4rem;
-                    border-bottom: 1px solid #e3e6ea;
-                }
-                .o_garden_occupancy_bar {
-                    position: absolute;
-                    top: 0.35rem;
-                    height: 1.7rem;
-                    border-radius: 0.8rem;
-                    background: #4a8c63;
-                    color: #fff;
-                    display: flex;
-                    align-items: center;
-                    padding: 0 0.75rem;
-                    font-size: 0.85rem;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-                .o_garden_occupancy_bar_label {
-                    display: inline-block;
-                    max-width: 100%;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-                .o_garden_occupancy_xaxis {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 0.75rem;
-                    color: #5f6f7a;
-                    font-size: 0.85rem;
-                }
-                .o_garden_occupancy_axis {
-                    color: #5f6f7a;
-                    font-size: 0.92rem;
-                }
-                .o_garden_occupancy_empty {
-                    padding: 1rem;
-                    border: 1px solid #dfe3e8;
-                    border-radius: 0.5rem;
-                    background: #f7f9fb;
-                }
-            </style>
+        <div class="o_action o_garden_gantt">
             <Layout display="display">
-                <div class="o_garden_occupancy_header">
-                    <h1>Occupation des planches</h1>
-                    <div class="o_garden_occupancy_axis">
-                        <span>De <t t-esc="formatDate(state.startDate)"/> à <t t-esc="formatDate(state.endDate)"/></span>
+                <div class="o_garden_gantt_header">
+                    <h1 class="o_garden_gantt_title">Plan de culture</h1>
+                    <div class="o_garden_gantt_filters">
+                        <label>
+                            Saison
+                            <select class="form-select form-select-sm" t-on-change="(ev) => this.onFilterChange('seasonId', ev)">
+                                <option value="">Toutes les saisons</option>
+                                <t t-foreach="state.seasons" t-as="season" t-key="season.id">
+                                    <option t-att-value="season.id" t-att-selected="season.id === state.seasonId"><t t-esc="season.name"/></option>
+                                </t>
+                            </select>
+                        </label>
+                        <label>
+                            Site
+                            <select class="form-select form-select-sm" t-on-change="(ev) => this.onFilterChange('siteId', ev)">
+                                <option value="">Tous les sites</option>
+                                <t t-foreach="state.sites" t-as="site" t-key="site.id">
+                                    <option t-att-value="site.id" t-att-selected="site.id === state.siteId"><t t-esc="site.name"/></option>
+                                </t>
+                            </select>
+                        </label>
+                        <label class="form-check">
+                            <input type="checkbox" class="form-check-input" t-att-checked="state.hideEmpty" t-on-change="onHideEmptyChange"/>
+                            Masquer les planches libres
+                        </label>
                     </div>
                 </div>
-                <t t-if="state.beds.length">
-                    <div class="o_garden_occupancy_chart">
-                        <div class="o_garden_occupancy_yaxis">
-                            <t t-foreach="state.beds" t-as="bed" t-key="bed.id">
-                                <div class="o_garden_occupancy_bed_label"><t t-esc="bed.name"/></div>
-                            </t>
-                        </div>
-                        <div class="o_garden_occupancy_body">
-                            <div class="o_garden_occupancy_timeline">
-                                <t t-foreach="state.beds" t-as="bed" t-key="bed.id">
-                                    <div class="o_garden_occupancy_row">
-                                        <t t-foreach="bed.crops" t-as="crop" t-key="crop.id">
-                                            <div class="o_garden_occupancy_bar" t-att-style="getBarStyle(crop)" t-att-title="crop.label + ' • ' + formatDate(crop.date_start) + ' — ' + formatDate(crop.date_end)">
-                                                <span class="o_garden_occupancy_bar_label"><t t-esc="crop.label"/></span>
-                                            </div>
-                                        </t>
+                <div class="o_garden_gantt_legend">
+                    <t t-foreach="state.families" t-as="family" t-key="family.key">
+                        <span class="o_garden_gantt_legend_item">
+                            <span t-attf-class="o_garden_gantt_swatch o_garden_family_{{family.key}}"/>
+                            <t t-esc="family.label"/>
+                        </span>
+                    </t>
+                    <span class="o_garden_gantt_legend_item"><span class="o_garden_gantt_swatch o_garden_gantt_swatch_planned"/> Prévu</span>
+                    <span class="o_garden_gantt_legend_item"><span class="o_garden_gantt_swatch o_garden_gantt_swatch_real"/> Réalisé</span>
+                </div>
+                <t t-if="visibleGroups.length">
+                    <div class="o_garden_gantt_scroll">
+                        <div class="o_garden_gantt_chart">
+                            <div class="o_garden_gantt_line o_garden_gantt_axis">
+                                <div class="o_garden_gantt_label"/>
+                                <div class="o_garden_gantt_track">
+                                    <t t-foreach="months" t-as="month" t-key="month.key">
+                                        <div class="o_garden_gantt_month" t-attf-style="left: {{month.left}}%; width: {{month.width}}%;">
+                                            <t t-esc="month.label"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <t t-foreach="visibleGroups" t-as="group" t-key="group.id">
+                                <div class="o_garden_gantt_group"><t t-esc="group.name"/></div>
+                                <t t-foreach="group.beds" t-as="bed" t-key="bed.id">
+                                    <div class="o_garden_gantt_line">
+                                        <div class="o_garden_gantt_label" t-att-title="bed.area + ' m²'">
+                                            <t t-esc="bed.name"/>
+                                        </div>
+                                        <div class="o_garden_gantt_track" t-att-style="rowStyle(bed)">
+                                            <t t-foreach="months" t-as="month" t-key="month.key">
+                                                <div class="o_garden_gantt_gridline" t-attf-style="left: {{month.left}}%;"/>
+                                            </t>
+                                            <div class="o_garden_gantt_today" t-att-style="todayStyle"/>
+                                            <t t-foreach="bed.crops" t-as="crop" t-key="crop.id">
+                                                <div t-attf-class="o_garden_gantt_bar o_garden_gantt_bar_planned o_garden_family_{{crop.family}} {{crop.state === 'cancelled' ? 'o_garden_gantt_cancelled' : ''}} {{crop.warnings.length ? 'o_garden_gantt_warning' : ''}}"
+                                                     t-att-style="barStyle(crop, 'planned')" t-att-title="barTitle(crop)"
+                                                     role="button" tabindex="0" t-on-click="() => this.openCrop(crop)">
+                                                    <i t-if="crop.warnings.length" class="fa fa-exclamation-triangle me-1"/>
+                                                    <span class="o_garden_gantt_bar_label"><t t-esc="crop.label"/></span>
+                                                </div>
+                                                <div t-if="crop.real_start" t-attf-class="o_garden_gantt_bar o_garden_gantt_bar_real o_garden_family_{{crop.family}}"
+                                                     t-att-style="barStyle(crop, 'real')" t-att-title="barTitle(crop)"
+                                                     role="button" tabindex="0" t-on-click="() => this.openCrop(crop)"/>
+                                            </t>
+                                        </div>
                                     </div>
                                 </t>
-                            </div>
-                            <div class="o_garden_occupancy_xaxis">
-                                <span t-att-style="getTickStyle(0)"><t t-esc="formatDate(state.startDate)"/></span>
-                                <span t-att-style="getTickStyle(100)"><t t-esc="formatDate(state.endDate)"/></span>
-                            </div>
+                            </t>
                         </div>
                     </div>
                 </t>
                 <t t-else="">
-                    <div class="o_garden_occupancy_empty">Aucune occupation de planche trouvée.</div>
+                    <div class="o_garden_gantt_empty">Aucune planche à afficher.</div>
                 </t>
             </Layout>
         </div>

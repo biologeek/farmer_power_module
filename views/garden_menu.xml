@@ -9,6 +9,8 @@
 
     <menuitem id="menu_garden_planning" name="Planification" parent="menu_garden_root" sequence="8"/>
     <menuitem id="menu_garden_season" name="Saisons" parent="menu_garden_planning" action="action_garden_season" sequence="10"/>
+    <menuitem id="menu_garden_bed_occupancy" name="Plan de culture (Gantt)" parent="menu_garden_planning" action="action_garden_bed_occupancy" sequence="15"/>
+    <menuitem id="menu_garden_crop_calendar" name="Calendrier" parent="menu_garden_planning" action="action_garden_crop_calendar" sequence="20"/>
     <menuitem id="menu_garden_seed_needs" name="Besoins en semences" parent="menu_garden_planning" action="action_garden_seed_needs" sequence="30"/>
     <menuitem id="menu_garden_season_plan_wizard" name="Planifier en série" parent="menu_garden_planning" action="action_garden_season_plan_wizard" sequence="40" groups="group_garden_chef"/>
 
@@ -21,7 +23,6 @@
     <menuitem id="menu_garden_statistics" name="Statistiques" parent="menu_garden_root" sequence="20"/>
     <menuitem id="menu_garden_statistics_graphics" name="Statistiques (Graphiques)" parent="menu_garden_statistics" action="action_garden_statistics_charts"/>
     <menuitem id="menu_garden_production_statistics" name="Production" parent="menu_garden_statistics" action="action_garden_production_statistics"/>
-    <menuitem id="menu_garden_bed_occupancy" name="Occupation des planches" parent="menu_garden_statistics" action="action_garden_bed_occupancy"/>
 
     <menuitem id="menu_garden_configuration" name="Configuration" parent="menu_garden_root" sequence="90" groups="group_garden_chef"/>
     <menuitem id="menu_garden_species" name="Espèces" parent="menu_garden_configuration" action="action_garden_species" sequence="10"/>
