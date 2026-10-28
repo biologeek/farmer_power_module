@@ -8,10 +8,20 @@ class ResConfigSettings(models.TransientModel):
         'Marge de semis (%)', config_parameter='odoo_garden.seed_margin', default=20.0,
         help="Surplus de graines prévu pour compenser les pertes au semis, en plus du taux de germination.",
     )
+    garden_default_hourly_rate = fields.Float(
+        'Taux horaire par défaut', config_parameter='odoo_garden.default_hourly_rate', default=15.0,
+        help="Coût horaire appliqué au temps de travail quand l'employé n'a pas de coût horaire "
+             "renseigné ou qu'aucun employé n'est affecté à l'opération.",
+    )
 
     def set_values(self):
-        previous = float(self.env['ir.config_parameter'].sudo().get_param('odoo_garden.seed_margin', 20.0))
+        params = self.env['ir.config_parameter'].sudo()
+        previous_margin = float(params.get_param('odoo_garden.seed_margin', 20.0))
+        previous_rate = float(params.get_param('odoo_garden.default_hourly_rate', 15.0))
         super().set_values()
-        if self.garden_seed_margin != previous:
+        if self.garden_seed_margin != previous_margin:
             # les besoins en semences stockés sur les cultures dépendent de ce paramètre système
             self.env['garden.crop'].sudo().search([])._recompute_seed_needs()
+        if self.garden_default_hourly_rate != previous_rate:
+            # idem pour le coût de main-d'œuvre des opérations
+            self.env['garden.operation'].sudo().search([])._recompute_labour_cost()

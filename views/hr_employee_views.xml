@@ -1,0 +1,14 @@
+<odoo>
+    <record id="hr_employee_view_form_garden" model="ir.ui.view">
+        <field name="name">hr.employee.form.garden</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='hr_settings']/group[@name='settings_group']" position="inside">
+                <group string="Maraîchage" name="garden_group" groups="odoo_garden.group_garden_chef">
+                    <field name="garden_hourly_cost"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

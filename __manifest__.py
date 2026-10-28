@@ -20,6 +20,7 @@
         'views/garden_crop_views.xml',
         'views/garden_catalog_views.xml',
         'views/garden_operation_views.xml',
+        'views/hr_employee_views.xml',
         'views/garden_loss_views.xml',
         'views/garden_statistics_views.xml',
         'views/res_config_settings_views.xml',

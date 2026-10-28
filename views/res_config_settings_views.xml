@@ -17,6 +17,16 @@
                             </div>
                         </setting>
                     </block>
+                    <block title="Main-d'œuvre" name="garden_labour_setting_container">
+                        <setting string="Taux horaire par défaut" id="garden_default_hourly_rate_setting"
+                                 help="Coût horaire appliqué quand l'employé n'a pas de coût horaire maraîchage ou qu'aucun employé n'est affecté.">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <field name="garden_default_hourly_rate" class="oe_inline"/> par heure
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
                 </app>
             </xpath>
         </field>

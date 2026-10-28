@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -7,7 +9,7 @@ class GardenOperation(models.Model):
     _description = 'Opération (travail sur culture, planche ou îlot)'
     # Remplace les anciennes « actions » et le « post-process » : un travail planifié puis réalisé,
     # sur une ou plusieurs cultures, sur des planches ou sur un îlot entier.
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'hr.mixin']
     _order = 'planned_date desc, id desc'
 
     name = fields.Char(
@@ -80,6 +82,26 @@ class GardenOperation(models.Model):
         help="Durée de travail en heures pour chaque employé (hh:mm). Sans saisie détaillée, "
              "le temps total est la durée multipliée par le nombre d'employés.",
     )
+    worker_ids = fields.One2many(
+        'garden.operation.worker', 'operation_id', string='Détail par employé', copy=True,
+        help="Saisie détaillée du temps par employé. Quand elle est renseignée, elle remplace "
+             "« durée × nombre d'employés ».",
+    )
+    total_hours = fields.Float(
+        'Temps total (h)', compute='_compute_total_hours', store=True,
+        help="Somme du détail par employé s'il existe, sinon durée × nombre d'employés "
+             "(une opération sans employé compte pour une personne).",
+    )
+    labour_cost = fields.Float(
+        'Coût main-d\'œuvre', compute='_compute_labour_cost', store=True, digits='Product Price',
+        groups='odoo_garden.group_garden_chef',
+        help="Somme de la durée × coût horaire de chaque employé ; à défaut de coût horaire sur l'employé "
+             "(ou sans employé), le taux horaire par défaut des paramètres s'applique.",
+    )
+    timer_start = fields.Datetime(
+        'Début du chronomètre', copy=False, readonly=True,
+        help="Heure de démarrage du chronomètre ; renseigné tant que le chronomètre tourne.",
+    )
     description = fields.Text('Description', help="Consignes ou compte rendu du travail.")
 
     # Spécifique à la catégorie
@@ -102,6 +124,41 @@ class GardenOperation(models.Model):
     # ------------------------------------------------------------------
     # Calculs
     # ------------------------------------------------------------------
+    @api.model
+    def _get_default_hourly_rate(self):
+        """Taux horaire par défaut (paramètre système ``odoo_garden.default_hourly_rate``, défaut 15)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.default_hourly_rate', '15')
+        try:
+            return float(value)
+        except ValueError:
+            return 15.0
+
+    @api.depends('duration', 'employee_ids', 'worker_ids.duration')
+    def _compute_total_hours(self):
+        for operation in self:
+            if operation.worker_ids:
+                operation.total_hours = sum(operation.worker_ids.mapped('duration'))
+            else:
+                operation.total_hours = operation.duration * (len(operation.employee_ids) or 1)
+
+    @api.depends('duration', 'employee_ids.garden_hourly_cost', 'worker_ids.labour_cost')
+    def _compute_labour_cost(self):
+        default_rate = self._get_default_hourly_rate()
+        for operation in self:
+            if operation.worker_ids:
+                operation.labour_cost = sum(operation.worker_ids.mapped('labour_cost'))
+            elif operation.employee_ids:
+                operation.labour_cost = operation.duration * sum(
+                    employee.garden_hourly_cost or default_rate for employee in operation.employee_ids
+                )
+            else:
+                operation.labour_cost = operation.duration * default_rate
+
+    def _recompute_labour_cost(self):
+        """Force le recalcul du coût (changement du taux horaire par défaut)."""
+        self.env.add_to_compute(self._fields['labour_cost'], self)
+        self.worker_ids._recompute_labour_cost()
+
     @api.depends('type_id.default_scope')
     def _compute_scope(self):
         for operation in self:
@@ -178,12 +235,37 @@ class GardenOperation(models.Model):
             raise ValidationError(self.env._("La durée ne peut pas être négative."))
 
     # ------------------------------------------------------------------
+    # Chronomètre
+    # ------------------------------------------------------------------
+    def action_start_timer(self):
+        """Démarre le chronomètre ; l'employé de l'utilisateur est ajouté si personne n'est affecté."""
+        now = fields.Datetime.now()
+        employee = self.env.user.sudo().employee_id
+        for operation in self.filtered(lambda o: o.state in ('planned', 'in_progress') and not o.timer_start):
+            vals = {'timer_start': now, 'state': 'in_progress'}
+            if employee and not operation.employee_ids and not operation.worker_ids:
+                vals['employee_ids'] = [(4, employee.id)]
+            operation.write(vals)
+
+    def action_stop_timer(self):
+        """Arrête le chronomètre et ajoute le temps écoulé à la durée (par employé)."""
+        now = fields.Datetime.now()
+        for operation in self.filtered('timer_start'):
+            elapsed = (now - operation.timer_start).total_seconds() / 3600.0
+            operation.write({
+                'duration': operation.duration + round(max(elapsed, 0.0), 4),
+                'timer_start': False,
+            })
+
+    # ------------------------------------------------------------------
     # Changement d'état
     # ------------------------------------------------------------------
     def action_start(self):
-        self.filtered(lambda o: o.state == 'planned').write({'state': 'in_progress'})
+        """Bouton « Démarrer » : passe en cours et lance le chronomètre."""
+        self.action_start_timer()
 
     def action_done(self):
+        self.action_stop_timer()
         for operation in self.filtered(lambda o: o.state in ('planned', 'in_progress')):
             if operation.type_id.requires_quantity and operation.harvest_qty <= 0:
                 raise UserError(self.env._(
@@ -195,10 +277,10 @@ class GardenOperation(models.Model):
             })
 
     def action_cancel(self):
-        self.filtered(lambda o: o.state != 'done').write({'state': 'cancelled'})
+        self.filtered(lambda o: o.state != 'done').write({'state': 'cancelled', 'timer_start': False})
 
     def action_reset_planned(self):
-        self.write({'state': 'planned'})
+        self.write({'state': 'planned', 'timer_start': False})
 
     # ------------------------------------------------------------------
     # Statistiques

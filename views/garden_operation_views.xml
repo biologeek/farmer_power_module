@@ -12,6 +12,8 @@
                 <field name="date" optional="show"/>
                 <field name="employee_ids" widget="many2many_tags" optional="show"/>
                 <field name="duration" widget="float_time" optional="show"/>
+                <field name="total_hours" widget="float_time" optional="show" sum="Total"/>
+                <field name="labour_cost" optional="show" sum="Total" groups="odoo_garden.group_garden_chef"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
                 <field name="state" widget="badge"
                        decoration-info="state in ('planned', 'in_progress')" decoration-success="state == 'done'"
@@ -27,7 +29,9 @@
             <form>
                 <header>
                     <button name="action_start" string="Démarrer" type="object" class="btn-primary"
-                            invisible="state != 'planned'"/>
+                            invisible="state not in ('planned', 'in_progress') or timer_start"/>
+                    <button name="action_stop_timer" string="Arrêter le chrono" type="object"
+                            invisible="not timer_start"/>
                     <button name="action_done" string="Terminer" type="object" class="btn-primary"
                             invisible="state not in ('planned', 'in_progress')"/>
                     <button name="action_cancel" string="Annuler" type="object"
@@ -38,6 +42,7 @@
                 </header>
                 <sheet>
                     <field name="category" invisible="1"/>
+                    <field name="timer_start" invisible="1"/>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="Libellé de l'opération"/></h1>
                     </div>
@@ -64,8 +69,20 @@
                                 <group>
                                     <field name="employee_ids" widget="many2many_avatar_employee"/>
                                     <field name="duration" widget="float_time"/>
+                                    <field name="timer_start" readonly="1" invisible="not timer_start"/>
+                                </group>
+                                <group>
+                                    <field name="total_hours" widget="float_time"/>
+                                    <field name="labour_cost" groups="odoo_garden.group_garden_chef"/>
                                 </group>
                             </group>
+                            <field name="worker_ids" nolabel="1" placeholder="Saisie détaillée du temps par employé (optionnel)">
+                                <list editable="bottom">
+                                    <field name="employee_id" options="{'no_create': True}"/>
+                                    <field name="duration" widget="float_time"/>
+                                    <field name="labour_cost" groups="odoo_garden.group_garden_chef" sum="Total"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Récolte" name="harvest" invisible="category != 'harvest'">
                             <group>
