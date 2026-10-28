@@ -17,6 +17,7 @@
                 <field name="date_start" optional="hide"/>
                 <field name="date_end" optional="hide"/>
                 <field name="harvested_qty" optional="show" sum="Total"/>
+                <field name="loss_rate" optional="hide" widget="percentage"/>
                 <field name="overlap_share" optional="hide" string="Occupation max (%)"/>
                 <field name="has_overlap" optional="show"/>
                 <field name="has_rotation_conflict" optional="show"/>
@@ -49,6 +50,9 @@
                         <button name="action_view_harvests" type="object" class="oe_stat_button" icon="fa-shopping-basket"
                                 invisible="not harvested_qty">
                             <field name="harvested_qty" widget="statinfo" string="Récolté (kg)"/>
+                        </button>
+                        <button name="action_view_losses" type="object" class="oe_stat_button" icon="fa-trash-o">
+                            <field name="loss_count" widget="statinfo" string="Pertes"/>
                         </button>
                         <button name="action_view_lots" type="object" class="oe_stat_button" icon="fa-barcode"
                                 invisible="not lot_count">
@@ -106,6 +110,8 @@
                                     <field name="sowing_quantity"/>
                                     <field name="planted_quantity"/>
                                     <field name="harvested_qty"/>
+                                    <field name="loss_qty"/>
+                                    <field name="loss_rate" widget="percentage"/>
                                     <field name="labour_hours" widget="float_time"/>
                                     <field name="labour_cost" groups="odoo_garden.group_garden_chef"/>
                                     <field name="input_cost" groups="odoo_garden.group_garden_chef"/>
@@ -145,6 +151,17 @@
                                     <field name="product_id"/>
                                     <field name="product_qty" sum="Total"/>
                                     <field name="create_date" string="Créé le"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Pertes" name="losses">
+                            <field name="loss_ids" readonly="1" placeholder="Pertes déclarées sur la culture">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="stage"/>
+                                    <field name="cause"/>
+                                    <field name="quantity" sum="Total"/>
+                                    <field name="uom_id"/>
                                 </list>
                             </field>
                         </page>

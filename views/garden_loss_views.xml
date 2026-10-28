@@ -1,13 +1,18 @@
 <odoo>
     <record id="view_garden_loss_tree" model="ir.ui.view">
-        <field name="name">garden.loss.tree</field>
+        <field name="name">garden.loss.list</field>
         <field name="model">garden.loss</field>
         <field name="arch" type="xml">
             <list>
                 <field name="date"/>
-                <field name="bed_id"/>
-                <field name="quantity"/>
-                <field name="reason"/>
+                <field name="crop_id"/>
+                <field name="bed_id" optional="show"/>
+                <field name="stage"/>
+                <field name="cause"/>
+                <field name="product_id" optional="hide"/>
+                <field name="quantity" sum="Total"/>
+                <field name="uom_id"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
             </list>
         </field>
     </record>
@@ -17,30 +22,79 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_scrap" type="object" class="oe_stat_button" icon="fa-trash"
+                                invisible="not scrap_id" string="Rebut de stock"/>
+                    </div>
                     <group>
-                        <field name="date" string="Date" placeholder="Date de la perte (jj-mm-aaaa)"/>
+                        <group name="main">
+                            <field name="crop_id" options="{'no_create': True}" placeholder="Culture concernée"/>
+                            <field name="date"/>
+                            <field name="stage" widget="radio"/>
+                            <field name="cause"/>
+                        </group>
+                        <group name="quantity">
+                            <field name="product_id" options="{'no_create': True}"
+                                   invisible="stage != 'post_harvest'" required="stage == 'post_harvest'"/>
+                            <label for="quantity"/>
+                            <div class="o_row">
+                                <field name="quantity"/>
+                                <field name="uom_id" options="{'no_create': True}"/>
+                            </div>
+                            <field name="lot_id" invisible="not scrap_id"/>
+                            <field name="scrap_id" invisible="1"/>
+                            <field name="bed_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="bed_id" string="Planche" placeholder="Planche concernée"/>
-                    </group>
-                    <group>
-                        <field name="quantity" string="Quantité" placeholder="Quantité perdue"/>
-                    </group>
-                    <group>
-                        <field name="reason" string="Raison" placeholder="Raison de la perte"/>
+                    <group string="Notes">
+                        <field name="notes" nolabel="1" placeholder="Précisions sur la perte"/>
                     </group>
                 </sheet>
+                <chatter/>
             </form>
+        </field>
+    </record>
+    <record id="view_garden_loss_search" model="ir.ui.view">
+        <field name="name">garden.loss.search</field>
+        <field name="model">garden.loss</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="crop_id"/>
+                <field name="bed_id"/>
+                <field name="product_id"/>
+                <filter name="filter_pre_harvest" string="Avant récolte" domain="[('stage', '=', 'pre_harvest')]"/>
+                <filter name="filter_post_harvest" string="Après récolte" domain="[('stage', '=', 'post_harvest')]"/>
+                <group>
+                    <filter name="group_crop" string="Culture" context="{'group_by': 'crop_id'}"/>
+                    <filter name="group_bed" string="Planche" context="{'group_by': 'bed_id'}"/>
+                    <filter name="group_stage" string="Étape" context="{'group_by': 'stage'}"/>
+                    <filter name="group_cause" string="Cause" context="{'group_by': 'cause'}"/>
+                    <filter name="group_date" string="Mois" context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_garden_loss_pivot" model="ir.ui.view">
+        <field name="name">garden.loss.pivot</field>
+        <field name="model">garden.loss</field>
+        <field name="arch" type="xml">
+            <pivot string="Pertes">
+                <field name="cause" type="row"/>
+                <field name="stage" type="col"/>
+                <field name="quantity_ref" type="measure"/>
+            </pivot>
         </field>
     </record>
     <record id="action_garden_loss" model="ir.actions.act_window">
         <field name="name">Pertes</field>
         <field name="res_model">garden.loss</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,pivot</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Créez votre première perte
+                Déclarez votre première perte
             </p>
+            <p>Une perte après récolte met aussi le stock au rebut, sur le lot de la culture.</p>
         </field>
     </record>
 </odoo>

@@ -52,7 +52,7 @@ class TestGardenSecurity(TransactionCase):
             'type_id': operation_type.id, 'crop_ids': [(6, 0, crop.ids)], 'duration': 0.25,
         })
         operation.write({'duration': 0.5})
-        self.env['garden.loss'].with_user(self.worker).create({'bed_id': self.bed.id, 'quantity': 1})
+        self.env['garden.loss'].with_user(self.worker).create({'crop_id': crop.id, 'quantity': 1})
         with self.assertRaises(AccessError):
             operation.unlink()
 

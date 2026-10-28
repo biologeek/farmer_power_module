@@ -152,6 +152,16 @@ class GardenCrop(models.Model):
         help="Somme des mouvements de stock de récolte terminés (annulations déduites), dans l'unité du "
              "produit récolté (supposée être le kg). Source de vérité des statistiques de production.",
     )
+    loss_ids = fields.One2many('garden.loss', 'crop_id', string='Pertes', help="Pertes déclarées sur la culture.")
+    loss_count = fields.Integer('Nombre de pertes', compute='_compute_loss_count')
+    loss_qty = fields.Float(
+        'Quantité perdue', compute='_compute_loss_rate', store=True, digits='Product Unit',
+        help="Somme des pertes de la culture (avant et après récolte), dans l'unité du produit récolté.",
+    )
+    loss_rate = fields.Float(
+        'Taux de perte', compute='_compute_loss_rate', store=True, digits=(16, 4),
+        help="Pertes / (récolte + pertes). Les pertes et la récolte sont supposées dans la même unité (kg).",
+    )
     lot_ids = fields.One2many(
         'stock.lot', 'garden_crop_id', string='Lots de récolte', readonly=True,
         help="Lots de stock créés par les récoltes de la culture (nommés d'après sa référence).",
@@ -226,6 +236,29 @@ class GardenCrop(models.Model):
             crop.harvested_qty = sum(
                 m.product_qty if m.garden_kind == 'harvest' else -m.product_qty for m in moves
             )
+
+    @api.depends('loss_ids.quantity_ref', 'harvested_qty')
+    def _compute_loss_rate(self):
+        for crop in self:
+            lost = sum(crop.loss_ids.mapped('quantity_ref'))
+            total = crop.harvested_qty + lost
+            crop.loss_qty = lost
+            crop.loss_rate = lost / total if total > 0 else 0.0
+
+    @api.depends('loss_ids')
+    def _compute_loss_count(self):
+        counts = dict(self.env['garden.loss']._read_group(
+            [('crop_id', 'in', self.ids)], ['crop_id'], ['__count'],
+        ))
+        for crop in self:
+            crop.loss_count = counts.get(crop, 0)
+
+    def action_view_losses(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_loss')
+        action['domain'] = [('crop_id', '=', self.id)]
+        action['context'] = {'default_crop_id': self.id}
+        return action
 
     @api.depends('lot_ids')
     def _compute_lot_count(self):
