@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from odoo import fields
 from odoo.tests import HttpCase, tagged
 
@@ -100,7 +102,11 @@ class TestGardenMyDayTour(HttpCase):
             'name': 'Désherbage - Tour',
             'type_id': self.env.ref('odoo_garden.operation_type_weeding').id,
             'scope': 'bed', 'bed_ids': [(6, 0, bed.ids)],
-            'planned_date': fields.Date.context_today(self.env['garden.operation']),
+            # Le filtre « Du jour et en retard » compare à la date du navigateur (fuseau du processus de test,
+            # UTC), alors que context_today() suit le fuseau de l'utilisateur (Europe/Brussels avec la démo) :
+            # autour de minuit les deux dates diffèrent d'un jour. Une opération en retard de deux jours est
+            # affichée quel que soit le fuseau.
+            'planned_date': fields.Date.today() - timedelta(days=2),
             'employee_ids': [(6, 0, employee.ids)], 'duration': 1.0,
         })
         self.start_tour('/odoo/action-odoo_garden.action_garden_operation_today', 'garden_my_day_tour', login='admin')

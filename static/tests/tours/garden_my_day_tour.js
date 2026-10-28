@@ -3,7 +3,7 @@ import { registry } from "@web/core/registry";
 registry.category("web_tour.tours").add("garden_my_day_tour", {
     steps: () => [
         {
-            content: "« Ma journée » affiche l'opération du jour regroupée par îlot",
+            content: "« Ma journée » affiche l'opération en retard regroupée par îlot",
             trigger: ".o_kanban_view .o_kanban_group .o_kanban_record:contains(Désherbage - Tour)",
         },
         {
