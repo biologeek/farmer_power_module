@@ -8,4 +8,5 @@ from . import test_operations
 from . import test_labels
 from . import test_stock_setup
 from . import test_stock_inputs
+from . import test_stock_harvest
 from . import test_demo

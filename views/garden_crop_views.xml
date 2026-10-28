@@ -16,6 +16,7 @@
                 <field name="planned_harvest_end" optional="show"/>
                 <field name="date_start" optional="hide"/>
                 <field name="date_end" optional="hide"/>
+                <field name="harvested_qty" optional="show" sum="Total"/>
                 <field name="overlap_share" optional="hide" string="Occupation max (%)"/>
                 <field name="has_overlap" optional="show"/>
                 <field name="has_rotation_conflict" optional="show"/>
@@ -44,6 +45,14 @@
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_operations" type="object" class="oe_stat_button" icon="fa-tasks">
                             <field name="operation_count" widget="statinfo" string="Opérations"/>
+                        </button>
+                        <button name="action_view_harvests" type="object" class="oe_stat_button" icon="fa-shopping-basket"
+                                invisible="not harvested_qty">
+                            <field name="harvested_qty" widget="statinfo" string="Récolté (kg)"/>
+                        </button>
+                        <button name="action_view_lots" type="object" class="oe_stat_button" icon="fa-barcode"
+                                invisible="not lot_count">
+                            <field name="lot_count" widget="statinfo" string="Lots"/>
                         </button>
                     </div>
                     <div class="alert alert-warning" role="alert" invisible="not overlap_warning">
@@ -96,8 +105,7 @@
                                 <group string="Réalisé" name="actual">
                                     <field name="sowing_quantity"/>
                                     <field name="planted_quantity"/>
-                                    <field name="quantity_harvested" placeholder="Quantité récoltée en kg"/>
-                                    <field name="value_harvested" placeholder="Valeur récoltée en €"/>
+                                    <field name="harvested_qty"/>
                                     <field name="labour_hours" widget="float_time"/>
                                     <field name="labour_cost" groups="odoo_garden.group_garden_chef"/>
                                     <field name="input_cost" groups="odoo_garden.group_garden_chef"/>
@@ -127,6 +135,16 @@
                                     <field name="hours" widget="float_time" sum="Total"/>
                                     <field name="labour_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
                                     <field name="input_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Récoltes" name="harvests">
+                            <field name="lot_ids" readonly="1" placeholder="Lots de récolte de la culture">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="product_id"/>
+                                    <field name="product_qty" sum="Total"/>
+                                    <field name="create_date" string="Créé le"/>
                                 </list>
                             </field>
                         </page>

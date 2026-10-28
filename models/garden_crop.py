@@ -142,8 +142,21 @@ class GardenCrop(models.Model):
     sowing_quantity = fields.Float('Nombre de plants semés', help="Nombre de plants effectivement semés.")
     planted_quantity = fields.Float('Nombre de plants plantés', help="Nombre de plants effectivement plantés.")
     notes = fields.Text('Notes', help="Observations libres sur la culture.")
-    quantity_harvested = fields.Float('Quantité récoltée (kg)', help="Quantité récoltée, saisie à la main (remplacée par un calcul en phase 4).")
-    value_harvested = fields.Float('Valeur récoltée (€)', help="Valeur de la récolte, saisie à la main (remplacée par un calcul en phase 5).")
+    harvest_move_ids = fields.One2many(
+        'stock.move', 'garden_crop_id', string='Mouvements de récolte', readonly=True,
+        domain=[('garden_kind', 'in', ('harvest', 'harvest_return'))], groups='odoo_garden.group_garden_chef',
+        help="Entrées en stock créées par les opérations de récolte, et leurs annulations.",
+    )
+    harvested_qty = fields.Float(
+        'Quantité récoltée (kg)', compute='_compute_harvested_qty', store=True, digits='Product Unit',
+        help="Somme des mouvements de stock de récolte terminés (annulations déduites), dans l'unité du "
+             "produit récolté (supposée être le kg). Source de vérité des statistiques de production.",
+    )
+    lot_ids = fields.One2many(
+        'stock.lot', 'garden_crop_id', string='Lots de récolte', readonly=True,
+        help="Lots de stock créés par les récoltes de la culture (nommés d'après sa référence).",
+    )
+    lot_count = fields.Integer('Nombre de lots', compute='_compute_lot_count')
     allocation_ids = fields.One2many(
         'garden.operation.allocation', 'crop_id', string='Travail réparti',
         help="Part des opérations faites (sur cette culture, des planches ou un îlot) attribuée à la culture.",
@@ -205,6 +218,42 @@ class GardenCrop(models.Model):
             crop.labour_hours = sum(crop.allocation_ids.mapped('hours'))
             crop.labour_cost = sum(crop.allocation_ids.mapped('labour_cost'))
             crop.input_cost = sum(crop.allocation_ids.mapped('input_cost'))
+
+    @api.depends('harvest_move_ids.state', 'harvest_move_ids.product_qty', 'harvest_move_ids.garden_kind')
+    def _compute_harvested_qty(self):
+        for crop in self:
+            moves = crop.harvest_move_ids.filtered(lambda m: m.state == 'done')
+            crop.harvested_qty = sum(
+                m.product_qty if m.garden_kind == 'harvest' else -m.product_qty for m in moves
+            )
+
+    @api.depends('lot_ids')
+    def _compute_lot_count(self):
+        counts = dict(self.env['stock.lot']._read_group(
+            [('garden_crop_id', 'in', self.ids)], ['garden_crop_id'], ['__count'],
+        ))
+        for crop in self:
+            crop.lot_count = counts.get(crop, 0)
+
+    def action_view_harvests(self):
+        """Lignes de mouvement de stock des récoltes de la culture."""
+        self.ensure_one()
+        moves = self.env['stock.move'].sudo().search([
+            ('garden_crop_id', '=', self.id), ('garden_kind', 'in', ('harvest', 'harvest_return')),
+        ])
+        action = self.env['ir.actions.act_window']._for_xml_id('stock.stock_move_line_action')
+        action['domain'] = [('move_id', 'in', moves.ids)]
+        action['context'] = {}
+        action['name'] = self.env._("Récoltes : %s", self.name)
+        return action
+
+    def action_view_lots(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id('stock.action_production_lot_form')
+        action['domain'] = [('garden_crop_id', '=', self.id)]
+        action['context'] = {'default_garden_crop_id': self.id, 'create': False}
+        action['name'] = self.env._("Lots : %s", self.name)
+        return action
 
     def _get_operations_domain(self):
         self.ensure_one()
@@ -525,8 +574,7 @@ class GardenCrop(models.Model):
         self.env.cr.execute(
             """
             SELECT COALESCE(TO_CHAR(COALESCE(date_end, date_start), 'YYYY-MM'), 'Unknown') AS period,
-                   COALESCE(SUM(quantity_harvested), 0) AS quantity,
-                   COALESCE(SUM(value_harvested), 0) AS value
+                   COALESCE(SUM(harvested_qty), 0) AS quantity
             FROM garden_crop
             GROUP BY period
             ORDER BY period
@@ -537,16 +585,14 @@ class GardenCrop(models.Model):
             {
                 'period': period or 'Unknown',
                 'quantity': float(quantity or 0.0),
-                'value': float(value or 0.0),
             }
-            for period, quantity, value in month_rows
+            for period, quantity in month_rows
         ]
 
         self.env.cr.execute(
             """
             SELECT COALESCE(b.name, 'Sans planche') AS bed_name,
-                   COALESCE(SUM(quantity_harvested), 0) AS quantity,
-                   COALESCE(SUM(value_harvested), 0) AS value
+                   COALESCE(SUM(harvested_qty), 0) AS quantity
             FROM garden_crop c
             LEFT JOIN garden_bed b ON c.bed_id = b.id
             GROUP BY b.name
@@ -558,16 +604,14 @@ class GardenCrop(models.Model):
             {
                 'bed': bed_name,
                 'quantity': float(quantity or 0.0),
-                'value': float(value or 0.0),
             }
-            for bed_name, quantity, value in bed_rows
+            for bed_name, quantity in bed_rows
         ]
 
         self.env.cr.execute(
             """
             SELECT COALESCE(cat.name, 'Sans culture') AS crop_name,
-                   COALESCE(SUM(quantity_harvested), 0) AS quantity,
-                   COALESCE(SUM(value_harvested), 0) AS value
+                   COALESCE(SUM(harvested_qty), 0) AS quantity
             FROM garden_crop c
             LEFT JOIN garden_crop_template cat ON c.template_id = cat.id
             GROUP BY cat.name
@@ -579,9 +623,8 @@ class GardenCrop(models.Model):
             {
                 'crop': crop_name,
                 'quantity': float(quantity or 0.0),
-                'value': float(value or 0.0),
             }
-            for crop_name, quantity, value in crop_rows
+            for crop_name, quantity in crop_rows
         ]
 
         return {

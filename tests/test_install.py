@@ -20,8 +20,6 @@ class TestGardenInstall(TransactionCase):
             'bed_id': cls.bed.id,
             'date_start': '2026-03-01',
             'date_end': '2026-08-01',
-            'quantity_harvested': 12.5,
-            'value_harvested': 50.0,
         })
         cls.operation_type = cls.env['garden.operation.type'].create({'name': 'Arrosage (test)'})
         cls.operation = cls.env['garden.operation'].create({

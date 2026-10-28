@@ -6,8 +6,7 @@
             <list string="Statistiques de production">
                 <field name="template_id"/>
                 <field name="bed_id"/>
-                <field name="quantity_harvested"/>
-                <field name="value_harvested"/>
+                <field name="harvested_qty" sum="Total"/>
             </list>
         </field>
     </record>   
