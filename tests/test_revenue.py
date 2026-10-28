@@ -311,3 +311,32 @@ class TestGardenRevenueSecurity(GardenRevenueCase):
             invoice.with_user(self.chef).read(['name'])
         with self.assertRaises(AccessError):
             self.env['account.move.line'].with_user(self.chef).search([])
+
+
+@tagged('post_install', '-at_install')
+class TestGardenCropSales(GardenRevenueCase):
+
+    def test_sales_button_lists_attributed_lines_for_chef(self):
+        self._harvest(self.big, 30.0, date='2027-07-05')
+        self._harvest(self.small, 10.0, date='2027-07-25')
+        invoice = self._invoice(self.tomato, 40, 5.0, '2027-07-31')
+        self._invoice(self.tomato, 4, 5.0, '2027-07-31', move_type='out_refund')
+        action = self.big.with_user(self.chef).action_view_sales()
+        self.assertEqual(action['res_model'], 'garden.crop.sale')
+        rows = self.env['garden.crop.sale'].with_user(self.chef).search(action['domain'])
+        self.assertEqual(len(rows), 2)
+        sale = rows.filtered(lambda r: not r.is_refund)
+        self.assertEqual(sale.invoice_name, invoice.name)
+        self.assertAlmostEqual(sale.amount, 150.0)
+        self.assertAlmostEqual(sale.line_amount, 200.0)
+        self.assertAlmostEqual(sale.share, 75.0)
+        self.assertAlmostEqual(sum(rows.mapped('amount')), 135.0)
+        # relancer le bouton ne duplique pas les lignes
+        self.big.with_user(self.chef).action_view_sales()
+        self.assertEqual(self.env['garden.crop.sale'].with_user(self.chef).search_count(action['domain']), 2)
+
+    def test_sales_button_denied_to_worker(self):
+        with self.assertRaises(AccessError):
+            self.big.with_user(self.worker).action_view_sales()
+        with self.assertRaises(AccessError):
+            self.env['garden.crop.sale'].with_user(self.worker).search([])

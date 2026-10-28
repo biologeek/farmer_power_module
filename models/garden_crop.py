@@ -6,6 +6,7 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
+from odoo.exceptions import AccessError
 
 
 class GardenCrop(models.Model):
@@ -383,6 +384,13 @@ class GardenCrop(models.Model):
         action['context'] = {}
         action['name'] = self.env._("Récoltes : %s", self.name)
         return action
+
+    def action_view_sales(self):
+        """Bouton « Ventes » : lignes de factures clients attribuées à la culture (sans accès aux factures)."""
+        self.ensure_one()
+        if not self.env.user.has_group('odoo_garden.group_garden_chef'):
+            raise AccessError(self.env._("Seuls le chef de culture et le gérant consultent les ventes."))
+        return self.env['garden.crop.sale']._open_for(self)
 
     def action_garden_traceability(self):
         """Bouton « Traçabilité » de la culture : amont (opérations, intrants, semences) et aval (sorties)."""

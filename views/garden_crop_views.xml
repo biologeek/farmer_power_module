@@ -51,6 +51,10 @@
                                 invisible="not harvested_qty">
                             <field name="harvested_qty" widget="statinfo" string="Récolté (kg)"/>
                         </button>
+                        <button name="action_view_sales" type="object" class="oe_stat_button" icon="fa-money"
+                                groups="odoo_garden.group_garden_chef">
+                            <field name="sale_line_count" widget="statinfo" string="Ventes"/>
+                        </button>
                         <button name="action_view_losses" type="object" class="oe_stat_button" icon="fa-trash-o">
                             <field name="loss_count" widget="statinfo" string="Pertes"/>
                         </button>
@@ -166,6 +170,31 @@
                                     <field name="uom_id"/>
                                 </list>
                             </field>
+                        </page>
+                        <page string="Rentabilité" name="profitability" groups="odoo_garden.group_garden_chef">
+                            <group>
+                                <group string="Réalisé" name="profit_actual">
+                                    <field name="labour_hours" widget="float_time"/>
+                                    <field name="labour_cost"/>
+                                    <field name="input_cost"/>
+                                    <field name="fixed_cost"/>
+                                    <field name="revenue"/>
+                                    <field name="margin"/>
+                                    <field name="margin_per_hour"/>
+                                    <field name="margin_per_m2"/>
+                                    <field name="harvested_qty"/>
+                                </group>
+                                <group string="Prévu" name="profit_expected">
+                                    <field name="expected_hours" widget="float_time"/>
+                                    <field name="expected_yield_qty"/>
+                                    <field name="expected_revenue"/>
+                                </group>
+                                <group string="Écart (réalisé - prévu)" name="profit_gap">
+                                    <field name="hours_gap" widget="float_time"/>
+                                    <field name="yield_gap"/>
+                                    <field name="revenue_gap"/>
+                                </group>
+                            </group>
                         </page>
                         <page string="Notes" name="notes">
                             <field name="notes" placeholder="Notes sur la culture"/>

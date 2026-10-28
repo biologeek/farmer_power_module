@@ -103,6 +103,28 @@
             <p>Le rapport compare, pour chaque culture, le chiffre d'affaires attribué, les heures et les coûts. Il se recalcule à l'ouverture et avec le bouton « Actualiser ».</p>
         </field>
     </record>
+    <record id="view_garden_crop_sale_list" model="ir.ui.view">
+        <field name="name">garden.crop.sale.list</field>
+        <field name="model">garden.crop.sale</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" decoration-danger="is_refund">
+                <field name="date"/>
+                <field name="invoice_name"/>
+                <field name="is_refund" column_invisible="1"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="quantity" sum="Total"/>
+                <field name="line_amount"/>
+                <field name="share" optional="hide"/>
+                <field name="amount" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_garden_crop_sale" model="ir.actions.act_window">
+        <field name="name">Ventes de la culture</field>
+        <field name="res_model">garden.crop.sale</field>
+        <field name="view_mode">list</field>
+    </record>
     <record id="action_garden_dashboard" model="ir.actions.client">
         <field name="name">Tableau de bord de rentabilité</field>
         <field name="tag">garden_dashboard</field>
