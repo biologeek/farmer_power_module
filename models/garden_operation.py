@@ -1,7 +1,7 @@
 from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models
-from odoo.tools import float_round
+from odoo.tools import float_round, plaintext2html
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -152,6 +152,27 @@ class GardenOperation(models.Model):
     target = fields.Char('Cible du traitement', help="Ravageur ou maladie visé (traitement uniquement).")
     weather_notes = fields.Text('Conditions météo', help="Météo au moment du traitement (traitement uniquement).")
 
+    # Délai avant récolte (DAR, phase 6)
+    dar_override = fields.Boolean(
+        'Dérogation au délai avant récolte', copy=False, tracking=True, groups='odoo_garden.group_garden_manager',
+        help="Cochée par le gérant pour autoriser une récolte avant la fin du délai avant récolte (DAR) d'un "
+             "traitement phytosanitaire. Un motif est obligatoire ; la dérogation est tracée dans le fil de discussion.",
+    )
+    dar_override_reason = fields.Char(
+        'Motif de la dérogation', copy=False, tracking=True, groups='odoo_garden.group_garden_manager',
+        help="Justification de la dérogation au délai avant récolte (obligatoire quand elle est cochée).",
+    )
+    dar_override_user_id = fields.Many2one(
+        'res.users', string='Dérogation accordée par', copy=False, readonly=True,
+        groups='odoo_garden.group_garden_manager',
+        help="Gérant qui a coché la dérogation au délai avant récolte.",
+    )
+    dar_warning = fields.Text(
+        'Avertissement DAR', compute='_compute_dar_warning', compute_sudo=True,
+        help="Pour une récolte non encore faite : cultures dont le délai avant récolte (DAR) n'est pas écoulé à la "
+             "date de récolte. La validation sera bloquée tant que le délai court, sauf dérogation du gérant.",
+    )
+
     # ------------------------------------------------------------------
     # Calculs
     # ------------------------------------------------------------------
@@ -274,6 +295,14 @@ class GardenOperation(models.Model):
             if not operation._get_target_records():
                 raise ValidationError(messages[operation.scope])
 
+    @api.constrains('dar_override', 'dar_override_reason')
+    def _check_dar_override_reason(self):
+        for operation in self.sudo():
+            if operation.dar_override and not (operation.dar_override_reason or '').strip():
+                raise ValidationError(self.env._(
+                    "Indiquez le motif de la dérogation au délai avant récolte (opération « %s »).", operation.name,
+                ))
+
     @api.constrains('duration')
     def _check_duration(self):
         if any(operation.duration < 0 for operation in self):
@@ -330,6 +359,78 @@ class GardenOperation(models.Model):
 
     def action_reset_planned(self):
         self.write({'state': 'planned', 'timer_start': False})
+
+    # ------------------------------------------------------------------
+    # Délai avant récolte (DAR)
+    # ------------------------------------------------------------------
+    # Une récolte « faite » à une date antérieure à la fin du DAR d'un traitement phytosanitaire de la même
+    # culture est refusée (ValidationError), pour chaque culture concernée. Sont comptés les traitements
+    # faits (opérations annulées ou planifiées ignorées), de date inférieure ou égale à la récolte, dont
+    # le produit a un DAR > 0 ; la récolte est autorisée à partir du jour « traitement + DAR » inclus. Le
+    # gérant lève le blocage par la dérogation (``dar_override`` + motif), tracée dans le fil de discussion.
+    _DAR_CHECK_FIELDS = {'state', 'date', 'planned_date', 'type_id', 'scope', 'crop_ids', 'bed_ids', 'garden_id'}
+
+    def _get_dar_date(self):
+        """Date de récolte contrôlée : celle de réalisation, sinon le jour de la validation (ou la date prévue)."""
+        self.ensure_one()
+        if self.state == 'done':
+            return self.date or self.planned_date or fields.Date.context_today(self)
+        return self.date or fields.Date.context_today(self)
+
+    def _get_dar_conflicts(self):
+        """Délais non écoulés à la date de récolte : ``[(culture, date du traitement, fin du DAR, ligne d'intrant)]``."""
+        self.ensure_one()
+        if self.category != 'harvest' or not self.scope:
+            return []
+        harvest_date = self._get_dar_date()
+        conflicts = []
+        for crop in self.sudo()._get_allocation_crops():
+            for day, end, line in crop._get_treatment_deadlines():
+                if day <= harvest_date < end:
+                    conflicts.append((crop, day, end, line))
+        return conflicts
+
+    def _format_dar_conflicts(self, conflicts):
+        return "\n".join(
+            self.env._(
+                "%(crop)s : traitement du %(day)s avec « %(product)s » (délai %(days)s j), récolte possible à partir du %(end)s.",
+                crop=crop.name, day=fields.Date.to_string(day), product=line.product_id.display_name,
+                days=line.product_id.pre_harvest_interval_days, end=fields.Date.to_string(end),
+            )
+            for crop, day, end, line in conflicts
+        )
+
+    @api.depends(
+        'state', 'category', 'date', 'scope', 'crop_ids', 'bed_ids', 'garden_id', 'dar_override',
+    )
+    def _compute_dar_warning(self):
+        for operation in self:
+            conflicts = operation._get_dar_conflicts() if operation.state in ('planned', 'in_progress') else []
+            operation.dar_warning = operation._format_dar_conflicts(conflicts) if conflicts else False
+
+    def _check_dar(self):
+        """Refuse les récoltes faites dans le délai avant récolte d'un traitement, sauf dérogation du gérant."""
+        for operation in self.filtered(lambda o: o.state == 'done' and o.category == 'harvest'):
+            conflicts = operation._get_dar_conflicts()
+            if not conflicts:
+                continue
+            details = operation._format_dar_conflicts(conflicts)
+            operation_sudo = operation.sudo()
+            if operation_sudo.dar_override:
+                operation.message_post(
+                    body=plaintext2html(self.env._(
+                        "Récolte validée en dérogation au délai avant récolte (dérogation de %(user)s). "
+                        "Motif : %(reason)s",
+                        user=operation_sudo.dar_override_user_id.name or "?", reason=operation_sudo.dar_override_reason,
+                    ) + "\n" + details),
+                    subtype_xmlid='mail.mt_note',
+                )
+                continue
+            raise ValidationError(self.env._(
+                "Délai avant récolte (DAR) non respecté, la récolte « %(operation)s » est bloquée :\n%(details)s\n"
+                "Seul un gérant peut lever ce blocage (dérogation avec motif).",
+                operation=operation.name, details=details,
+            ))
 
     # ------------------------------------------------------------------
     # Répartition sur les cultures
@@ -399,9 +500,13 @@ class GardenOperation(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         # les lignes d'intrants créées avec l'opération ne sont pas verrouillées (état « faite » dès la création)
+        vals_list = [dict(v, dar_override_user_id=self.env.uid) if v.get('dar_override') else v for v in vals_list]
         operations = super(GardenOperation, self.with_context(garden_creating_operation=True)).create(vals_list)
         operations = operations.with_context(garden_creating_operation=False)
         done = operations.filtered(lambda o: o.state == 'done')
+        for operation in operations.sudo().filtered('dar_override'):
+            operation._post_dar_override()
+        done._check_dar()
         done._update_allocations()
         done._sync_stock()
         return operations
@@ -409,12 +514,30 @@ class GardenOperation(models.Model):
     def write(self, vals):
         if self._STOCK_LOCKED_FIELDS & vals.keys():
             self._check_stock_unlocked(vals)
+        if 'dar_override' in vals:
+            vals = dict(vals, dar_override_user_id=self.env.uid if vals['dar_override'] else False)
         result = super().write(vals)
+        if vals.get('dar_override'):
+            self.sudo()._post_dar_override()
+        if self._DAR_CHECK_FIELDS & vals.keys():
+            self._check_dar()
         if self._ALLOCATION_FIELDS & vals.keys():
             self._update_allocations()
         if 'state' in vals:
             self._sync_stock()
         return result
+
+    def _post_dar_override(self):
+        """Trace dans le fil de discussion qui a accordé la dérogation au DAR, et pourquoi."""
+        for operation in self:
+            operation.message_post(
+                body=plaintext2html(self.env._(
+                    "Dérogation au délai avant récolte accordée par %(user)s. Motif : %(reason)s",
+                    user=(operation.dar_override_user_id or self.env.user).name,
+                    reason=operation.dar_override_reason or "-",
+                )),
+                subtype_xmlid='mail.mt_note',
+            )
 
     def unlink(self):
         # les mouvements de stock d'une opération supprimée sont annulés (mouvements inverses)

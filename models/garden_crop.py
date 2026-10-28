@@ -525,6 +525,49 @@ class GardenCrop(models.Model):
             if vals:
                 crop.write(vals)
 
+    # ------------------------------------------------------------------
+    # Délai avant récolte (DAR, phase 6)
+    # ------------------------------------------------------------------
+    harvest_allowed_from = fields.Date(
+        'Récolte possible à partir du', compute='_compute_harvest_allowed_from', compute_sudo=True,
+        help="Fin du délai avant récolte (DAR) du dernier traitement phytosanitaire fait sur la culture : "
+             "date du traitement + DAR du produit le plus contraignant. Vide si aucun traitement ne fixe de délai.",
+    )
+    harvest_allowed_warning = fields.Boolean(
+        'Récolte encore interdite', compute='_compute_harvest_allowed_from', compute_sudo=True,
+        help="Vrai si la fin du délai avant récolte n'est pas encore passée (à la date du jour).",
+    )
+
+    def _get_treatment_deadlines(self):
+        """Délais avant récolte de la culture : ``[(date du traitement, fin du DAR, ligne d'intrant)]``.
+
+        Un traitement est une opération « faite » répartie sur la culture avec un intrant de type
+        phytosanitaire dont le produit a un DAR > 0 ; les opérations annulées ou planifiées sont ignorées.
+        La date est celle de réalisation (à défaut la date prévue).
+        """
+        self.ensure_one()
+        allocations = self.env['garden.operation.allocation'].sudo().search([
+            ('crop_id', '=', self.id), ('operation_id.state', '=', 'done'),
+        ])
+        deadlines = []
+        for operation in allocations.operation_id:
+            day = operation.date or operation.planned_date
+            if not day:
+                continue
+            for line in operation.input_ids.filtered(
+                lambda l: l.garden_input_type == 'phytosanitary' and l.product_id.pre_harvest_interval_days > 0
+            ):
+                deadlines.append((day, day + timedelta(days=line.product_id.pre_harvest_interval_days), line))
+        return deadlines
+
+    @api.depends('allocation_ids.operation_id.state', 'allocation_ids.operation_id.date')
+    def _compute_harvest_allowed_from(self):
+        today = fields.Date.context_today(self)
+        for crop in self:
+            ends = [end for _day, end, _line in crop._get_treatment_deadlines()]
+            crop.harvest_allowed_from = max(ends) if ends else False
+            crop.harvest_allowed_warning = bool(ends) and max(ends) > today
+
     def _get_last_harvest_date(self):
         self.ensure_one()
         allocations = self.env['garden.operation.allocation'].sudo().search([

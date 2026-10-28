@@ -46,6 +46,11 @@
                     <div class="alert alert-warning" role="alert" invisible="not allocation_warning">
                         <field name="allocation_warning" nolabel="1"/>
                     </div>
+                    <div class="alert alert-danger" role="alert" invisible="not dar_warning">
+                        <strong>Délai avant récolte (DAR) non écoulé.</strong>
+                        <field name="dar_warning" nolabel="1"/>
+                        <span>La validation sera refusée, sauf dérogation accordée par un gérant.</span>
+                    </div>
                     <field name="timer_start" invisible="1"/>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="Libellé de l'opération"/></h1>
@@ -118,6 +123,12 @@
                                     <field name="harvest_qty"/>
                                     <field name="harvest_uom_id" options="{'no_create': True}"/>
                                 </div>
+                            </group>
+                            <group string="Dérogation au délai avant récolte" groups="odoo_garden.group_garden_manager">
+                                <field name="dar_override" readonly="state == 'done'"/>
+                                <field name="dar_override_reason" invisible="not dar_override"
+                                       required="dar_override" readonly="state == 'done'"/>
+                                <field name="dar_override_user_id" invisible="not dar_override"/>
                             </group>
                         </page>
                         <page string="Irrigation" name="irrigation" invisible="category != 'irrigation'">

@@ -71,6 +71,11 @@
                     <div class="alert alert-warning" role="alert" invisible="not rotation_warning">
                         <field name="rotation_warning" nolabel="1"/>
                     </div>
+                    <field name="harvest_allowed_warning" invisible="1"/>
+                    <div class="alert alert-danger" role="alert" invisible="not harvest_allowed_warning">
+                        Délai avant récolte (DAR) en cours : récolte possible à partir du
+                        <field name="harvest_allowed_from" readonly="1" class="oe_inline fw-bold"/>.
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>
                     </div>
@@ -104,6 +109,7 @@
                                     <field name="date_end"/>
                                     <field name="occupation_start"/>
                                     <field name="occupation_end"/>
+                                    <field name="harvest_allowed_from"/>
                                 </group>
                                 <group string="Prévisionnel" name="forecast">
                                     <field name="planned_plant_qty"/>
