@@ -6,4 +6,5 @@ from . import test_planning
 from . import test_gantt
 from . import test_operations
 from . import test_labels
+from . import test_stock_setup
 from . import test_demo

@@ -27,6 +27,29 @@
                             </div>
                         </setting>
                     </block>
+                    <block title="Stock" name="garden_stock_setting_container">
+                        <setting string="Emplacement de stockage" id="garden_stock_location_setting"
+                                 help="Les récoltes entrent dans cet emplacement et les intrants en sortent. Vide : stock principal de l'entrepôt de la société.">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <field name="garden_stock_location_id" options="{'no_create': True}"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Emplacements virtuels" id="garden_virtual_locations_setting"
+                                 help="Emplacements de contrepartie des entrées (récoltes) et des sorties (intrants consommés) de stock.">
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <label for="garden_production_location_id" class="o_light_label"/>
+                                    <field name="garden_production_location_id" options="{'no_create': True}"/>
+                                </div>
+                                <div class="mt8">
+                                    <label for="garden_consumption_location_id" class="o_light_label"/>
+                                    <field name="garden_consumption_location_id" options="{'no_create': True}"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
                 </app>
             </xpath>
         </field>

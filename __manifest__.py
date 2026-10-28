@@ -6,11 +6,12 @@
     'summary': 'Gestion du maraîchage : fermes, sites, îlots, planches, catalogue (espèces, variétés, itinéraires), cultures, opérations et main-d’œuvre, pertes, rétro-planning, statistiques.',
     'author': 'Votre Nom',
     'website': 'https://votresite.com',
-    'depends': ['base', 'web', 'product', 'uom', 'mail', 'hr'],
+    'depends': ['base', 'web', 'product', 'uom', 'mail', 'hr', 'stock'],
     'data': [
         'security/garden_security.xml',
         'security/ir.model.access.csv',
         'data/garden_operation_type_data.xml',
+        'data/garden_stock_data.xml',
         'report/garden_bed_report.xml',
         'views/garden_farm_views.xml',
         'views/garden_site_views.xml',

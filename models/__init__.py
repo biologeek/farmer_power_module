@@ -15,4 +15,5 @@ from . import garden_operation_allocation
 from . import hr_employee
 from . import garden_loss
 from . import product_template
+from . import res_company
 from . import res_config_settings

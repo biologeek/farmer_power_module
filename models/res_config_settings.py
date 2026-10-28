@@ -14,6 +14,23 @@ class ResConfigSettings(models.TransientModel):
              "renseigné ou qu'aucun employé n'est affecté à l'opération.",
     )
 
+    garden_stock_location_id = fields.Many2one(
+        'stock.location', string='Emplacement de stockage', domain="[('usage', '=', 'internal')]",
+        related='company_id.garden_stock_location_id', readonly=False, check_company=True,
+        help="Emplacement où entrent les récoltes et d'où sortent les intrants. "
+             "Vide : stock principal de l'entrepôt de la société.",
+    )
+    garden_production_location_id = fields.Many2one(
+        'stock.location', string='Emplacement « Production maraîchage »', domain="[('usage', '=', 'production')]",
+        related='company_id.garden_production_location_id', readonly=False, check_company=True,
+        help="Emplacement virtuel d'où sortent les récoltes (créé à l'installation).",
+    )
+    garden_consumption_location_id = fields.Many2one(
+        'stock.location', string='Emplacement « Consommation maraîchage »', domain="[('usage', '=', 'production')]",
+        related='company_id.garden_consumption_location_id', readonly=False, check_company=True,
+        help="Emplacement virtuel où partent les intrants consommés (créé à l'installation).",
+    )
+
     def set_values(self):
         params = self.env['ir.config_parameter'].sudo()
         previous_margin = float(params.get_param('odoo_garden.seed_margin', 20.0))
