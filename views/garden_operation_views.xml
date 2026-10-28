@@ -146,8 +146,10 @@
                 <filter name="filter_cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
                 <separator/>
                 <filter name="filter_todo" string="À faire" domain="[('state', 'in', ('planned', 'in_progress'))]"/>
+                <separator/>
                 <filter name="filter_today_overdue" string="Du jour et en retard"
                         domain="[('state', 'in', ('planned', 'in_progress')), ('planned_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                <separator/>
                 <filter name="filter_my_operations" string="Mes opérations"
                         domain="[('employee_ids.user_id', '=', uid)]"/>
                 <group>

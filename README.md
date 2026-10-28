@@ -188,7 +188,7 @@ Le dossier `tests/` contient (tests `post_install`, `-at_install`) :
 - `test_catalog.py` : espèces, variétés, densité et prix d'un itinéraire, étapes, types d'opération par défaut, lien produit / variété ;
 - `test_security.py` : hiérarchie des groupes, droits de l'ouvrier, du chef de culture et du gérant ;
 - `test_planning.py` : saisons (états, contraintes, droits, multi-société), référence et surface de la culture, prévisionnel, rétro-planning, étapes prévues, assistant de création en série (échelonnement, droits), chevauchement et rotation, besoins en semences et marge ;
-- `test_gantt.py` : données du Gantt (groupes, lignes, filtres), vue calendrier, tour navigateur `garden_gantt_tour` ;
+- `test_gantt.py` : données du Gantt (groupes, lignes, filtres), vue calendrier, tours navigateur `garden_gantt_tour` et `garden_my_day_tour` (« Ma journée » : démarrer puis terminer une opération) ;
 - `test_operations.py` : opérations (valeurs par défaut, périmètre, états, irrigation, récolte), main-d'œuvre (coût durée × employés, détail par employé, taux par défaut, chronomètre, coûts masqués à l'ouvrier), répartition (culture, planche, îlot, prorata de surface, aucune culture, recalcul), génération idempotente des opérations planifiées, statistiques, « Ma journée » (domaine du jour, vues) et règle ouvrier ;
 - `test_labels.py` : URL du QR code, résolution de la route `/odoo/action-...`, rendu HTML du rapport d'étiquettes, route `/report/barcode` (ignorée si reportlab n'a pas de moteur PNG), boutons de la planche ;
 - `test_demo.py` : plan de culture et opérations de démonstration (ignoré sans données de démo).
@@ -207,7 +207,7 @@ La démo contient la saison 2027 (12 cultures dont un chevauchement sur N1-01 et
 - **Répartition figée** : la répartition d'une opération faite n'est recalculée que si l'opération est modifiée ; un changement ultérieur de période d'occupation d'une culture ne la met pas à jour.
 - **Coût horaire** : `garden_hourly_cost` s'édite dans l'onglet Paramètres de l'employé, réservé aux officiers RH ; le chef de culture le voit mais ne peut pas l'écrire sans droit RH. `hr_hourly_cost` n'est pas pris en charge.
 - **Étiquettes QR** : l'image PNG du QR code est produite par reportlab (`renderPM`), qui nécessite `rlPyCairo` ou `_rl_renderPM` ; absent de l'environnement de développement local (le rendu PDF n'y a pas été vérifié, ni wkhtmltopdf). Le QR code dépend de `web.base.url`.
-- **Chronomètre** : la durée est ajoutée par employé ; démarrer le chronomètre d'une opération déjà en cours ne fait rien tant qu'il tourne. Le tableau de bord « Ma journée » n'a pas été éprouvé dans un navigateur (pas de tour de test).
+- **Chronomètre** : la durée est ajoutée par employé ; démarrer le chronomètre d'une opération déjà en cours ne fait rien tant qu'il tourne.
 - **Référence des cultures existantes** : les cultures créées avant la phase 2 gardent la référence `/` après mise à jour.
 - **Avertissements non stockés** : `has_overlap` et `has_rotation_conflict` ne sont pas filtrables dans la recherche.
 - **Anciennes cultures** : `date_start` / `date_end` sont désormais les dates *réelles* ; les cultures sans dates prévues n'apparaissent pas dans le calendrier.

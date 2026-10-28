@@ -1,3 +1,4 @@
+from odoo import fields
 from odoo.tests import HttpCase, tagged
 
 from .test_planning import GardenPlanningCase
@@ -80,3 +81,29 @@ class TestGardenGanttTour(HttpCase, GardenPlanningCase):
             'planned_sowing_date': '2027-03-01', 'date_start': '2027-03-05', 'date_end': '2027-06-30',
         })
         self.start_tour('/odoo/action-odoo_garden.action_garden_bed_occupancy', 'garden_gantt_tour', login='admin')
+
+
+@tagged('post_install', '-at_install')
+class TestGardenMyDayTour(HttpCase):
+
+    def test_my_day_tour(self):
+        farm = self.env['garden.farm'].create({'name': 'Ferme Tour'})
+        site = self.env['garden.site'].create({'name': 'Site Tour', 'farm_id': farm.id})
+        garden = self.env['garden.garden'].create({'name': 'Îlot Tour', 'site_id': site.id})
+        bed = self.env['garden.bed'].create({
+            'name': 'Planche Tour', 'code': 'TOUR', 'garden_id': garden.id, 'length': 10, 'width': 1,
+        })
+        admin = self.env.ref('base.user_admin')
+        employee = self.env['hr.employee'].search([('user_id', '=', admin.id)], limit=1) or \
+            self.env['hr.employee'].create({'name': 'Admin tour', 'user_id': admin.id})
+        operation = self.env['garden.operation'].create({
+            'name': 'Désherbage - Tour',
+            'type_id': self.env.ref('odoo_garden.operation_type_weeding').id,
+            'scope': 'bed', 'bed_ids': [(6, 0, bed.ids)],
+            'planned_date': fields.Date.context_today(self.env['garden.operation']),
+            'employee_ids': [(6, 0, employee.ids)], 'duration': 1.0,
+        })
+        self.start_tour('/odoo/action-odoo_garden.action_garden_operation_today', 'garden_my_day_tour', login='admin')
+        operation.invalidate_recordset()
+        self.assertEqual(operation.state, 'done')
+        self.assertFalse(operation.timer_start)
