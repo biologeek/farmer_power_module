@@ -31,6 +31,7 @@
     <menuitem id="menu_garden_compliance" name="Conformité (registres réglementaires, France)" parent="menu_garden_root" sequence="18" groups="group_garden_chef"/>
     <menuitem id="menu_garden_compliance_phyto" name="Registre phytosanitaire" parent="menu_garden_compliance" action="action_garden_compliance_phyto" sequence="10"/>
     <menuitem id="menu_garden_compliance_fertilization" name="Registre de fertilisation" parent="menu_garden_compliance" action="action_garden_compliance_fertilization" sequence="20"/>
+    <menuitem id="menu_garden_compliance_organic" name="Export certification bio" parent="menu_garden_compliance" action="action_garden_compliance_organic" sequence="30"/>
 
     <menuitem id="menu_garden_statistics" name="Statistiques" parent="menu_garden_root" sequence="20"/>
     <menuitem id="menu_garden_time_statistics" name="Temps de travail" parent="menu_garden_statistics" action="action_garden_time_statistics"/>

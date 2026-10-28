@@ -297,3 +297,107 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
     def test_rights(self):
         with self.assertRaises(AccessError):
             self.env['garden.compliance.wizard'].with_user(self.worker).create({'register': 'fertilization'})
+
+
+@tagged('post_install', '-at_install')
+class TestGardenOrganicExport(GardenRegisterCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.supplier = cls.env['res.partner'].create({'name': 'Graineterie test'})
+        cls.type_sowing = cls.env.ref('odoo_garden.operation_type_sowing')
+
+    def setUp(self):
+        super().setUp()
+        self.variety.write({'organic_status': 'organic', 'supplier_id': self.supplier.id})
+        self.seed_lot2 = self.env['stock.lot'].create({'name': 'LOT-BIO-7', 'product_id': self.seed.id})
+        picking = self.env['stock.picking'].create({
+            'picking_type_id': self.warehouse.in_type_id.id, 'partner_id': self.supplier.id,
+            'location_id': self.env.ref('stock.stock_location_suppliers').id,
+            'location_dest_id': self.stock_location.id,
+            'move_ids': [(0, 0, {
+                'product_id': self.seed.id, 'product_uom_qty': 5, 'product_uom': self.seed.uom_id.id,
+                'location_id': self.env.ref('stock.stock_location_suppliers').id,
+                'location_dest_id': self.stock_location.id,
+            })],
+        })
+        picking.action_confirm()
+        picking.move_ids.move_line_ids.write({'lot_id': self.seed_lot2.id, 'quantity': 5})
+        picking.move_ids.picked = True
+        picking._action_done()
+        self.sowing = self._operation(
+            type_id=self.type_sowing.id, crop_ids=[(6, 0, self.crop.ids)], date='2027-03-02',
+            input_ids=[(0, 0, {'product_id': self.seed.id, 'quantity': 2, 'lot_id': self.seed_lot2.id})],
+        )
+        self.sowing.action_done()
+
+    def _tabs(self, wizard):
+        import openpyxl
+        _filename, content = wizard._get_xlsx()
+        workbook = openpyxl.load_workbook(io.BytesIO(content))
+        return {ws.title: list(ws.iter_rows(values_only=True)) for ws in workbook.worksheets}
+
+    def test_unauthorized_inputs_are_flagged(self):
+        no_organic = self._storable(
+            'Phyto de synthèse', garden_input_type='phytosanitary', is_organic_allowed=False,
+        )
+        self._set_stock(no_organic, 10)
+        organic_ok = self._storable('Purin bio', garden_input_type='amendment', is_organic_allowed=True)
+        self._set_stock(organic_ok, 10)
+        self._treatment('2027-05-01', product=no_organic)
+        self._treatment('2027-05-02', product=organic_ok)
+        conventional = self.env['garden.variety'].create({'name': 'Conventionnelle', 'species_id': self.solanaceae.id})
+        template = self.env['garden.crop.template'].create({'name': 'Tomate conv', 'variety_id': conventional.id})
+        other = self._crop(template_id=template.id, bed_id=self.bed2.id, planned_sowing_date='2027-03-01')
+        self._treatment('2027-05-03', crop=other, product=no_organic)
+        wizard = self._wizard(register='organic')
+        lines = wizard.organic_line_ids
+        flagged = lines.filtered('alert')
+        self.assertEqual(len(flagged), 1)
+        self.assertEqual(flagged.product_id, no_organic)
+        self.assertEqual(flagged.crop_id, self.crop)
+        self.assertEqual(wizard.alert_count, 1)
+        self.assertTrue(flagged.organic_crop)
+        self.assertEqual(flagged.organic_allowed, 'no')
+        # produit autorisé, ou culture non bio : pas d'alerte
+        self.assertFalse(lines.filtered(lambda l: l.product_id == organic_ok).alert)
+        self.assertFalse(lines.filtered(lambda l: l.crop_id == other).alert)
+        # les semences sont « sans objet » (statut de la variété)
+        seed_line = lines.filtered(lambda l: l.product_id == self.seed)
+        self.assertEqual(seed_line.organic_allowed, 'na')
+        self.assertEqual(seed_line.lot_id, self.seed_lot2)
+
+    def test_xlsx_one_sheet_per_theme(self):
+        no_organic = self._storable('Phyto de synthèse', garden_input_type='phytosanitary')
+        self._set_stock(no_organic, 10)
+        self._treatment('2027-05-01', product=no_organic)
+        tabs = self._tabs(self._wizard(register='organic'))
+        self.assertEqual(list(tabs), ['Semences', 'Intrants', 'Alertes bio'])
+        header, seed_row = tabs['Semences']
+        values = dict(zip(header, seed_row))
+        self.assertEqual(values['Culture'], self.crop.name)
+        self.assertEqual(values['Variété'], self.variety.name)
+        self.assertEqual(values['Statut bio de la variété'], 'Bio')
+        self.assertEqual(values['Fournisseur de la variété'], 'Graineterie test')
+        self.assertIn(self.seed.display_name, values['Semences et plants utilisés'])
+        self.assertEqual(values['Lots'], 'LOT-BIO-7')
+        self.assertEqual(values['Origine des lots (réception)'], 'Graineterie test')
+        inputs = tabs['Intrants']
+        self.assertEqual(len(inputs), 3)  # en-tête, semence, phytosanitaire
+        alerts = tabs['Alertes bio']
+        self.assertEqual(len(alerts), 2)
+        alert = dict(zip(alerts[0], alerts[1]))
+        self.assertEqual(alert['Produit'], no_organic.display_name)
+        self.assertEqual(alert['Autorisé en bio'], 'Non')
+        self.assertEqual(alert['Non autorisé en bio'], 'Oui')
+
+    def test_period_filter_and_no_pdf(self):
+        wizard = self._wizard(register='organic', date_to='2027-03-01')
+        self.assertFalse(wizard.organic_line_ids)
+        wizard = self._wizard(register='organic', date_from='2027-03-01')
+        self.assertEqual(len(wizard.organic_line_ids), 1)
+        with self.assertRaises(UserError):
+            wizard.action_print()
+        with self.assertRaises(AccessError):
+            self.env['garden.compliance.wizard'].with_user(self.worker).create({'register': 'organic'})

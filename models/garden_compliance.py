@@ -7,7 +7,10 @@ from odoo.exceptions import AccessError, UserError
 REGISTER_SELECTION = [
     ('phyto', 'Registre phytosanitaire'),
     ('fertilization', 'Registre de fertilisation'),
+    ('organic', 'Export certification bio'),
 ]
+INPUT_TYPES = ['seed', 'plant', 'fertilizer', 'amendment', 'phytosanitary', 'substrate', 'other']
+ORGANIC_CONTROLLED_TYPES = ('fertilizer', 'amendment', 'phytosanitary', 'substrate')
 
 
 class GardenComplianceLine(models.TransientModel):
@@ -46,6 +49,19 @@ class GardenComplianceLine(models.TransientModel):
         'Azote (kg N/ha)', digits=(16, 2), help="Azote apporté ramené à l'hectare de surface fertilisée.",
     )
     note = fields.Char('Remarque')
+    input_type = fields.Selection(
+        related='product_id.garden_input_type', string="Type d'intrant",
+    )
+    lot_id = fields.Many2one('stock.lot', string='Lot', ondelete='cascade')
+    organic_crop = fields.Boolean('Culture bio', help="La variété de la culture a le statut « Bio ».")
+    organic_allowed = fields.Selection(
+        [('yes', 'Oui'), ('no', 'Non'), ('na', 'Sans objet')], string='Autorisé en bio',
+        help="Champ « Autorisé en agriculture biologique » du produit (engrais, amendements, phytosanitaires "
+             "et substrats uniquement).",
+    )
+    alert = fields.Boolean(
+        'Non autorisé en bio', help="Intrant non autorisé en agriculture biologique utilisé sur une culture bio.",
+    )
 
 
 class GardenComplianceWizard(models.TransientModel):
@@ -71,15 +87,23 @@ class GardenComplianceWizard(models.TransientModel):
     phyto_line_ids = fields.One2many(
         'garden.compliance.line', 'wizard_id', string='Traitements', domain=[('register', '=', 'phyto')],
     )
+    organic_line_ids = fields.One2many(
+        'garden.compliance.line', 'wizard_id', string='Intrants', domain=[('register', '=', 'organic')],
+    )
+    alert_count = fields.Integer(
+        'Intrants non autorisés en bio', compute='_compute_line_count',
+        help="Nombre de lignes d'intrants non autorisés en bio utilisés sur une culture bio.",
+    )
     fertilization_line_ids = fields.One2many(
         'garden.compliance.line', 'wizard_id', string='Fertilisations', domain=[('register', '=', 'fertilization')],
     )
     line_count = fields.Integer('Nombre de lignes', compute='_compute_line_count')
 
-    @api.depends('line_ids')
+    @api.depends('line_ids', 'line_ids.alert')
     def _compute_line_count(self):
         for wizard in self:
             wizard.line_count = len(wizard.line_ids)
+            wizard.alert_count = len(wizard.line_ids.filtered('alert'))
 
     # ------------------------------------------------------------------
     # Lecture des données
@@ -196,6 +220,51 @@ class GardenComplianceWizard(models.TransientModel):
             vals_list.append(vals)
         return vals_list
 
+    def _get_organic_line_vals(self):
+        """Intrants utilisés par culture, avec le statut bio du produit.
+
+        Une culture est « bio » si sa variété a le statut « Bio ». Un engrais, amendement, phytosanitaire
+        ou substrat dont ``is_organic_allowed`` n'est pas coché, utilisé sur une culture bio, est signalé
+        (``alert``). Les semences et plants relèvent du statut de la variété (onglet « Semences »).
+        """
+        vals_list = []
+        for line, crop, share in self._get_input_rows(INPUT_TYPES):
+            product = line.product_id
+            controlled = product.garden_input_type in ORGANIC_CONTROLLED_TYPES
+            organic_crop = crop.variety_id.organic_status == 'organic'
+            allowed = 'na' if not controlled else ('yes' if product.is_organic_allowed else 'no')
+            vals_list.append(dict(
+                self._base_line_vals(line, crop, share),
+                register='organic',
+                lot_id=line.lot_id.id,
+                organic_crop=organic_crop,
+                organic_allowed=allowed,
+                alert=organic_crop and allowed == 'no',
+                note=self.env._("Non autorisé en bio sur une culture bio") if organic_crop and allowed == 'no' else False,
+            ))
+        return vals_list
+
+    def _get_organic_seed_rows(self):
+        """Origine et statut des semences, par culture (traçabilité amont de la phase 4)."""
+        self.ensure_one()
+        crops = self.crop_ids | self.line_ids.crop_id
+        status_labels = dict(self.env['garden.variety']._fields['organic_status'].selection)
+        rows = []
+        for crop in crops.sudo().sorted(lambda c: (c.season_id.name or '', c.name)):
+            trace = self.env['garden.traceability'].sudo().new({'crop_id': crop.id})
+            variety = crop.variety_id
+            receipts = trace.seed_receipt_line_ids
+            rows.append([
+                crop.name, crop.season_id.name or '', crop.bed_id.name or '', crop.species_id.name or '',
+                variety.name or '', status_labels.get(variety.organic_status, ''),
+                variety.supplier_id.name or '',
+                ", ".join(trace.seed_input_ids.product_id.mapped('display_name')),
+                ", ".join(trace.seed_lot_ids.mapped('name')),
+                ", ".join(sorted({p.name for p in receipts.picking_id.partner_id})),
+                receipts[:1].date.date() if receipts[:1].date else '',
+            ])
+        return rows
+
     def _get_fertilization_summary(self):
         """Synthèse par saison et par planche : ``[(saison, planche, kg N, kg N/ha)]``.
 
@@ -247,6 +316,8 @@ class GardenComplianceWizard(models.TransientModel):
     def action_print(self):
         """Bouton « Imprimer » : registre au format PDF."""
         self.ensure_one()
+        if self.register == 'organic':
+            raise UserError(self.env._("L'export de certification bio se fait au format XLSX."))
         self._compute_lines()
         return self.env.ref('odoo_garden.action_report_garden_compliance').report_action(self)
 
@@ -296,6 +367,13 @@ class GardenComplianceWizard(models.TransientModel):
                 ('Azote apporté (kg N)', 'nitrogen_kg', 14), ('Azote (kg N/ha)', 'nitrogen_per_ha', 12),
                 ('Remarque', 'note', 30),
             ],
+            'organic': [
+                ('Date', 'date', 12), ('Saison', 'season_id', 14), ('Culture', 'crop_id', 18),
+                ('Planche', 'bed_id', 16), ('Culture bio', 'organic_crop', 10), ('Produit', 'product_id', 26),
+                ("Type d'intrant", 'input_type', 16), ('Lot', 'lot_id', 14), ('Quantité', 'quantity', 12),
+                ('Unité', 'uom_id', 8), ('Autorisé en bio', 'organic_allowed', 14),
+                ('Non autorisé en bio', 'alert', 14), ('Remarque', 'note', 36),
+            ],
         }
 
     def _get_xlsx(self):
@@ -342,6 +420,8 @@ class GardenComplianceWizard(models.TransientModel):
             return value or ''
         if field.type == 'boolean':
             return bool(value)
+        if field.type == 'selection':
+            return dict(field._description_selection(self.env)).get(value, '')
         return value or (0.0 if field.type == 'float' else '')
 
     def _xlsx_tabs(self):
@@ -353,6 +433,18 @@ class GardenComplianceWizard(models.TransientModel):
             title, [(header, width) for header, _field, width in columns],
             [[self._cell_value(line, field) for _header, field, _width in columns] for line in self.line_ids],
         )]
+        if self.register == 'organic':
+            seed_headers = [
+                (self.env._("Culture"), 18), (self.env._("Saison"), 14), (self.env._("Planche"), 16),
+                (self.env._("Espèce"), 16), (self.env._("Variété"), 20), (self.env._("Statut bio de la variété"), 22),
+                (self.env._("Fournisseur de la variété"), 22), (self.env._("Semences et plants utilisés"), 28),
+                (self.env._("Lots"), 18), (self.env._("Origine des lots (réception)"), 26),
+                (self.env._("Date de réception"), 14),
+            ]
+            alert_rows = [row for line, row in zip(self.line_ids, tabs[0][2]) if line.alert]
+            tabs = [(self.env._("Semences"), seed_headers, self._get_organic_seed_rows()),
+                    (self.env._("Intrants"), tabs[0][1], tabs[0][2]),
+                    (self.env._("Alertes bio"), tabs[0][1], alert_rows)]
         if self.register == 'fertilization':
             tabs.append((
                 self.env._("Synthèse par planche"),
