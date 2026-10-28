@@ -22,7 +22,7 @@ registry.category("web_tour.tours").add("garden_my_day_tour", {
         },
         {
             content: "L'opération faite quitte la vue du jour",
-            trigger: ".o_kanban_view .o_view_nocontent:contains(Rien à faire pour le moment)",
+            trigger: ".o_kanban_view:not(:has(.o_kanban_record:contains(Désherbage - Tour)))",
         },
     ],
 });
