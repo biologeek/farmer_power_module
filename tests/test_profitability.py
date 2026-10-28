@@ -130,3 +130,19 @@ class TestGardenProfitability(GardenRevenueCase):
         cron = self.env.ref('odoo_garden.ir_cron_garden_profitability')
         self.assertEqual(cron.interval_type, 'days')
         cron.method_direct_trigger()
+
+    def test_dashboard_data(self):
+        self._scenario()
+        data = self.Profit.with_user(self.manager).get_dashboard_data()
+        species = {row['label']: row['value'] for row in data['margin_by_species']}
+        self.assertAlmostEqual(species[self.solanaceae.display_name], 100.0 + 38.0)
+        categories = {row['label'] for row in data['hours_by_category']}
+        self.assertIn('Désherbage', categories)
+        months = {row['label']: row['value'] for row in data['monthly_revenue']}
+        self.assertAlmostEqual(months['2027-07'], 200.0)
+        self.assertEqual(data['best'][0]['id'], self.big.id)
+        self.assertEqual(data['worst'][0]['id'], self.small.id)
+        self.assertEqual(data['totals']['crops'], self.Profit.search_count([]))
+        for user in (self.worker, self.chef):
+            with self.assertRaises(AccessError):
+                self.Profit.with_user(user).get_dashboard_data()

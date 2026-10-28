@@ -44,6 +44,8 @@
             'odoo_garden/static/src/xml/garden_bed_occupancy.xml',
             'odoo_garden/static/src/js/garden_statistics.js',
             'odoo_garden/static/src/xml/garden_statistics.xml',
+            'odoo_garden/static/src/js/garden_dashboard.js',
+            'odoo_garden/static/src/xml/garden_dashboard.xml',
         ],
         'web.assets_tests': [
             'odoo_garden/static/tests/tours/**/*',

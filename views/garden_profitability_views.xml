@@ -103,6 +103,10 @@
             <p>Le rapport compare, pour chaque culture, le chiffre d'affaires attribué, les heures et les coûts. Il se recalcule à l'ouverture et avec le bouton « Actualiser ».</p>
         </field>
     </record>
+    <record id="action_garden_dashboard" model="ir.actions.client">
+        <field name="name">Tableau de bord de rentabilité</field>
+        <field name="tag">garden_dashboard</field>
+    </record>
     <!-- Ouvre le rapport après l'avoir actualisé. -->
     <record id="action_garden_profitability_open" model="ir.actions.server">
         <field name="name">Rentabilité par culture</field>

@@ -25,6 +25,7 @@
 
     <menuitem id="menu_garden_profitability" name="Rentabilité" parent="menu_garden_root" sequence="15" groups="group_garden_manager"/>
     <menuitem id="menu_garden_profitability_report" name="Rapport de rentabilité" parent="menu_garden_profitability" action="action_garden_profitability_open" sequence="10"/>
+    <menuitem id="menu_garden_profitability_dashboard" name="Tableau de bord" parent="menu_garden_profitability" action="action_garden_dashboard" sequence="5"/>
     <menuitem id="menu_garden_profitability_settings" name="Paramètres de rentabilité" parent="menu_garden_profitability" action="action_garden_settings" sequence="90" groups="base.group_system"/>
 
     <menuitem id="menu_garden_statistics" name="Statistiques" parent="menu_garden_root" sequence="20"/>

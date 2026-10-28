@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="garden.GardenDashboardBars">
+        <div t-if="!rows.length" class="text-muted">Aucune donnée.</div>
+        <div t-foreach="rows" t-as="row" t-key="row_index" class="o_garden_bar_row">
+            <span class="o_garden_bar_label" t-esc="row.label"/>
+            <span class="o_garden_bar_track">
+                <span t-attf-class="o_garden_bar #{row.value &lt; 0 ? 'o_garden_bar_negative' : ''}"
+                      t-attf-style="width: #{barWidth(rows, row.value)}%"/>
+            </span>
+            <span class="o_garden_bar_value" t-esc="format(row.value)"/>
+        </div>
+    </t>
+    <t t-name="garden.GardenDashboard">
+        <div class="o_action o_garden_dashboard">
+            <Layout display="{controlPanel: {}}">
+                <div class="o_garden_dashboard_body p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1 class="m-0">Tableau de bord de rentabilité</h1>
+                        <button class="btn btn-primary" t-on-click="onRefresh">Actualiser</button>
+                    </div>
+                    <t t-if="state.data">
+                        <div class="o_garden_kpis mb-3">
+                            <div class="o_garden_kpi"><span class="o_garden_kpi_value" t-esc="format(state.data.totals.revenue)"/><span>Chiffre d'affaires</span></div>
+                            <div class="o_garden_kpi"><span class="o_garden_kpi_value" t-esc="format(state.data.totals.margin)"/><span>Marge</span></div>
+                            <div class="o_garden_kpi"><span class="o_garden_kpi_value" t-esc="format(state.data.totals.hours)"/><span>Heures</span></div>
+                            <div class="o_garden_kpi"><span class="o_garden_kpi_value" t-esc="state.data.totals.crops"/><span>Cultures</span></div>
+                        </div>
+                        <div class="o_garden_cards">
+                            <div class="o_garden_card"><h2>Marge par espèce</h2><t t-call="garden.GardenDashboardBars"><t t-set="rows" t-value="state.data.margin_by_species"/></t></div>
+                            <div class="o_garden_card"><h2>Heures par catégorie d'opération</h2><t t-call="garden.GardenDashboardBars"><t t-set="rows" t-value="state.data.hours_by_category"/></t></div>
+                            <div class="o_garden_card"><h2>Chiffre d'affaires mensuel</h2><t t-call="garden.GardenDashboardBars"><t t-set="rows" t-value="state.data.monthly_revenue"/></t></div>
+                            <div class="o_garden_card">
+                                <h2>10 cultures les plus rentables à l'heure</h2>
+                                <t t-call="garden.GardenDashboardRanking"><t t-set="rows" t-value="state.data.best"/></t>
+                            </div>
+                            <div class="o_garden_card">
+                                <h2>10 cultures les moins rentables à l'heure</h2>
+                                <t t-call="garden.GardenDashboardRanking"><t t-set="rows" t-value="state.data.worst"/></t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </Layout>
+        </div>
+    </t>
+    <t t-name="garden.GardenDashboardRanking">
+        <div t-if="!rows.length" class="text-muted">Aucune culture avec des heures.</div>
+        <table t-else="" class="table table-sm o_garden_ranking">
+            <thead><tr><th>Culture</th><th class="text-end">Heures</th><th class="text-end">Marge</th><th class="text-end">Marge/h</th></tr></thead>
+            <tbody>
+                <tr t-foreach="rows" t-as="row" t-key="row.id" class="o_garden_ranking_row" t-on-click="() => this.openCrop(row)">
+                    <td t-esc="row.label"/>
+                    <td class="text-end" t-esc="format(row.hours)"/>
+                    <td class="text-end" t-esc="format(row.margin)"/>
+                    <td class="text-end" t-esc="format(row.value)"/>
+                </tr>
+            </tbody>
+        </table>
+    </t>
+</templates>

@@ -204,3 +204,19 @@
     .o_garden_family_poaceae { --garden-family-color: #9a9a3c; }
     .o_garden_family_other { --garden-family-color: #7f8c8d; }
 }
+
+// Tableau de bord de rentabilité
+.o_garden_dashboard {
+    .o_garden_kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+    .o_garden_kpi { display: flex; flex-direction: column; padding: .75rem; border: 1px solid var(--border-color, #dee2e6); border-radius: 6px; }
+    .o_garden_kpi_value { font-size: 1.5rem; font-weight: 600; }
+    .o_garden_cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem; }
+    .o_garden_card { padding: .75rem; border: 1px solid var(--border-color, #dee2e6); border-radius: 6px; h2 { font-size: 1.05rem; } }
+    .o_garden_bar_row { display: flex; align-items: center; gap: .5rem; margin-bottom: .25rem; }
+    .o_garden_bar_label { flex: 0 0 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .o_garden_bar_track { flex: 1; height: .9rem; background: var(--gray-200, #e9ecef); border-radius: 3px; overflow: hidden; }
+    .o_garden_bar { display: block; height: 100%; background: var(--success, #198754); }
+    .o_garden_bar_negative { background: var(--danger, #dc3545); }
+    .o_garden_bar_value { flex: 0 0 5rem; text-align: right; }
+    .o_garden_ranking_row { cursor: pointer; }
+}

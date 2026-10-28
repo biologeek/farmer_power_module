@@ -190,3 +190,72 @@ class GardenCropProfitability(models.Model):
         """Bouton « Actualiser » : recalcule puis recharge la vue."""
         self.refresh()
         return {'type': 'ir.actions.client', 'tag': 'soft_reload'}
+
+    # ------------------------------------------------------------------
+    # Tableau de bord
+    # ------------------------------------------------------------------
+    @api.model
+    def get_dashboard_data(self):
+        """Chiffres clés du tableau de bord (gérant) : actualise le rapport puis agrège.
+
+        Retourne ``margin_by_species``, ``hours_by_category``, ``monthly_revenue`` (listes de
+        ``{label, value}``), ``best`` et ``worst`` (10 cultures les plus et les moins rentables à l'heure,
+        parmi celles qui ont des heures) et ``totals``.
+        """
+        self.check_access('read')
+        self.refresh()
+        lines = self.search([])
+        species = {}
+        for line in lines:
+            label = line.species_id.display_name or self.env._("Sans espèce")
+            species[label] = species.get(label, 0.0) + line.margin
+        margin_by_species = sorted(
+            ({'label': label, 'value': value} for label, value in species.items()),
+            key=lambda row: -row['value'],
+        )
+
+        categories = dict(self.env['garden.operation.type']._fields['category']._description_selection(self.env))
+        hours_by_category = sorted(
+            (
+                {'label': categories.get(category) or self.env._("Autre"), 'value': hours}
+                for category, hours in self.env['garden.operation.allocation']._read_group(
+                    [], ['category'], ['hours:sum'],
+                ) if hours
+            ),
+            key=lambda row: -row['value'],
+        )
+
+        crops = lines.crop_id
+        attribution = self.env['garden.revenue'].get_attribution(crops)
+        amounts = {}
+        for by_line in attribution.values():
+            for line_id, amount in by_line.items():
+                amounts[line_id] = amounts.get(line_id, 0.0) + amount
+        months = {}
+        for move_line in self.env['account.move.line'].sudo().browse(list(amounts)):
+            key = move_line.date.strftime('%Y-%m')
+            months[key] = months.get(key, 0.0) + amounts[move_line.id]
+        monthly_revenue = [{'label': key, 'value': months[key]} for key in sorted(months)]
+
+        with_hours = lines.filtered(lambda line: line.hours > 0)
+        ranked = with_hours.sorted(lambda line: (-line.margin_per_hour, line.id))
+
+        def row(line):
+            return {
+                'id': line.crop_id.id, 'label': line.crop_id.display_name, 'value': line.margin_per_hour,
+                'margin': line.margin, 'hours': line.hours,
+            }
+
+        return {
+            'margin_by_species': margin_by_species,
+            'hours_by_category': hours_by_category,
+            'monthly_revenue': monthly_revenue,
+            'best': [row(line) for line in ranked[:10]],
+            'worst': [row(line) for line in reversed(ranked[-10:])] if len(ranked) else [],
+            'totals': {
+                'revenue': sum(lines.mapped('revenue')),
+                'margin': sum(lines.mapped('margin')),
+                'hours': sum(lines.mapped('hours')),
+                'crops': len(lines),
+            },
+        }
