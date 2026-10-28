@@ -9,3 +9,5 @@ garden_postprocess_access,garden.postprocess,model_garden_postprocess,,1,1,1,1
 garden_loss_access,garden.loss,model_garden_loss,,1,1,1,1
 garden_crop_access,garden.crop,model_garden_crop,,1,1,1,1
 garden_action_type_access,garden.action.type,model_garden_action_type,,1,1,1,1
+garden_culture_mode_access,garden.culture.mode,model_garden_culture_mode,,1,1,1,1
+garden_plot_access,garden.plot,model_garden_plot,,1,1,1,1

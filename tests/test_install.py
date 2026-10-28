@@ -1,0 +1,65 @@
+from odoo.tests import tagged
+from odoo.tests.common import TransactionCase
+
+
+@tagged('post_install', '-at_install')
+class TestGardenInstall(TransactionCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.farm = cls.env['garden.farm'].create({'name': 'Ferme test'})
+        cls.site = cls.env['garden.site'].create({'name': 'Site test', 'farm_id': cls.farm.id})
+        cls.garden = cls.env['garden.garden'].create({'name': 'Jardin test', 'site_id': cls.site.id})
+        cls.bed = cls.env['garden.bed'].create({'name': 'Planche test', 'garden_id': cls.garden.id})
+        cls.catalog = cls.env['garden.crop.catalog'].create({'name': 'Tomate', 'variety': 'Coeur de boeuf'})
+        cls.crop = cls.env['garden.crop'].create({
+            'catalog_id': cls.catalog.id,
+            'bed_id': cls.bed.id,
+            'date_start': '2026-03-01',
+            'date_end': '2026-08-01',
+            'quantity_harvested': 12.5,
+            'value_harvested': 50.0,
+        })
+        cls.action_type = cls.env['garden.action.type'].create({'name': 'Arrosage'})
+        cls.action = cls.env['garden.action'].create({
+            'type_id': cls.action_type.id,
+            'crop_id': cls.crop.id,
+            'date': '2026-04-01',
+            'duration': 30,
+        })
+
+    def test_action_bed_from_crop(self):
+        self.assertEqual(self.action.bed_id, self.bed)
+
+    def test_occupancy_data(self):
+        data = self.env['garden.bed'].get_occupancy_data([])
+        self.assertIn('beds', data)
+        self.assertIn('start_date', data)
+        self.assertIn('end_date', data)
+        bed_data = next(b for b in data['beds'] if b['id'] == self.bed.id)
+        self.assertEqual(len(bed_data['crops']), 1)
+        self.assertEqual(bed_data['crops'][0]['id'], self.crop.id)
+        # domain=None doit aussi fonctionner
+        self.assertIn('beds', self.env['garden.bed'].get_occupancy_data(None))
+
+    def test_action_statistics(self):
+        data = self.env['garden.action'].get_statistics_data()
+        self.assertIn('pie', data)
+        self.assertIn('stacked', data)
+        self.assertIn('categories', data['stacked'])
+        self.assertIn('series', data['stacked'])
+        self.assertIn('Arrosage', [p.get('label') or p.get('name') for p in data['pie']])
+
+    def test_production_statistics(self):
+        data = self.env['garden.crop'].get_production_statistics_data()
+        for key in ('month_totals', 'bed_totals', 'crop_totals'):
+            self.assertIn(key, data)
+        self.assertIn('Planche test', [b['bed'] for b in data['bed_totals']])
+        self.assertIn('Tomate', [c['crop'] for c in data['crop_totals']])
+
+    def test_farm_action_xmlid(self):
+        self.assertTrue(self.env.ref('odoo_garden.action_garden_farm'))
+
+    def test_action_method_removed_from_action_model(self):
+        self.assertFalse(hasattr(self.env['garden.action'], 'get_production_statistics_data'))

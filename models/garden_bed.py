@@ -29,7 +29,7 @@ class GardenBed(models.Model):
                 'crops': [
                     {
                         'id': crop.id,
-                        'label': crop.catalog_id.name or crop.name or "",
+                        'label': crop.catalog_id.name or "",
                         'date_start': crop.date_start,
                         'date_end': crop.date_end or crop.date_start,
                     }

@@ -8,11 +8,7 @@ class GardenRedirectController(http.Controller):
         if request.env.user._is_public():
             return request.redirect('/web/login?redirect=/odoo/garden')
 
-        action = None
-        try:
-            action = request.env.ref('garden.action_garden_farm', raise_if_not_found=False)
-        except Exception:
-            action = None
+        action = request.env.ref('odoo_garden.action_garden_farm', raise_if_not_found=False)
 
         if not action:
             return request.not_found()

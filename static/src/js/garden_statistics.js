@@ -77,4 +77,27 @@ class GardenStatisticsAction extends Component {
     }
 }
 
+class GardenProductionStatisticsAction extends Component {
+    static template = "garden.GardenProductionStatistics";
+    static components = { Layout };
+    static props = { ...standardActionServiceProps };
+
+    setup() {
+        this.orm = useService("orm");
+        this.state = useState({ month_totals: [], bed_totals: [], crop_totals: [] });
+        useSetupAction({
+            getLocalState: () => ({ month_totals: this.state.month_totals, bed_totals: this.state.bed_totals, crop_totals: this.state.crop_totals }),
+        });
+        onWillStart(this._loadData.bind(this));
+    }
+
+    async _loadData() {
+        const data = await this.orm.call("garden.crop", "get_production_statistics_data", [this.props.action.context || {}]);
+        this.state.month_totals = data.month_totals || [];
+        this.state.bed_totals = data.bed_totals || [];
+        this.state.crop_totals = data.crop_totals || [];
+    }
+}
+
 registry.category('actions').add('garden_statistics', GardenStatisticsAction);
+registry.category('actions').add('garden_production_statistics', GardenProductionStatisticsAction);

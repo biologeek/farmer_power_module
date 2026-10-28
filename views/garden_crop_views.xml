@@ -67,5 +67,6 @@
                 Créez votre première culture sur planche
             </p>
         </field>
+        <field name="view_id" ref="view_garden_crop_tree"/>
     </record>
 </odoo>

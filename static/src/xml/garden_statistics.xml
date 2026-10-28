@@ -27,4 +27,89 @@
             </Layout>
         </div>
     </t>
+    <t t-name="garden.GardenProductionStatistics">
+        <div class="o_action o_garden_production_statistics_action">
+            <style>
+                .o_garden_production_statistics_action { padding: 1rem 1.5rem; }
+                .o_garden_statistics_header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem }
+                .o_garden_production_tables { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:1rem }
+                .o_garden_table_card { padding:0.75rem; border:1px solid #e6e9ec; border-radius:6px; background:#fff; overflow-x:auto }
+                .o_garden_table_card h2 { margin:0 0 0.75rem 0; font-size:1.05rem }
+                .o_garden_table_card table { width:100%; border-collapse:collapse; }
+                .o_garden_table_card th,
+                .o_garden_table_card td { padding:0.5rem 0.75rem; border:1px solid #e6e9ec; text-align:left; }
+                .o_garden_table_card th { background:#f6f8fa; font-weight:600; }
+            </style>
+            <Layout display="display">
+                <div class="o_garden_statistics_header">
+                    <h1>Statistiques de production</h1>
+                </div>
+                <div class="o_garden_production_tables">
+                    <div class="o_garden_table_card">
+                        <h2>Production par mois</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mois</th>
+                                    <th>Quantité (kg)</th>
+                                    <th>Valeur (€)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.month_totals" t-key="row.period" t-as="row">
+                                    <tr>
+                                        <td><t t-esc="row.period"/></td>
+                                        <td><t t-esc="row.quantity"/></td>
+                                        <td><t t-esc="row.value"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="o_garden_table_card">
+                        <h2>Production par planche</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Planche</th>
+                                    <th>Quantité (kg)</th>
+                                    <th>Valeur (€)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.bed_totals" t-key="row.bed" t-as="row">
+                                    <tr>
+                                        <td><t t-esc="row.bed"/></td>
+                                        <td><t t-esc="row.quantity"/></td>
+                                        <td><t t-esc="row.value"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="o_garden_table_card">
+                        <h2>Production par culture</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Culture</th>
+                                    <th>Quantité (kg)</th>
+                                    <th>Valeur (€)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="state.crop_totals" t-key="row.crop" t-as="row">
+                                    <tr>
+                                        <td><t t-esc="row.crop"/></td>
+                                        <td><t t-esc="row.quantity"/></td>
+                                        <td><t t-esc="row.value"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </Layout>
+        </div>
+    </t>
 </templates>

@@ -26,6 +26,7 @@ class GardenAction(models.Model):
         - 'pie': list of {label, value} for total duration per action type
         - 'stacked': {categories: [variety names], series: [{name: type, data: [values per category]}]}
         """
+        self.env.flush_all()
         self.env.cr.execute(
             """
             SELECT at.name AS type_name, COALESCE(SUM(a.duration),0) AS total

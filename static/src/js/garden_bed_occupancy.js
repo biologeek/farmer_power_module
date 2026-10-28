@@ -24,7 +24,7 @@ class GardenBedOccupancyAction extends Component {
     }
 
     async _loadData() {
-        const data = await this.orm.call("garden.bed", "get_occupancy_data", [this.props.action.context || {}]);
+        const data = await this.orm.call("garden.bed", "get_occupancy_data", [this.props.action.domain || []]);
         this.state.beds = data.beds || [];
         this.state.startDate = data.start_date || false;
         this.state.endDate = data.end_date || false;

@@ -6,7 +6,7 @@
     'summary': 'Gestion du maraîchage : fermes, sites, jardins, planches, parcelles, cultures, actions, traçabilité, post-process, pertes, rétro-planning, statistiques.',
     'author': 'Votre Nom',
     'website': 'https://votresite.com',
-    'depends': ['base'],
+    'depends': ['base', 'web'],
     'data': [
         'security/ir.model.access.csv',
         'views/garden_farm_views.xml',
