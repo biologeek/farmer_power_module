@@ -1,10 +1,12 @@
 import io
+from datetime import date
 
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
 
 REGISTER_SELECTION = [
     ('phyto', 'Registre phytosanitaire'),
+    ('fertilization', 'Registre de fertilisation'),
 ]
 
 
@@ -35,6 +37,15 @@ class GardenComplianceLine(models.TransientModel):
     operator = fields.Char('Opérateur')
     target = fields.Char('Cible')
     weather_notes = fields.Text('Conditions')
+    nitrogen_content = fields.Float('Teneur en azote (%)', digits=(5, 2))
+    quantity_kg = fields.Float('Quantité (kg)', digits=(16, 3), help="Quantité d'engrais convertie en kilogrammes.")
+    nitrogen_kg = fields.Float(
+        'Azote apporté (kg N)', digits=(16, 3), help="Quantité d'engrais (kg) × teneur en azote / 100.",
+    )
+    nitrogen_per_ha = fields.Float(
+        'Azote (kg N/ha)', digits=(16, 2), help="Azote apporté ramené à l'hectare de surface fertilisée.",
+    )
+    note = fields.Char('Remarque')
 
 
 class GardenComplianceWizard(models.TransientModel):
@@ -59,6 +70,9 @@ class GardenComplianceWizard(models.TransientModel):
     line_ids = fields.One2many('garden.compliance.line', 'wizard_id', string='Lignes')
     phyto_line_ids = fields.One2many(
         'garden.compliance.line', 'wizard_id', string='Traitements', domain=[('register', '=', 'phyto')],
+    )
+    fertilization_line_ids = fields.One2many(
+        'garden.compliance.line', 'wizard_id', string='Fertilisations', domain=[('register', '=', 'fertilization')],
     )
     line_count = fields.Integer('Nombre de lignes', compute='_compute_line_count')
 
@@ -152,6 +166,50 @@ class GardenComplianceWizard(models.TransientModel):
             ))
         return vals_list
 
+    def _get_fertilization_line_vals(self):
+        """Azote apporté par chaque engrais (intrants de type engrais d'opérations faites).
+
+        ``nitrogen_kg`` = quantité d'engrais en kg × teneur en azote (%) / 100 ; ``nitrogen_per_ha`` =
+        ``nitrogen_kg`` × 10 000 / surface fertilisée (kg N/ha, ce que la réglementation appelle des
+        « unités d'azote »). Un engrais dont l'unité n'est pas une masse ou sans teneur en azote est
+        listé avec 0 et une remarque.
+        """
+        kilogram = self.env.ref('uom.product_uom_kgm')
+        vals_list = []
+        for line, crop, share in self._get_input_rows(['fertilizer']):
+            product = line.product_id
+            vals = dict(
+                self._base_line_vals(line, crop, share),
+                register='fertilization',
+                treated_area=line.treated_area * share,
+                nitrogen_content=product.nitrogen_content,
+            )
+            if not line.uom_id._has_common_reference(kilogram):
+                vals['note'] = self.env._("Unité non convertible en kg : azote non calculé.")
+            else:
+                vals['quantity_kg'] = line.uom_id._compute_quantity(vals['quantity'], kilogram, round=False)
+                if not product.nitrogen_content:
+                    vals['note'] = self.env._("Teneur en azote non renseignée sur le produit.")
+                vals['nitrogen_kg'] = vals['quantity_kg'] * product.nitrogen_content / 100.0
+                if vals['treated_area'] > 0:
+                    vals['nitrogen_per_ha'] = vals['nitrogen_kg'] * 10000.0 / vals['treated_area']
+            vals_list.append(vals)
+        return vals_list
+
+    def _get_fertilization_summary(self):
+        """Synthèse par saison et par planche : ``[(saison, planche, kg N, kg N/ha)]``.
+
+        Les kg N/ha des applications d'une même planche et d'une même saison s'additionnent (chaque
+        application est ramenée à l'hectare de la surface fertilisée).
+        """
+        self.ensure_one()
+        groups = self.env['garden.compliance.line']._read_group(
+            [('wizard_id', '=', self.id), ('register', '=', 'fertilization')],
+            ['season_id', 'bed_id'], ['nitrogen_kg:sum', 'nitrogen_per_ha:sum'],
+            order='season_id, bed_id',
+        )
+        return groups
+
     # ------------------------------------------------------------------
     # Calcul, impression, export
     # ------------------------------------------------------------------
@@ -202,6 +260,23 @@ class GardenComplianceWizard(models.TransientModel):
             'target': 'self',
         }
 
+    def action_open_pivot(self):
+        """Bouton « Synthèse » : pivot de l'azote par planche et par saison."""
+        self.ensure_one()
+        self._compute_lines()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': self.env._("Azote par planche et par saison"),
+            'res_model': 'garden.compliance.line',
+            'view_mode': 'pivot,list',
+            'views': [
+                (self.env.ref('odoo_garden.view_garden_compliance_line_fertilization_pivot').id, 'pivot'),
+                (self.env.ref('odoo_garden.view_garden_compliance_line_fertilization_list').id, 'list'),
+            ],
+            'domain': [('wizard_id', '=', self.id), ('register', '=', 'fertilization')],
+            'search_view_id': [self.env.ref('odoo_garden.view_garden_compliance_line_search').id, 'search'],
+        }
+
     @api.model
     def _xlsx_sheets(self):
         """Colonnes de chaque registre : ``{registre: [(titre, champ de la ligne, largeur)]}``."""
@@ -212,6 +287,14 @@ class GardenComplianceWizard(models.TransientModel):
                 ('Produit', 'product_id', 26), ('N° AMM', 'amm_number', 14), ('Dose (par ha)', 'dose', 12),
                 ('Quantité utilisée', 'quantity', 12), ('Unité', 'uom_id', 8), ('Opérateur', 'operator', 20),
                 ('Cible', 'target', 18), ('Conditions', 'weather_notes', 28),
+            ],
+            'fertilization': [
+                ('Date', 'date', 12), ('Saison', 'season_id', 14), ('Planche', 'bed_id', 16),
+                ('Culture', 'crop_id', 18), ('Surface fertilisée (m²)', 'treated_area', 12),
+                ('Engrais', 'product_id', 26), ('Quantité', 'quantity', 12), ('Unité', 'uom_id', 8),
+                ('Quantité (kg)', 'quantity_kg', 12), ('Teneur en azote (%)', 'nitrogen_content', 12),
+                ('Azote apporté (kg N)', 'nitrogen_kg', 14), ('Azote (kg N/ha)', 'nitrogen_per_ha', 12),
+                ('Remarque', 'note', 30),
             ],
         }
 
@@ -228,33 +311,54 @@ class GardenComplianceWizard(models.TransientModel):
         bold = workbook.add_format({'bold': True, 'bg_color': '#D9E8D0', 'border': 1, 'text_wrap': True})
         date_format = workbook.add_format({'num_format': 'dd/mm/yyyy'})
         number_format = workbook.add_format({'num_format': '#,##0.00'})
-        for title, columns, lines in self._xlsx_tabs():
+        for title, headers, rows in self._xlsx_tabs():
             sheet = workbook.add_worksheet(title[:31])
             sheet.freeze_panes(1, 0)
-            for col, (header, _field, width) in enumerate(columns):
+            for col, (header, width) in enumerate(headers):
                 sheet.write(0, col, header, bold)
                 sheet.set_column(col, col, width)
-            for row, line in enumerate(lines, start=1):
-                for col, (_header, field_name, _width) in enumerate(columns):
-                    value = line[field_name]
-                    field = line._fields[field_name]
-                    if field.type == 'many2one':
-                        sheet.write(row, col, (value.name if value._name == 'garden.crop' else value.display_name) or '')
-                    elif field.type == 'date':
-                        if value:
-                            sheet.write_datetime(row, col, fields.Date.to_date(value), date_format)
-                    elif field.type == 'float':
-                        sheet.write_number(row, col, value, number_format)
-                    elif field.type == 'boolean':
+            for row, cells in enumerate(rows, start=1):
+                for col, value in enumerate(cells):
+                    if isinstance(value, bool):
                         sheet.write(row, col, self.env._("Oui") if value else self.env._("Non"))
+                    elif isinstance(value, (int, float)):
+                        sheet.write_number(row, col, value, number_format)
+                    elif isinstance(value, date):
+                        sheet.write_datetime(row, col, value, date_format)
                     else:
                         sheet.write(row, col, value or '')
         workbook.close()
         label = dict(self._fields['register'].selection)[self.register]
         return "%s.xlsx" % label.replace(' ', '_'), output.getvalue()
 
+    @api.model
+    def _cell_value(self, line, field_name):
+        """Valeur d'une cellule du classeur : texte, nombre ou date (les enregistrements deviennent leur nom)."""
+        value = line[field_name]
+        field = line._fields[field_name]
+        if field.type == 'many2one':
+            return (value.name if value._name == 'garden.crop' else value.display_name) or ''
+        if field.type == 'date':
+            return value or ''
+        if field.type == 'boolean':
+            return bool(value)
+        return value or (0.0 if field.type == 'float' else '')
+
     def _xlsx_tabs(self):
-        """Onglets du classeur : ``[(titre, colonnes, lignes)]``."""
+        """Onglets du classeur : ``[(titre, [(en-tête, largeur)], [ligne de cellules])]``."""
         self.ensure_one()
         columns = self._xlsx_sheets()[self.register]
-        return [(dict(self._fields['register'].selection)[self.register], columns, self.line_ids)]
+        title = dict(self._fields['register'].selection)[self.register]
+        tabs = [(
+            title, [(header, width) for header, _field, width in columns],
+            [[self._cell_value(line, field) for _header, field, _width in columns] for line in self.line_ids],
+        )]
+        if self.register == 'fertilization':
+            tabs.append((
+                self.env._("Synthèse par planche"),
+                [(self.env._("Saison"), 14), (self.env._("Planche"), 16), (self.env._("Azote apporté (kg N)"), 16),
+                 (self.env._("Azote cumulé (kg N/ha)"), 16)],
+                [[season.name or '', bed.name or '', kg, per_ha]
+                 for season, bed, kg, per_ha in self._get_fertilization_summary()],
+            ))
+        return tabs

@@ -22,6 +22,41 @@
         </field>
     </record>
 
+    <record id="view_garden_compliance_line_fertilization_list" model="ir.ui.view">
+        <field name="name">garden.compliance.line.fertilization.list</field>
+        <field name="model">garden.compliance.line</field>
+        <field name="arch" type="xml">
+            <list string="Registre de fertilisation" create="0" edit="0" delete="0"
+                  decoration-warning="note">
+                <field name="date"/>
+                <field name="season_id"/>
+                <field name="bed_id"/>
+                <field name="crop_id"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="uom_id"/>
+                <field name="nitrogen_content"/>
+                <field name="nitrogen_kg" sum="Total"/>
+                <field name="treated_area" optional="show"/>
+                <field name="nitrogen_per_ha" sum="Total"/>
+                <field name="note" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_garden_compliance_line_fertilization_pivot" model="ir.ui.view">
+        <field name="name">garden.compliance.line.fertilization.pivot</field>
+        <field name="model">garden.compliance.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Azote par planche et par saison" disable_linking="1">
+                <field name="bed_id" type="row"/>
+                <field name="season_id" type="col"/>
+                <field name="nitrogen_kg" type="measure"/>
+                <field name="nitrogen_per_ha" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
     <record id="view_garden_compliance_line_search" model="ir.ui.view">
         <field name="name">garden.compliance.line.search</field>
         <field name="model">garden.compliance.line</field>
@@ -48,6 +83,8 @@
                 <header>
                     <button name="action_compute" string="Calculer" type="object" class="btn-primary"/>
                     <button name="action_print" string="Imprimer (PDF)" type="object"/>
+                    <button name="action_open_pivot" string="Synthèse par planche" type="object"
+                            invisible="register != 'fertilization'"/>
                     <button name="action_export_xlsx" string="Exporter (XLSX)" type="object"/>
                 </header>
                 <sheet>
@@ -73,6 +110,8 @@
                     <field name="line_count" invisible="1"/>
                     <field name="phyto_line_ids" nolabel="1" invisible="register != 'phyto' or not line_count"
                            readonly="1" context="{'list_view_ref': 'odoo_garden.view_garden_compliance_line_phyto_list'}"/>
+                    <field name="fertilization_line_ids" nolabel="1" invisible="register != 'fertilization' or not line_count"
+                           readonly="1" context="{'list_view_ref': 'odoo_garden.view_garden_compliance_line_fertilization_list'}"/>
                 </sheet>
             </form>
         </field>
@@ -84,5 +123,13 @@
         <field name="view_mode">form</field>
         <field name="target">current</field>
         <field name="context">{'default_register': 'phyto'}</field>
+    </record>
+
+    <record id="action_garden_compliance_fertilization" model="ir.actions.act_window">
+        <field name="name">Registre de fertilisation</field>
+        <field name="res_model">garden.compliance.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_register': 'fertilization'}</field>
     </record>
 </odoo>

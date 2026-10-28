@@ -191,3 +191,109 @@ class TestGardenComplianceDownload(HttpCase, GardenRegisterCase):
         self.authenticate('garden_stock_worker', 'garden_stock_worker')
         response = self.url_open('/odoo_garden/compliance/xlsx/%d' % wizard.id)
         self.assertNotEqual(response.status_code, 200)
+
+
+@tagged('post_install', '-at_install')
+class TestGardenFertilizationRegister(GardenRegisterCase):
+
+    def _fertilize(self, date, quantity, crop=None, product=None, uom=None, **vals):
+        line = {'product_id': (product or self.nitro).id, 'quantity': quantity}
+        if uom:
+            line['uom_id'] = uom.id
+        operation = self._operation(
+            type_id=self.type_fertilization.id, crop_ids=[(6, 0, (crop or self.crop).ids)], date=date,
+            input_ids=[(0, 0, line)], **vals,
+        )
+        operation.action_done()
+        return operation
+
+    def test_nitrogen_units(self):
+        self._fertilize('2027-04-10', 10.0)  # 10 kg à 10 % = 1 kg N sur 36 m²
+        line = self._wizard(register='fertilization').fertilization_line_ids
+        self.assertEqual(len(line), 1)
+        self.assertEqual(line.season_id, self.season)
+        self.assertEqual(line.bed_id, self.bed)
+        self.assertAlmostEqual(line.nitrogen_content, 10.0)
+        self.assertAlmostEqual(line.quantity_kg, 10.0)
+        self.assertAlmostEqual(line.nitrogen_kg, 1.0)
+        self.assertAlmostEqual(line.treated_area, 36.0)
+        self.assertAlmostEqual(line.nitrogen_per_ha, 10000.0 / 36.0, delta=0.01)
+        self.assertFalse(line.note)
+
+    def test_unit_conversion_and_missing_data(self):
+        gram = self.env.ref('uom.product_uom_gram')
+        self._fertilize('2027-04-10', 500.0, uom=gram)  # 0,5 kg
+        poor = self._storable('Engrais sans azote', garden_input_type='fertilizer', uom_id=self.env.ref('uom.product_uom_kgm').id)
+        self._set_stock(poor, 10)
+        self._fertilize('2027-04-11', 2.0, product=poor)
+        litre = self.env.ref('uom.product_uom_litre')
+        self._fertilize('2027-04-12', 3.0, uom=litre)
+        lines = {l.date.day: l for l in self._wizard(register='fertilization').fertilization_line_ids}
+        self.assertAlmostEqual(lines[10].nitrogen_kg, 0.05)
+        self.assertAlmostEqual(lines[10].quantity_kg, 0.5)
+        self.assertEqual(lines[11].nitrogen_kg, 0.0)
+        self.assertIn('Teneur en azote non renseignée', lines[11].note)
+        self.assertEqual(lines[12].nitrogen_kg, 0.0)
+        self.assertIn('Unité non convertible', lines[12].note)
+
+    def test_summary_per_bed_and_season(self):
+        other = self._crop(planned_sowing_date='2027-03-01', bed_id=self.bed2.id)  # 10 m²
+        self._fertilize('2027-04-10', 10.0)
+        self._fertilize('2027-05-10', 5.0)
+        self._fertilize('2027-04-10', 2.0, crop=other)
+        wizard = self._wizard(register='fertilization')
+        summary = {bed: (kg, per_ha) for _season, bed, kg, per_ha in wizard._get_fertilization_summary()}
+        self.assertAlmostEqual(summary[self.bed][0], 1.5)
+        self.assertAlmostEqual(summary[self.bed][1], 1.5 * 10000 / 36, delta=0.01)
+        self.assertAlmostEqual(summary[self.bed2][0], 0.2)
+        self.assertAlmostEqual(summary[self.bed2][1], 0.2 * 10000 / 10, delta=0.01)
+        # filtre de période
+        wizard = self._wizard(register='fertilization', date_from='2027-05-01')
+        self.assertEqual(len(wizard.fertilization_line_ids), 1)
+        # les opérations non faites ne comptent pas
+        self._operation(
+            type_id=self.type_fertilization.id, crop_ids=[(6, 0, self.crop.ids)], date='2027-06-01',
+            input_ids=[(0, 0, {'product_id': self.nitro.id, 'quantity': 50})],
+        )
+        self.assertEqual(len(self._wizard(register='fertilization').fertilization_line_ids), 3)
+
+    def test_partial_area_and_split(self):
+        other = self._crop(planned_sowing_date='2027-03-01', bed_id=self.bed2.id)
+        operation = self._operation(
+            type_id=self.type_fertilization.id, scope='bed', bed_ids=[(6, 0, (self.bed | self.bed2).ids)],
+            date='2027-04-10', input_ids=[(0, 0, {'product_id': self.nitro.id, 'quantity': 4.6})],
+        )
+        operation.action_done()
+        lines = self._wizard(register='fertilization').fertilization_line_ids
+        self.assertAlmostEqual(sum(lines.mapped('nitrogen_kg')), 0.46)
+        # même dose à l'hectare sur les deux planches
+        self.assertAlmostEqual(lines[0].nitrogen_per_ha, lines[1].nitrogen_per_ha, delta=0.01)
+        self.assertAlmostEqual(lines[0].nitrogen_per_ha, 0.46 * 10000 / 46, delta=0.01)
+
+    def test_exports_and_pivot(self):
+        import openpyxl
+        self._fertilize('2027-04-10', 10.0)
+        wizard = self._wizard(register='fertilization')
+        _filename, content = wizard._get_xlsx()
+        workbook = openpyxl.load_workbook(io.BytesIO(content))
+        self.assertEqual(len(workbook.worksheets), 2)
+        detail, summary = (list(ws.iter_rows(values_only=True)) for ws in workbook.worksheets)
+        values = dict(zip(detail[0], detail[1]))
+        self.assertAlmostEqual(values['Azote apporté (kg N)'], 1.0)
+        self.assertAlmostEqual(values['Azote (kg N/ha)'], 10000 / 36, delta=0.01)
+        self.assertEqual(values['Planche'], self.bed.name)
+        self.assertEqual(summary[1][1], self.bed.name)
+        self.assertAlmostEqual(summary[1][2], 1.0)
+        html, _type = self.env['ir.actions.report']._render_qweb_html('odoo_garden.report_garden_compliance', wizard.ids)
+        text = html.decode()
+        self.assertIn('Registre de fertilisation', text)
+        self.assertIn('o_garden_register_fertilization_summary', text)
+        self.assertIn(self.nitro.display_name, text)
+        action = wizard.action_open_pivot()
+        lines = self.env['garden.compliance.line'].search(action['domain'])
+        self.assertEqual(lines, wizard.fertilization_line_ids)
+        self.assertEqual(action['view_mode'], 'pivot,list')
+
+    def test_rights(self):
+        with self.assertRaises(AccessError):
+            self.env['garden.compliance.wizard'].with_user(self.worker).create({'register': 'fertilization'})

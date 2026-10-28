@@ -22,7 +22,7 @@ class GardenComplianceCase(GardenStockCase):
         cls._set_stock(cls.phyto, 100)
         cls.nitro = cls._storable(
             'Engrais azoté test', garden_input_type='fertilizer', standard_price=1.0, nitrogen_content=10.0,
-            is_organic_allowed=True,
+            is_organic_allowed=True, uom_id=cls.env.ref('uom.product_uom_kgm').id,
         )
         cls._set_stock(cls.nitro, 1000)
         cls.harvest_product = cls._storable('Tomate test')
