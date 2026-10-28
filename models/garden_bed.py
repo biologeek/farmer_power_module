@@ -1,3 +1,5 @@
+from urllib.parse import quote
+
 from odoo import api, fields, models
 
 
@@ -43,6 +45,11 @@ class GardenBed(models.Model):
         help="Opérations dont la cible est directement cette planche (périmètre « Planche »).",
     )
 
+    operation_count = fields.Integer(
+        'Nombre d\'opérations', compute='_compute_operation_count',
+        help="Opérations qui visent la planche, l'une de ses cultures ou son îlot.",
+    )
+
     _code_site_uniq = models.Constraint(
         'UNIQUE (site_id, code)',
         'Le code de la planche doit être unique par site.',
@@ -52,6 +59,48 @@ class GardenBed(models.Model):
     def _compute_area(self):
         for bed in self:
             bed.area = bed.length * bed.width
+
+    def _get_operations_domain(self):
+        self.ensure_one()
+        return [
+            '|', '|', ('bed_ids', 'in', self.ids), ('crop_ids.bed_id', 'in', self.ids),
+            '&', ('scope', '=', 'garden'), ('garden_id', 'in', self.garden_id.ids),
+        ]
+
+    def _compute_operation_count(self):
+        for bed in self:
+            bed.operation_count = self.env['garden.operation'].search_count(bed._get_operations_domain())
+
+    def action_view_operations(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_operation')
+        action['domain'] = self._get_operations_domain()
+        action['context'] = {'default_scope': 'bed', 'default_bed_ids': [(6, 0, self.ids)]}
+        return action
+
+    def action_new_operation(self):
+        """Bouton « Nouvelle opération » : formulaire d'opération prérempli avec la planche."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': self.env._("Nouvelle opération"),
+            'res_model': 'garden.operation',
+            'view_mode': 'form',
+            'target': 'current',
+            'context': {'default_scope': 'bed', 'default_bed_ids': [(6, 0, self.ids)]},
+        }
+
+    def _get_qr_url(self):
+        """Adresse encodée dans le QR code : ouvre la fiche de la planche dans le client web."""
+        self.ensure_one()
+        return "%s/odoo/action-odoo_garden.action_garden_bed/%d" % (self.get_base_url(), self.id)
+
+    def _get_qr_image_src(self, size=200):
+        """Chemin de l'image du QR code (contrôleur ``/report/barcode`` du module web)."""
+        self.ensure_one()
+        return "/report/barcode/?barcode_type=QR&value=%s&width=%d&height=%d&quiet=0" % (
+            quote(self._get_qr_url(), safe=''), size, size,
+        )
 
     @api.depends('crop_ids.occupation_start', 'crop_ids.occupation_end', 'crop_ids.state')
     def _compute_current_crop_ids(self):

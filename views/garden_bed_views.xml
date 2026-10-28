@@ -20,7 +20,16 @@
         <field name="model">garden.bed</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_new_operation" string="Nouvelle opération" type="object" class="btn-primary"/>
+                    <button name="%(odoo_garden.action_report_garden_bed_label)d" string="Étiquette QR" type="action"/>
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_operations" type="object" class="oe_stat_button" icon="fa-tasks">
+                            <field name="operation_count" widget="statinfo" string="Opérations"/>
+                        </button>
+                    </div>
                     <widget name="web_ribbon" title="Archivée" bg_color="text-bg-danger" invisible="active"/>
                     <field name="active" invisible="1"/>
                     <group>
@@ -62,7 +71,7 @@
                             </field>
                         </page>
                         <page string="Opérations" name="operations">
-                            <field name="operation_ids" placeholder="Opérations dont la cible est cette planche">
+                            <field name="operation_ids" readonly="1" placeholder="Opérations dont la cible est cette planche">
                                 <list>
                                     <field name="name"/>
                                     <field name="type_id"/>
