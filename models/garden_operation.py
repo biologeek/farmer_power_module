@@ -364,6 +364,7 @@ class GardenOperation(models.Model):
     def _update_allocations(self):
         """(Re)calcule la répartition des opérations faites ; supprime celle des autres."""
         Allocation = self.env['garden.operation.allocation'].sudo()
+        touched = self.env['garden.crop']
         for operation in self:
             operation.allocation_ids.sudo().unlink()
             if operation.state != 'done':
@@ -383,6 +384,8 @@ class GardenOperation(models.Model):
                 }
                 for crop in crops
             ])
+            touched |= crops
+        touched._update_progress()
 
     @api.model_create_multi
     def create(self, vals_list):

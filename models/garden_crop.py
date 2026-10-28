@@ -375,6 +375,52 @@ class GardenCrop(models.Model):
         return sorted(result, key=lambda line: line['variety'].display_name or '')
 
     # ------------------------------------------------------------------
+    # Avancement piloté par les opérations faites
+    # ------------------------------------------------------------------
+    # Quand une opération passe à « faite », la culture avance : le premier semis la passe en « semée »,
+    # la plantation ou le repiquage en « en place », la première récolte en « en récolte ». L'état ne
+    # recule jamais (rouvrir une opération ne défait rien) et une culture terminée ou annulée n'est pas
+    # touchée. Le début réel (``date_start``) est la date du premier semis, repiquage ou plantation fait,
+    # renseigné seulement s'il est vide (une saisie manuelle n'est jamais écrasée). La fin réelle
+    # (``date_end``) n'est pas modifiée par les récoltes, la culture occupant la planche jusqu'à sa fin :
+    # elle est renseignée quand la culture passe à « terminée » (date de la dernière récolte faite, à défaut
+    # le jour même), si elle est vide.
+    _PROGRESS_STATE_BY_CATEGORY = {
+        'sowing': 'sown', 'transplanting': 'in_place', 'planting': 'in_place', 'harvest': 'harvesting',
+    }
+    _PROGRESS_RANK = {'planned': 0, 'sown': 1, 'in_place': 2, 'harvesting': 3, 'done': 4}
+    _START_CATEGORIES = ('sowing', 'transplanting', 'planting')
+
+    def _update_progress(self):
+        """Fait avancer l'état et le début réel des cultures d'après leurs opérations faites (jamais en arrière)."""
+        Allocation = self.env['garden.operation.allocation'].sudo()
+        for crop in self.sudo().filtered(lambda c: c.state not in ('done', 'cancelled')):
+            allocations = Allocation.search([
+                ('crop_id', '=', crop.id), ('category', 'in', list(self._PROGRESS_STATE_BY_CATEGORY)),
+            ])
+            if not allocations:
+                continue
+            vals = {}
+            target = max(
+                (self._PROGRESS_STATE_BY_CATEGORY[a.category] for a in allocations),
+                key=self._PROGRESS_RANK.get,
+            )
+            if self._PROGRESS_RANK[target] > self._PROGRESS_RANK[crop.state]:
+                vals['state'] = target
+            start_dates = [a.date for a in allocations if a.category in self._START_CATEGORIES and a.date]
+            if start_dates and not crop.date_start:
+                vals['date_start'] = min(start_dates)
+            if vals:
+                crop.write(vals)
+
+    def _get_last_harvest_date(self):
+        self.ensure_one()
+        allocations = self.env['garden.operation.allocation'].sudo().search([
+            ('crop_id', '=', self.id), ('category', '=', 'harvest'), ('date', '!=', False),
+        ], order='date desc', limit=1)
+        return allocations.date
+
+    # ------------------------------------------------------------------
     # Contrôles : chevauchement et rotation
     # ------------------------------------------------------------------
     def _get_bed_neighbours(self):
@@ -599,7 +645,12 @@ class GardenCrop(models.Model):
         return crops
 
     def write(self, vals):
+        closing = self.browse()
+        if vals.get('state') == 'done' and 'date_end' not in vals:
+            closing = self.filtered(lambda c: c.state != 'done' and not c.date_end)
         result = super().write(vals)
+        for crop in closing.filtered(lambda c: not c.date_end):
+            crop.date_end = crop._get_last_harvest_date() or fields.Date.context_today(crop)
         if {'bed_id', 'template_id', 'season_id', 'planned_sowing_date'} & vals.keys():
             for crop in self:
                 if not crop.name.startswith(crop._get_name_prefix() + '-'):
