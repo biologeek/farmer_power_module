@@ -1,24 +1,35 @@
-from odoo import models, fields
+from odoo import fields, models
 
-class GardenCropCatalog(models.Model):
-    _name = 'garden.crop.catalog'
-    _description = 'Catalogue de cultures'
 
-    name = fields.Char('Nom', required=True)
+class GardenVariety(models.Model):
+    _name = 'garden.variety'
+    _description = 'Variété'
+    _order = 'species_id, name'
+
+    name = fields.Char('Variété', required=True)
+    species_id = fields.Many2one('garden.species', string='Espèce', required=True, index=True)
+    family = fields.Selection(related='species_id.family', string='Famille botanique', store=True)
     supplier_id = fields.Many2one('res.partner', string='Fournisseur')
-    variety = fields.Char('Variété')
-    description = fields.Text('Description')
-    mode_culture = fields.Many2one('garden.culture.mode', string='Mode de culture')
-    distance = fields.Float(
-        'Distance entre plants (cm)',
-        related='mode_culture.distance',
-        store=True,
-        readonly=False,
+    seed_product_id = fields.Many2one('product.product', string='Produit semence')
+    harvest_product_id = fields.Many2one('product.product', string='Produit récolté')
+    seeds_per_gram = fields.Float('Graines par gramme')
+    germination_rate = fields.Float('Taux de germination (%)', default=100.0)
+    organic_status = fields.Selection(
+        [
+            ('organic', 'Bio'),
+            ('untreated', 'Non traitée'),
+            ('derogation', 'Conventionnelle avec dérogation'),
+        ],
+        string='Statut bio',
     )
-    nb_rangs = fields.Integer(
-        'Nombre de rangs',
-        related='mode_culture.nb_rangs',
-        store=True,
-        readonly=False,
+    template_ids = fields.One2many('garden.crop.template', 'variety_id', string='Itinéraires')
+    notes = fields.Text('Notes')
+    active = fields.Boolean('Actif', default=True)
+
+    _name_species_uniq = models.Constraint(
+        'UNIQUE (name, species_id)', 'Cette variété existe déjà pour cette espèce.',
     )
-    duree_previsionnelle = fields.Integer('Durée prévisionnelle (jours)')
+    _germination_rate_range = models.Constraint(
+        'CHECK (germination_rate >= 0 AND germination_rate <= 100)',
+        'Le taux de germination doit être compris entre 0 et 100 %.',
+    )

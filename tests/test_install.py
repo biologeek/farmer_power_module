@@ -10,11 +10,13 @@ class TestGardenInstall(TransactionCase):
         super().setUpClass()
         cls.farm = cls.env['garden.farm'].create({'name': 'Ferme test'})
         cls.site = cls.env['garden.site'].create({'name': 'Site test', 'farm_id': cls.farm.id})
-        cls.garden = cls.env['garden.garden'].create({'name': 'Jardin test', 'site_id': cls.site.id})
+        cls.garden = cls.env['garden.garden'].create({'name': 'Îlot test', 'site_id': cls.site.id})
         cls.bed = cls.env['garden.bed'].create({'name': 'Planche test', 'garden_id': cls.garden.id})
-        cls.catalog = cls.env['garden.crop.catalog'].create({'name': 'Tomate', 'variety': 'Coeur de boeuf'})
+        cls.species = cls.env['garden.species'].create({'name': 'Tomate (test)', 'family': 'solanaceae'})
+        cls.variety = cls.env['garden.variety'].create({'name': 'Coeur de boeuf', 'species_id': cls.species.id})
+        cls.template = cls.env['garden.crop.template'].create({'name': 'Tomate', 'variety_id': cls.variety.id})
         cls.crop = cls.env['garden.crop'].create({
-            'catalog_id': cls.catalog.id,
+            'template_id': cls.template.id,
             'bed_id': cls.bed.id,
             'date_start': '2026-03-01',
             'date_end': '2026-08-01',
@@ -63,3 +65,7 @@ class TestGardenInstall(TransactionCase):
 
     def test_action_method_removed_from_action_model(self):
         self.assertFalse(hasattr(self.env['garden.action'], 'get_production_statistics_data'))
+
+    def test_removed_models(self):
+        for model in ('garden.plot', 'garden.culture.mode', 'garden.crop.catalog'):
+            self.assertNotIn(model, self.env)

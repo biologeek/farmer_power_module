@@ -6,6 +6,8 @@
             <list>
                 <field name="name"/>
                 <field name="farm_id"/>
+                <field name="partner_id" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
             </list>
         </field>
     </record>
@@ -15,17 +17,47 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
                     <group>
-                        <field name="name" string="Nom" placeholder="Nom du site"/>
+                        <group>
+                            <field name="name" string="Nom" placeholder="Nom du site"/>
+                            <field name="farm_id" string="Ferme" placeholder="Ferme parent"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="latitude"/>
+                            <field name="longitude"/>
+                        </group>
                     </group>
                     <group>
-                        <field name="farm_id" string="Ferme" placeholder="Ferme parent"/>
-                    </group>
-                    <group>
-                        <field name="garden_ids" string="Jardins" placeholder="Jardins du site"/>
+                        <field name="garden_ids" string="Îlots" placeholder="Îlots du site">
+                            <list>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="culture_type"/>
+                                <field name="irrigation_type"/>
+                                <field name="area"/>
+                            </list>
+                        </field>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+    <record id="view_garden_site_search" model="ir.ui.view">
+        <field name="name">garden.site.search</field>
+        <field name="model">garden.site</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="farm_id"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_farm" string="Ferme" context="{'group_by': 'farm_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
     <record id="action_garden_site" model="ir.actions.act_window">

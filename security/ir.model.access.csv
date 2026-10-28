@@ -1,13 +1,33 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-garden_farm_access,garden.farm,model_garden_farm,,1,1,1,1
-garden_site_access,garden.site,model_garden_site,,1,1,1,1
-garden_garden_access,garden.garden,model_garden_garden,,1,1,1,1
-garden_bed_access,garden.bed,model_garden_bed,,1,1,1,1
-garden_crop_catalog_access,garden.crop.catalog,model_garden_crop_catalog,,1,1,1,1
-garden_action_access,garden.action,model_garden_action,,1,1,1,1
-garden_postprocess_access,garden.postprocess,model_garden_postprocess,,1,1,1,1
-garden_loss_access,garden.loss,model_garden_loss,,1,1,1,1
-garden_crop_access,garden.crop,model_garden_crop,,1,1,1,1
-garden_action_type_access,garden.action.type,model_garden_action_type,,1,1,1,1
-garden_culture_mode_access,garden.culture.mode,model_garden_culture_mode,,1,1,1,1
-garden_plot_access,garden.plot,model_garden_plot,,1,1,1,1
+garden_farm_worker,garden.farm worker,model_garden_farm,group_garden_worker,1,0,0,0
+garden_farm_chef,garden.farm chef,model_garden_farm,group_garden_chef,1,1,1,0
+garden_farm_manager,garden.farm manager,model_garden_farm,group_garden_manager,1,1,1,1
+garden_site_worker,garden.site worker,model_garden_site,group_garden_worker,1,0,0,0
+garden_site_chef,garden.site chef,model_garden_site,group_garden_chef,1,1,1,0
+garden_site_manager,garden.site manager,model_garden_site,group_garden_manager,1,1,1,1
+garden_garden_worker,garden.garden worker,model_garden_garden,group_garden_worker,1,0,0,0
+garden_garden_chef,garden.garden chef,model_garden_garden,group_garden_chef,1,1,1,0
+garden_garden_manager,garden.garden manager,model_garden_garden,group_garden_manager,1,1,1,1
+garden_bed_worker,garden.bed worker,model_garden_bed,group_garden_worker,1,0,0,0
+garden_bed_chef,garden.bed chef,model_garden_bed,group_garden_chef,1,1,1,0
+garden_bed_manager,garden.bed manager,model_garden_bed,group_garden_manager,1,1,1,1
+garden_species_worker,garden.species worker,model_garden_species,group_garden_worker,1,0,0,0
+garden_species_chef,garden.species chef,model_garden_species,group_garden_chef,1,1,1,1
+garden_variety_worker,garden.variety worker,model_garden_variety,group_garden_worker,1,0,0,0
+garden_variety_chef,garden.variety chef,model_garden_variety,group_garden_chef,1,1,1,1
+garden_crop_template_worker,garden.crop.template worker,model_garden_crop_template,group_garden_worker,1,0,0,0
+garden_crop_template_chef,garden.crop.template chef,model_garden_crop_template,group_garden_chef,1,1,1,1
+garden_crop_template_step_worker,garden.crop.template.step worker,model_garden_crop_template_step,group_garden_worker,1,0,0,0
+garden_crop_template_step_chef,garden.crop.template.step chef,model_garden_crop_template_step,group_garden_chef,1,1,1,1
+garden_operation_type_worker,garden.operation.type worker,model_garden_operation_type,group_garden_worker,1,0,0,0
+garden_operation_type_chef,garden.operation.type chef,model_garden_operation_type,group_garden_chef,1,1,1,1
+garden_crop_worker,garden.crop worker,model_garden_crop,group_garden_worker,1,1,1,0
+garden_crop_chef,garden.crop chef,model_garden_crop,group_garden_chef,1,1,1,1
+garden_action_worker,garden.action worker,model_garden_action,group_garden_worker,1,1,1,0
+garden_action_chef,garden.action chef,model_garden_action,group_garden_chef,1,1,1,1
+garden_action_type_worker,garden.action.type worker,model_garden_action_type,group_garden_worker,1,1,1,0
+garden_action_type_chef,garden.action.type chef,model_garden_action_type,group_garden_chef,1,1,1,1
+garden_postprocess_worker,garden.postprocess worker,model_garden_postprocess,group_garden_worker,1,1,1,0
+garden_postprocess_chef,garden.postprocess chef,model_garden_postprocess,group_garden_chef,1,1,1,1
+garden_loss_worker,garden.loss worker,model_garden_loss,group_garden_worker,1,1,1,0
+garden_loss_chef,garden.loss chef,model_garden_loss,group_garden_chef,1,1,1,1

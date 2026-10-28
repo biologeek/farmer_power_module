@@ -1,0 +1,327 @@
+<odoo>
+    <!-- Types d'opération -->
+    <record id="view_garden_operation_type_tree" model="ir.ui.view">
+        <field name="name">garden.operation.type.tree</field>
+        <field name="model">garden.operation.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" default_order="sequence, id">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="default_scope"/>
+                <field name="active" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_operation_type_form" model="ir.ui.view">
+        <field name="name">garden.operation.type.form</field>
+        <field name="model">garden.operation.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="category"/>
+                        <field name="default_scope"/>
+                        <field name="sequence"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_garden_operation_type_search" model="ir.ui.view">
+        <field name="name">garden.operation.type.search</field>
+        <field name="model">garden.operation.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="category"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_category" string="Catégorie" context="{'group_by': 'category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_garden_operation_type" model="ir.actions.act_window">
+        <field name="name">Types d'opération</field>
+        <field name="res_model">garden.operation.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier type d'opération
+            </p>
+        </field>
+    </record>
+
+    <!-- Espèces -->
+    <record id="view_garden_species_tree" model="ir.ui.view">
+        <field name="name">garden.species.tree</field>
+        <field name="model">garden.species</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="family"/>
+                <field name="rotation_years"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_species_form" model="ir.ui.view">
+        <field name="name">garden.species.form</field>
+        <field name="model">garden.species</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivée" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <field name="name" placeholder="Ex. : Tomate"/>
+                        <field name="family"/>
+                        <field name="rotation_years"/>
+                    </group>
+                    <notebook>
+                        <page string="Variétés" name="varieties">
+                            <field name="variety_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="supplier_id"/>
+                                    <field name="organic_status"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_garden_species_search" model="ir.ui.view">
+        <field name="name">garden.species.search</field>
+        <field name="model">garden.species</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="family"/>
+                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_family" string="Famille" context="{'group_by': 'family'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_garden_species" model="ir.actions.act_window">
+        <field name="name">Espèces</field>
+        <field name="res_model">garden.species</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première espèce
+            </p>
+        </field>
+    </record>
+
+    <!-- Variétés -->
+    <record id="view_garden_variety_tree" model="ir.ui.view">
+        <field name="name">garden.variety.tree</field>
+        <field name="model">garden.variety</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="species_id"/>
+                <field name="family" optional="hide"/>
+                <field name="supplier_id" optional="show"/>
+                <field name="seed_product_id" optional="show"/>
+                <field name="harvest_product_id" optional="show"/>
+                <field name="organic_status" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_variety_form" model="ir.ui.view">
+        <field name="name">garden.variety.form</field>
+        <field name="model">garden.variety</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivée" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Ex. : Cœur de bœuf"/>
+                            <field name="species_id"/>
+                            <field name="supplier_id"/>
+                            <field name="organic_status"/>
+                        </group>
+                        <group>
+                            <field name="seed_product_id"/>
+                            <field name="harvest_product_id"/>
+                            <field name="seeds_per_gram"/>
+                            <field name="germination_rate"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Itinéraires" name="templates">
+                            <field name="template_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="culture_type"/>
+                                    <field name="days_to_maturity"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_garden_variety_search" model="ir.ui.view">
+        <field name="name">garden.variety.search</field>
+        <field name="model">garden.variety</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="species_id"/>
+                <field name="supplier_id"/>
+                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_species" string="Espèce" context="{'group_by': 'species_id'}"/>
+                    <filter name="group_family" string="Famille" context="{'group_by': 'family'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_garden_variety" model="ir.actions.act_window">
+        <field name="name">Variétés</field>
+        <field name="res_model">garden.variety</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre première variété
+            </p>
+        </field>
+    </record>
+
+    <!-- Itinéraires techniques -->
+    <record id="view_garden_crop_template_tree" model="ir.ui.view">
+        <field name="name">garden.crop.template.tree</field>
+        <field name="model">garden.crop.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="variety_id"/>
+                <field name="species_id" optional="show"/>
+                <field name="culture_type"/>
+                <field name="propagation"/>
+                <field name="density" optional="show"/>
+                <field name="days_to_maturity"/>
+                <field name="expected_yield" optional="show"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_garden_crop_template_form" model="ir.ui.view">
+        <field name="name">garden.crop.template.form</field>
+        <field name="model">garden.crop.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Ex. : Tomate cœur de bœuf sous abri"/>
+                            <field name="variety_id"/>
+                            <field name="species_id"/>
+                            <field name="culture_type"/>
+                            <field name="propagation"/>
+                            <field name="plant_product_id" invisible="propagation != 'bought_plants'"/>
+                        </group>
+                        <group>
+                            <field name="row_count"/>
+                            <field name="row_spacing"/>
+                            <field name="plant_spacing"/>
+                            <field name="density"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Calendrier">
+                            <field name="days_to_transplant" invisible="propagation == 'direct_sowing'"/>
+                            <field name="days_to_maturity"/>
+                            <field name="harvest_window_days"/>
+                        </group>
+                        <group string="Objectifs">
+                            <field name="expected_yield"/>
+                            <field name="expected_price"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Étapes" name="steps">
+                            <field name="step_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="operation_type_id"/>
+                                    <field name="category" optional="hide"/>
+                                    <field name="day_offset"/>
+                                    <field name="expected_duration"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_garden_crop_template_search" model="ir.ui.view">
+        <field name="name">garden.crop.template.search</field>
+        <field name="model">garden.crop.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="variety_id"/>
+                <field name="species_id"/>
+                <filter name="open_air" string="Plein air" domain="[('culture_type', '=', 'open_air')]"/>
+                <filter name="sheltered" string="Sous abri" domain="[('culture_type', '=', 'sheltered')]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_species" string="Espèce" context="{'group_by': 'species_id'}"/>
+                    <filter name="group_culture_type" string="Type de culture" context="{'group_by': 'culture_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_garden_crop_template" model="ir.actions.act_window">
+        <field name="name">Itinéraires techniques</field>
+        <field name="res_model">garden.crop.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier itinéraire technique
+            </p>
+        </field>
+    </record>
+
+    <!-- Produits maraîchers -->
+    <record id="view_product_template_search_garden" model="ir.ui.view">
+        <field name="name">product.template.search.garden</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <filter name="filter_to_sell" position="before">
+                <filter name="garden_products" string="Produits maraîchers" domain="[('is_garden_product', '=', True)]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+    <record id="action_garden_product" model="ir.actions.act_window">
+        <field name="name">Produits maraîchers</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="product.product_template_search_view"/>
+        <field name="context">{'search_default_garden_products': 1}</field>
+    </record>
+</odoo>

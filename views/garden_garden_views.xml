@@ -4,8 +4,12 @@
         <field name="model">garden.garden</field>
         <field name="arch" type="xml">
             <list>
+                <field name="code"/>
                 <field name="name"/>
                 <field name="site_id"/>
+                <field name="culture_type"/>
+                <field name="irrigation_type"/>
+                <field name="area" sum="Total"/>
             </list>
         </field>
     </record>
@@ -15,26 +19,61 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
                     <group>
-                        <field name="name" string="Nom" placeholder="Nom du jardin"/>
+                        <group>
+                            <field name="name" string="Nom" placeholder="Nom de l'îlot"/>
+                            <field name="code"/>
+                            <field name="site_id" string="Site" placeholder="Site parent"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="culture_type"/>
+                            <field name="irrigation_type"/>
+                            <field name="irrigation_flow" invisible="irrigation_type in ('manual', 'none')"/>
+                            <field name="area"/>
+                        </group>
                     </group>
                     <group>
-                        <field name="site_id" string="Site" placeholder="Site parent"/>
-                    </group>
-                    <group>
-                        <field name="bed_ids" string="Planches" placeholder="Planches du jardin"/>
+                        <field name="bed_ids" string="Planches" placeholder="Planches de l'îlot">
+                            <list>
+                                <field name="code"/>
+                                <field name="name"/>
+                                <field name="length"/>
+                                <field name="width"/>
+                                <field name="area" sum="Total"/>
+                            </list>
+                        </field>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
+    <record id="view_garden_garden_search" model="ir.ui.view">
+        <field name="name">garden.garden.search</field>
+        <field name="model">garden.garden</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Nom ou code"/>
+                <field name="site_id"/>
+                <filter name="open_air" string="Plein air" domain="[('culture_type', '=', 'open_air')]"/>
+                <filter name="sheltered" string="Sous abri" domain="[('culture_type', '=', 'sheltered')]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_site" string="Site" context="{'group_by': 'site_id'}"/>
+                    <filter name="group_irrigation" string="Irrigation" context="{'group_by': 'irrigation_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
     <record id="action_garden_garden" model="ir.actions.act_window">
-        <field name="name">Jardins</field>
+        <field name="name">Îlots</field>
         <field name="res_model">garden.garden</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Créez votre premier jardin
+                Créez votre premier îlot
             </p>
         </field>
     </record>

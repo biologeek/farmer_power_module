@@ -4,10 +4,19 @@ class GardenCrop(models.Model):
     _name = 'garden.crop'
     _description = 'Culture sur planche'
 
-    catalog_id = fields.Many2one('garden.crop.catalog', string='Catalogue de culture', required=True)
+    template_id = fields.Many2one('garden.crop.template', string='Itinéraire technique', required=True, index=True)
+    variety_id = fields.Many2one(
+        'garden.variety', string='Variété', related='template_id.variety_id', store=True, index=True,
+    )
+    species_id = fields.Many2one(
+        'garden.species', string='Espèce', related='template_id.species_id', store=True, index=True,
+    )
     sowing_quantity = fields.Float('Nombre de plants semés')
     planted_quantity = fields.Float('Nombre de plants plantés')
-    bed_id = fields.Many2one('garden.bed', string='Planche', required=True)
+    bed_id = fields.Many2one('garden.bed', string='Planche', required=True, index=True)
+    company_id = fields.Many2one(
+        'res.company', string='Société', related='bed_id.company_id', store=True, index=True,
+    )
     notes = fields.Text('Notes')
     date_start = fields.Date('Date de début')
     date_end = fields.Date('Date de fin')
@@ -66,7 +75,7 @@ class GardenCrop(models.Model):
                    COALESCE(SUM(quantity_harvested), 0) AS quantity,
                    COALESCE(SUM(value_harvested), 0) AS value
             FROM garden_crop c
-            LEFT JOIN garden_crop_catalog cat ON c.catalog_id = cat.id
+            LEFT JOIN garden_crop_template cat ON c.template_id = cat.id
             GROUP BY cat.name
             ORDER BY cat.name
             """

@@ -1,12 +1,63 @@
 from odoo import api, fields, models
 
+
 class GardenBed(models.Model):
     _name = 'garden.bed'
     _description = 'Planche de culture'
+    _inherit = ['mail.thread']
+    _order = 'garden_id, code, name'
 
-    name = fields.Char('Nom de la planche', required=True)
-    garden_id = fields.Many2one('garden.garden', string='Jardin', required=True)
+    name = fields.Char('Nom de la planche', required=True, tracking=True)
+    code = fields.Char('Code', copy=False, tracking=True)
+    garden_id = fields.Many2one(
+        'garden.garden', string='Îlot', required=True, index=True, ondelete='cascade', tracking=True,
+    )
+    site_id = fields.Many2one(
+        'garden.site', string='Site', related='garden_id.site_id', store=True, index=True,
+    )
+    company_id = fields.Many2one(
+        'res.company', string='Société', related='garden_id.company_id', store=True, index=True,
+    )
+    length = fields.Float('Longueur (m)')
+    width = fields.Float('Largeur (m)')
+    area = fields.Float('Surface (m²)', compute='_compute_area', store=True)
+    soil_type = fields.Selection(
+        [
+            ('sandy', 'Sableux'),
+            ('silty', 'Limoneux'),
+            ('clayey', 'Argileux'),
+            ('loamy', 'Limono-argileux'),
+            ('humus', 'Humifère'),
+            ('other', 'Autre'),
+        ],
+        string='Type de sol',
+    )
+    notes = fields.Text('Notes')
+    active = fields.Boolean('Actif', default=True)
+    crop_ids = fields.One2many('garden.crop', 'bed_id', string='Cultures')
+    current_crop_ids = fields.One2many(
+        'garden.crop', string='Cultures en place', compute='_compute_current_crop_ids',
+    )
     action_ids = fields.One2many('garden.action', 'bed_id', string='Actions')
+
+    _code_site_uniq = models.Constraint(
+        'UNIQUE (site_id, code)',
+        'Le code de la planche doit être unique par site.',
+    )
+
+    @api.depends('length', 'width')
+    def _compute_area(self):
+        for bed in self:
+            bed.area = bed.length * bed.width
+
+    @api.depends('crop_ids.date_start', 'crop_ids.date_end')
+    def _compute_current_crop_ids(self):
+        today = fields.Date.context_today(self)
+        for bed in self:
+            bed.current_crop_ids = bed.crop_ids.filtered(
+                lambda crop: crop.date_start and crop.date_start <= today
+                and (not crop.date_end or crop.date_end >= today)
+            )
 
     @api.model
     def get_occupancy_data(self, domain=None):
@@ -29,7 +80,7 @@ class GardenBed(models.Model):
                 'crops': [
                     {
                         'id': crop.id,
-                        'label': crop.catalog_id.name or "",
+                        'label': crop.template_id.name or "",
                         'date_start': crop.date_start,
                         'date_end': crop.date_end or crop.date_start,
                     }

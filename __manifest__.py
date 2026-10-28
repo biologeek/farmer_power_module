@@ -1,25 +1,30 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Odoo Garden',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.1.0',
     'category': 'Agriculture',
-    'summary': 'Gestion du maraîchage : fermes, sites, jardins, planches, parcelles, cultures, actions, traçabilité, post-process, pertes, rétro-planning, statistiques.',
+    'summary': 'Gestion du maraîchage : fermes, sites, îlots, planches, catalogue (espèces, variétés, itinéraires), cultures, actions, traçabilité, post-process, pertes, rétro-planning, statistiques.',
     'author': 'Votre Nom',
     'website': 'https://votresite.com',
-    'depends': ['base', 'web'],
+    'depends': ['base', 'web', 'product', 'uom', 'mail'],
     'data': [
+        'security/garden_security.xml',
         'security/ir.model.access.csv',
+        'data/garden_operation_type_data.xml',
         'views/garden_farm_views.xml',
         'views/garden_site_views.xml',
         'views/garden_garden_views.xml',
         'views/garden_bed_views.xml',
         'views/garden_crop_views.xml',
-        'views/garden_crop_catalog_views.xml',
+        'views/garden_catalog_views.xml',
         'views/garden_action_views.xml',
         'views/garden_postprocess_views.xml',
         'views/garden_loss_views.xml',
         'views/garden_statistics_views.xml',
         'views/garden_menu.xml',
+    ],
+    'demo': [
+        'demo/garden_demo.xml',
     ],
     'assets': {
         'web.assets_backend': [

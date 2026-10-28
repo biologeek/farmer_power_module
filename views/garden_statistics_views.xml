@@ -4,7 +4,7 @@
         <field name="model">garden.crop</field>
         <field name="arch" type="xml">
             <list string="Statistiques de production">
-                <field name="catalog_id"/>
+                <field name="template_id"/>
                 <field name="bed_id"/>
                 <field name="quantity_harvested"/>
                 <field name="value_harvested"/>

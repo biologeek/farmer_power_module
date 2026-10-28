@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="operation_type_soil_preparation" model="garden.operation.type">
+        <field name="name">Préparation du sol</field>
+        <field name="category">soil_preparation</field>
+        <field name="default_scope">bed</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="operation_type_sowing" model="garden.operation.type">
+        <field name="name">Semis</field>
+        <field name="category">sowing</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="operation_type_transplanting" model="garden.operation.type">
+        <field name="name">Repiquage</field>
+        <field name="category">transplanting</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="operation_type_planting" model="garden.operation.type">
+        <field name="name">Plantation</field>
+        <field name="category">planting</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="operation_type_irrigation" model="garden.operation.type">
+        <field name="name">Arrosage</field>
+        <field name="category">irrigation</field>
+        <field name="default_scope">garden</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="operation_type_weeding" model="garden.operation.type">
+        <field name="name">Désherbage</field>
+        <field name="category">weeding</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="operation_type_fertilization" model="garden.operation.type">
+        <field name="name">Fertilisation</field>
+        <field name="category">fertilization</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="operation_type_treatment" model="garden.operation.type">
+        <field name="name">Traitement</field>
+        <field name="category">treatment</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="operation_type_mulching" model="garden.operation.type">
+        <field name="name">Paillage</field>
+        <field name="category">mulching</field>
+        <field name="default_scope">bed</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="operation_type_harvest" model="garden.operation.type">
+        <field name="name">Récolte</field>
+        <field name="category">harvest</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="operation_type_washing" model="garden.operation.type">
+        <field name="name">Lavage</field>
+        <field name="category">post_harvest</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">110</field>
+    </record>
+    <record id="operation_type_packing" model="garden.operation.type">
+        <field name="name">Conditionnement</field>
+        <field name="category">post_harvest</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">120</field>
+    </record>
+</odoo>

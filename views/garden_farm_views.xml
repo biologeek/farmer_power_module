@@ -5,6 +5,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
             </list>
         </field>
     </record>
@@ -14,14 +15,27 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <widget name="web_ribbon" title="Archivée" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
                     <group>
                         <field name="name" string="Nom" placeholder="Nom de la ferme"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
                     </group>
                     <group>
                         <field name="site_ids" string="Sites" placeholder="Sites rattachés à cette ferme"/>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+    <record id="view_garden_farm_search" model="ir.ui.view">
+        <field name="name">garden.farm.search</field>
+        <field name="model">garden.farm</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+            </search>
         </field>
     </record>
     <record id="action_garden_farm" model="ir.actions.act_window">

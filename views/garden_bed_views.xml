@@ -4,8 +4,14 @@
         <field name="model">garden.bed</field>
         <field name="arch" type="xml">
             <list>
+                <field name="code"/>
                 <field name="name"/>
                 <field name="garden_id"/>
+                <field name="site_id" optional="show"/>
+                <field name="length" optional="show"/>
+                <field name="width" optional="show"/>
+                <field name="area" sum="Total"/>
+                <field name="soil_type" optional="hide"/>
             </list>
         </field>
     </record>
@@ -15,17 +21,69 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <widget name="web_ribbon" title="Archivée" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="active" invisible="1"/>
                     <group>
-                        <field name="name" string="Nom" placeholder="Nom de la planche"/>
+                        <group>
+                            <field name="name" string="Nom" placeholder="Nom de la planche"/>
+                            <field name="code"/>
+                            <field name="garden_id" string="Îlot" placeholder="Îlot parent"/>
+                            <field name="site_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="length"/>
+                            <field name="width"/>
+                            <field name="area"/>
+                            <field name="soil_type"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="garden_id" string="Jardin" placeholder="Jardin parent"/>
-                    </group>
-                    <group>
-                        <field name="action_ids" string="Actions" placeholder="Actions liées à cette planche"/>
-                    </group>
+                    <notebook>
+                        <page string="Cultures" name="crops">
+                            <field name="crop_ids">
+                                <list>
+                                    <field name="template_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Cultures en place" name="current_crops">
+                            <field name="current_crop_ids">
+                                <list>
+                                    <field name="template_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Actions" name="actions">
+                            <field name="action_ids" placeholder="Actions liées à cette planche"/>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
                 </sheet>
+                <chatter/>
             </form>
+        </field>
+    </record>
+    <record id="view_garden_bed_search" model="ir.ui.view">
+        <field name="name">garden.bed.search</field>
+        <field name="model">garden.bed</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Nom ou code"/>
+                <field name="garden_id"/>
+                <field name="site_id"/>
+                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_site" string="Site" context="{'group_by': 'site_id'}"/>
+                    <filter name="group_garden" string="Îlot" context="{'group_by': 'garden_id'}"/>
+                    <filter name="group_soil" string="Type de sol" context="{'group_by': 'soil_type'}"/>
+                </group>
+            </search>
         </field>
     </record>
     <record id="action_garden_bed" model="ir.actions.act_window">

@@ -4,7 +4,7 @@
         <field name="model">garden.crop</field>
         <field name="arch" type="xml">
             <list>
-                <field name="catalog_id"/>
+                <field name="template_id"/>
                 <field name="bed_id"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
@@ -19,7 +19,9 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="catalog_id" string="Catalogue" placeholder="Sélectionnez une culture du catalogue"/>
+                            <field name="template_id" string="Itinéraire technique" placeholder="Sélectionnez un itinéraire"/>
+                            <field name="variety_id"/>
+                            <field name="species_id"/>
                         </group>
                         <group>
                             <field name="bed_id" string="Planche" placeholder="Sélectionnez la planche"/>

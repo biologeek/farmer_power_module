@@ -51,7 +51,7 @@ class GardenAction(models.Model):
             FROM garden_action a
             LEFT JOIN garden_action_type at ON a.type_id = at.id
             LEFT JOIN garden_crop c ON a.crop_id = c.id
-            LEFT JOIN garden_crop_catalog cat ON c.catalog_id = cat.id
+            LEFT JOIN garden_crop_template cat ON c.template_id = cat.id
             GROUP BY at.name, cat.name
             ORDER BY at.name
            """
