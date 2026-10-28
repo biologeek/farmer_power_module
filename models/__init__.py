@@ -9,6 +9,7 @@ from . import garden_crop_template
 from . import garden_action_type
 from . import garden_season
 from . import garden_crop
+from . import garden_season_plan_wizard
 from . import garden_action
 from . import garden_postprocess
 from . import garden_loss

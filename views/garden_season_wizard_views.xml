@@ -1,0 +1,43 @@
+<odoo>
+    <record id="view_garden_season_plan_wizard_form" model="ir.ui.view">
+        <field name="name">garden.season.plan.wizard.form</field>
+        <field name="model">garden.season.plan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Planifier en série">
+                <group>
+                    <group>
+                        <field name="season_id" options="{'no_create': True}"/>
+                        <field name="template_id" options="{'no_create': True}"/>
+                        <field name="bed_share"/>
+                    </group>
+                    <group>
+                        <field name="target"/>
+                        <field name="target_date"/>
+                        <field name="stagger_days"/>
+                    </group>
+                </group>
+                <field name="bed_ids" options="{'no_create': True}">
+                    <list>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="garden_id"/>
+                        <field name="area"/>
+                    </list>
+                </field>
+                <group string="Aperçu" invisible="not preview">
+                    <field name="preview" nolabel="1" colspan="2" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="action_create_crops" string="Créer les cultures" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Annuler" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_garden_season_plan_wizard" model="ir.actions.act_window">
+        <field name="name">Planifier en série</field>
+        <field name="res_model">garden.season.plan.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

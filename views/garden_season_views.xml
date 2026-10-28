@@ -22,6 +22,8 @@
                 <header>
                     <button name="action_validate" string="Valider" type="object" class="btn-primary"
                             invisible="state != 'draft'"/>
+                    <button name="%(action_garden_season_plan_wizard)d" string="Planifier en série" type="action"
+                            groups="odoo_garden.group_garden_chef" context="{'default_season_id': id}"/>
                     <button name="action_close" string="Clôturer" type="object"
                             invisible="state != 'validated'"/>
                     <button name="action_reset_draft" string="Remettre en brouillon" type="object"

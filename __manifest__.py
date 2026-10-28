@@ -15,6 +15,7 @@
         'views/garden_site_views.xml',
         'views/garden_garden_views.xml',
         'views/garden_bed_views.xml',
+        'views/garden_season_wizard_views.xml',
         'views/garden_season_views.xml',
         'views/garden_crop_views.xml',
         'views/garden_catalog_views.xml',

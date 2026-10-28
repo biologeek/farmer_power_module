@@ -268,3 +268,55 @@ class TestGardenBackPlanning(GardenPlanningCase):
         self.assertAlmostEqual(steps[2]['duration'], 1.8)
         # sans semis prévu, aucune étape
         self.assertEqual(self._crop()._get_planned_steps(), [])
+
+
+@tagged('post_install', '-at_install')
+class TestGardenPlanWizard(GardenPlanningCase):
+
+    def _wizard(self, user=None, **vals):
+        vals.setdefault('season_id', self.season.id)
+        vals.setdefault('template_id', self.template.id)
+        Wizard = self.env['garden.season.plan.wizard']
+        return (Wizard.with_user(user) if user else Wizard).create(vals)
+
+    def test_serial_creation_staggered(self):
+        beds = self.bed | self.bed2
+        wizard = self._wizard(
+            bed_ids=[(6, 0, beds.ids)], target='harvest', target_date='2027-07-01', stagger_days=14, bed_share=80,
+        )
+        action = wizard.action_create_crops()
+        crops = self.env['garden.crop'].search(action['domain'])
+        self.assertEqual(len(crops), 2)
+        first, second = crops.sorted('planned_harvest_start')
+        self.assertEqual(first.planned_harvest_start, Date.to_date('2027-07-01'))
+        self.assertEqual(second.planned_harvest_start, Date.to_date('2027-07-15'))
+        self.assertEqual(first.planned_sowing_date, Date.to_date('2027-04-02'))
+        self.assertEqual(second.planned_sowing_date, Date.to_date('2027-04-16'))
+        self.assertEqual(second.planned_harvest_end, Date.to_date('2027-08-24'))
+        self.assertEqual(crops.mapped('season_id'), self.season)
+        self.assertEqual(set(crops.mapped('bed_id').ids), set(beds.ids))
+        self.assertEqual(set(crops.mapped('bed_share')), {80.0})
+        self.assertEqual(crops.mapped('state'), ['planned', 'planned'])
+
+    def test_serial_creation_from_sowing_without_stagger(self):
+        wizard = self._wizard(
+            bed_ids=[(6, 0, (self.bed | self.bed2).ids)], target='sowing', target_date='2027-03-01',
+        )
+        crops = self.env['garden.crop'].search(wizard.action_create_crops()['domain'])
+        self.assertEqual(set(crops.mapped('planned_sowing_date')), {Date.to_date('2027-03-01')})
+        self.assertEqual(set(crops.mapped('planned_harvest_start')), {Date.to_date('2027-05-30')})
+        self.assertIn('Planche', wizard.preview)
+
+    def test_wizard_requires_beds(self):
+        from odoo.exceptions import UserError
+        wizard = self._wizard(target_date='2027-07-01')
+        with self.assertRaises(UserError):
+            wizard.action_create_crops()
+
+    def test_wizard_reserved_to_chef(self):
+        worker = new_test_user(self.env, login='wiz_worker', groups='odoo_garden.group_garden_worker')
+        chef = new_test_user(self.env, login='wiz_chef', groups='odoo_garden.group_garden_chef')
+        with self.assertRaises(AccessError):
+            self._wizard(user=worker, target_date='2027-07-01')
+        wizard = self._wizard(user=chef, target_date='2027-07-01', bed_ids=[(6, 0, self.bed.ids)])
+        self.assertEqual(len(self.env['garden.crop'].search(wizard.action_create_crops()['domain'])), 1)

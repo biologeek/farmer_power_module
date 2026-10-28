@@ -9,6 +9,7 @@
 
     <menuitem id="menu_garden_planning" name="Planification" parent="menu_garden_root" sequence="8"/>
     <menuitem id="menu_garden_season" name="Saisons" parent="menu_garden_planning" action="action_garden_season" sequence="10"/>
+    <menuitem id="menu_garden_season_plan_wizard" name="Planifier en série" parent="menu_garden_planning" action="action_garden_season_plan_wizard" sequence="40" groups="group_garden_chef"/>
 
     <menuitem id="menu_garden_production" name="Production" parent="menu_garden_root" sequence="10"/>
     <menuitem id="menu_garden_crop" name="Cultures" parent="menu_garden_production" action="action_garden_crop"/>
