@@ -29,18 +29,26 @@ class ResCompany(models.Model):
         ).lot_stock_id
 
     def _create_garden_locations(self):
-        """Crée les emplacements virtuels de production et de consommation manquants."""
+        """Renseigne les emplacements virtuels de production et de consommation manquants.
+
+        La société principale reprend les emplacements déclarés en données XML ; les autres sociétés
+        (existantes ou nouvelles) reçoivent les leurs, créés ici. Une écriture XML sur ``base.main_company``
+        n'est pas possible : l'enregistrement est ``noupdate`` dans ``base`` et serait ignoré à la mise à jour.
+        """
         Location = self.env['stock.location'].sudo()
+        main_company = self.env.ref('base.main_company', raise_if_not_found=False)
         for company in self.sudo():
             vals = {}
-            if not company.garden_production_location_id:
-                vals['garden_production_location_id'] = Location.create({
-                    'name': 'Production maraîchage', 'usage': 'production', 'company_id': company.id,
-                }).id
-            if not company.garden_consumption_location_id:
-                vals['garden_consumption_location_id'] = Location.create({
-                    'name': 'Consommation maraîchage', 'usage': 'production', 'company_id': company.id,
-                }).id
+            for field, xmlid, name in (
+                ('garden_production_location_id', 'odoo_garden.stock_location_garden_production', 'Production maraîchage'),
+                ('garden_consumption_location_id', 'odoo_garden.stock_location_garden_consumption', 'Consommation maraîchage'),
+            ):
+                if company[field]:
+                    continue
+                location = self.env.ref(xmlid, raise_if_not_found=False) if company == main_company else False
+                vals[field] = (location or Location.create({
+                    'name': name, 'usage': 'production', 'company_id': company.id,
+                })).id
             if vals:
                 company.write(vals)
 

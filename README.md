@@ -249,6 +249,7 @@ Les tests sont lancés sans `--with-demo` par défaut ; avec elle, `test_demo.py
 - **Stock des intrants** : la consommation n'est pas bloquée si le stock est insuffisant (quant négatif) ; le coût vient du coût standard du produit (pas de valorisation FIFO / AVCO ni de comptabilité de stock).
 - **Rebut** : une perte après récolte est irréversible depuis le module (ajustement d'inventaire).
 - **Lot de récolte** : nommé d'après la référence de la culture au moment de la première récolte ; renommer ensuite la culture ne renomme pas le lot (le lien reste `garden_crop_id`).
+- **Tests de mise à jour** : pour tester `-u` sur une copie de base (`pg_dump`), copier aussi le filestore (`odoo-data/filestore/<base>`), sinon les bundles d'assets référencés par la copie sont introuvables et le tour du Gantt échoue (page sans CSS).
 - **Accès aux lots** : l'ouvrier lit tous les lots de sa société (nécessaire au choix du lot d'un intrant).
 - **Chart.js** : chargé par une balise `<script>` dans le template OWL depuis un CDN, sans version fixée, avec un `setTimeout` de 50 ms avant le rendu ; les graphiques peuvent rester vides.
 - **Manifeste** : `author` et `website` contiennent encore des valeurs par défaut.

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
-    <!-- Emplacements virtuels de la société principale (usage « production », comme pour la fabrication). -->
-    <record id="stock_location_garden_production" model="stock.location">
-        <field name="name">Production maraîchage</field>
-        <field name="usage">production</field>
-        <field name="company_id" ref="base.main_company"/>
-    </record>
-    <record id="stock_location_garden_consumption" model="stock.location">
-        <field name="name">Consommation maraîchage</field>
-        <field name="usage">production</field>
-        <field name="company_id" ref="base.main_company"/>
-    </record>
-    <record id="base.main_company" model="res.company">
-        <field name="garden_production_location_id" ref="stock_location_garden_production"/>
-        <field name="garden_consumption_location_id" ref="stock_location_garden_consumption"/>
-    </record>
-    <!-- Les autres sociétés existantes reçoivent les leurs ; les nouvelles à leur création (res.company.create). -->
+<odoo>
+    <data noupdate="1">
+        <!-- Emplacements virtuels de la société principale (usage « production », comme pour la fabrication). -->
+        <record id="stock_location_garden_production" model="stock.location">
+            <field name="name">Production maraîchage</field>
+            <field name="usage">production</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="stock_location_garden_consumption" model="stock.location">
+            <field name="name">Consommation maraîchage</field>
+            <field name="usage">production</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+    </data>
+    <!-- Rattache ces emplacements à la société principale et crée ceux des autres sociétés existantes (les nouvelles
+         sociétés les reçoivent à leur création, `res.company.create`). Hors `noupdate` : une fonction `noupdate` est
+         ignorée à la mise à jour du module ; celle-ci est idempotente. -->
     <function model="res.company" name="create_missing_garden_locations"/>
 </odoo>
