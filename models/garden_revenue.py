@@ -148,3 +148,37 @@ class GardenRevenue(models.AbstractModel):
                 if quantity > 0 and crop_id in result:
                     result[crop_id][line.id] = -line.balance * quantity / total
         return result
+
+    # ------------------------------------------------------------------
+    # Données de démonstration
+    # ------------------------------------------------------------------
+    @api.model
+    def _create_demo_lot_sale(self):
+        """Démo : commande de tomates livrée sur le lot de la culture, facturée et comptabilisée (méthode par lot)."""
+        crop = self.env.ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01', raise_if_not_found=False)
+        partner = self.env.ref('odoo_garden.demo_customer_market', raise_if_not_found=False)
+        if not crop or not partner or not crop.lot_ids:
+            return
+        lot = crop.lot_ids[:1]
+        product = lot.product_id
+        order = self.env['sale.order'].create({
+            'partner_id': partner.id,
+            'order_line': [(0, 0, {
+                'product_id': product.id, 'product_uom_qty': 6, 'price_unit': 6.0, 'tax_ids': [(5, 0, 0)],
+            })],
+        })
+        order.action_confirm()
+        picking = order.picking_ids
+        picking.action_assign()
+        move = picking.move_ids
+        move.move_line_ids.unlink()
+        self.env['stock.move.line'].create({
+            'move_id': move.id, 'picking_id': picking.id, 'product_id': product.id,
+            'product_uom_id': product.uom_id.id, 'quantity': 6, 'lot_id': lot.id,
+            'location_id': picking.location_id.id, 'location_dest_id': picking.location_dest_id.id, 'picked': True,
+        })
+        move.picked = True
+        picking.with_context(skip_backorder=True).button_validate()
+        invoice = order._create_invoices()
+        invoice.invoice_date = '2027-07-28'
+        invoice.action_post()

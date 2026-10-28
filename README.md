@@ -1,8 +1,8 @@
 # Odoo Garden
 
-Module Odoo 19 (`odoo_garden`, version `19.0.1.4.0`, licence LGPL-3) pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), stock (intrants consommés, récoltes en entrée de stock avec lot de culture, pertes et rebuts, traçabilité) et statistiques.
+Module Odoo 19 (`odoo_garden`, version `19.0.1.5.0`, licence LGPL-3) pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), stock (intrants consommés, récoltes en entrée de stock avec lot de culture, pertes et rebuts, traçabilité), ventes et rentabilité (chiffre d'affaires attribué aux cultures, marge, tableau de bord).
 
-Le module dépend de `base`, `web`, `product`, `uom`, `mail`, `hr` et `stock` et s'installe comme une application (menu **Maraîchage**). Il est livré à la **phase 4** (stock : intrants, récoltes, pertes, traçabilité) de la feuille de route (`docs/SPECIFICATIONS.md`, § 7).
+Le module dépend de `base`, `web`, `product`, `uom`, `mail`, `hr`, `stock`, `account`, `sale_management` et `sale_stock` et s'installe comme une application (menu **Maraîchage**). Il est livré à la **phase 5** (ventes et rentabilité) de la feuille de route (`docs/SPECIFICATIONS.md`, § 7).
 
 ## Installation
 
@@ -20,15 +20,15 @@ controllers/
   odoo_garden.py          Route /odoo/garden (redirection vers l'application)
 models/                   Modèles métier (un fichier par modèle)
 views/                    Vues list/form, actions et menus
-static/src/js|xml|scss/   Actions client OWL (statistiques, Gantt du plan de culture) et styles
-static/tests/tours/       Tour de test du Gantt
+static/src/js|xml|scss/   Actions client OWL (Gantt du plan de culture, tableau de bord de rentabilité) et styles
+static/tests/tours/       Tours de test (Gantt, « Ma journée », tableau de bord)
 report/
   garden_bed_report.xml   Étiquettes QR des planches (rapport QWeb PDF)
 security/
   garden_security.xml     Catégorie, privilège, groupes et règles multi-société
   ir.model.access.csv     Droits d'accès par groupe
 data/                     Types d'opération par défaut et emplacements virtuels de stock (noupdate)
-demo/                     Données de démonstration (ferme, sites, îlots, planches, catalogue, opérations, stock)
+demo/                     Données de démonstration (ferme, sites, îlots, planches, catalogue, opérations, stock, récoltes et factures clients)
 tests/                    Tests Odoo (post_install)
 ```
 
@@ -97,20 +97,31 @@ Notes :
 - **Maraîchage › Exploitation** : Fermes, Sites, Îlots, Planches
 - **Maraîchage › Planification** : Saisons, Plan de culture (Gantt), Calendrier, Besoins en semences, Planifier en série (chef de culture)
 - **Maraîchage › Production** : Cultures (avec les onglets Opérations, Récoltes et Pertes), Opérations (onglet Intrants), Calendrier des opérations, Pertes, Lots de récolte
-- **Maraîchage › Statistiques** : Statistiques (Graphiques), Production
+- **Maraîchage › Rentabilité** (gérant) : Tableau de bord, Rapport de rentabilité (pivot, graphique, liste ; actualisé à l'ouverture), Paramètres de rentabilité (administrateur)
+- **Maraîchage › Statistiques** : Temps de travail (pivot et graphique sur les répartitions)
 - **Maraîchage › Configuration** (chef de culture) : Espèces, Variétés, Itinéraires techniques, Types d'opération, Paramètres (administrateur : marge de semis), Produits maraîchers (produits filtrés sur ceux liés à une variété)
 
-## Statistiques
+## Statistiques et plan de culture
 
-Les écrans de statistiques sont des actions client OWL (`ir.actions.client`, déclarées dans `views/garden_statistics_views.xml`) qui appellent des méthodes Python via le service `orm` :
+Le Gantt (`garden_bed_occupancy`, `garden.bed.get_occupancy_data(domain, season_id, site_id)`, voir « Planification ») reste une action client OWL. Les anciens écrans « Statistiques (Graphiques) » et « Production » (Chart.js par CDN, SQL brut) sont supprimés en phase 5 : les heures par catégorie sont dans **Statistiques › Temps de travail** (pivot et graphique natifs sur `garden.operation.allocation`) et le tableau de bord, la production et les ratios dans la rentabilité (voir ci-dessous).
 
-| Tag client | Méthode serveur | Contenu |
-|---|---|---|
-| `garden_statistics` | `garden.operation.allocation.get_statistics_data()` | Heures de travail réparties par type d'opération (camembert et tableau) et par type et itinéraire (barres empilées, Chart.js) ; seules les opérations faites comptent |
-| `garden_production_statistics` | `garden.crop.get_production_statistics_data()` | Quantité récoltée (kg, `harvested_qty`) par mois (`date_end`, à défaut `date_start`), par planche et par culture |
-| `garden_bed_occupancy` | `garden.bed.get_occupancy_data(domain, season_id, site_id)` | Plan de culture : voir la section « Planification » |
+## Ventes et rentabilité (phase 5)
 
-Les statistiques de temps utilisent `_read_group` sur les répartitions (règles d'accès et multi-société respectées). Les statistiques de production (`get_production_statistics_data`) restent en SQL brut, sans règles d'accès ni multi-société, jusqu'à leur remplacement en phase 5 ; elles somment désormais `harvested_qty` (calculé depuis le stock). La colonne « valeur » est retirée jusqu'à la phase 5 (le chiffre d'affaires viendra des ventes) ; les mois sont toujours ceux des dates de la culture (`date_end`, à défaut `date_start`), pas ceux des mouvements de récolte.
+**Avancement des cultures** (§ 3.4, point 3, rattrapé) : quand une opération passe à « faite », les cultures qui lui sont réparties avancent : semis -> « semée », plantation ou repiquage -> « en place », première récolte -> « en récolte ». L'état ne recule jamais (rouvrir une opération ne défait rien), une culture terminée ou annulée n'est pas touchée. `date_start` reçoit la date du premier semis, repiquage ou plantation fait, seulement s'il est vide (jamais d'écrasement d'une saisie manuelle). `date_end` n'est pas touchée par les récoltes (la culture occupe la planche jusqu'à sa fin, ce qui garde les contrôles de chevauchement et la répartition des opérations d'îlot cohérents) : elle est renseignée, si vide, quand la culture passe à « terminée » (date de la dernière récolte faite, à défaut le jour même).
+
+**Champs de la culture** : `labour_hours`, `labour_cost`, `input_cost`, `loss_rate` (stockés depuis les phases précédentes) ; `revenue`, `fixed_cost`, `margin`, `margin_per_hour`, `margin_per_m2`, `revenue_gap`, `sale_line_count` (**non stockés**, `compute_sudo`) ; `yield_gap`, `hours_gap`, `expected_hours`, `occupation_days`. Choix : le chiffre d'affaires dépend de factures (autre modèle, modifiables à tout moment), donc pas de champ stocké à recalculer ; il est recalculé à chaque lecture, le cache étant invalidé quand une facture change d'état. Le rapport de rentabilité en garde une copie. `margin = revenue - labour_cost - input_cost - fixed_cost`. Coûts, CA et marges sont réservés au chef de culture et au gérant (`groups=`) ; l'ouvrier ne voit que les heures et les écarts physiques. Les factures sont lues en `sudo()` dans le service `garden.revenue` : ni l'ouvrier ni le chef n'ont accès à la comptabilité.
+
+**Charges fixes** (option) : paramètre `odoo_garden.fixed_cost_per_m2` (coût annuel par m²) ; imputées = coût/m² x surface x jours d'occupation / 365 (jours d'occupation = fin - début d'occupation + 1, périodes prévues à défaut de réelles). Actives seulement si le paramètre est > 0.
+
+**Attribution du chiffre d'affaires** (`garden.revenue`, paramètre `odoo_garden.revenue_method`, défaut `prorata`). Sont comptées les lignes de produit des factures (`out_invoice`) et avoirs (`out_refund`) clients comptabilisés (`posted`). Le montant d'une ligne est son HT en monnaie de la société (`-balance`, converti par la comptabilité au taux de la date de facture ; négatif pour un avoir). Les ventes du Point de Vente ne sont pas prises en compte (phase 7).
+- *Par lot* : ligne de facture -> ligne de commande (`sale_line_ids`) -> mouvements de livraison (`stock.move.sale_line_id`, module `sale_stock`) -> lignes de mouvement avec lot -> lot de culture (`stock.lot.garden_crop_id`). Le montant est réparti au prorata des quantités livrées par lot sur la ligne de commande (retours clients déduits). La part livrée sur un lot qui n'est pas un lot de culture, ou sans lot, n'est attribuée à aucune culture. Une facture sans commande de vente n'est pas attribuée par lot. **`sale_stock` est ajouté aux dépendances** car c'est lui qui relie la ligne de commande à ses mouvements de stock (`sale` seul ne le permet pas).
+- *Au prorata* : pour chaque produit récolté et chaque mois de la facture (date comptable), le CA du produit est réparti entre les cultures au prorata de leurs quantités récoltées ce mois-là (mouvements de récolte terminés, annulations déduites, seules les quantités positives comptent). Un mois sans récolte du produit n'attribue rien : le CA n'est pas inventé. Un avoir réduit le CA du mois selon la même répartition.
+
+**Rapport `garden.crop.profitability`** (§ 5.1) : une ligne par culture non annulée (saison, site, îlot, planche, espèce, famille, variété, surface, jours d'occupation, heures, coûts, récolte, CA, marge, ratios, prévu et écarts). *Choix de conception* : plutôt qu'une vue SQL qui dupliquerait en SQL l'attribution par lot ou au prorata mensuel, la règle n'existe qu'une fois, en Python (`garden.revenue`) ; le modèle est une table stockée remplie par `refresh()` (ORM, `sudo`), appelée à l'ouverture des menus Rapport et Tableau de bord, par le bouton « Actualiser » et par un cron quotidien. Les données peuvent donc être légèrement en retard entre deux ouvertures. Les ratios (marge/h, marge/m², rendement, taux de perte) sont des moyennes pondérées (ratio des sommes) dans les vues pivot et graphique, via `_read_group_select`, seul endroit où du SQL est écrit. Les montants sont dans la monnaie de chaque société : les additionner entre sociétés de monnaies différentes n'a pas de sens.
+
+**Tableau de bord** (action client `garden_dashboard`, gérant) : chiffre d'affaires, marge, heures, marge par espèce, heures par catégorie d'opération, CA mensuel, 10 meilleures et 10 moins bonnes cultures à l'heure. Barres en HTML/CSS (OWL pur, aucune librairie externe).
+
+**Fiche culture** : onglet « Rentabilité » (chef et gérant) et bouton « Ventes » qui liste les lignes attribuées (modèle transitoire `garden.crop.sale`, rempli en `sudo`) sans exposer les factures.
 
 ## Planification (phase 2)
 
@@ -193,10 +204,12 @@ Trois groupes sous le privilège **Maraîchage** (`security/garden_security.xml`
 | Groupe | Structure (ferme, site, îlot, planche) | Catalogue (espèce, variété, itinéraire, type d'opération) | Cultures, pertes | Opérations et intrants |
 |---|---|---|---|
 | Ouvrier | lecture | lecture | lecture, écriture, création (pas de suppression) ; saisons : lecture seule | lecture, écriture, création, sans suppression ; ses opérations seulement (voir ci-dessous) ; aucun coût |
-| Chef de culture | lecture, écriture, création | tous droits | tous droits | tout sauf suppression ; voit tous les coûts |
+| Chef de culture | lecture, écriture, création | tous droits | tous droits | tout sauf suppression ; voit tous les coûts, le CA et les marges |
 | Gérant | tous droits | tous droits | tous droits | tous droits |
 
 Le menu racine est réservé au groupe Ouvrier (donc à tous ses groupes impliquants) et le menu Configuration au chef de culture. Un utilisateur interne sans groupe Maraîchage n'a aucun accès aux modèles.
+
+**Rentabilité** : `garden.crop.profitability` est en lecture seule et réservé au gérant (règle multi-société) ; le tableau de bord aussi. Le chef de culture lit le CA et la marge de ses cultures (fiche culture, bouton Ventes) sans accès aux factures (`account.move` / `account.move.line` refusés, vérifié par test) ; l'ouvrier ne lit ni coûts, ni CA, ni marge.
 
 Les saisons et l'assistant de planification en série sont réservés au chef de culture (et au gérant) en écriture ; l'ouvrier lit les saisons.
 
@@ -209,19 +222,22 @@ Règles multi-société (`ir.rule`, `company_id in company_ids`) sur `garden.far
 ## Tests
 
 Le dossier `tests/` contient (tests `post_install`, `-at_install`) :
-- `test_install.py` : chaîne ferme > site > îlot > planche > espèce > variété > itinéraire > culture > opération, statistiques, données d'occupation, action `odoo_garden.action_garden_farm`, absence des modèles supprimés ;
+- `test_install.py` : chaîne ferme > site > îlot > planche > espèce > variété > itinéraire > culture > opération, données d'occupation, absence des anciens écrans de statistiques, action `odoo_garden.action_garden_farm`, absence des modèles supprimés ;
 - `test_structure.py` : société héritée, surfaces, unicité du code par site, archivage, cultures en place, règle multi-société ;
 - `test_catalog.py` : espèces, variétés, densité et prix d'un itinéraire, étapes, types d'opération par défaut, lien produit / variété ;
 - `test_security.py` : hiérarchie des groupes, droits de l'ouvrier, du chef de culture et du gérant ;
 - `test_planning.py` : saisons (états, contraintes, droits, multi-société), référence et surface de la culture, prévisionnel, rétro-planning, étapes prévues, assistant de création en série (échelonnement, droits), chevauchement et rotation, besoins en semences et marge ;
 - `test_gantt.py` : données du Gantt (groupes, lignes, filtres), vue calendrier, tours navigateur `garden_gantt_tour` et `garden_my_day_tour` (« Ma journée » : démarrer puis terminer une opération) ;
-- `test_operations.py` : opérations (valeurs par défaut, périmètre, états, irrigation, récolte), main-d'œuvre (coût durée × employés, détail par employé, taux par défaut, chronomètre, coûts masqués à l'ouvrier), répartition (culture, planche, îlot, prorata de surface, aucune culture, recalcul), génération idempotente des opérations planifiées, statistiques, « Ma journée » (domaine du jour, vues) et règle ouvrier ;
+- `test_operations.py` : opérations (valeurs par défaut, périmètre, états, irrigation, récolte), main-d'œuvre (coût durée × employés, détail par employé, taux par défaut, chronomètre, coûts masqués à l'ouvrier), répartition (culture, planche, îlot, prorata de surface, aucune culture, recalcul), génération idempotente des opérations planifiées, statistiques de temps (répartitions), « Ma journée » (domaine du jour, vues) et règle ouvrier ;
 - `test_labels.py` : URL du QR code, résolution de la route `/odoo/action-...`, rendu HTML du rapport d'étiquettes, route `/report/barcode` (ignorée si reportlab n'a pas de moteur PNG), boutons de la planche ;
 - `test_stock_setup.py` : emplacements virtuels par société, emplacement de stockage par défaut, paramètres ;
 - `test_stock_inputs.py` : type d'intrant, consommation (mouvement, valeur figée, conversion d'unité, lot obligatoire), annulation et nouvelle validation, verrou, suppression, répartition du coût d'intrants, emplacement de stockage personnalisé, droits de l'ouvrier (aucun accès au stock global ni aux coûts) ;
-- `test_stock_harvest.py` : entrée en stock, lot de culture, produit sans lot, répartition entre cultures (et reste d'arrondi), récolte de planche, réutilisation du lot, annulation, verrou, unités, `harvested_qty`, statistiques de production, droits de l'ouvrier ;
+- `test_stock_harvest.py` : entrée en stock, lot de culture, produit sans lot, répartition entre cultures (et reste d'arrondi), récolte de planche, réutilisation du lot, annulation, verrou, unités, `harvested_qty`, droits de l'ouvrier ;
 - `test_stock_losses.py` : perte avant / après récolte (rebut sur le lot), stock insuffisant, verrou, taux de perte, unités, droits, règle multi-société ;
 - `test_stock_traceability.py` : traçabilité amont (opérations, intrants, lots de semence et leur réception) et aval (livraison, rebut), lot de semence, culture à plusieurs lots, lecture de l'écran par l'ouvrier et le chef, boutons et menu ;
+- `test_progress.py` : états et dates réelles des cultures pilotés par les opérations (jamais en arrière, saisies manuelles respectées, fin à la clôture, cohérence de l'occupation) ;
+- `test_revenue.py` : attribution du CA au prorata (mois sans récolte, avoir, devise étrangère, annulation de récolte) et par lot (plusieurs lots, lot hors culture, avoir, retour client), marge, marge/h, marge/m², charges fixes, écart prévu / réalisé, droits (ouvrier, chef sans accès aux factures), bouton Ventes ;
+- `test_profitability.py` : contenu du rapport, idempotence, ratios pondérés, droits, règle multi-société, ouverture et cron, données du tableau de bord ;
 - `test_demo.py` : plan de culture, opérations, intrants, récolte, pertes et traçabilité de démonstration (ignoré sans données de démo).
 
 Le tour navigateur nécessite Chrome et le paquet Python `websocket-client` ; sans lui Odoo l'ignore (« skipped »). Pour l'exécuter sans modifier l'environnement : `pip install --target /tmp/pylibs websocket-client` puis `PYTHONPATH=/tmp/pylibs ./run.sh ...`.
@@ -230,7 +246,7 @@ Le tour navigateur nécessite Chrome et le paquet Python `websocket-client` ; sa
 cd <racine du projet> && ./run.sh -d garden_test -i odoo_garden --test-enable --test-tags /odoo_garden --stop-after-init
 ```
 
-Les tests sont lancés sans `--with-demo` par défaut ; avec elle, `test_demo.py` s'exécute aussi (un échec du chargement des données de démo n'est qu'un avertissement dans le journal : le vérifier). La démo contient la saison 2027 (12 cultures dont un chevauchement sur N1-01 et une rotation sur S1-03 grâce à la tomate 2026), une saison 2026 close, trois employés (plus l'employé administrateur de `hr`, avec un coût horaire), des opérations faites (dont un arrosage d'îlot réparti 40 / 40 / 20 % entre trois cultures le 10 juin 2027, un désherbage de deux planches, une récolte et un détail par employé), des opérations planifiées autour de la date du jour pour « Ma journée » et les opérations prévues par les itinéraires de la saison 2027. Les données de démonstration ne sont chargées qu'avec `--with-demo` (désactivées par défaut en Odoo 19). Ajouter `--http-port=<port>` si le serveur de développement tourne déjà.
+Les tests sont lancés sans `--with-demo` par défaut ; avec elle, `test_demo.py` s'exécute aussi (un échec du chargement des données de démo n'est qu'un avertissement dans le journal : le vérifier). La démo contient la saison 2027 (12 cultures dont un chevauchement sur N1-01 et une rotation sur S1-03 grâce à la tomate 2026), une saison 2026 close, trois employés (plus l'employé administrateur de `hr`, avec un coût horaire), des opérations faites (dont un arrosage d'îlot réparti 40 / 40 / 20 % entre trois cultures le 10 juin 2027, un désherbage de deux planches, une récolte et un détail par employé), des récoltes (tomate, carotte, courgette, laitue) et des factures clients comptabilisées (dont un avoir et une vente livrée sur le lot de la tomate) pour la rentabilité, des opérations planifiées autour de la date du jour pour « Ma journée » et les opérations prévues par les itinéraires de la saison 2027. Les données de démonstration ne sont chargées qu'avec `--with-demo` (désactivées par défaut en Odoo 19). Ajouter `--http-port=<port>` si le serveur de développement tourne déjà.
 
 ## Points connus / à corriger
 
@@ -243,25 +259,21 @@ Les tests sont lancés sans `--with-demo` par défaut ; avec elle, `test_demo.py
 - **Avertissements non stockés** : `has_overlap` et `has_rotation_conflict` ne sont pas filtrables dans la recherche.
 - **Anciennes cultures** : `date_start` / `date_end` sont désormais les dates *réelles* ; les cultures sans dates prévues n'apparaissent pas dans le calendrier.
 - **Paramètres** : l'écran de configuration est réservé à l'administrateur système (groupe `base.group_system`).
-- **Statistiques de production** : toujours en SQL brut (voir « Statistiques »), regroupées par les dates de la culture ; la valeur récoltée reviendra en phase 5.
-- **État de la culture** : la validation d'une opération ne met pas encore à jour l'état ni les dates réelles de la culture (§ 3.4, point 3 du cahier des charges, non traité en phases 3 et 4).
+- **Rétrogradation** : rouvrir une opération faite ne ramène pas l'état ni `date_start` de la culture en arrière ; `date_end` n'est renseignée qu'à la clôture manuelle de la culture.
 - **Unités de la récolte et des pertes** : `harvested_qty` et `loss_rate` additionnent les quantités dans l'unité du produit récolté, sans contrôle qu'il s'agit de kg ; les pertes avant récolte exprimées en plants fausseraient le taux.
 - **Stock des intrants** : la consommation n'est pas bloquée si le stock est insuffisant (quant négatif) ; le coût vient du coût standard du produit (pas de valorisation FIFO / AVCO ni de comptabilité de stock).
 - **Rebut** : une perte après récolte est irréversible depuis le module (ajustement d'inventaire).
 - **Lot de récolte** : nommé d'après la référence de la culture au moment de la première récolte ; renommer ensuite la culture ne renomme pas le lot (le lien reste `garden_crop_id`).
 - **Tests de mise à jour** : pour tester `-u` sur une copie de base (`pg_dump`), copier aussi le filestore (`odoo-data/filestore/<base>`), sinon les bundles d'assets référencés par la copie sont introuvables et le tour du Gantt échoue (page sans CSS).
 - **Accès aux lots** : l'ouvrier lit tous les lots de sa société (nécessaire au choix du lot d'un intrant).
-- **Chart.js** : chargé par une balise `<script>` dans le template OWL depuis un CDN, sans version fixée, avec un `setTimeout` de 50 ms avant le rendu ; les graphiques peuvent rester vides.
+- **Rentabilité** : le rapport est une copie stockée actualisée à l'ouverture, au bouton et chaque nuit ; le CA par lot exige des produits suivis par lots et des factures issues de commandes de vente (sinon utiliser le prorata) ; le CA du Point de Vente n'est pas compté (phase 7) ; les paramètres de rentabilité s'enregistrent dans l'écran de configuration, réservé à l'administrateur système.
+- **Attribution au prorata** : suppose que le produit facturé est le produit récolté (`harvest_product_id`) et la même unité ; le mois est celui de la date comptable de la facture.
 - **Manifeste** : `author` et `website` contiennent encore des valeurs par défaut.
-- **`action_garden_statistics`** n'est rattachée à aucun menu.
 - **Mise à jour depuis la phase 0** : les cultures existantes perdent leur lien vers l'ancien catalogue (`template_id` vide, contrainte NOT NULL non posée) ; aucune migration de données n'est fournie (aucune donnée de production, hypothèse 1).
-- **Statistiques SQL** : toujours en SQL brut, sans règles d'accès ni multi-société (remplacées en phase 5).
 - **Description du module** : Odoo interprète `README.md` en reStructuredText lors de l'installation et journalise des avertissements de syntaxe sans conséquence.
 
 ## À venir
 
 La feuille de route complète (version payante intégrée aux applications Odoo) est décrite dans [`docs/SPECIFICATIONS.md`](docs/SPECIFICATIONS.md).
 
-- Ventes, chiffre d'affaires par culture et rentabilité (phase 5)
-- Prise en compte des pertes dans les statistiques (taux de perte, rendement)
 - Schéma visuel des sites et planches

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 5 : récoltes et factures clients comptabilisées, pour le rapport et le tableau de bord de rentabilité.
+         Méthode par défaut « au prorata » : le chiffre d'affaires du mois se répartit selon les récoltes du mois. -->
+    <record id="demo_customer_market" model="res.partner">
+        <field name="name">Marché de la Halle (démo)</field>
+    </record>
+    <record id="demo_customer_restaurant" model="res.partner">
+        <field name="name">Restaurant Le Potager (démo)</field>
+    </record>
+
+    <!-- Récoltes supplémentaires (produits non suivis par lots) : carotte en juin, courgette en juillet. -->
+    <record id="demo_operation_harvest_carrot" model="garden.operation">
+        <field name="type_id" ref="operation_type_harvest"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_carrot_nantes_n1_01')])]"/>
+        <field name="planned_date">2027-06-25</field>
+        <field name="date">2027-06-25</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_2')])]"/>
+        <field name="duration">1.5</field>
+        <field name="harvest_qty">40.0</field>
+        <field name="state">done</field>
+    </record>
+    <record id="demo_operation_harvest_zucchini" model="garden.operation">
+        <field name="type_id" ref="operation_type_harvest"/>
+        <field name="scope">crop</field>
+        <field name="crop_ids" eval="[Command.set([ref('demo_crop_2027_zucchini_verte_n1_03')])]"/>
+        <field name="planned_date">2027-07-15</field>
+        <field name="date">2027-07-15</field>
+        <field name="employee_ids" eval="[Command.set([ref('demo_employee_1'), ref('demo_employee_3')])]"/>
+        <field name="duration">2.0</field>
+        <field name="harvest_qty">60.0</field>
+        <field name="state">done</field>
+    </record>
+
+    <!-- Factures clients (au prorata des récoltes du mois). -->
+    <record id="demo_invoice_tomato" model="account.move">
+        <field name="move_type">out_invoice</field>
+        <field name="partner_id" ref="demo_customer_restaurant"/>
+        <field name="invoice_date">2027-07-31</field>
+        <field name="invoice_line_ids" eval="[Command.create({'product_id': ref('demo_harvest_tomato_coeur'), 'quantity': 30, 'price_unit': 5.5, 'tax_ids': [Command.clear()]})]"/>
+    </record>
+    <record id="demo_invoice_lettuce" model="account.move">
+        <field name="move_type">out_invoice</field>
+        <field name="partner_id" ref="demo_customer_market"/>
+        <field name="invoice_date">2027-05-31</field>
+        <field name="invoice_line_ids" eval="[Command.create({'product_id': ref('demo_harvest_lettuce_batavia'), 'quantity': 20, 'price_unit': 2.5, 'tax_ids': [Command.clear()]})]"/>
+    </record>
+    <record id="demo_invoice_carrot" model="account.move">
+        <field name="move_type">out_invoice</field>
+        <field name="partner_id" ref="demo_customer_market"/>
+        <field name="invoice_date">2027-06-30</field>
+        <field name="invoice_line_ids" eval="[Command.create({'product_id': ref('demo_harvest_carrot_nantes'), 'quantity': 38, 'price_unit': 2.8, 'tax_ids': [Command.clear()]})]"/>
+    </record>
+    <record id="demo_invoice_zucchini" model="account.move">
+        <field name="move_type">out_invoice</field>
+        <field name="partner_id" ref="demo_customer_restaurant"/>
+        <field name="invoice_date">2027-07-31</field>
+        <field name="invoice_line_ids" eval="[Command.create({'product_id': ref('demo_harvest_zucchini_verte'), 'quantity': 55, 'price_unit': 3.0, 'tax_ids': [Command.clear()]})]"/>
+    </record>
+    <!-- Avoir : 2 kg de laitue repris. -->
+    <record id="demo_refund_lettuce" model="account.move">
+        <field name="move_type">out_refund</field>
+        <field name="partner_id" ref="demo_customer_market"/>
+        <field name="invoice_date">2027-05-31</field>
+        <field name="invoice_line_ids" eval="[Command.create({'product_id': ref('demo_harvest_lettuce_batavia'), 'quantity': 2, 'price_unit': 2.5, 'tax_ids': [Command.clear()]})]"/>
+    </record>
+    <function model="account.move" name="action_post"
+              eval="[[ref('demo_invoice_tomato'), ref('demo_invoice_lettuce'), ref('demo_invoice_carrot'),
+                      ref('demo_invoice_zucchini'), ref('demo_refund_lettuce')]]"/>
+
+    <!-- Vente livrée sur le lot de la culture de tomates (attribution par lot si la méthode est « lot »). -->
+    <function model="garden.revenue" name="_create_demo_lot_sale"/>
+</odoo>

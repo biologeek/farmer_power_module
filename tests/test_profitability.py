@@ -129,7 +129,8 @@ class TestGardenProfitability(GardenRevenueCase):
         self.assertEqual(server_action.model_id.model, 'garden.crop.profitability')
         cron = self.env.ref('odoo_garden.ir_cron_garden_profitability')
         self.assertEqual(cron.interval_type, 'days')
-        cron.method_direct_trigger()
+        self.assertEqual(cron.code, 'model._cron_refresh()')
+        self.Profit._cron_refresh()
 
     def test_dashboard_data(self):
         self._scenario()
@@ -139,9 +140,13 @@ class TestGardenProfitability(GardenRevenueCase):
         categories = {row['label'] for row in data['hours_by_category']}
         self.assertIn('Désherbage', categories)
         months = {row['label']: row['value'] for row in data['monthly_revenue']}
-        self.assertAlmostEqual(months['2027-07'], 200.0)
-        self.assertEqual(data['best'][0]['id'], self.big.id)
-        self.assertEqual(data['worst'][0]['id'], self.small.id)
+        self.assertGreaterEqual(months['2027-07'], 200.0 - 1e-6)  # la démo peut s'y ajouter
+        best = [row['value'] for row in data['best']]
+        worst = [row['value'] for row in data['worst']]
+        self.assertEqual(best, sorted(best, reverse=True))
+        self.assertEqual(worst, sorted(worst))
+        self.assertLessEqual(len(best), 10)
+        self.assertGreaterEqual(best[0], worst[0])
         self.assertEqual(data['totals']['crops'], self.Profit.search_count([]))
         for user in (self.worker, self.chef):
             with self.assertRaises(AccessError):

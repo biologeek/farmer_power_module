@@ -87,16 +87,39 @@ class TestGardenDemo(TransactionCase):
         self.assertEqual(len(lot), 1)
         self.assertEqual(lot.name, crop.name)
         self.assertAlmostEqual(crop.harvested_qty, 45.0)
-        self.assertAlmostEqual(qty(ref('odoo_garden.demo_harvest_tomato_coeur'), lot), 41.0)
+        # 45 récoltés - 4 rebutés - 6 vendus (livraison de la démo de rentabilité)
+        self.assertAlmostEqual(qty(ref('odoo_garden.demo_harvest_tomato_coeur'), lot), 35.0)
         self.assertFalse(ref('odoo_garden.demo_loss_tomato_pre').scrap_id)
         self.assertEqual(ref('odoo_garden.demo_loss_tomato_post').scrap_id.lot_id, lot)
         self.assertAlmostEqual(crop.loss_rate, 7.0 / 52.0, places=3)
         # traçabilité depuis le lot de récolte : lot de semence utilisé
         trace = self.env['garden.traceability'].browse(lot.action_garden_traceability()['res_id'])
         self.assertEqual(trace.seed_lot_ids, seed_lot)
-        self.assertEqual(len(trace.out_line_ids), 1)
+        self.assertEqual(len(trace.out_line_ids), 2)  # rebut + livraison de la démo de rentabilité
         # la récolte de laitue de la phase 3 reste valide (produit non stockable, sans lot)
         lettuce = ref('odoo_garden.demo_operation_harvest_lettuce')
         self.assertEqual(lettuce.move_ids.garden_kind, 'harvest')
         self.assertFalse(lettuce.move_ids.move_line_ids.lot_id)
         self.assertAlmostEqual(lettuce.crop_ids.harvested_qty, 28.0)
+
+    def test_demo_profitability(self):
+        ref = self.env.ref
+        if not ref('odoo_garden.demo_season_2027', raise_if_not_found=False):
+            self.skipTest("Données de démonstration non installées.")
+        revenue = self.env['garden.revenue']
+        tomato = ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01')
+        lettuce = ref('odoo_garden.demo_crop_2027_lettuce_batavia_n1_01')
+        self.assertEqual(ref('odoo_garden.demo_invoice_tomato').state, 'posted')
+        # au prorata : seule culture à récolter la tomate en juillet, 30 kg + 6 kg (vente livrée sur le lot)
+        self.assertAlmostEqual(revenue.get_revenue(tomato, 'prorata')[tomato.id], 30 * 5.5 + 6 * 6.0)
+        # par lot : seule la vente livrée sur le lot de la culture
+        self.assertAlmostEqual(revenue.get_revenue(tomato, 'lot')[tomato.id], 6 * 6.0)
+        self.assertAlmostEqual(revenue.get_revenue(lettuce, 'prorata')[lettuce.id], 20 * 2.5 - 2 * 2.5)
+        self.assertEqual(tomato.state, 'harvesting')
+        profit = self.env['garden.crop.profitability']
+        profit.refresh()
+        lines = profit.search([])
+        self.assertGreaterEqual(len(lines.filtered('revenue')), 4)
+        self.assertTrue(lines.filtered(lambda line: line.margin_per_hour < 0) or lines.filtered('margin_per_hour'))
+        data = profit.get_dashboard_data()
+        self.assertTrue(data['best'] and data['monthly_revenue'] and data['hours_by_category'])
