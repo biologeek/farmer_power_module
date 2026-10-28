@@ -411,3 +411,58 @@ class TestGardenWarnings(GardenPlanningCase):
         self.assertTrue(first.has_overlap)
         second.bed_id = self.bed2
         self.assertFalse(first.has_overlap)
+
+
+@tagged('post_install', '-at_install')
+class TestGardenSeedNeeds(GardenPlanningCase):
+
+    def setUp(self):
+        super().setUp()
+        self.env['ir.config_parameter'].sudo().set_param('odoo_garden.seed_margin', '20')
+
+    def test_default_margin(self):
+        self.env['ir.config_parameter'].sudo().search([('key', '=', 'odoo_garden.seed_margin')]).unlink()
+        self.assertEqual(self.env['garden.crop']._get_seed_margin(), 20.0)
+
+    def test_seed_computation(self):
+        # 36 m² × 4 plants/m² = 144 plants ; 144 / 0,8 × 1,2 = 216 graines ; 216 / 300 = 0,72 g
+        crop = self._crop()
+        self.assertAlmostEqual(crop.planned_plant_qty, 144.0)
+        self.assertEqual(crop.planned_seed_count, 216)
+        self.assertAlmostEqual(crop.planned_seed_qty, 0.72)
+
+    def test_bought_plants_need_no_seed(self):
+        self.template.propagation = 'bought_plants'
+        crop = self._crop()
+        self.assertEqual(crop.planned_seed_count, 0)
+        self.assertEqual(crop.planned_seed_qty, 0.0)
+
+    def test_margin_setting_recomputes(self):
+        crop = self._crop()
+        settings = self.env['res.config.settings'].create({'garden_seed_margin': 50.0})
+        settings.execute()
+        self.assertEqual(self.env['garden.crop']._get_seed_margin(), 50.0)
+        self.assertEqual(crop.planned_seed_count, 270)  # 144 / 0,8 × 1,5
+        self.assertAlmostEqual(crop.planned_seed_qty, 0.9)
+
+    def test_seed_needs_per_variety(self):
+        self._crop()  # 144 plants de tomate
+        self._crop(bed_id=self.bed2.id, bed_share=50)  # 5 m² → 20 plants, 30 graines
+        cabbage = self._crop(template_id=self.template_direct.id)  # 36 m² × 5 = 180 plants, 216 graines, 54 g
+        cancelled = self._crop(template_id=self.template_direct.id, bed_id=self.bed2.id)
+        cancelled.state = 'cancelled'
+        needs = {line['variety']: line for line in self.env['garden.crop'].get_seed_needs(
+            [('season_id', '=', self.season.id)])}
+        self.assertEqual(set(needs), {self.variety, self.variety_cabbage})
+        tomato = needs[self.variety]
+        self.assertAlmostEqual(tomato['plants'], 164.0)
+        self.assertEqual(tomato['seeds'], 216 + 30)
+        self.assertAlmostEqual(tomato['grams'], 0.72 + 0.1)
+        self.assertAlmostEqual(tomato['area'], 41.0)
+        self.assertAlmostEqual(needs[self.variety_cabbage]['plants'], cabbage.planned_plant_qty)
+        self.assertAlmostEqual(needs[self.variety_cabbage]['grams'], 216 / 4.0)
+
+    def test_manual_plant_quantity_is_used(self):
+        crop = self._crop()
+        crop.planned_plant_qty = 100
+        self.assertEqual(crop.planned_seed_count, 150)  # 100 / 0,8 × 1,2

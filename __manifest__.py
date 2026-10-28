@@ -23,6 +23,7 @@
         'views/garden_postprocess_views.xml',
         'views/garden_loss_views.xml',
         'views/garden_statistics_views.xml',
+        'views/res_config_settings_views.xml',
         'views/garden_menu.xml',
     ],
     'demo': [

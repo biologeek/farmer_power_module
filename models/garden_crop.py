@@ -1,5 +1,6 @@
 import re
 import unicodedata
+import math
 from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
@@ -86,6 +87,14 @@ class GardenCrop(models.Model):
         'Chiffre d\'affaires attendu', compute='_compute_forecast', store=True, readonly=False,
         help="Récolte attendue × prix de vente attendu.",
     )
+    planned_seed_count = fields.Integer(
+        'Graines à semer', compute='_compute_seed_needs', store=True,
+        help="Plants prévus / taux de germination × (1 + marge de semis). Nul pour des plants achetés.",
+    )
+    planned_seed_qty = fields.Float(
+        'Semences prévues (g)', compute='_compute_seed_needs', store=True, digits=(16, 2),
+        help="Graines à semer / nombre de graines par gramme de la variété.",
+    )
 
     # Avertissements (jamais bloquants)
     overlap_share = fields.Float(
@@ -134,6 +143,53 @@ class GardenCrop(models.Model):
             crop.planned_plant_qty = crop.area * template.density
             crop.expected_yield_qty = crop.area * template.expected_yield
             crop.expected_revenue = crop.expected_yield_qty * template.expected_price
+
+    @api.model
+    def _get_seed_margin(self):
+        """Marge de semis en pourcentage (paramètre système ``odoo_garden.seed_margin``, défaut 20)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.seed_margin', '20')
+        try:
+            return float(value)
+        except ValueError:
+            return 20.0
+
+    @api.depends(
+        'planned_plant_qty', 'template_id.propagation',
+        'variety_id.germination_rate', 'variety_id.seeds_per_gram',
+    )
+    def _compute_seed_needs(self):
+        margin = self._get_seed_margin()
+        for crop in self:
+            variety = crop.variety_id
+            germination = variety.germination_rate / 100.0
+            if crop.template_id.propagation == 'bought_plants' or germination <= 0:
+                crop.planned_seed_count = 0
+                crop.planned_seed_qty = 0.0
+                continue
+            seeds = crop.planned_plant_qty / germination * (1 + margin / 100.0)
+            crop.planned_seed_count = math.ceil(seeds - 1e-9)
+            crop.planned_seed_qty = seeds / variety.seeds_per_gram if variety.seeds_per_gram > 0 else 0.0
+
+    def _recompute_seed_needs(self):
+        for fname in ('planned_seed_count', 'planned_seed_qty'):
+            self.env.add_to_compute(self._fields[fname], self)
+
+    @api.model
+    def get_seed_needs(self, domain=None):
+        """Besoins en semences par variété (cultures non annulées du domaine).
+
+        Retourne une liste de dicts triés par variété : ``variety``, ``area`` (m²), ``plants``,
+        ``seeds`` (graines à semer) et ``grams`` (semences en g).
+        """
+        groups = self._read_group(
+            (domain or []) + [('state', '!=', 'cancelled')], ['variety_id'],
+            ['area:sum', 'planned_plant_qty:sum', 'planned_seed_count:sum', 'planned_seed_qty:sum'],
+        )
+        result = [
+            {'variety': variety, 'area': area, 'plants': plants, 'seeds': seeds, 'grams': grams}
+            for variety, area, plants, seeds, grams in groups
+        ]
+        return sorted(result, key=lambda line: line['variety'].display_name or '')
 
     # ------------------------------------------------------------------
     # Contrôles : chevauchement et rotation

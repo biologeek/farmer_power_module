@@ -14,3 +14,4 @@ from . import garden_action
 from . import garden_postprocess
 from . import garden_loss
 from . import product_template
+from . import res_config_settings
