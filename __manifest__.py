@@ -35,6 +35,7 @@
         'views/garden_traceability_views.xml',
         'views/garden_gantt_views.xml',
         'views/garden_profitability_views.xml',
+        'views/garden_analytics_views.xml',
         'views/garden_compliance_views.xml',
         'views/res_config_settings_views.xml',
         'views/garden_menu.xml',
@@ -51,6 +52,9 @@
             'odoo_garden/static/src/xml/garden_bed_occupancy.xml',
             'odoo_garden/static/src/js/garden_dashboard.js',
             'odoo_garden/static/src/xml/garden_dashboard.xml',
+            'odoo_garden/static/src/scss/garden_analytics.scss',
+            'odoo_garden/static/src/js/garden_analytics.js',
+            'odoo_garden/static/src/xml/garden_analytics.xml',
         ],
         'web.assets_tests': [
             'odoo_garden/static/tests/tours/**/*',

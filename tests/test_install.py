@@ -49,7 +49,7 @@ class TestGardenInstall(TransactionCase):
 
     def test_old_statistics_screens_removed(self):
         tags = self.env['ir.actions.client'].search([('tag', 'like', 'garden_%')]).mapped('tag')
-        self.assertCountEqual(tags, ['garden_bed_occupancy', 'garden_dashboard'])
+        self.assertCountEqual(tags, ['garden_analytics'] * 5 + ['garden_bed_occupancy', 'garden_dashboard'])
         for xmlid in (
             'action_garden_statistics', 'action_garden_statistics_charts', 'action_garden_production_statistics',
             'menu_garden_statistics_graphics', 'menu_garden_production_statistics',

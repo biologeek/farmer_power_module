@@ -23,6 +23,13 @@
     <menuitem id="menu_garden_loss" name="Losses" parent="menu_garden_production" action="action_garden_loss"/>
     <menuitem id="menu_garden_lots" name="Harvest Lots" parent="menu_garden_production" action="action_garden_lots"/>
 
+    <menuitem id="menu_garden_dashboards" name="Dashboards" parent="menu_garden_root" sequence="12" groups="group_garden_chef"/>
+    <menuitem id="menu_garden_dashboard_occupation" name="Bed Occupation" parent="menu_garden_dashboards" action="action_garden_analytics_occupation" sequence="10"/>
+    <menuitem id="menu_garden_dashboard_crops" name="Crop Mix" parent="menu_garden_dashboards" action="action_garden_analytics_crops" sequence="20"/>
+    <menuitem id="menu_garden_dashboard_work" name="Work and Losses" parent="menu_garden_dashboards" action="action_garden_analytics_work" sequence="30"/>
+    <menuitem id="menu_garden_dashboard_finance" name="Revenue and Margin" parent="menu_garden_dashboards" action="action_garden_analytics_finance" sequence="40" groups="group_garden_manager"/>
+    <menuitem id="menu_garden_dashboard_years" name="Year over Year" parent="menu_garden_dashboards" action="action_garden_analytics_years" sequence="50" groups="group_garden_manager"/>
+
     <menuitem id="menu_garden_profitability" name="Profitability" parent="menu_garden_root" sequence="15" groups="group_garden_manager"/>
     <menuitem id="menu_garden_profitability_report" name="Profitability Report" parent="menu_garden_profitability" action="action_garden_profitability_open" sequence="10"/>
     <menuitem id="menu_garden_profitability_dashboard" name="Dashboard" parent="menu_garden_profitability" action="action_garden_dashboard" sequence="5"/>

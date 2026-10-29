@@ -1,0 +1,42 @@
+// Graphiques des tableaux de bord thématiques (SVG / HTML sans librairie). Palette catégorielle de 8 teintes,
+// lisible en mode clair et sombre ; le gris fermant la série sert aux regroupements « Autres ».
+.o_garden_analytics {
+    --garden-c0: #2f855a;
+    --garden-c1: #3182ce;
+    --garden-c2: #dd6b20;
+    --garden-c3: #805ad5;
+    --garden-c4: #d69e2e;
+    --garden-c5: #e53e3e;
+    --garden-c6: #319795;
+    --garden-c7: #718096;
+
+    .o_garden_cards { grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); }
+    .o_garden_card_wide { grid-column: 1 / -1; }
+    .o_garden_year { width: auto; }
+
+    @for $i from 0 through 7 {
+        .o_garden_fill_#{$i} { fill: var(--garden-c#{$i}); }
+        .o_garden_stroke_#{$i} { stroke: var(--garden-c#{$i}); }
+        .o_garden_bg_#{$i} { background: var(--garden-c#{$i}); }
+    }
+
+    .o_garden_legend { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin-bottom: .5rem; font-size: .85rem; }
+    .o_garden_legend_item { display: inline-flex; align-items: center; gap: .35rem; }
+    .o_garden_swatch { display: inline-block; width: .75rem; height: .75rem; border-radius: 2px; flex: none; }
+
+    .o_garden_plot { display: block; max-width: 100%; }
+    .o_garden_grid line { stroke: var(--border-color, #dee2e6); stroke-width: 1; }
+    .o_garden_grid line.o_garden_zero { stroke: var(--gray-500, #6c757d); }
+    .o_garden_grid text, .o_garden_xlabels text { fill: var(--gray-600, #6c757d); font-size: 10px; }
+
+    .o_garden_bar { background: var(--garden-c0); }
+    .o_garden_bar_negative { background: var(--danger, #dc3545); }
+    .o_garden_bar_value { flex: 0 0 auto; min-width: 4.5rem; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .o_garden_donut { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .o_garden_donut_svg { width: 150px; height: 150px; flex: none; }
+    .o_garden_donut_legend { list-style: none; margin: 0; padding: 0; flex: 1; min-width: 180px; }
+    .o_garden_donut_legend li { display: flex; align-items: center; gap: .4rem; margin-bottom: .2rem; }
+    .o_garden_donut_label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .o_garden_donut_value { font-variant-numeric: tabular-nums; color: var(--gray-600, #6c757d); }
+}

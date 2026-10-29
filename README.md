@@ -161,6 +161,21 @@ Noms anglais (source) ; entre parenthèses la traduction française.
 - **› Statistics** (Statistiques) : Work Time (Temps de travail, pivot et graphique sur les répartitions)
 - **› Configuration** (chef de culture) : Plant Species (Espèces), Varieties (Variétés), Crop Templates (Itinéraires techniques), Operation Types (Types d'opération), Settings (Paramètres, administrateur : marge de semis), Market Gardening Products (Produits maraîchers : produits filtrés sur ceux liés à une variété)
 
+## Tableaux de bord thématiques
+
+Menu **Tableaux de bord** (graphiques SVG en OWL, sans librairie externe ; chaque thème a un sélecteur d'année) :
+
+| Tableau de bord | Contenu | Groupe |
+|---|---|---|
+| Occupation des planches | taux d'occupation par mois, surface par famille botanique, occupation par îlot, planches les moins occupées | Chef de culture |
+| Répartition des cultures | surface par famille et par espèce, mises en place par mois, récolte et rendement par espèce, cultures par statut | Chef de culture |
+| Travail et pertes | heures par mois et par catégorie, réalisation du plan, heures par type et par employé, pertes par cause, espèce et mois | Chef de culture |
+| CA et marge | CA et coûts mensuels, marge cumulée, marge par espèce / m² / heure, structure des coûts, part du CA contre part de la surface | Gérant |
+| Année par année | CA, coûts, marge, rendement, heures, surface par année ; courbes mensuelles superposées ; marge et rendement par espèce | Gérant |
+
+Les données viennent de `garden.analytics.get_data(theme, year, refresh)` : chaque thème renvoie des chiffres clés et des
+graphiques décrits de façon neutre (`bar`, `stacked`, `line`, `hbar`, `donut`). Un nouveau graphique s'ajoute côté Python seulement.
+
 ## Statistiques et plan de culture
 
 Le Gantt (`garden_bed_occupancy`, `garden.bed.get_occupancy_data(domain, season_id, site_id)`, voir « Planification ») reste une action client OWL. Les anciens écrans « Statistiques (Graphiques) » et « Production » (Chart.js par CDN, SQL brut) sont supprimés en phase 5 : les heures par catégorie sont dans **Statistiques › Temps de travail** (pivot et graphique natifs sur `garden.operation.allocation`) et le tableau de bord, la production et les ratios dans la rentabilité (voir ci-dessous).

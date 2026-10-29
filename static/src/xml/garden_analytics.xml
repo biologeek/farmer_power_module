@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="garden.GardenChart">
+        <div t-attf-class="o_garden_chart o_garden_chart_#{chart.type}" t-att-data-chart="chart.id" t-ref="root">
+            <div t-if="showLegend and chart.type !== 'donut'" class="o_garden_legend">
+                <span t-foreach="chart.series" t-as="s" t-key="s_index" class="o_garden_legend_item">
+                    <span t-attf-class="o_garden_swatch o_garden_bg_#{(s.color ?? s_index) % 8}"/><t t-esc="s.name"/>
+                </span>
+            </div>
+            <t t-if="chart.type === 'hbar'">
+                <div t-foreach="hbarRows" t-as="row" t-key="row_index" class="o_garden_bar_row">
+                    <span class="o_garden_bar_label" t-att-title="row.label" t-esc="row.label"/>
+                    <span class="o_garden_bar_track">
+                        <span t-attf-class="o_garden_bar #{row.value &lt; 0 ? 'o_garden_bar_negative' : ''}"
+                              t-attf-style="width: #{row.width}%"/>
+                    </span>
+                    <span class="o_garden_bar_value" t-esc="format(row.value)"/>
+                </div>
+            </t>
+            <t t-elif="chart.type === 'donut'">
+                <t t-set="d" t-value="donut"/>
+                <div class="o_garden_donut">
+                    <svg viewBox="0 0 120 120" class="o_garden_donut_svg">
+                        <circle t-foreach="d.segments" t-as="seg" t-key="seg_index"
+                                cx="60" cy="60" t-att-r="d.radius" fill="none" stroke-width="22"
+                                t-attf-class="o_garden_stroke_#{seg_index % 8}"
+                                t-att-stroke-dasharray="seg.dash" t-att-stroke-dashoffset="seg.offset"
+                                transform="rotate(-90 60 60)">
+                            <title><t t-esc="seg.label"/>: <t t-esc="format(seg.value)"/> (<t t-esc="seg.percent"/>%)</title>
+                        </circle>
+                    </svg>
+                    <ul class="o_garden_donut_legend">
+                        <li t-foreach="d.segments" t-as="seg" t-key="seg_index">
+                            <span t-attf-class="o_garden_swatch o_garden_bg_#{seg_index % 8}"/>
+                            <span class="o_garden_donut_label" t-att-title="seg.label" t-esc="seg.label"/>
+                            <span class="o_garden_donut_value"><t t-esc="format(seg.value)"/> · <t t-esc="seg.percent"/>%</span>
+                        </li>
+                    </ul>
+                </div>
+            </t>
+            <t t-else="">
+                <t t-set="p" t-value="plot"/>
+                <svg t-attf-viewBox="0 0 #{p.width} #{240}" t-att-width="p.width" height="240" class="o_garden_plot">
+                    <g class="o_garden_grid">
+                        <t t-foreach="p.ticks" t-as="tick" t-key="tick_index">
+                            <line x1="56" t-att-x2="p.right" t-att-y1="tick.y" t-att-y2="tick.y"/>
+                            <text x="50" t-att-y="tick.y + 4" text-anchor="end" t-esc="formatTick(tick.value)"/>
+                        </t>
+                        <line class="o_garden_zero" x1="56" t-att-x2="p.right" t-att-y1="p.zero" t-att-y2="p.zero"/>
+                    </g>
+                    <g t-if="chart.type !== 'line'">
+                        <rect t-foreach="p.bars" t-as="bar" t-key="bar_index"
+                              t-attf-class="o_garden_fill_#{bar.index % 8}"
+                              t-att-x="bar.x" t-att-y="bar.y" t-att-width="bar.width" t-att-height="bar.height">
+                            <title t-esc="bar.title"/>
+                        </rect>
+                    </g>
+                    <g t-else="">
+                        <t t-foreach="p.lines" t-as="line" t-key="line_index">
+                            <polyline fill="none" stroke-width="2" t-attf-class="o_garden_stroke_#{line.index % 8}" t-att-points="line.path"/>
+                            <circle t-foreach="line.points" t-as="pt" t-key="pt_index" r="3"
+                                    t-attf-class="o_garden_fill_#{line.index % 8}" t-att-cx="pt.x" t-att-cy="pt.y">
+                                <title><t t-esc="line.name"/> - <t t-esc="pt.label"/>: <t t-esc="format(pt.value)"/></title>
+                            </circle>
+                        </t>
+                    </g>
+                    <g class="o_garden_xlabels">
+                        <text t-foreach="p.xLabels" t-as="xl" t-key="xl_index" t-att-x="xl.x" y="232" text-anchor="middle">
+                            <title t-esc="xl.label"/><t t-esc="xl.short"/>
+                        </text>
+                    </g>
+                </svg>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="garden.GardenAnalytics">
+        <div class="o_action o_garden_dashboard o_garden_analytics" t-att-data-theme="theme">
+            <Layout display="{controlPanel: {}}">
+                <div class="o_garden_dashboard_body p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <h1 class="m-0" t-esc="props.action.name"/>
+                        <div class="d-flex gap-2 align-items-center">
+                            <select t-if="state.data and state.data.has_year_filter" class="form-select o_garden_year"
+                                    t-on-change="onYearChange">
+                                <option t-foreach="state.data.years" t-as="year" t-key="year"
+                                        t-att-value="year" t-att-selected="year === state.data.year" t-esc="year"/>
+                            </select>
+                            <button t-if="canRefresh" class="btn btn-primary" t-on-click="onRefresh">Refresh</button>
+                        </div>
+                    </div>
+                    <t t-if="state.data">
+                        <div class="o_garden_kpis mb-3">
+                            <div t-foreach="state.data.kpis" t-as="kpi" t-key="kpi_index" class="o_garden_kpi">
+                                <span class="o_garden_kpi_value"><t t-esc="formatKpi(kpi)"/><small t-if="kpi.unit" class="ms-1" t-esc="kpi.unit"/></span>
+                                <span t-esc="kpi.label"/>
+                            </div>
+                        </div>
+                        <div t-if="!state.data.charts.length" class="text-muted">No data for this period.</div>
+                        <div class="o_garden_cards">
+                            <div t-foreach="state.data.charts" t-as="chart" t-key="chart.id"
+                                 t-attf-class="o_garden_card #{chart.wide ? 'o_garden_card_wide' : ''}">
+                                <h2 t-esc="chart.title"/>
+                                <GardenChart chart="chart"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </Layout>
+        </div>
+    </t>
+</templates>

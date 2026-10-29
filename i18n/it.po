@@ -6092,3 +6092,427 @@ msgstr "Zucchina (kg)"
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_root
 msgid "Farmer Power"
 msgstr "Farmer Power"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Area"
+msgstr "Superficie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Area per block"
+msgstr "Superficie per blocco"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Area per botanical family"
+msgstr "Superficie per famiglia botanica"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Area per species"
+msgstr "Superficie per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Area put in place per month"
+msgstr "Superficie messa in opera per mese"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Average occupation of %s"
+msgstr "Occupazione media nel %s"
+
+#. module: odoo_garden
+#: model:ir.actions.client,name:odoo_garden.action_garden_analytics_occupation
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_dashboard_occupation
+msgid "Bed Occupation"
+msgstr "Occupazione delle aiuole"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Best margin year"
+msgstr "Anno con miglior margine"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Cost structure"
+msgstr "Struttura dei costi"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Costs"
+msgstr "Costi"
+
+#. module: odoo_garden
+#: model:ir.actions.client,name:odoo_garden.action_garden_analytics_crops
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_dashboard_crops
+msgid "Crop Mix"
+msgstr "Ripartizione delle colture"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Crops per status"
+msgstr "Colture per stato"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Cultivated area"
+msgstr "Superficie coltivata"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Cultivated area per year, by botanical family"
+msgstr "Superficie coltivata per anno, per famiglia botanica"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Cultivated today"
+msgstr "Coltivato oggi"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Cumulative margin"
+msgstr "Margine cumulato"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Cumulative margin (revenue minus work and inputs)"
+msgstr "Margine cumulato (ricavi meno lavoro e input)"
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_dashboards
+msgid "Dashboards"
+msgstr "Dashboard"
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_analytics
+msgid "Farm Dashboards"
+msgstr "Dashboard dell'azienda"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Fixed costs"
+msgstr "Costi fissi"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Free beds today"
+msgstr "Aiuole libere oggi"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Harvest per species"
+msgstr "Raccolto per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Harvested"
+msgstr "Raccolto"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Hours per employee"
+msgstr "Ore per dipendente"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Hours per month, by operation category"
+msgstr "Ore per mese, per categoria di operazione"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Hours per operation type"
+msgstr "Ore per tipo di operazione"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Hours worked"
+msgstr "Ore lavorate"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Late"
+msgstr "In ritardo"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Least used beds over the year"
+msgstr "Aiuole meno utilizzate nell'anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Losses per cause"
+msgstr "Perdite per causa"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Losses per month"
+msgstr "Perdite per mese"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Losses per species"
+msgstr "Perdite per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Lost quantity"
+msgstr "Quantità persa"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Margin per hour and per species"
+msgstr "Margine per ora e per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Margin per m² and per species"
+msgstr "Margine per m² e per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Margin per species"
+msgstr "Margine per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Margin per species, year over year"
+msgstr "Margine per specie, anno per anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Margin rate"
+msgstr "Tasso di margine"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Monthly harvest, year over year"
+msgstr "Raccolto mensile, anno per anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Monthly revenue and costs (work and inputs)"
+msgstr "Ricavi e costi mensili (lavoro e input)"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Monthly revenue, year over year"
+msgstr "Ricavi mensili, anno per anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "No block"
+msgstr "Senza blocco"
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_analytics.xml:0
+msgid "No data for this period."
+msgstr "Nessun dato per questo periodo."
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Occupation"
+msgstr "Occupazione"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Occupation per block over the year"
+msgstr "Occupazione per blocco nell'anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Occupation rate per month"
+msgstr "Tasso di occupazione per mese"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Occupied area per month, by botanical family"
+msgstr "Superficie occupata per mese, per famiglia botanica"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Occupied share of the area"
+msgstr "Quota di superficie occupata"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Operations done"
+msgstr "Operazioni eseguite"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Operations of the plan, by month"
+msgstr "Operazioni del piano, per mese"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Other species"
+msgstr "Altre specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Plan completion"
+msgstr "Realizzazione del piano"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Revenue %s vs previous year"
+msgstr "Ricavi %s rispetto all'anno precedente"
+
+#. module: odoo_garden
+#: model:ir.actions.client,name:odoo_garden.action_garden_analytics_finance
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_dashboard_finance
+msgid "Revenue and Margin"
+msgstr "Ricavi e margine"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Revenue per species"
+msgstr "Ricavi per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Revenue, costs and margin per year"
+msgstr "Ricavi, costi e margine per anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Share of area"
+msgstr "Quota di superficie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Share of revenue"
+msgstr "Quota dei ricavi"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Share of revenue and share of area, per species"
+msgstr "Quota dei ricavi e della superficie, per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Total area"
+msgstr "Superficie totale"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Unassigned"
+msgstr "Non assegnato"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Upcoming"
+msgstr "In programma"
+
+#. module: odoo_garden
+#: model:ir.actions.client,name:odoo_garden.action_garden_analytics_work
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_dashboard_work
+msgid "Work and Losses"
+msgstr "Lavoro e perdite"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Work hours per year"
+msgstr "Ore di lavoro per anno"
+
+#. module: odoo_garden
+#: model:ir.actions.client,name:odoo_garden.action_garden_analytics_years
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_dashboard_years
+msgid "Year over Year"
+msgstr "Anno per anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Years with data"
+msgstr "Anni con dati"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Yield"
+msgstr "Resa"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Yield per species"
+msgstr "Resa per specie"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Yield per species, year over year"
+msgstr "Resa per specie, anno per anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "Yield per year"
+msgstr "Resa per anno"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_analytics.py:0
+msgid "You are not allowed to open this dashboard."
+msgstr "Non è autorizzato ad aprire questo dashboard."

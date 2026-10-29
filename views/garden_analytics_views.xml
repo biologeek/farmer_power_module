@@ -1,0 +1,28 @@
+<odoo>
+    <!-- Tableaux de bord thématiques : une action cliente par thème (voir models/garden_analytics.py). -->
+    <record id="action_garden_analytics_occupation" model="ir.actions.client">
+        <field name="name">Bed Occupation</field>
+        <field name="tag">garden_analytics</field>
+        <field name="context">{'theme': 'occupation'}</field>
+    </record>
+    <record id="action_garden_analytics_crops" model="ir.actions.client">
+        <field name="name">Crop Mix</field>
+        <field name="tag">garden_analytics</field>
+        <field name="context">{'theme': 'crops'}</field>
+    </record>
+    <record id="action_garden_analytics_work" model="ir.actions.client">
+        <field name="name">Work and Losses</field>
+        <field name="tag">garden_analytics</field>
+        <field name="context">{'theme': 'work'}</field>
+    </record>
+    <record id="action_garden_analytics_finance" model="ir.actions.client">
+        <field name="name">Revenue and Margin</field>
+        <field name="tag">garden_analytics</field>
+        <field name="context">{'theme': 'finance'}</field>
+    </record>
+    <record id="action_garden_analytics_years" model="ir.actions.client">
+        <field name="name">Year over Year</field>
+        <field name="tag">garden_analytics</field>
+        <field name="context">{'theme': 'years'}</field>
+    </record>
+</odoo>
