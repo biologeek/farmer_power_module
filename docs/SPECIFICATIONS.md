@@ -1,4 +1,4 @@
-# Odoo Garden — Spécifications fonctionnelles et techniques (v2)
+# Farmer Power (module `odoo_garden`) — Spécifications fonctionnelles et techniques (v2)
 
 Document de cadrage pour transformer le module actuel en application payante de gestion maraîchère, intégrée aux applications standard d'Odoo (Inventaire, Ventes, Employés, Achats, Point de vente).
 

@@ -1,4 +1,4 @@
-# Translation of Odoo Garden (odoo_garden), French.
+# Translation of Farmer Power (odoo_garden), French.
 # This file contains the translation of the following modules:
 # 	* odoo_garden
 #

@@ -1,4 +1,4 @@
-# Odoo Garden - Purchase bridge (`odoo_garden_purchase`)
+# Farmer Power - Purchase bridge (`odoo_garden_purchase`)
 
 Optional module, installed automatically (`auto_install`) when `odoo_garden` and `purchase` are both installed.
 It adds no dependency to `odoo_garden`.

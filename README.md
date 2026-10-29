@@ -1,4 +1,4 @@
-# Odoo Garden
+# Farmer Power
 
 Module Odoo 19 (`odoo_garden`, version `19.0.1.7.0`, licence `OPL-1` : voir « À définir avant publication ») pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), stock (intrants consommés, récoltes en entrée de stock avec lot de culture, pertes et rebuts, traçabilité), ventes et rentabilité (chiffre d'affaires attribué aux cultures, marge, tableau de bord), conformité française (registre phytosanitaire, délai avant récolte, registre de fertilisation, export de certification bio) et, en modules optionnels, demandes de prix de semences (Achats) et ventes de marché (Point de Vente).
 
@@ -20,7 +20,7 @@ Le module dépend de `product`, `uom`, `mail`, `hr`, `stock`, `account`, `sale_m
 
    Ailleurs, ajouter `<dépôt>/bridges` à l'`addons_path` (`--addons-path=...,<dépôt>/..,<dépôt>/bridges`, le dépôt devant s'appeler `odoo_garden`), ou copier les trois dossiers côte à côte.
 3. Redémarrer Odoo et mettre à jour la liste des applications.
-4. Installer **Odoo Garden**. Les ponts s'installent d'eux-mêmes (`auto_install`) dès que leurs dépendances sont présentes : `odoo_garden_purchase` avec **Achats** (`purchase`), `odoo_garden_pos` avec **Point de vente** (`point_of_sale`). Le module principal n'en dépend pas et fonctionne seul.
+4. Installer **Farmer Power**. Les ponts s'installent d'eux-mêmes (`auto_install`) dès que leurs dépendances sont présentes : `odoo_garden_purchase` avec **Achats** (`purchase`), `odoo_garden_pos` avec **Point de vente** (`point_of_sale`). Le module principal n'en dépend pas et fonctionne seul.
 5. Pour une langue : activer la langue dans Odoo (ou `--load-language=de_DE`) ; les termes sont chargés depuis `i18n/`.
 
 `odoo_garden` ne charge pas le contenu de `bridges/` (aucun `import`, aucune entrée du manifeste) ; seuls les fichiers de traduction exportés par Odoo mentionnent ces dossiers (voir « Traductions »).
@@ -395,9 +395,9 @@ Valeurs **provisoires**, repérables par `TODO`, que seul le propriétaire du pr
 | Éditeur (`author`) | `TODO - publisher to be defined` | `__manifest__.py` du module et des deux ponts |
 | Site web (`website`) | `https://example.com/TODO` | idem |
 | Prix (`price`) et devise (`currency`) | `99.00` EUR, provisoires | `__manifest__.py` (les ponts n'ont pas de prix : à décider, gratuits ou vendus à part) |
-| Nom commercial | « Odoo Garden » (nom de travail) | `name`, `static/description/index.html`, icône |
+| Nom commercial | « Farmer Power » (retenu ; nom technique `odoo_garden` inchangé) | `name`, `static/description/index.html`, icône |
 | Licence | `OPL-1` (voir ci-dessous) | `license` des trois manifestes |
-| Page de support / contact | non renseignée | `static/description/index.html` |
+| Page de support / contact | rédigée (`docs/SUPPORT.md`, section Support de `static/description/index.html`) ; adresse et site à renseigner (`contact@example.com` provisoire) | idem |
 | Relecture des traductions | es, de, nl, it, pt_BR faites par machine, à faire relire par des locuteurs natifs, en particulier les termes agricoles | `i18n/*.po`, `docs/GLOSSARY.md` |
 | Captures d'écran | 6 captures réelles de la base de démonstration ; à refaire avec le nom définitif ou des données de l'éditeur | `static/description/screenshot_*.png` |
 

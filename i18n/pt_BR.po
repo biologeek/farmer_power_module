@@ -1,4 +1,4 @@
-# Translation of Odoo Garden (odoo_garden), Brazilian Portuguese.
+# Translation of Farmer Power (odoo_garden), Brazilian Portuguese.
 # This file contains the translation of the following modules:
 # 	* odoo_garden
 #

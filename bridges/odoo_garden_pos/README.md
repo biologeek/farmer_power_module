@@ -1,4 +1,4 @@
-# Odoo Garden - Point of Sale bridge (`odoo_garden_pos`)
+# Farmer Power - Point of Sale bridge (`odoo_garden_pos`)
 
 Optional module, installed automatically (`auto_install`) when `odoo_garden` and `point_of_sale` are both
 installed. It adds no dependency to `odoo_garden`.
