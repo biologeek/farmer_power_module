@@ -99,6 +99,12 @@ class GardenComplianceWizard(models.TransientModel):
     )
     line_count = fields.Integer('Number of Lines', compute='_compute_line_count')
 
+    @api.depends('register')
+    def _compute_display_name(self):
+        labels = dict(self._fields['register']._description_selection(self.env))
+        for wizard in self:
+            wizard.display_name = labels.get(wizard.register) or wizard._description
+
     @api.depends('line_ids', 'line_ids.alert')
     def _compute_line_count(self):
         for wizard in self:

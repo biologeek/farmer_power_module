@@ -1,0 +1,142 @@
+<section style="font-family: sans-serif; color: #212529; max-width: 960px; margin: 0 auto; padding: 24px 16px; line-height: 1.55;">
+    <style>
+        .og h2 { color: #2e7d32; border-bottom: 2px solid #c8e6c9; padding-bottom: 6px; margin-top: 36px; }
+        .og ul { padding-left: 20px; }
+        .og li { margin-bottom: 6px; }
+        .og .grid { display: flex; flex-wrap: wrap; gap: 16px; }
+        .og .card { flex: 1 1 280px; border: 1px solid #dee2e6; border-radius: 6px; padding: 12px 16px; background: #fafafa; }
+        .og .card h3 { margin-top: 0; font-size: 1.05em; color: #1b5e20; }
+        .og figure { margin: 18px 0; }
+        .og figure img { max-width: 100%; border: 1px solid #dee2e6; border-radius: 4px; }
+        .og figcaption { font-size: 0.9em; color: #6c757d; margin-top: 4px; }
+        .og table { border-collapse: collapse; width: 100%; }
+        .og td, .og th { border: 1px solid #dee2e6; padding: 6px 10px; text-align: left; }
+        .og th { background: #e8f5e9; }
+    </style>
+    <div class="og">
+        <h1 style="color: #1b5e20; margin-bottom: 4px;">Odoo Garden</h1>
+        <p style="font-size: 1.2em; margin-top: 0;">
+            Market gardening on Odoo: plan the crops, record the work, and know what each crop earns
+            <strong>per hour of labor and per m²</strong>, from the same data as your stock, sales and payroll.
+        </p>
+
+        <h2>Why Odoo Garden?</h2>
+        <p>
+            Dedicated farming tools plan the season well, but stay apart from the books. Odoo Garden plans the crops
+            <em>natively on top of Inventory, Sales, Accounting and Employees</em>, so the profitability of every crop is
+            computed from real sales and real costs, without double entry.
+        </p>
+
+        <h2>Main features</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Farm structure</h3>
+                <ul>
+                    <li>Farm, site, block (irrigation sector), bed, with areas</li>
+                    <li>QR code label per bed, opening the bed on a phone</li>
+                    <li>Multi-company ready</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Catalog and planning</h3>
+                <ul>
+                    <li>Species (botanical families), varieties linked to products, crop templates</li>
+                    <li>Annual crop plan with backward planning from the target harvest date</li>
+                    <li>Batch planning wizard, overlap and rotation checks, seed needs</li>
+                    <li>Gantt view of the bed occupancy (no Enterprise dependency)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Work and labor</h3>
+                <ul>
+                    <li>Planned operations generated from the template steps</li>
+                    <li>"My Day" mobile view, timer, time per employee and cost</li>
+                    <li>Operations on a crop, beds or a whole block, split by occupied area</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Stock and traceability</h3>
+                <ul>
+                    <li>Inputs consumed from stock, harvests entering stock with a crop lot</li>
+                    <li>Losses and scraps, loss rate</li>
+                    <li>From the seed lot to the customer lot, in both directions</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Profitability</h3>
+                <ul>
+                    <li>Revenue per crop by delivery lot or pro rata of the monthly harvests</li>
+                    <li>Margin per crop, bed, species, hour and m², expected versus actual</li>
+                    <li>Dashboard and pivot / graph reports</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Regulatory registers (France)</h3>
+                <ul>
+                    <li>Plant protection register (PDF and XLSX), fertilization register, organic certification export</li>
+                    <li>Pre-harvest interval check with a manager waiver</li>
+                    <li>Specific to French regulations: can be switched off in the settings for other markets</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>Screenshots</h2>
+        <figure>
+            <img src="screenshot_1_crop_plan.png" alt="Crop plan, Gantt view of the bed occupancy"/>
+            <figcaption>Crop plan: expected and actual occupation of every bed, colored by botanical family.</figcaption>
+        </figure>
+        <figure>
+            <img src="screenshot_2_crop_form.png" alt="Crop form with the profitability tab"/>
+            <figcaption>Crop form: work hours, labor and input costs, revenue and margin of one crop.</figcaption>
+        </figure>
+        <figure>
+            <img src="screenshot_3_profitability_dashboard.png" alt="Profitability dashboard"/>
+            <figcaption>Profitability dashboard: margin per species, hours per operation category, monthly revenue.</figcaption>
+        </figure>
+        <figure>
+            <img src="screenshot_4_my_day.png" alt="My Day view"/>
+            <figcaption>My Day: today's and overdue operations, with Start and Complete buttons.</figcaption>
+        </figure>
+        <figure>
+            <img src="screenshot_5_seed_needs.png" alt="Seed needs report"/>
+            <figcaption>Seed needs per variety, computed from the planned crops.</figcaption>
+        </figure>
+        <figure>
+            <img src="screenshot_6_plant_protection_register.png" alt="Plant protection register"/>
+            <figcaption>Plant protection register (France), printable and exportable.</figcaption>
+        </figure>
+
+        <h2>Optional bridges</h2>
+        <p>Two small companion modules are installed automatically when the matching Odoo app is present:</p>
+        <table>
+            <tr><th>Module</th><th>Installed with</th><th>What it adds</th></tr>
+            <tr>
+                <td><code>odoo_garden_purchase</code></td><td>Purchase</td>
+                <td>Creates draft requests for quotation for the seeds and plants of a season, one per supplier.</td>
+            </tr>
+            <tr>
+                <td><code>odoo_garden_pos</code></td><td>Point of Sale</td>
+                <td>Includes market sales rung up in the Point of Sale in the revenue and profitability of the crops.</td>
+            </tr>
+        </table>
+
+        <h2>Compatibility and languages</h2>
+        <ul>
+            <li>Odoo 19, Community and Enterprise. No dependency on Enterprise-only modules.</li>
+            <li>Depends on Inventory, Sales, Accounting, Employees and Discuss.</li>
+            <li>No external resource is loaded: everything works offline, with native Odoo views and OWL.</li>
+            <li>Source language: English. Translations: French, Spanish, German, Dutch, Italian, Brazilian Portuguese
+                (machine translations, to be reviewed by native speakers).</li>
+        </ul>
+
+        <h2>Roles</h2>
+        <ul>
+            <li><strong>Worker</strong>: sees the crop plan, records and times their operations, harvests and losses. No access to costs.</li>
+            <li><strong>Crop Manager</strong>: manages the catalog, templates, seasons, crops and all operations.</li>
+            <li><strong>Manager</strong>: profitability, configuration and pre-harvest interval waivers.</li>
+        </ul>
+
+        <h2>Support</h2>
+        <p>Contact the publisher through the Odoo Apps Store page of the module.</p>
+    </div>
+</section>

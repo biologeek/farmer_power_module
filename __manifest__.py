@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Odoo Garden',
-    'version': '19.0.1.6.0',
+    'version': '19.0.1.7.0',
     'category': 'Agriculture',
     'summary': 'Market gardening: farms, beds, crop templates, crop plan, operations and labor, stock, profitability and French regulatory registers.',
-    'author': 'Votre Nom',
-    'website': 'https://votresite.com',
+    # TODO before publication (see README, "To be defined before publication"): publisher, website, price.
+    'author': 'TODO - publisher to be defined',
+    'website': 'https://example.com/TODO',
     'depends': [
-        'base', 'web', 'product', 'uom', 'mail', 'hr', 'stock',
+        'product', 'uom', 'mail', 'hr', 'stock',
         'account', 'sale_management', 'sale_stock',
     ],
     'data': [
@@ -55,5 +56,15 @@
     },
     'installable': True,
     'application': True,
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
+    'price': 99.00,  # TODO: provisional price, to be decided by the project owner
+    'currency': 'EUR',  # TODO: provisional currency
+    'images': [
+        'static/description/screenshot_1_crop_plan.png',
+        'static/description/screenshot_2_crop_form.png',
+        'static/description/screenshot_3_profitability_dashboard.png',
+        'static/description/screenshot_4_my_day.png',
+        'static/description/screenshot_5_seed_needs.png',
+        'static/description/screenshot_6_plant_protection_register.png',
+    ],
 }
