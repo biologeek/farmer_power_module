@@ -63,6 +63,10 @@ class TestGardenTranslationFiles(TransactionCase):
         self.assertTrue(any('odoo_garden.report_garden_bed_label' in location for location in locations))
         self.assertTrue(any('odoo_garden.report_garden_compliance' in location for location in locations))
 
+    def test_languages_are_shipped(self):
+        for code in ODOO_LANGS:
+            self.assertIn(code, PO_CODES, "i18n/%s.po is missing" % code)
+
     def test_po_files_are_complete_and_consistent(self):
         for code in PO_CODES:
             po = polib.pofile(os.path.join(I18N_DIR, '%s.po' % code))
