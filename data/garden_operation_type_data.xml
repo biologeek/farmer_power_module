@@ -72,4 +72,112 @@
         <field name="default_scope">crop</field>
         <field name="sequence">120</field>
     </record>
+    <record id="operation_type_thinning" model="garden.operation.type">
+        <field name="name">Thinning</field>
+        <field name="category">other</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">130</field>
+    </record>
+    <record id="operation_type_pricking_out" model="garden.operation.type">
+        <field name="name">Pricking Out</field>
+        <field name="category">transplanting</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">140</field>
+    </record>
+    <record id="operation_type_tray_sowing" model="garden.operation.type">
+        <field name="name">Sowing in Trays</field>
+        <field name="category">sowing</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">150</field>
+    </record>
+    <record id="operation_type_hoeing" model="garden.operation.type">
+        <field name="name">Hoeing</field>
+        <field name="category">weeding</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">160</field>
+    </record>
+    <record id="operation_type_hilling" model="garden.operation.type">
+        <field name="name">Hilling</field>
+        <field name="category">weeding</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">170</field>
+    </record>
+    <record id="operation_type_staking" model="garden.operation.type">
+        <field name="name">Staking and Trellising</field>
+        <field name="category">other</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">180</field>
+    </record>
+    <record id="operation_type_pruning" model="garden.operation.type">
+        <field name="name">Pruning and Suckering</field>
+        <field name="category">other</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">190</field>
+    </record>
+    <record id="operation_type_false_seedbed" model="garden.operation.type">
+        <field name="name">False Seedbed</field>
+        <field name="category">soil_preparation</field>
+        <field name="default_scope">bed</field>
+        <field name="sequence">200</field>
+    </record>
+    <record id="operation_type_solarization" model="garden.operation.type">
+        <field name="name">Soil Solarization</field>
+        <field name="category">soil_preparation</field>
+        <field name="default_scope">bed</field>
+        <field name="sequence">210</field>
+    </record>
+    <record id="operation_type_green_manure_sowing" model="garden.operation.type">
+        <field name="name">Green Manure Sowing</field>
+        <field name="category">sowing</field>
+        <field name="default_scope">bed</field>
+        <field name="sequence">220</field>
+    </record>
+    <record id="operation_type_green_manure_termination" model="garden.operation.type">
+        <field name="name">Green Manure Termination</field>
+        <field name="category">soil_preparation</field>
+        <field name="default_scope">bed</field>
+        <field name="sequence">230</field>
+    </record>
+    <record id="operation_type_compost_spreading" model="garden.operation.type">
+        <field name="name">Compost Spreading</field>
+        <field name="category">fertilization</field>
+        <field name="default_scope">bed</field>
+        <field name="sequence">240</field>
+    </record>
+    <record id="operation_type_biocontrol" model="garden.operation.type">
+        <field name="name">Biological Control</field>
+        <field name="category">treatment</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">250</field>
+    </record>
+    <record id="operation_type_netting" model="garden.operation.type">
+        <field name="name">Netting and Covering</field>
+        <field name="category">other</field>
+        <field name="default_scope">bed</field>
+        <field name="sequence">260</field>
+    </record>
+    <record id="operation_type_ventilation" model="garden.operation.type">
+        <field name="name">Tunnel Ventilation</field>
+        <field name="category">other</field>
+        <field name="default_scope">garden</field>
+        <field name="sequence">270</field>
+    </record>
+    <record id="operation_type_grading" model="garden.operation.type">
+        <field name="name">Grading and Sorting</field>
+        <field name="category">post_harvest</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">280</field>
+    </record>
+    <record id="operation_type_curing" model="garden.operation.type">
+        <field name="name">Curing and Drying</field>
+        <field name="category">post_harvest</field>
+        <field name="default_scope">crop</field>
+        <field name="sequence">290</field>
+    </record>
+    <record id="operation_type_maintenance" model="garden.operation.type">
+        <field name="name">Equipment Maintenance</field>
+        <field name="category">other</field>
+        <field name="default_scope">garden</field>
+        <field name="sequence">300</field>
+    </record>
 </odoo>

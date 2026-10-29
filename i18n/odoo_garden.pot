@@ -1,4 +1,4 @@
-# Translation of Odoo Garden (odoo_garden), template.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* odoo_garden
 #
@@ -346,6 +346,36 @@ msgid ""
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_artichoke
+msgid "Artichoke"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_artichoke
+msgid "Artichoke (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_asian_greens
+msgid "Asian Greens"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_asian_greens
+msgid "Asian Greens (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_asparagus
+msgid "Asparagus"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_asparagus
+msgid "Asparagus (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__asteraceae
 msgid "Asteraceae"
 msgstr ""
@@ -370,8 +400,28 @@ msgid "Attributed Share (%)"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_basil
+msgid "Basil"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_basil
+msgid "Basil (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model,name:odoo_garden.model_garden_season_plan_wizard
 msgid "Batch Planning Wizard"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_bean
+msgid "Bean"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_bean
+msgid "Bean (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -453,6 +503,26 @@ msgid "Beds of the Block"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_beet
+msgid "Beetroot"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_beet
+msgid "Beetroot (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_mulch_film
+msgid "Biodegradable mulch film (roll)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_biocontrol
+msgid "Biological Control"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__garden_id
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__garden_id
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__garden_id
@@ -522,6 +592,36 @@ msgid "Brassicaceae"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_broad_bean
+msgid "Broad Bean"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_broad_bean
+msgid "Broad Bean (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_broccoli
+msgid "Broccoli"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_broccoli
+msgid "Broccoli (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_brussels
+msgid "Brussels Sprouts"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_brussels
+msgid "Brussels Sprouts (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__res_config_settings__garden_revenue_method__lot
 msgid "By Delivery Lot"
 msgstr ""
@@ -540,6 +640,16 @@ msgstr ""
 msgid ""
 "By lot: through the delivered lots (lot-tracked products, sales orders). Pro"
 " rata: according to the quantities harvested in the month for each product."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_cabbage
+msgid "Cabbage"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_cabbage
+msgid "Cabbage (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -579,6 +689,16 @@ msgid "Cancels the move"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_carrot
+msgid "Carrot"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_carrot
+msgid "Carrot (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__category
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__category
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__category
@@ -590,14 +710,74 @@ msgid "Category"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_cauliflower
+msgid "Cauliflower"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_cauliflower
+msgid "Cauliflower (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__cause
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
 msgid "Cause"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_celeriac
+msgid "Celeriac"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_celeriac
+msgid "Celeriac (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_celery
+msgid "Celery"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_celery
+msgid "Celery (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__chenopodiaceae
 msgid "Chenopodiaceae"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_chili
+msgid "Chili Pepper"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_chili
+msgid "Chili Pepper (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_chinese_cabbage
+msgid "Chinese Cabbage"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_chinese_cabbage
+msgid "Chinese Cabbage (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_chives
+msgid "Chives"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_chives
+msgid "Chives (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -715,6 +895,16 @@ msgid "Compliance (regulatory registers, France)"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_compost_spreading
+msgid "Compost Spreading"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_manure
+msgid "Composted manure (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
 msgid "Compute"
 msgstr ""
@@ -798,6 +988,16 @@ msgstr ""
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_variety__organic_status__derogation
 msgid "Conventional with Derogation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_coriander
+msgid "Coriander"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_coriander
+msgid "Coriander (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -1091,6 +1291,16 @@ msgid "Crops planned during this season."
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_cucumber
+msgid "Cucumber"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_cucumber
+msgid "Cucumber (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__cucurbitaceae
 msgid "Cucurbitaceae"
 msgstr ""
@@ -1099,6 +1309,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_compliance.py:0
 msgid "Cumulative Nitrogen (kg N/ha)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_curing
+msgid "Curing and Drying"
 msgstr ""
 
 #. module: odoo_garden
@@ -1385,6 +1600,16 @@ msgid "E.g. Tomato"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_eggplant
+msgid "Eggplant"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_eggplant
+msgid "Eggplant (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model,name:odoo_garden.model_hr_employee
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__employee_id
 msgid "Employee"
@@ -1419,6 +1644,16 @@ msgid ""
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_endive
+msgid "Endive and Chicory"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_endive
+msgid "Endive and Chicory (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__tracking
 msgid "Ensure the traceability of a storable product in your warehouse."
 msgstr ""
@@ -1445,6 +1680,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
 msgid "Enter the reason for the pre-harvest interval waiver (operation \"%s\")."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_maintenance
+msgid "Equipment Maintenance"
 msgstr ""
 
 #. module: odoo_garden
@@ -1523,6 +1763,11 @@ msgid "Fabaceae"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_false_seedbed
+msgid "False Seedbed"
+msgstr ""
+
+#. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_species_search
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_search
 msgid "Family"
@@ -1551,6 +1796,16 @@ msgstr ""
 #: model:ir.actions.act_window,name:odoo_garden.action_garden_farm
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_farm
 msgid "Farms"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_fennel
+msgid "Fennel"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_fennel
+msgid "Fennel (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -1680,6 +1935,21 @@ msgid "Gap (actual - planned)"
 msgstr ""
 
 #. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_lime
+msgid "Garden lime (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_garlic
+msgid "Garlic"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_garlic
+msgid "Garlic (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
 msgid "Generate Operations"
@@ -1700,6 +1970,41 @@ msgstr ""
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_form
 msgid "Goals"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_grading
+msgid "Grading and Sorting"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_green_manure_rye
+msgid "Green Manure (Cereals)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_green_manure_legume
+msgid "Green Manure (Legumes)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_green_manure_phacelia
+msgid "Green Manure (Phacelia and Mustard)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_green_manure_sowing
+msgid "Green Manure Sowing"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_green_manure_termination
+msgid "Green Manure Termination"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_green_manure_seeds
+msgid "Green manure seed mix (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -1872,6 +2177,21 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
 msgid "Hide Free Beds"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_hilling
+msgid "Hilling"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_hoeing
+msgid "Hoeing"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_horn_meal
+msgid "Horn meal (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -2070,6 +2390,11 @@ msgid "Inputs of the operations done on the crop."
 msgstr ""
 
 #. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_insect_net
+msgid "Insect netting (roll)"
+msgstr ""
+
+#. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
 msgid "Instructions or Report"
 msgstr ""
@@ -2129,10 +2454,30 @@ msgid ""
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_kale
+msgid "Kale"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_kale
+msgid "Kale (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_kind
 msgid ""
 "Kind of the move created by the market gardening module; cancellations are "
 "reverse moves."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_kohlrabi
+msgid "Kohlrabi"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_kohlrabi
+msgid "Kohlrabi (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -2157,6 +2502,16 @@ msgstr ""
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__labour_cost
 msgid "Labor cost of the operation × share of the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_lambs_lettuce
+msgid "Lamb's Lettuce"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_lambs_lettuce
+msgid "Lamb's Lettuce (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -2232,8 +2587,28 @@ msgid "Latitude"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_leek
+msgid "Leek"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_leek
+msgid "Leek (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__length
 msgid "Length (m)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_lettuce
+msgid "Lettuce"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_lettuce
+msgid "Lettuce (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -2575,6 +2950,11 @@ msgid ""
 msgstr ""
 
 #. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_compost
+msgid "Mature compost (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_tree
 msgid "Max Occupation (%)"
 msgstr ""
@@ -2588,6 +2968,16 @@ msgstr ""
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__overlap_share
 msgid ""
 "Maximum sum of the bed shares occupied simultaneously, this crop included."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_melon
+msgid "Melon"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_melon
+msgid "Melon (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -2680,6 +3070,11 @@ msgstr ""
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
 msgid "Negative Margin"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_netting
+msgid "Netting and Covering"
 msgstr ""
 
 #. module: odoo_garden
@@ -3008,6 +3403,16 @@ msgid "Offset between Beds (days)"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_onion
+msgid "Onion"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_onion
+msgid "Onion (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.constraint,message:odoo_garden.constraint_garden_crop_profitability_crop_unique
 msgid "Only one profitability line per crop."
 msgstr ""
@@ -3290,8 +3695,48 @@ msgid "Parent Site"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_parsley
+msgid "Parsley"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_parsley
+msgid "Parsley (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_parsnip
+msgid "Parsnip"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_parsnip
+msgid "Parsnip (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_pea
+msgid "Pea"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_pea
+msgid "Pea (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__employee_ids
 msgid "People who carry out the operation."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_pepper
+msgid "Pepper"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_pepper
+msgid "Pepper (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -3475,6 +3920,26 @@ msgid "Post-harvest (washing, packing)"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_potato
+msgid "Potato"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_potato
+msgid "Potato (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_potting_soil
+msgid "Potting soil (L)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_poultry_pellets
+msgid "Poultry manure pellets (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__stage__pre_harvest
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
 msgid "Pre-Harvest"
@@ -3523,6 +3988,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__preview
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_plan_wizard_form
 msgid "Preview"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_pricking_out
+msgid "Pricking Out"
 msgstr ""
 
 #. module: odoo_garden
@@ -3612,6 +4082,11 @@ msgid ""
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_pruning
+msgid "Pruning and Suckering"
+msgstr ""
+
+#. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
 msgid "QR Label"
 msgstr ""
@@ -3672,6 +4147,16 @@ msgstr ""
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__cost
 msgid "Quantity × unit cost."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_radish
+msgid "Radish"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_radish
+msgid "Radish (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -3819,6 +4304,26 @@ msgstr ""
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_reversal_ids
 msgid "Reverse moves that cancel this one."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_rhubarb
+msgid "Rhubarb"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_rhubarb
+msgid "Rhubarb (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_rocket
+msgid "Rocket"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_rocket
+msgid "Rocket (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -3986,6 +4491,11 @@ msgid "Seed or plant inputs of sowing, transplanting or planting operations."
 msgstr ""
 
 #. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_potting_mix
+msgid "Seed starting mix (L)"
+msgstr ""
+
+#. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_compliance.py:0
 msgid "Seeds"
@@ -4060,6 +4570,16 @@ msgstr ""
 #: model:ir.actions.act_window,name:odoo_garden.action_garden_settings
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_settings
 msgid "Settings"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_shallot
+msgid "Shallot"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_shallot
+msgid "Shallot (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -4177,6 +4697,11 @@ msgid "Soil Preparation"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_solarization
+msgid "Soil Solarization"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__soil_type
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_search
 msgid "Soil Type"
@@ -4209,6 +4734,11 @@ msgid "Sowing Margin (%)"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_tray_sowing
+msgid "Sowing in Trays"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop__state__sown
 msgid "Sown"
 msgstr ""
@@ -4230,8 +4760,23 @@ msgid "Species"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_spinach
+msgid "Spinach"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_spinach
+msgid "Spinach (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_garden__irrigation_type__sprinkler
 msgid "Sprinkler"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_staking
+msgid "Staking and Trellising"
 msgstr ""
 
 #. module: odoo_garden
@@ -4328,6 +4873,21 @@ msgid "Storage Location"
 msgstr ""
 
 #. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_straw
+msgid "Straw mulch (bale)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_strawberry
+msgid "Strawberry"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_strawberry
+msgid "Strawberry (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__name
 msgid "Suggested automatically: operation type and target. Editable."
 msgstr ""
@@ -4403,6 +4963,26 @@ msgstr ""
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_traceability__seed_lot_ids
 msgid "Supplier lots of the seeds and plants used (upstream traceability)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_sweet_corn
+msgid "Sweet Corn"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_sweet_corn
+msgid "Sweet Corn (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_chard
+msgid "Swiss Chard"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_chard
+msgid "Swiss Chard (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -4582,6 +5162,11 @@ msgid "The xlsxwriter library is required for the XLSX export."
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_thinning
+msgid "Thinning"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.constraint,message:odoo_garden.constraint_garden_operation_worker_operation_employee_uniq
 msgid "This employee is already in the operation details."
 msgstr ""
@@ -4661,6 +5246,16 @@ msgstr ""
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
 msgid "Today and Overdue"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_tomato
+msgid "Tomato"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_tomato
+msgid "Tomato (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -4778,6 +5373,21 @@ msgid ""
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_ventilation
+msgid "Tunnel Ventilation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_turnip
+msgid "Turnip"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_turnip
+msgid "Turnip (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
 msgid "Type"
 msgstr ""
@@ -4888,8 +5498,23 @@ msgid "Variety Supplier"
 msgstr ""
 
 #. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_plants_generic
+msgid "Vegetable plants (unit)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_seeds_generic
+msgid "Vegetable seeds (g)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:res.groups,comment:odoo_garden.group_garden_worker
 msgid "Views the crop plan, records their operations, harvests and losses."
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_vinasse
+msgid "Vinasse (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -4946,6 +5571,16 @@ msgid "Watering"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_watermelon
+msgid "Watermelon"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_watermelon
+msgid "Watermelon (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__cause__weather
 msgid "Weather"
 msgstr ""
@@ -4987,6 +5622,16 @@ msgstr ""
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__width
 msgid "Width (m)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_squash
+msgid "Winter Squash"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_squash
+msgid "Winter Squash (kg)"
 msgstr ""
 
 #. module: odoo_garden
@@ -5058,6 +5703,16 @@ msgid "Yield (kg/m²)"
 msgstr ""
 
 #. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_zucchini
+msgid "Zucchini"
+msgstr ""
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_zucchini
+msgid "Zucchini (kg)"
+msgstr ""
+
+#. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_season_plan_wizard.py:0
 msgid "id"
@@ -5122,5 +5777,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
 msgid "— season:"
 msgstr ""
-
-

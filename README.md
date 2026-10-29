@@ -138,6 +138,17 @@ Notes :
 - `soil_type` est une sélection (sableux, limoneux, argileux, limono-argileux, humifère, autre).
 - Unicité du code de planche : contrainte SQL `UNIQUE (site_id, code)` ; plusieurs planches sans code sont acceptées.
 
+## Catalogue de départ (données de production)
+
+Installés avec le module (fichiers `data/`, `noupdate`), sans lien avec les données de démonstration :
+
+- **Types d'opération** (`garden_operation_type_data.xml`) : 30 types couvrant toutes les catégories (semis en plaques, repiquage en godets, binage, buttage, tuteurage, taille, faux semis, solarisation, engrais verts, épandage de compost, lutte biologique, filets, aération, calibrage, séchage, entretien du matériel...).
+- **Espèces** (`garden_species_data.xml`) : 51 espèces (légumes courants, aromatiques, fruits de maraîchage, 3 engrais verts) avec famille botanique et durée de rotation usuelles. Le nom est traduisible (6 langues), identifiants `species_<slug>`.
+- **Produits récoltés** (`garden_product_data.xml`) : un produit par espèce cultivée, en kg, stockable et suivi par lots (traçabilité). Aucun prix n'est fixé ; à lier à vos variétés.
+- **Intrants** (même fichier) : composts, fumier, engrais organiques (azote indicatif), terreaux, semences et plants génériques, paille, films, filets. **Aucun produit phytosanitaire** n'est livré : le numéro d'AMM et le délai avant récolte relèvent de chaque exploitation.
+
+Les familles, rotations et teneurs en azote sont des valeurs usuelles à vérifier pour votre contexte.
+
 ## Menus
 
 Noms anglais (source) ; entre parenthèses la traduction française.

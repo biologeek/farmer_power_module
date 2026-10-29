@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Produits récoltés génériques (un par espèce, en kg, suivis par lots pour la traçabilité) : liez-les
+         ensuite à vos variétés. Aucun prix n'est fixé. -->
+    <record id="product_harvest_tomato" model="product.template">
+        <field name="name">Tomato (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_pepper" model="product.template">
+        <field name="name">Pepper (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_chili" model="product.template">
+        <field name="name">Chili Pepper (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_eggplant" model="product.template">
+        <field name="name">Eggplant (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_potato" model="product.template">
+        <field name="name">Potato (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_lettuce" model="product.template">
+        <field name="name">Lettuce (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_endive" model="product.template">
+        <field name="name">Endive and Chicory (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_artichoke" model="product.template">
+        <field name="name">Artichoke (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_carrot" model="product.template">
+        <field name="name">Carrot (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_celeriac" model="product.template">
+        <field name="name">Celeriac (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_celery" model="product.template">
+        <field name="name">Celery (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_parsnip" model="product.template">
+        <field name="name">Parsnip (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_fennel" model="product.template">
+        <field name="name">Fennel (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_parsley" model="product.template">
+        <field name="name">Parsley (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_coriander" model="product.template">
+        <field name="name">Coriander (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_leek" model="product.template">
+        <field name="name">Leek (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_onion" model="product.template">
+        <field name="name">Onion (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_shallot" model="product.template">
+        <field name="name">Shallot (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_garlic" model="product.template">
+        <field name="name">Garlic (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_chives" model="product.template">
+        <field name="name">Chives (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_cabbage" model="product.template">
+        <field name="name">Cabbage (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_cauliflower" model="product.template">
+        <field name="name">Cauliflower (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_broccoli" model="product.template">
+        <field name="name">Broccoli (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_kale" model="product.template">
+        <field name="name">Kale (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_kohlrabi" model="product.template">
+        <field name="name">Kohlrabi (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_brussels" model="product.template">
+        <field name="name">Brussels Sprouts (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_chinese_cabbage" model="product.template">
+        <field name="name">Chinese Cabbage (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_radish" model="product.template">
+        <field name="name">Radish (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_turnip" model="product.template">
+        <field name="name">Turnip (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_rocket" model="product.template">
+        <field name="name">Rocket (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_asian_greens" model="product.template">
+        <field name="name">Asian Greens (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_zucchini" model="product.template">
+        <field name="name">Zucchini (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_cucumber" model="product.template">
+        <field name="name">Cucumber (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_squash" model="product.template">
+        <field name="name">Winter Squash (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_melon" model="product.template">
+        <field name="name">Melon (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_watermelon" model="product.template">
+        <field name="name">Watermelon (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_bean" model="product.template">
+        <field name="name">Bean (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_pea" model="product.template">
+        <field name="name">Pea (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_broad_bean" model="product.template">
+        <field name="name">Broad Bean (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_beet" model="product.template">
+        <field name="name">Beetroot (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_spinach" model="product.template">
+        <field name="name">Spinach (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_chard" model="product.template">
+        <field name="name">Swiss Chard (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_sweet_corn" model="product.template">
+        <field name="name">Sweet Corn (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_lambs_lettuce" model="product.template">
+        <field name="name">Lamb's Lettuce (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_basil" model="product.template">
+        <field name="name">Basil (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_strawberry" model="product.template">
+        <field name="name">Strawberry (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_rhubarb" model="product.template">
+        <field name="name">Rhubarb (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <record id="product_harvest_asparagus" model="product.template">
+        <field name="name">Asparagus (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="tracking">lot</field>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="list_price">0</field>
+        <field name="purchase_ok" eval="False"/>
+    </record>
+    <!-- Intrants courants (aucun produit phytosanitaire : le numéro d'AMM et le délai avant récolte relèvent
+         de chaque exploitation). Teneurs en azote indicatives, à vérifier sur l'étiquette du fournisseur. -->
+    <record id="product_input_compost" model="product.template">
+        <field name="name">Mature compost (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">amendment</field>
+        <field name="is_organic_allowed" eval="True"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_manure" model="product.template">
+        <field name="name">Composted manure (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">amendment</field>
+        <field name="nitrogen_content">1.5</field>
+        <field name="is_organic_allowed" eval="True"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_lime" model="product.template">
+        <field name="name">Garden lime (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">amendment</field>
+        <field name="is_organic_allowed" eval="True"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_horn_meal" model="product.template">
+        <field name="name">Horn meal (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">fertilizer</field>
+        <field name="nitrogen_content">13</field>
+        <field name="is_organic_allowed" eval="True"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_poultry_pellets" model="product.template">
+        <field name="name">Poultry manure pellets (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">fertilizer</field>
+        <field name="nitrogen_content">4.5</field>
+        <field name="is_organic_allowed" eval="True"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_vinasse" model="product.template">
+        <field name="name">Vinasse (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">fertilizer</field>
+        <field name="nitrogen_content">3</field>
+        <field name="is_organic_allowed" eval="True"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_potting_mix" model="product.template">
+        <field name="name">Seed starting mix (L)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_litre"/>
+        <field name="garden_input_type">substrate</field>
+        <field name="is_organic_allowed" eval="True"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_potting_soil" model="product.template">
+        <field name="name">Potting soil (L)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_litre"/>
+        <field name="garden_input_type">substrate</field>
+        <field name="is_organic_allowed" eval="True"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_seeds_generic" model="product.template">
+        <field name="name">Vegetable seeds (g)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_gram"/>
+        <field name="garden_input_type">seed</field>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_green_manure_seeds" model="product.template">
+        <field name="name">Green manure seed mix (kg)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_kgm"/>
+        <field name="garden_input_type">seed</field>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_plants_generic" model="product.template">
+        <field name="name">Vegetable plants (unit)</field>
+        <field name="type">consu</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="garden_input_type">plant</field>
+        <field name="list_price">0</field>
+    </record>
+    <record id="product_input_straw" model="product.template">
+        <field name="name">Straw mulch (bale)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="garden_input_type">other</field>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_mulch_film" model="product.template">
+        <field name="name">Biodegradable mulch film (roll)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="garden_input_type">other</field>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+    <record id="product_input_insect_net" model="product.template">
+        <field name="name">Insect netting (roll)</field>
+        <field name="type">consu</field>
+        <field name="is_storable" eval="True"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="garden_input_type">other</field>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="False"/>
+    </record>
+</odoo>

@@ -26,8 +26,12 @@ msgstr " (lot %s)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__organic_allowed
-msgid "\"Allowed in organic farming\" field of the product (fertilizers, amendments, plant protection products and substrates only)."
-msgstr "Champ « Autorisé en agriculture biologique » du produit (engrais, amendements, phytosanitaires et substrats uniquement)."
+msgid ""
+"\"Allowed in organic farming\" field of the product (fertilizers, "
+"amendments, plant protection products and substrates only)."
+msgstr ""
+"Champ « Autorisé en agriculture biologique » du produit (engrais, "
+"amendements, phytosanitaires et substrats uniquement)."
 
 #. module: odoo_garden
 #. odoo-python
@@ -38,8 +42,12 @@ msgstr "%(bed)s : semis %(sowing)s, récolte %(start)s → %(end)s"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
-msgid "%(crop)s: treated on %(day)s with \"%(product)s\" (interval %(days)s d), harvest possible from %(end)s."
-msgstr "%(crop)s : traitement du %(day)s avec « %(product)s » (délai %(days)s j), récolte possible à partir du %(end)s."
+msgid ""
+"%(crop)s: treated on %(day)s with \"%(product)s\" (interval %(days)s d), "
+"harvest possible from %(end)s."
+msgstr ""
+"%(crop)s : traitement du %(day)s avec « %(product)s » (délai %(days)s j), "
+"récolte possible à partir du %(end)s."
 
 #. module: odoo_garden
 #: model:ir.actions.report,print_report_name:odoo_garden.action_report_garden_bed_label
@@ -80,8 +88,11 @@ msgstr "<span class=\"o_stat_text\">Traçabilité maraîchage</span>"
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
-msgid "<span>Validation will be refused unless a manager grants a waiver.</span>"
-msgstr "<span>La validation sera refusée, sauf dérogation accordée par un gérant.</span>"
+msgid ""
+"<span>Validation will be refused unless a manager grants a waiver.</span>"
+msgstr ""
+"<span>La validation sera refusée, sauf dérogation accordée par un "
+"gérant.</span>"
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
@@ -102,29 +113,45 @@ msgstr "Un produit récolté suivi par numéro de série n'est pas géré (« %s
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_loss.py:0
-msgid "A loss that scrapped stock cannot be deleted: correct the stock with an inventory adjustment."
-msgstr "Une perte qui a mis du stock au rebut ne peut pas être supprimée : corrigez le stock par un ajustement d'inventaire."
+msgid ""
+"A loss that scrapped stock cannot be deleted: correct the stock with an "
+"inventory adjustment."
+msgstr ""
+"Une perte qui a mis du stock au rebut ne peut pas être supprimée : corrigez "
+"le stock par un ajustement d'inventaire."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_lots
-msgid "A lot is created for each crop at the first harvest of a lot-tracked product."
-msgstr "Un lot est créé pour chaque culture à la première récolte d'un produit suivi par lots."
+msgid ""
+"A lot is created for each crop at the first harvest of a lot-tracked "
+"product."
+msgstr ""
+"Un lot est créé pour chaque culture à la première récolte d'un produit suivi"
+" par lots."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_loss
 msgid "A post-harvest loss also scraps the stock, on the crop lot."
-msgstr "Une perte après récolte met aussi le stock au rebut, sur le lot de la culture."
+msgstr ""
+"Une perte après récolte met aussi le stock au rebut, sur le lot de la "
+"culture."
 
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation_input.py:0
-msgid "A product tracked by serial number is consumed one unit at a time (\"%s\")."
-msgstr "Un produit suivi par numéro de série se consomme une unité à la fois (« %s »)."
+msgid ""
+"A product tracked by serial number is consumed one unit at a time (\"%s\")."
+msgstr ""
+"Un produit suivi par numéro de série se consomme une unité à la fois (« %s "
+"»)."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_season
-msgid "A season groups the crop plan of a year: crops, beds and planned dates."
-msgstr "Une saison regroupe le plan de culture d'une année : cultures, planches et dates prévues."
+msgid ""
+"A season groups the crop plan of a year: crops, beds and planned dates."
+msgstr ""
+"Une saison regroupe le plan de culture d'une année : cultures, planches et "
+"dates prévues."
 
 #. module: odoo_garden
 #: model:ir.model.constraint,message:odoo_garden.constraint_garden_season_name_company_uniq
@@ -235,8 +262,12 @@ msgstr "Répartition d'une opération sur une culture"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__allocation_ids
-msgid "Allocation of time and cost between crops, computed when the operation is done."
-msgstr "Répartition du temps et du coût entre les cultures, calculée quand l'opération est faite."
+msgid ""
+"Allocation of time and cost between crops, computed when the operation is "
+"done."
+msgstr ""
+"Répartition du temps et du coût entre les cultures, calculée quand "
+"l'opération est faite."
 
 #. module: odoo_garden
 #. odoo-python
@@ -258,13 +289,23 @@ msgstr "Amaryllidacées"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__revenue
-msgid "Amount excluding tax of the posted customer invoices attributed to the crop, according to the method chosen in the settings (by lot or pro rata of the month's harvests)."
-msgstr "Montant HT des factures clients comptabilisées attribué à la culture, selon la méthode choisie dans les paramètres (par lot ou au prorata des récoltes du mois)."
+msgid ""
+"Amount excluding tax of the posted customer invoices attributed to the crop,"
+" according to the method chosen in the settings (by lot or pro rata of the "
+"month's harvests)."
+msgstr ""
+"Montant HT des factures clients comptabilisées attribué à la culture, selon "
+"la méthode choisie dans les paramètres (par lot ou au prorata des récoltes "
+"du mois)."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_operation
-msgid "An operation is a piece of work (sowing, watering, harvest...) on a crop, beds or a block."
-msgstr "Une opération est un travail (semis, arrosage, récolte...) sur une culture, des planches ou un îlot."
+msgid ""
+"An operation is a piece of work (sowing, watering, harvest...) on a crop, "
+"beds or a block."
+msgstr ""
+"Une opération est un travail (semis, arrosage, récolte...) sur une culture, "
+"des planches ou un îlot."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_fixed_cost_per_m2
@@ -273,8 +314,12 @@ msgstr "Charges fixes annuelles par m²"
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
-msgid "Annual cost per m² charged to the crops (area × days of occupation / 365) in the margin. 0: no fixed costs."
-msgstr "Coût annuel par m² imputé aux cultures (surface × jours d'occupation / 365) dans la marge. 0 : pas de charges fixes."
+msgid ""
+"Annual cost per m² charged to the crops (area × days of occupation / 365) in"
+" the margin. 0: no fixed costs."
+msgstr ""
+"Coût annuel par m² imputé aux cultures (surface × jours d'occupation / 365) "
+"dans la marge. 0 : pas de charges fixes."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__season_id
@@ -321,8 +366,16 @@ msgstr "Surface (m²)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__treated_area
-msgid "Area on which the product is applied (plant protection register). Suggested from the target of the operation (occupied area of the crops, beds or block); editable if only a part is treated. Frozen once the operation is done."
-msgstr "Surface sur laquelle le produit est appliqué (registre phytosanitaire). Proposée d'après la cible de l'opération (surface occupée des cultures, des planches ou de l'îlot) ; modifiable si seule une partie est traitée. Figée une fois l'opération faite."
+msgid ""
+"Area on which the product is applied (plant protection register). Suggested "
+"from the target of the operation (occupied area of the crops, beds or "
+"block); editable if only a part is treated. Frozen once the operation is "
+"done."
+msgstr ""
+"Surface sur laquelle le produit est appliqué (registre phytosanitaire). "
+"Proposée d'après la cible de l'opération (surface occupée des cultures, des "
+"planches ou de l'îlot) ; modifiable si seule une partie est traitée. Figée "
+"une fois l'opération faite."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__asteraceae
@@ -462,8 +515,12 @@ msgstr "Nom de l'îlot"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__garden_main_id
-msgid "Block of the target (the first one if several); used to group the operations."
-msgstr "Îlot de la cible (le premier si plusieurs) ; sert à regrouper les opérations."
+msgid ""
+"Block of the target (the first one if several); used to group the "
+"operations."
+msgstr ""
+"Îlot de la cible (le premier si plusieurs) ; sert à regrouper les "
+"opérations."
 
 #. module: odoo_garden
 #: model:ir.actions.act_window,name:odoo_garden.action_garden_garden
@@ -505,13 +562,26 @@ msgstr "Par lot de livraison"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_revenue_method
-msgid "By lot: the revenue of an invoice goes to the crops whose lots were delivered (lot-tracked products, invoices from sales orders). Pro rata: for each product and each month, the revenue is split between the crops according to their harvests of the month."
-msgstr "Par lot : le chiffre d'affaires d'une facture revient aux cultures dont les lots ont été livrés (produits suivis par lots, factures issues de commandes de vente). Au prorata : pour chaque produit et chaque mois, le chiffre d'affaires est réparti entre les cultures selon leurs récoltes du mois."
+msgid ""
+"By lot: the revenue of an invoice goes to the crops whose lots were "
+"delivered (lot-tracked products, invoices from sales orders). Pro rata: for "
+"each product and each month, the revenue is split between the crops "
+"according to their harvests of the month."
+msgstr ""
+"Par lot : le chiffre d'affaires d'une facture revient aux cultures dont les "
+"lots ont été livrés (produits suivis par lots, factures issues de commandes "
+"de vente). Au prorata : pour chaque produit et chaque mois, le chiffre "
+"d'affaires est réparti entre les cultures selon leurs récoltes du mois."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
-msgid "By lot: through the delivered lots (lot-tracked products, sales orders). Pro rata: according to the quantities harvested in the month for each product."
-msgstr "Par lot : via les lots livrés (produits suivis par lots, commandes de vente). Au prorata : selon les quantités récoltées du mois pour chaque produit."
+msgid ""
+"By lot: through the delivered lots (lot-tracked products, sales orders). Pro"
+" rata: according to the quantities harvested in the month for each product."
+msgstr ""
+"Par lot : via les lots livrés (produits suivis par lots, commandes de "
+"vente). Au prorata : selon les quantités récoltées du mois pour chaque "
+"produit."
 
 #. module: odoo_garden
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_crop_calendar
@@ -575,13 +645,15 @@ msgstr "Chénopodiacées"
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
 msgid "Choose at least one bed for an operation with the \"Bed\" scope."
-msgstr "Choisissez au moins une planche pour une opération de périmètre « Planche »."
+msgstr ""
+"Choisissez au moins une planche pour une opération de périmètre « Planche »."
 
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
 msgid "Choose at least one crop for an operation with the \"Crop\" scope."
-msgstr "Choisissez au moins une culture pour une opération de périmètre « Culture »."
+msgstr ""
+"Choisissez au moins une culture pour une opération de périmètre « Culture »."
 
 #. module: odoo_garden
 #. odoo-python
@@ -592,8 +664,11 @@ msgstr "Choisissez l'îlot pour une opération de périmètre « Îlot »."
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_loss.py:0
-msgid "Choose the lost product: the variety of crop \"%s\" has no harvest product."
-msgstr "Choisissez le produit perdu : la variété de la culture « %s » n'a pas de produit récolté."
+msgid ""
+"Choose the lost product: the variety of crop \"%s\" has no harvest product."
+msgstr ""
+"Choisissez le produit perdu : la variété de la culture « %s » n'a pas de "
+"produit récolté."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_bed__soil_type__clayey
@@ -710,14 +785,22 @@ msgstr "Configuration"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation_input.py:0
-msgid "Configure the storage location and the \"Market Gardening Consumption\" location of company \"%s\"."
-msgstr "Configurez l'emplacement de stockage et l'emplacement « Consommation maraîchage » de la société « %s »."
+msgid ""
+"Configure the storage location and the \"Market Gardening Consumption\" "
+"location of company \"%s\"."
+msgstr ""
+"Configurez l'emplacement de stockage et l'emplacement « Consommation "
+"maraîchage » de la société « %s »."
 
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
-msgid "Configure the storage location and the \"Market Gardening Production\" location of company \"%s\"."
-msgstr "Configurez l'emplacement de stockage et l'emplacement « Production maraîchage » de la société « %s »."
+msgid ""
+"Configure the storage location and the \"Market Gardening Production\" "
+"location of company \"%s\"."
+msgstr ""
+"Configurez l'emplacement de stockage et l'emplacement « Production "
+"maraîchage » de la société « %s »."
 
 #. module: odoo_garden
 #. odoo-python
@@ -744,8 +827,12 @@ msgstr "Consommé par les opérations"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__product_id
-msgid "Consumed product. Only products with a \"market gardening input type\" are suggested."
-msgstr "Produit consommé. Seuls les produits dont le « type d'intrant maraîcher » est renseigné sont proposés."
+msgid ""
+"Consumed product. Only products with a \"market gardening input type\" are "
+"suggested."
+msgstr ""
+"Produit consommé. Seuls les produits dont le « type d'intrant maraîcher » "
+"est renseigné sont proposés."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__stock_move__garden_kind__input_return
@@ -754,8 +841,12 @@ msgstr "Annulation de consommation"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__move_ids
-msgid "Consumption and harvest moves created by the operation, with their cancellations."
-msgstr "Mouvements de consommation et de récolte créés par l'opération, avec leurs annulations."
+msgid ""
+"Consumption and harvest moves created by the operation, with their "
+"cancellations."
+msgstr ""
+"Mouvements de consommation et de récolte créés par l'opération, avec leurs "
+"annulations."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_variety__organic_status__derogation
@@ -769,13 +860,21 @@ msgstr "Coût"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__unit_cost
-msgid "Cost of the product per unit of the line. Suggested from the product cost; frozen when the operation is done."
-msgstr "Coût du produit par unité de la ligne. Proposé d'après le coût du produit ; figé au moment où l'opération est faite."
+msgid ""
+"Cost of the product per unit of the line. Suggested from the product cost; "
+"frozen when the operation is done."
+msgstr ""
+"Coût du produit par unité de la ligne. Proposé d'après le coût du produit ; "
+"figé au moment où l'opération est faite."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
-msgid "Counterpart locations of stock entries (harvests) and exits (consumed inputs)."
-msgstr "Emplacements de contrepartie des entrées (récoltes) et des sorties (intrants consommés) de stock."
+msgid ""
+"Counterpart locations of stock entries (harvests) and exits (consumed "
+"inputs)."
+msgstr ""
+"Emplacements de contrepartie des entrées (récoltes) et des sorties (intrants"
+" consommés) de stock."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_plan_wizard_form
@@ -1002,8 +1101,12 @@ msgstr "Culture sur planche"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_traceability__crop_id
-msgid "Crop the lot comes from; without a chosen lot, all the harvest lots of the crop are traced."
-msgstr "Culture d'origine du lot ; sans lot choisi, tous les lots de récolte de la culture sont tracés."
+msgid ""
+"Crop the lot comes from; without a chosen lot, all the harvest lots of the "
+"crop are traced."
+msgstr ""
+"Culture d'origine du lot ; sans lot choisi, tous les lots de récolte de la "
+"culture sont tracés."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_stock_lot__garden_crop_id
@@ -1086,13 +1189,21 @@ msgstr "Date"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__occupation_start
-msgid "Date of arrival on the bed: planned transplanting for plants, otherwise actual start or planned sowing."
-msgstr "Date d'arrivée en planche : repiquage prévu pour les plants, sinon début réel ou semis prévu."
+msgid ""
+"Date of arrival on the bed: planned transplanting for plants, otherwise "
+"actual start or planned sowing."
+msgstr ""
+"Date d'arrivée en planche : repiquage prévu pour les plants, sinon début "
+"réel ou semis prévu."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_harvest_start
-msgid "Date of the first targeted harvest. Changing it recomputes the sowing (backward planning)."
-msgstr "Date de première récolte visée. La modifier recalcule le semis (rétro-planning)."
+msgid ""
+"Date of the first targeted harvest. Changing it recomputes the sowing "
+"(backward planning)."
+msgstr ""
+"Date de première récolte visée. La modifier recalcule le semis (rétro-"
+"planning)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__date
@@ -1117,12 +1228,18 @@ msgstr "Jour où la perte a été constatée."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__planned_date
 msgid "Day the operation must be done; it appears in \"My Day\" from that date."
-msgstr "Jour où l'opération doit être faite ; elle apparaît dans « Ma journée » à partir de cette date."
+msgstr ""
+"Jour où l'opération doit être faite ; elle apparaît dans « Ma journée » à "
+"partir de cette date."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__date
-msgid "Day the operation was done (set when the operation is completed). Used to find the crops in place for the allocation."
-msgstr "Jour où l'opération a été faite (renseigné à la fin de l'opération). Sert à retrouver les cultures en place pour la répartition."
+msgid ""
+"Day the operation was done (set when the operation is completed). Used to "
+"find the crops in place for the allocation."
+msgstr ""
+"Jour où l'opération a été faite (renseigné à la fin de l'opération). Sert à "
+"retrouver les cultures en place pour la répartition."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__days_to_maturity
@@ -1180,8 +1297,12 @@ msgstr "Saisie détaillée du temps par employé (optionnel)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__worker_ids
-msgid "Detailed time entry per employee. When filled, it replaces \"duration × number of employees\"."
-msgstr "Saisie détaillée du temps par employé. Quand elle est renseignée, elle remplace « durée × nombre d'employés »."
+msgid ""
+"Detailed time entry per employee. When filled, it replaces \"duration × "
+"number of employees\"."
+msgstr ""
+"Saisie détaillée du temps par employé. Quand elle est renseignée, elle "
+"remplace « durée × nombre d'employés »."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_loss__notes
@@ -1256,7 +1377,9 @@ msgstr "Faite"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_traceability__out_line_ids
 msgid "Done moves taking the lot out of stock (delivery, sale, scrap...)."
-msgstr "Mouvements terminés qui sortent le lot du stock (livraison, vente, rebut...)."
+msgstr ""
+"Mouvements terminés qui sortent le lot du stock (livraison, vente, "
+"rebut...)."
 
 #. module: odoo_garden
 #. odoo-python
@@ -1280,8 +1403,11 @@ msgstr "Brouillon"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_season__state
-msgid "Draft: plan being prepared. Validated: plan frozen. Closed: season over."
-msgstr "Brouillon : plan en préparation. Validé : plan arrêté. Clôturé : saison terminée."
+msgid ""
+"Draft: plan being prepared. Validated: plan frozen. Closed: season over."
+msgstr ""
+"Brouillon : plan en préparation. Validé : plan arrêté. Clôturé : saison "
+"terminée."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_garden__irrigation_type__drip
@@ -1300,13 +1426,19 @@ msgstr "Durée (par employé)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_worker__labour_cost
-msgid "Duration × hourly cost of the employee (otherwise, default hourly rate)."
-msgstr "Durée × coût horaire de l'employé (à défaut, taux horaire par défaut)."
+msgid ""
+"Duration × hourly cost of the employee (otherwise, default hourly rate)."
+msgstr ""
+"Durée × coût horaire de l'employé (à défaut, taux horaire par défaut)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__water_volume
-msgid "Duration × irrigation flow of the block (irrigation only). Editable if the volume is measured."
-msgstr "Durée × débit d'irrigation de l'îlot (irrigation uniquement). Modifiable si le volume est mesuré."
+msgid ""
+"Duration × irrigation flow of the block (irrigation only). Editable if the "
+"volume is measured."
+msgstr ""
+"Durée × débit d'irrigation de l'îlot (irrigation uniquement). Modifiable si "
+"le volume est mesuré."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_product_template_form_garden
@@ -1352,12 +1484,19 @@ msgstr "Fin"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_harvest_end
 msgid "End of the harvest window (harvest start + window of the template)."
-msgstr "Fin de la fenêtre de récolte (début de récolte + fenêtre de l'itinéraire)."
+msgstr ""
+"Fin de la fenêtre de récolte (début de récolte + fenêtre de l'itinéraire)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__harvest_allowed_from
-msgid "End of the pre-harvest interval (PHI) of the last plant protection treatment done on the crop: treatment date + PHI of the most restrictive product. Empty if no treatment sets an interval."
-msgstr "Fin du délai avant récolte (DAR) du dernier traitement phytosanitaire fait sur la culture : date du traitement + DAR du produit le plus contraignant. Vide si aucun traitement ne fixe de délai."
+msgid ""
+"End of the pre-harvest interval (PHI) of the last plant protection treatment"
+" done on the crop: treatment date + PHI of the most restrictive product. "
+"Empty if no treatment sets an interval."
+msgstr ""
+"Fin du délai avant récolte (DAR) du dernier traitement phytosanitaire fait "
+"sur la culture : date du traitement + DAR du produit le plus contraignant. "
+"Vide si aucun traitement ne fixe de délai."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__tracking
@@ -1386,7 +1525,9 @@ msgstr "Renseignez le lot de « %(product)s » (opération « %(operation)s »).
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
 msgid "Enter the reason for the pre-harvest interval waiver (operation \"%s\")."
-msgstr "Indiquez le motif de la dérogation au délai avant récolte (opération « %s »)."
+msgstr ""
+"Indiquez le motif de la dérogation au délai avant récolte (opération « %s "
+"»)."
 
 #. module: odoo_garden
 #. odoo-javascript
@@ -1446,13 +1587,21 @@ msgstr "Exporter (XLSX)"
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
-msgid "Extra seeds planned on top of the germination rate to compute the seed needs."
-msgstr "Surplus de graines prévu en plus du taux de germination pour calculer les besoins en semences."
+msgid ""
+"Extra seeds planned on top of the germination rate to compute the seed "
+"needs."
+msgstr ""
+"Surplus de graines prévu en plus du taux de germination pour calculer les "
+"besoins en semences."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_seed_margin
-msgid "Extra seeds planned to compensate sowing losses, on top of the germination rate."
-msgstr "Surplus de graines prévu pour compenser les pertes au semis, en plus du taux de germination."
+msgid ""
+"Extra seeds planned to compensate sowing losses, on top of the germination "
+"rate."
+msgstr ""
+"Surplus de graines prévu pour compenser les pertes au semis, en plus du taux"
+" de germination."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__fabaceae
@@ -1574,12 +1723,19 @@ msgstr "Abonnés (Partenaires)"
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__type_icon
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_type__icon
 msgid "Font Awesome class displayed on the \"My Day\" card (e.g. fa-tint)."
-msgstr "Classe Font Awesome affichée sur la carte « Ma journée » (ex. fa-tint)."
+msgstr ""
+"Classe Font Awesome affichée sur la carte « Ma journée » (ex. fa-tint)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__dar_warning
-msgid "For a harvest not yet done: crops whose pre-harvest interval (PHI) has not elapsed on the harvest date. Validation will be blocked while the interval runs, unless the manager grants a waiver."
-msgstr "Pour une récolte non encore faite : cultures dont le délai avant récolte (DAR) n'est pas écoulé à la date de récolte. La validation sera bloquée tant que le délai court, sauf dérogation du gérant."
+msgid ""
+"For a harvest not yet done: crops whose pre-harvest interval (PHI) has not "
+"elapsed on the harvest date. Validation will be blocked while the interval "
+"runs, unless the manager grants a waiver."
+msgstr ""
+"Pour une récolte non encore faite : cultures dont le délai avant récolte "
+"(DAR) n'est pas écoulé à la date de récolte. La validation sera bloquée tant"
+" que le délai court, sauf dérogation du gérant."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
@@ -1603,8 +1759,12 @@ msgstr "Accès complet, y compris la configuration."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_hr_employee__garden_hourly_cost
-msgid "Fully loaded hourly cost of the employee to value the time of operations. At 0, the default hourly rate of the Market Gardening settings applies."
-msgstr "Coût horaire chargé de l'employé pour valoriser le temps des opérations. À 0, le taux horaire par défaut des paramètres Maraîchage s'applique."
+msgid ""
+"Fully loaded hourly cost of the employee to value the time of operations. At"
+" 0, the default hourly rate of the Market Gardening settings applies."
+msgstr ""
+"Coût horaire chargé de l'employé pour valoriser le temps des opérations. À "
+"0, le taux horaire par défaut des paramètres Maraîchage s'applique."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
@@ -1619,8 +1779,12 @@ msgstr "Générer les opérations"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__name
-msgid "Generated at creation: species initial, year, bed code and sequence number (e.g. T-2027-P12-01). Used as the traceability lot name."
-msgstr "Générée à la création : initiale de l'espèce, année, code de la planche et numéro d'ordre (ex. T-2027-P12-01). Servira de nom de lot de traçabilité."
+msgid ""
+"Generated at creation: species initial, year, bed code and sequence number "
+"(e.g. T-2027-P12-01). Used as the traceability lot name."
+msgstr ""
+"Générée à la création : initiale de l'espèce, année, code de la planche et "
+"numéro d'ordre (ex. T-2027-P12-01). Servira de nom de lot de traçabilité."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__germination_rate
@@ -1649,8 +1813,12 @@ msgstr "Récolte"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
-msgid "Harvest \"%s\" is already in stock: set the operation back to planned before modifying it."
-msgstr "La récolte « %s » est déjà en stock : remettez l'opération en planifiée avant de la modifier."
+msgid ""
+"Harvest \"%s\" is already in stock: set the operation back to planned before"
+" modifying it."
+msgstr ""
+"La récolte « %s » est déjà en stock : remettez l'opération en planifiée "
+"avant de la modifier."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__stock_move__garden_kind__harvest_return
@@ -1703,14 +1871,22 @@ msgstr "Récolte possible à partir du"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
-msgid "Harvest put in stock without crop or lot: no crop in place on the date of the operation."
-msgstr "Récolte mise en stock sans culture ni lot : aucune culture en place à la date de l'opération."
+msgid ""
+"Harvest put in stock without crop or lot: no crop in place on the date of "
+"the operation."
+msgstr ""
+"Récolte mise en stock sans culture ni lot : aucune culture en place à la "
+"date de l'opération."
 
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
-msgid "Harvest validated with a pre-harvest interval waiver (waiver by %(user)s). Reason: %(reason)s"
-msgstr "Récolte validée en dérogation au délai avant récolte (dérogation de %(user)s). Motif : %(reason)s"
+msgid ""
+"Harvest validated with a pre-harvest interval waiver (waiver by %(user)s). "
+"Reason: %(reason)s"
+msgstr ""
+"Récolte validée en dérogation au délai avant récolte (dérogation de "
+"%(user)s). Motif : %(reason)s"
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
@@ -1741,8 +1917,11 @@ msgstr "Culture récoltée (mouvements de récolte)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__harvest_product_id
-msgid "Harvested product (suggested from the variety of the crop). Harvest only."
-msgstr "Produit récolté (proposé d'après la variété de la culture). Récolte uniquement."
+msgid ""
+"Harvested product (suggested from the variety of the crop). Harvest only."
+msgstr ""
+"Produit récolté (proposé d'après la variété de la culture). Récolte "
+"uniquement."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__harvest_qty
@@ -1757,7 +1936,9 @@ msgstr "Quantité récoltée - récolte attendue."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__yield_per_m2
 msgid "Harvested quantity / area. On a group: sum of harvests / sum of areas."
-msgstr "Quantité récoltée / surface. Sur un groupe : somme des récoltes / somme des surfaces."
+msgstr ""
+"Quantité récoltée / surface. Sur un groupe : somme des récoltes / somme des "
+"surfaces."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop__state__harvesting
@@ -1771,8 +1952,12 @@ msgstr "Récoltes"
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
-msgid "Harvests enter this location and inputs leave it. Empty: main stock of the warehouse of the company."
-msgstr "Les récoltes entrent dans cet emplacement et les intrants en sortent. Vide : stock principal de l'entrepôt de la société."
+msgid ""
+"Harvests enter this location and inputs leave it. Empty: main stock of the "
+"warehouse of the company."
+msgstr ""
+"Les récoltes entrent dans cet emplacement et les intrants en sortent. Vide :"
+" stock principal de l'entrepôt de la société."
 
 #. module: odoo_garden
 #. odoo-python
@@ -1802,13 +1987,21 @@ msgstr "Coût horaire (maraîchage)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_default_hourly_rate
-msgid "Hourly cost applied to work time when the employee has no hourly cost set or when no employee is assigned to the operation."
-msgstr "Coût horaire appliqué au temps de travail quand l'employé n'a pas de coût horaire renseigné ou qu'aucun employé n'est affecté à l'opération."
+msgid ""
+"Hourly cost applied to work time when the employee has no hourly cost set or"
+" when no employee is assigned to the operation."
+msgstr ""
+"Coût horaire appliqué au temps de travail quand l'employé n'a pas de coût "
+"horaire renseigné ou qu'aucun employé n'est affecté à l'opération."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
-msgid "Hourly cost applied when the employee has no market gardening hourly cost or when no employee is assigned."
-msgstr "Coût horaire appliqué quand l'employé n'a pas de coût horaire maraîchage ou qu'aucun employé n'est affecté."
+msgid ""
+"Hourly cost applied when the employee has no market gardening hourly cost or"
+" when no employee is assigned."
+msgstr ""
+"Coût horaire appliqué quand l'employé n'a pas de coût horaire maraîchage ou "
+"qu'aucun employé n'est affecté."
 
 #. module: odoo_garden
 #. odoo-javascript
@@ -1921,8 +2114,12 @@ msgstr "En stock"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__target
-msgid "Indicates whether the date entered is the harvest start (backward planning) or the sowing."
-msgstr "Indique si la date saisie est celle du début de récolte (rétro-planning) ou celle du semis."
+msgid ""
+"Indicates whether the date entered is the harvest start (backward planning) "
+"or the sowing."
+msgstr ""
+"Indique si la date saisie est celle du début de récolte (rétro-planning) ou "
+"celle du semis."
 
 #. module: odoo_garden
 #: model:ir.model,name:odoo_garden.model_garden_operation_input
@@ -1958,7 +2155,8 @@ msgstr "Coût des intrants de l'opération × part de la culture."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__alert
 msgid "Input not allowed in organic farming used on an organic crop."
-msgstr "Intrant non autorisé en agriculture biologique utilisé sur une culture bio."
+msgstr ""
+"Intrant non autorisé en agriculture biologique utilisé sur une culture bio."
 
 #. module: odoo_garden
 #. odoo-python
@@ -1998,7 +2196,9 @@ msgstr "Consignes ou compte rendu du travail."
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_loss.py:0
 msgid "Insufficient stock to scrap %(qty)s %(uom)s of \"%(product)s\"%(lot)s."
-msgstr "Stock insuffisant pour mettre au rebut %(qty)s %(uom)s de « %(product)s »%(lot)s."
+msgstr ""
+"Stock insuffisant pour mettre au rebut %(qty)s %(uom)s de « %(product)s "
+"»%(lot)s."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__invoice_name
@@ -2038,13 +2238,21 @@ msgstr "Pièce comptable"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__dar_override_reason
-msgid "Justification of the pre-harvest interval waiver (required when it is ticked)."
-msgstr "Justification de la dérogation au délai avant récolte (obligatoire quand elle est cochée)."
+msgid ""
+"Justification of the pre-harvest interval waiver (required when it is "
+"ticked)."
+msgstr ""
+"Justification de la dérogation au délai avant récolte (obligatoire quand "
+"elle est cochée)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_kind
-msgid "Kind of the move created by the market gardening module; cancellations are reverse moves."
-msgstr "Nature du mouvement créé par le module de maraîchage ; les annulations sont des mouvements inverses."
+msgid ""
+"Kind of the move created by the market gardening module; cancellations are "
+"reverse moves."
+msgstr ""
+"Nature du mouvement créé par le module de maraîchage ; les annulations sont "
+"des mouvements inverses."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__name
@@ -2125,7 +2333,8 @@ msgstr "Mis à jour le"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__move_id
 msgid "Last consumption move created when the operation was validated."
-msgstr "Dernier mouvement de consommation créé à la validation de l'opération."
+msgstr ""
+"Dernier mouvement de consommation créé à la validation de l'opération."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_compliance_wizard__date_to
@@ -2169,13 +2378,21 @@ msgstr "Lignes"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_company__garden_stock_location_id
-msgid "Location where harvests enter and inputs leave. Empty: main stock of the first warehouse of the company."
-msgstr "Emplacement où entrent les récoltes et d'où sortent les intrants. Vide : stock principal du premier entrepôt de la société."
+msgid ""
+"Location where harvests enter and inputs leave. Empty: main stock of the "
+"first warehouse of the company."
+msgstr ""
+"Emplacement où entrent les récoltes et d'où sortent les intrants. Vide : "
+"stock principal du premier entrepôt de la société."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_stock_location_id
-msgid "Location where harvests enter and inputs leave. Empty: main stock of the warehouse of the company."
-msgstr "Emplacement où entrent les récoltes et d'où sortent les intrants. Vide : stock principal de l'entrepôt de la société."
+msgid ""
+"Location where harvests enter and inputs leave. Empty: main stock of the "
+"warehouse of the company."
+msgstr ""
+"Emplacement où entrent les récoltes et d'où sortent les intrants. Vide : "
+"stock principal de l'entrepôt de la société."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_site__longitude
@@ -2215,8 +2432,12 @@ msgstr "Pertes"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__loss_rate
-msgid "Losses / (harvest + losses). Losses and harvest are assumed to be in the same unit (kg)."
-msgstr "Pertes / (récolte + pertes). Les pertes et la récolte sont supposées dans la même unité (kg)."
+msgid ""
+"Losses / (harvest + losses). Losses and harvest are assumed to be in the "
+"same unit (kg)."
+msgstr ""
+"Pertes / (récolte + pertes). Les pertes et la récolte sont supposées dans la"
+" même unité (kg)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__loss_rate
@@ -2246,8 +2467,12 @@ msgstr "Quantité perdue (kg)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_loss__product_id
-msgid "Lost product (suggested from the variety of the crop); it determines the post-harvest scrap."
-msgstr "Produit perdu (proposé d'après la variété de la culture) ; il détermine le rebut après récolte."
+msgid ""
+"Lost product (suggested from the variety of the crop); it determines the "
+"post-harvest scrap."
+msgstr ""
+"Produit perdu (proposé d'après la variété de la culture) ; il détermine le "
+"rebut après récolte."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_loss__quantity
@@ -2282,8 +2507,12 @@ msgstr "Réception des lots (fournisseur)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__lot_id
-msgid "Lot of the consumed product, required for a product tracked by lots (e.g. seed lot)."
-msgstr "Lot du produit consommé, obligatoire pour un produit suivi par lots (ex. lot de semences)."
+msgid ""
+"Lot of the consumed product, required for a product tracked by lots (e.g. "
+"seed lot)."
+msgstr ""
+"Lot du produit consommé, obligatoire pour un produit suivi par lots (ex. lot"
+" de semences)."
 
 #. module: odoo_garden
 #: model:ir.model,name:odoo_garden.model_stock_lot
@@ -2354,7 +2583,8 @@ msgstr "Marge"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__margin_per_m2
 msgid "Margin / area. On a group: sum of margins / sum of areas."
-msgstr "Marge / surface. Sur un groupe : somme des marges / somme des surfaces."
+msgstr ""
+"Marge / surface. Sur un groupe : somme des marges / somme des surfaces."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__margin_per_m2
@@ -2369,7 +2599,9 @@ msgstr "Marge / heures de travail (0 sans heures)."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__margin_per_hour
 msgid "Margin / work hours. On a group: sum of margins / sum of hours."
-msgstr "Marge / heures de travail. Sur un groupe : somme des marges / somme des heures."
+msgstr ""
+"Marge / heures de travail. Sur un groupe : somme des marges / somme des "
+"heures."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__margin_per_hour
@@ -2470,8 +2702,12 @@ msgstr "Maraîchage : actualiser le rapport de rentabilité"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_product_product__amm_number
 #: model:ir.model.fields,help:odoo_garden.field_product_template__amm_number
-msgid "Marketing authorization number of the plant protection product (mandatory entry of the plant protection register)."
-msgstr "Numéro d'autorisation de mise sur le marché du produit phytosanitaire (mention obligatoire du registre phytosanitaire)."
+msgid ""
+"Marketing authorization number of the plant protection product (mandatory "
+"entry of the plant protection register)."
+msgstr ""
+"Numéro d'autorisation de mise sur le marché du produit phytosanitaire "
+"(mention obligatoire du registre phytosanitaire)."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_tree
@@ -2485,8 +2721,11 @@ msgstr "Occupation maximale (%)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__overlap_share
-msgid "Maximum sum of the bed shares occupied simultaneously, this crop included."
-msgstr "Somme maximale des parts de planche occupées simultanément, cette culture comprise."
+msgid ""
+"Maximum sum of the bed shares occupied simultaneously, this crop included."
+msgstr ""
+"Somme maximale des parts de planche occupées simultanément, cette culture "
+"comprise."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_has_error
@@ -2570,8 +2809,12 @@ msgstr "Nature du travail (semis, arrosage, récolte...)."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_seed_needs
-msgid "Needs are computed from the planned crops: area × density, germination and sowing margin."
-msgstr "Les besoins sont calculés à partir des cultures planifiées : surface × densité, germination et marge de semis."
+msgid ""
+"Needs are computed from the planned crops: area × density, germination and "
+"sowing margin."
+msgstr ""
+"Les besoins sont calculés à partir des cultures planifiées : surface × "
+"densité, germination et marge de semis."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
@@ -2655,8 +2898,12 @@ msgstr "Aucune planche à afficher."
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
-msgid "No crop in place on the date of the operation: time and cost are not allocated to any crop."
-msgstr "Aucune culture en place à la date de l'opération : le temps et le coût ne sont alloués à aucune culture."
+msgid ""
+"No crop in place on the date of the operation: time and cost are not "
+"allocated to any crop."
+msgstr ""
+"Aucune culture en place à la date de l'opération : le temps et le coût ne "
+"sont alloués à aucune culture."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_profitability
@@ -2688,8 +2935,12 @@ msgstr "Aucun lot de récolte"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_loss.py:0
-msgid "No harvest lot of crop \"%(crop)s\" for \"%(product)s\": record a harvest first before declaring a post-harvest loss."
-msgstr "Aucun lot de récolte de la culture « %(crop)s » pour « %(product)s » : enregistrez d'abord une récolte avant de déclarer une perte après récolte."
+msgid ""
+"No harvest lot of crop \"%(crop)s\" for \"%(product)s\": record a harvest "
+"first before declaring a post-harvest loss."
+msgstr ""
+"Aucun lot de récolte de la culture « %(crop)s » pour « %(product)s » : "
+"enregistrez d'abord une récolte avant de déclarer une perte après récolte."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_time_statistics
@@ -2803,18 +3054,29 @@ msgstr "Nombre de cultures rattachées à la saison."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__sale_line_count
-msgid "Number of customer invoice lines attributed (wholly or partly) to the crop."
-msgstr "Nombre de lignes de factures clients attribuées (en tout ou partie) à la culture."
+msgid ""
+"Number of customer invoice lines attributed (wholly or partly) to the crop."
+msgstr ""
+"Nombre de lignes de factures clients attribuées (en tout ou partie) à la "
+"culture."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__stagger_days
-msgid "Number of days added to the target date for each successive bed, to stagger the crops (0 = all beds on the same date)."
-msgstr "Nombre de jours ajouté à la date visée à chaque planche successive, pour échelonner les cultures (0 = toutes les planches à la même date)."
+msgid ""
+"Number of days added to the target date for each successive bed, to stagger "
+"the crops (0 = all beds on the same date)."
+msgstr ""
+"Nombre de jours ajouté à la date visée à chaque planche successive, pour "
+"échelonner les cultures (0 = toutes les planches à la même date)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__occupation_days
-msgid "Number of days between the start and the end of the occupation (both included); used for fixed costs."
-msgstr "Nombre de jours entre le début et la fin d'occupation (bornes comprises) ; sert aux charges fixes."
+msgid ""
+"Number of days between the start and the end of the occupation (both "
+"included); used for fixed costs."
+msgstr ""
+"Nombre de jours entre le début et la fin d'occupation (bornes comprises) ; "
+"sert aux charges fixes."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_has_error_counter
@@ -2827,8 +3089,11 @@ msgstr "Nombre d'erreurs"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_compliance_wizard__alert_count
-msgid "Number of lines of inputs not allowed in organic used on an organic crop."
-msgstr "Nombre de lignes d'intrants non autorisés en bio utilisés sur une culture bio."
+msgid ""
+"Number of lines of inputs not allowed in organic used on an organic crop."
+msgstr ""
+"Nombre de lignes d'intrants non autorisés en bio utilisés sur une culture "
+"bio."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_bed__message_needaction_counter
@@ -2924,7 +3189,9 @@ msgstr "Opération"
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation_input.py:0
 msgid "Operation \"%s\" is done: set it back to planned to modify its inputs."
-msgstr "L'opération « %s » est faite : remettez-la en planifiée pour modifier ses intrants."
+msgstr ""
+"L'opération « %s » est faite : remettez-la en planifiée pour modifier ses "
+"intrants."
 
 #. module: odoo_garden
 #: model:ir.model,name:odoo_garden.model_garden_operation
@@ -2967,7 +3234,8 @@ msgstr "Types d'opération"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_operation_id
 msgid "Operation that created this move (input consumption or harvest)."
-msgstr "Opération qui a créé ce mouvement (consommation d'intrants ou récolte)."
+msgstr ""
+"Opération qui a créé ce mouvement (consommation d'intrants ou récolte)."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_type_form
@@ -2997,17 +3265,25 @@ msgstr "Opérations faites sur la culture"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_bed__operation_ids
 msgid "Operations directly targeting this bed (\"Bed\" scope)."
-msgstr "Opérations dont la cible est directement cette planche (périmètre « Planche »)."
+msgstr ""
+"Opérations dont la cible est directement cette planche (périmètre « Planche "
+"»)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__operation_ids
 msgid "Operations directly targeting this crop (\"Crop\" scope)."
-msgstr "Opérations dont la cible est directement cette culture (périmètre « Culture »)."
+msgstr ""
+"Opérations dont la cible est directement cette culture (périmètre « Culture "
+"»)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_traceability__operation_ids
-msgid "Operations done on the crop (directly or through the allocation of a bed or block)."
-msgstr "Opérations faites sur la culture (directement ou par la répartition d'une planche ou d'un îlot)."
+msgid ""
+"Operations done on the crop (directly or through the allocation of a bed or "
+"block)."
+msgstr ""
+"Opérations faites sur la culture (directement ou par la répartition d'une "
+"planche ou d'un îlot)."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
@@ -3022,7 +3298,8 @@ msgstr "Opérations qui visent la planche, l'une de ses cultures ou son îlot."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__operation_count
 msgid "Operations targeting the crop or allocated to it (bed, block)."
-msgstr "Opérations qui visent la culture ou qui lui sont réparties (planche, îlot)."
+msgstr ""
+"Opérations qui visent la culture ou qui lui sont réparties (planche, îlot)."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
@@ -3031,8 +3308,11 @@ msgstr "Opérations dont la cible est cette planche"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_traceability__usage_input_ids
-msgid "Operations that consumed this lot as an input (seed lot, fertilizer lot...)."
-msgstr "Opérations qui ont consommé ce lot comme intrant (lot de semence, d'engrais...)."
+msgid ""
+"Operations that consumed this lot as an input (seed lot, fertilizer lot...)."
+msgstr ""
+"Opérations qui ont consommé ce lot comme intrant (lot de semence, "
+"d'engrais...)."
 
 #. module: odoo_garden
 #. odoo-python
@@ -3044,13 +3324,21 @@ msgstr "Opérateur"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__fixed_cost
-msgid "Option: annual cost per m² (settings) × area × days of occupation / 365. Zero if the cost per m² is zero."
-msgstr "Option : coût annuel par m² (paramètres) × surface × jours d'occupation / 365. Nul si le coût par m² est à zéro."
+msgid ""
+"Option: annual cost per m² (settings) × area × days of occupation / 365. "
+"Zero if the cost per m² is zero."
+msgstr ""
+"Option : coût annuel par m² (paramètres) × surface × jours d'occupation / "
+"365. Nul si le coût par m² est à zéro."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_fixed_cost_per_m2
-msgid "Option: annual cost per m² charged to the crops (cost × area × days of occupation / 365). Leave at 0 to charge no fixed costs."
-msgstr "Option : coût annuel par m² imputé aux cultures (coût × surface × jours d'occupation / 365). Laisser à 0 pour ne pas imputer de charges fixes."
+msgid ""
+"Option: annual cost per m² charged to the crops (cost × area × days of "
+"occupation / 365). Leave at 0 to charge no fixed costs."
+msgstr ""
+"Option : coût annuel par m² imputé aux cultures (coût × surface × jours "
+"d'occupation / 365). Laisser à 0 pour ne pas imputer de charges fixes."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_variety__organic_status__organic
@@ -3098,7 +3386,9 @@ msgstr "Origine des lots (réception)"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_reverse_of_id
 msgid "Original move, for a move that cancels a consumption or a harvest."
-msgstr "Mouvement d'origine, pour un mouvement qui annule une consommation ou une récolte."
+msgstr ""
+"Mouvement d'origine, pour un mouvement qui annule une consommation ou une "
+"récolte."
 
 #. module: odoo_garden
 #. odoo-python
@@ -3124,8 +3414,12 @@ msgstr "Avertissement de chevauchement"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_crop.py:0
-msgid "Overlap on bed %(bed)s: %(share).0f %% of the bed occupied at the same time (with %(crops)s)."
-msgstr "Chevauchement sur la planche %(bed)s : %(share).0f %% de la planche occupés en même temps (avec %(crops)s)."
+msgid ""
+"Overlap on bed %(bed)s: %(share).0f %% of the bed occupied at the same time "
+"(with %(crops)s)."
+msgstr ""
+"Chevauchement sur la planche %(bed)s : %(share).0f %% de la planche occupés "
+"en même temps (avec %(crops)s)."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop_template__propagation__own_plants
@@ -3140,8 +3434,14 @@ msgstr "Avertissement DAR"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_product_product__pre_harvest_interval_days
 #: model:ir.model.fields,help:odoo_garden.field_product_template__pre_harvest_interval_days
-msgid "PHI: number of days to respect between the last treatment with this product and the harvest. 0: no interval. A harvest closer to the treatment is blocked (can be waived by the manager)."
-msgstr "DAR : nombre de jours à respecter entre le dernier traitement avec ce produit et la récolte. 0 : aucun délai. Une récolte plus proche du traitement est bloquée (levée possible par le gérant)."
+msgid ""
+"PHI: number of days to respect between the last treatment with this product "
+"and the harvest. 0: no interval. A harvest closer to the treatment is "
+"blocked (can be waived by the manager)."
+msgstr ""
+"DAR : nombre de jours à respecter entre le dernier traitement avec ce "
+"produit et la récolte. 0 : aucun délai. Une récolte plus proche du "
+"traitement est bloquée (levée possible par le gérant)."
 
 #. module: odoo_garden
 #: model:garden.operation.type,name:odoo_garden.operation_type_packing
@@ -3171,8 +3471,12 @@ msgstr "Personnes qui réalisent l'opération."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_product_product__nitrogen_content
 #: model:ir.model.fields,help:odoo_garden.field_product_template__nitrogen_content
-msgid "Percentage of nitrogen (N) by mass of the fertilizer. Used for the fertilization register: nitrogen applied = quantity (kg) × content / 100."
-msgstr "Pourcentage d'azote (N) en masse de l'engrais. Sert au registre de fertilisation : azote apporté = quantité (kg) × teneur / 100."
+msgid ""
+"Percentage of nitrogen (N) by mass of the fertilizer. Used for the "
+"fertilization register: nitrogen applied = quantity (kg) × content / 100."
+msgstr ""
+"Pourcentage d'azote (N) en masse de l'engrais. Sert au registre de "
+"fertilisation : azote apporté = quantité (kg) × teneur / 100."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__cause__pest
@@ -3238,14 +3542,22 @@ msgstr "Repiquage prévu"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_seed_count
-msgid "Planned plants / germination rate × (1 + sowing margin). Zero for bought plants."
-msgstr "Plants prévus / taux de germination × (1 + marge de semis). Nul pour des plants achetés."
+msgid ""
+"Planned plants / germination rate × (1 + sowing margin). Zero for bought "
+"plants."
+msgstr ""
+"Plants prévus / taux de germination × (1 + marge de semis). Nul pour des "
+"plants achetés."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__state
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__operation_state
-msgid "Planned: to do. In progress: started. Done: finished, the time is allocated to the crops. Cancelled: will not be done."
-msgstr "Planifiée : à faire. En cours : commencée. Faite : terminée, le temps est réparti sur les cultures. Annulée : ne sera pas faite."
+msgid ""
+"Planned: to do. In progress: started. Done: finished, the time is allocated "
+"to the crops. Cancelled: will not be done."
+msgstr ""
+"Planifiée : à faire. En cours : commencée. Faite : terminée, le temps est "
+"réparti sur les cultures. Annulée : ne sera pas faite."
 
 #. module: odoo_garden
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_planning
@@ -3292,8 +3604,13 @@ msgstr "Espèces"
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
-msgid "Plant protection register, fertilization register and organic certification export, specific to French regulations. Disable for other markets."
-msgstr "Registre phytosanitaire, registre de fertilisation et export de certification bio, propres à la réglementation française. À désactiver pour les autres marchés."
+msgid ""
+"Plant protection register, fertilization register and organic certification "
+"export, specific to French regulations. Disable for other markets."
+msgstr ""
+"Registre phytosanitaire, registre de fertilisation et export de "
+"certification bio, propres à la réglementation française. À désactiver pour "
+"les autres marchés."
 
 #. module: odoo_garden
 #: model:garden.operation.type,name:odoo_garden.operation_type_planting
@@ -3361,8 +3678,14 @@ msgstr "Dérogation au délai avant récolte"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
-msgid "Pre-harvest interval (PHI) not respected, harvest \"%(operation)s\" is blocked:\n%(details)s\nOnly a manager can lift this block (waiver with a reason)."
-msgstr "Délai avant récolte (DAR) non respecté, la récolte « %(operation)s » est bloquée :\n%(details)s\nSeul un gérant peut lever ce blocage (dérogation avec motif)."
+msgid ""
+"Pre-harvest interval (PHI) not respected, harvest \"%(operation)s\" is blocked:\n"
+"%(details)s\n"
+"Only a manager can lift this block (waiver with a reason)."
+msgstr ""
+"Délai avant récolte (DAR) non respecté, la récolte « %(operation)s » est bloquée :\n"
+"%(details)s\n"
+"Seul un gérant peut lever ce blocage (dérogation avec motif)."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
@@ -3373,12 +3696,17 @@ msgstr "Délai avant récolte (DAR) en cours : récolte possible à partir du"
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
 msgid "Pre-harvest interval waiver granted by %(user)s. Reason: %(reason)s"
-msgstr "Dérogation au délai avant récolte accordée par %(user)s. Motif : %(reason)s"
+msgstr ""
+"Dérogation au délai avant récolte accordée par %(user)s. Motif : %(reason)s"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_loss__stage
-msgid "Pre-harvest: loss in the field, no effect on stock. Post-harvest: a stock scrap is created on the crop lot."
-msgstr "Avant récolte : perte au champ, sans effet sur le stock. Après récolte : un rebut de stock est créé sur le lot de la culture."
+msgid ""
+"Pre-harvest: loss in the field, no effect on stock. Post-harvest: a stock "
+"scrap is created on the crop lot."
+msgstr ""
+"Avant récolte : perte au champ, sans effet sur le stock. Après récolte : un "
+"rebut de stock est créé sur le lot de la culture."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__preview
@@ -3413,8 +3741,12 @@ msgstr "Produit"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_operation.py:0
-msgid "Product \"%s\" is tracked by lots: no crop in place on the date of the operation to name the lot."
-msgstr "Le produit « %s » est suivi par lots : aucune culture en place à la date de l'opération pour nommer le lot."
+msgid ""
+"Product \"%s\" is tracked by lots: no crop in place on the date of the "
+"operation to name the lot."
+msgstr ""
+"Le produit « %s » est suivi par lots : aucune culture en place à la date de "
+"l'opération pour nommer le lot."
 
 #. module: odoo_garden
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_production
@@ -3423,8 +3755,11 @@ msgstr "Production"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__input_ids
-msgid "Products consumed by the operation. Stock moves are created when it is done."
-msgstr "Produits consommés par l'opération. Les mouvements de stock sont créés quand elle est faite."
+msgid ""
+"Products consumed by the operation. Stock moves are created when it is done."
+msgstr ""
+"Produits consommés par l'opération. Les mouvements de stock sont créés quand"
+" elle est faite."
 
 #. module: odoo_garden
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_profitability
@@ -3463,8 +3798,14 @@ msgstr "Rentabilité par culture"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__state
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__state
-msgid "Progress: planned, sown, in place, harvesting, done or cancelled. A cancelled crop is no longer taken into account in the checks or the seed needs."
-msgstr "Avancement : planifiée, semée, en place, en récolte, terminée ou annulée. Une culture annulée n'est plus prise en compte dans les contrôles ni les besoins en semences."
+msgid ""
+"Progress: planned, sown, in place, harvesting, done or cancelled. A "
+"cancelled crop is no longer taken into account in the checks or the seed "
+"needs."
+msgstr ""
+"Avancement : planifiée, semée, en place, en récolte, terminée ou annulée. "
+"Une culture annulée n'est plus prise en compte dans les contrôles ni les "
+"besoins en semences."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
@@ -3507,8 +3848,12 @@ msgstr "Quantité utilisée"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__dose
-msgid "Quantity applied per hectare, in the unit of the line (e.g. kg/ha, L/ha): quantity × 10,000 / treated area."
-msgstr "Quantité appliquée par hectare, dans l'unité de la ligne (ex. kg/ha, L/ha) : quantité × 10 000 / surface traitée."
+msgid ""
+"Quantity applied per hectare, in the unit of the line (e.g. kg/ha, L/ha): "
+"quantity × 10,000 / treated area."
+msgstr ""
+"Quantité appliquée par hectare, dans l'unité de la ligne (ex. kg/ha, L/ha) :"
+" quantité × 10 000 / surface traitée."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__quantity
@@ -3517,8 +3862,12 @@ msgstr "Quantité consommée, dans l'unité de la ligne."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_loss__quantity_ref
-msgid "Quantity converted into the unit of the harvested product, used for the loss rate."
-msgstr "Quantité convertie dans l'unité du produit récolté, utilisée pour le taux de perte."
+msgid ""
+"Quantity converted into the unit of the harvested product, used for the loss"
+" rate."
+msgstr ""
+"Quantité convertie dans l'unité du produit récolté, utilisée pour le taux de"
+" perte."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__cost
@@ -3571,8 +3920,14 @@ msgstr "Registre de la ligne"
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
-msgid "Register specific to French regulations, computed from the operations done.\n                        Choose the period, the season or the crops then click \"Compute\", \"Print\"\n                        or \"Export\"."
-msgstr "Registre propre à la réglementation française, calculé à partir des opérations faites.\n                        Choisissez la période, la saison ou les cultures puis cliquez sur « Calculer », « Imprimer »\n                        ou « Exporter »."
+msgid ""
+"Register specific to French regulations, computed from the operations done.\n"
+"                        Choose the period, the season or the crops then click \"Compute\", \"Print\"\n"
+"                        or \"Export\"."
+msgstr ""
+"Registre propre à la réglementation française, calculé à partir des opérations faites.\n"
+"                        Choisissez la période, la saison ou les cultures puis cliquez sur « Calculer », « Imprimer »\n"
+"                        ou « Exporter »."
 
 #. module: odoo_garden
 #: model:ir.actions.report,name:odoo_garden.action_report_garden_compliance
@@ -3600,14 +3955,19 @@ msgstr "Registres réglementaires (France)"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_compliance.py:0
-msgid "Regulatory registers (France) are disabled: enable them in Settings > Market Gardening."
-msgstr "Les registres réglementaires (France) sont désactivés : activez-les dans Paramètres > Maraîchage."
+msgid ""
+"Regulatory registers (France) are disabled: enable them in Settings > Market"
+" Gardening."
+msgstr ""
+"Les registres réglementaires (France) sont désactivés : activez-les dans "
+"Paramètres > Maraîchage."
 
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_compliance.py:0
 msgid "Regulatory registers are reserved to the crop manager and the manager."
-msgstr "Les registres réglementaires sont réservés au chef de culture et au gérant."
+msgstr ""
+"Les registres réglementaires sont réservés au chef de culture et au gérant."
 
 #. module: odoo_garden
 #. odoo-python
@@ -3643,7 +4003,9 @@ msgstr "Chiffre d'affaires - chiffre d'affaires attendu."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__margin
 msgid "Revenue - labor cost - input cost - fixed costs."
-msgstr "Chiffre d'affaires - coût de main-d'œuvre - coût des intrants - charges fixes."
+msgstr ""
+"Chiffre d'affaires - coût de main-d'œuvre - coût des intrants - charges "
+"fixes."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_revenue_method
@@ -3685,8 +4047,12 @@ msgstr "Avertissement de rotation"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_crop.py:0
-msgid "Rotation: the family %(family)s was already grown on this bed less than %(years)s year(s) before (%(crops)s)."
-msgstr "Rotation : la famille %(family)s a déjà été cultivée sur cette planche moins de %(years)s an(s) avant (%(crops)s)."
+msgid ""
+"Rotation: the family %(family)s was already grown on this bed less than "
+"%(years)s year(s) before (%(crops)s)."
+msgstr ""
+"Rotation : la famille %(family)s a déjà été cultivée sur cette planche moins"
+" de %(years)s an(s) avant (%(crops)s)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__row_spacing
@@ -3778,7 +4144,8 @@ msgstr "Saison 2027"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_season__name
 msgid "Season label, for example \"Season 2027\". Unique per company."
-msgstr "Libellé de la saison, par exemple « Saison 2027 ». Unique par société."
+msgstr ""
+"Libellé de la saison, par exemple « Saison 2027 ». Unique par société."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__season_id
@@ -3827,7 +4194,9 @@ msgstr "Lots de semence ou de plant utilisés"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_traceability__seed_input_ids
 msgid "Seed or plant inputs of sowing, transplanting or planting operations."
-msgstr "Intrants de type semence ou plant des opérations de semis, repiquage ou plantation."
+msgstr ""
+"Intrants de type semence ou plant des opérations de semis, repiquage ou "
+"plantation."
 
 #. module: odoo_garden
 #. odoo-python
@@ -3889,13 +4258,21 @@ msgstr "Séquence"
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__garden_input_type
 #: model:ir.model.fields,help:odoo_garden.field_product_product__garden_input_type
 #: model:ir.model.fields,help:odoo_garden.field_product_template__garden_input_type
-msgid "Set for products consumed by operations (seeds, plants, fertilizers, treatments...): only these products are suggested as operation inputs."
-msgstr "Renseigné pour les produits consommés par les opérations (semences, plants, engrais, traitements...) : seuls ces produits sont proposés comme intrants d'une opération."
+msgid ""
+"Set for products consumed by operations (seeds, plants, fertilizers, "
+"treatments...): only these products are suggested as operation inputs."
+msgstr ""
+"Renseigné pour les produits consommés par les opérations (semences, plants, "
+"engrais, traitements...) : seuls ces produits sont proposés comme intrants "
+"d'une opération."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__allocation_warning
-msgid "Set if the operation is done but no crop was in place: nothing is allocated."
-msgstr "Renseigné si l'opération est faite mais qu'aucune culture n'était en place : rien n'est alloué."
+msgid ""
+"Set if the operation is done but no crop was in place: nothing is allocated."
+msgstr ""
+"Renseigné si l'opération est faite mais qu'aucune culture n'était en place :"
+" rien n'est alloué."
 
 #. module: odoo_garden
 #: model:ir.actions.act_window,name:odoo_garden.action_garden_settings
@@ -3916,17 +4293,26 @@ msgstr "Part de chaque planche occupée par la culture."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__bed_share
 msgid "Share of the bed occupied by this crop (100 = the whole bed)."
-msgstr "Part de la planche occupée par cette culture (100 = toute la planche)."
+msgstr ""
+"Part de la planche occupée par cette culture (100 = toute la planche)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__share
-msgid "Share of the operation attributed to the crop, proportional to its occupied area."
-msgstr "Part de l'opération attribuée à la culture, au prorata de sa surface occupée."
+msgid ""
+"Share of the operation attributed to the crop, proportional to its occupied "
+"area."
+msgstr ""
+"Part de l'opération attribuée à la culture, au prorata de sa surface "
+"occupée."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__allocation_ids
-msgid "Share of the operations done (on this crop, beds or a block) attributed to the crop."
-msgstr "Part des opérations faites (sur cette culture, des planches ou un îlot) attribuée à la culture."
+msgid ""
+"Share of the operations done (on this crop, beds or a block) attributed to "
+"the crop."
+msgstr ""
+"Part des opérations faites (sur cette culture, des planches ou un îlot) "
+"attribuée à la culture."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_search
@@ -3942,8 +4328,18 @@ msgstr "Sous abri (serre, tunnel)"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_compliance_enabled
-msgid "Shows the \"Compliance\" menu (plant protection register, fertilization register, organic certification export) to the crop manager and the manager. Untick outside France: the menus and exports are then hidden and refused. The pre-harvest interval check stays active (it only blocks products that have an interval)."
-msgstr "Affiche le menu « Conformité » (registre phytosanitaire, registre de fertilisation, export de certification bio) au chef de culture et au gérant. À décocher hors de France : les menus et les exports sont alors masqués et refusés. Le contrôle du délai avant récolte reste actif (il ne bloque que les produits qui ont un délai)."
+msgid ""
+"Shows the \"Compliance\" menu (plant protection register, fertilization "
+"register, organic certification export) to the crop manager and the manager."
+" Untick outside France: the menus and exports are then hidden and refused. "
+"The pre-harvest interval check stays active (it only blocks products that "
+"have an interval)."
+msgstr ""
+"Affiche le menu « Conformité » (registre phytosanitaire, registre de "
+"fertilisation, export de certification bio) au chef de culture et au gérant."
+" À décocher hors de France : les menus et les exports sont alors masqués et "
+"refusés. Le contrôle du délai avant récolte reste actif (il ne bloque que "
+"les produits qui ont un délai)."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_bed__soil_type__silty
@@ -4140,12 +4536,16 @@ msgstr "Rebut de stock"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__harvest_move_ids
 msgid "Stock entries created by harvest operations, and their cancellations."
-msgstr "Entrées en stock créées par les opérations de récolte, et leurs annulations."
+msgstr ""
+"Entrées en stock créées par les opérations de récolte, et leurs annulations."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__lot_ids
-msgid "Stock lots created by the harvests of the crop (named after its reference)."
-msgstr "Lots de stock créés par les récoltes de la culture (nommés d'après sa référence)."
+msgid ""
+"Stock lots created by the harvests of the crop (named after its reference)."
+msgstr ""
+"Lots de stock créés par les récoltes de la culture (nommés d'après sa "
+"référence)."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
@@ -4165,23 +4565,42 @@ msgstr "Proposé automatiquement : type d'opération et cible. Modifiable."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__labour_cost
-msgid "Sum of duration × hourly cost of each employee; without an hourly cost on the employee (or without employee), the default hourly rate of the settings applies."
-msgstr "Somme de la durée × coût horaire de chaque employé ; à défaut de coût horaire sur l'employé (ou sans employé), le taux horaire par défaut des paramètres s'applique."
+msgid ""
+"Sum of duration × hourly cost of each employee; without an hourly cost on "
+"the employee (or without employee), the default hourly rate of the settings "
+"applies."
+msgstr ""
+"Somme de la durée × coût horaire de chaque employé ; à défaut de coût "
+"horaire sur l'employé (ou sans employé), le taux horaire par défaut des "
+"paramètres s'applique."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__total_hours
-msgid "Sum of the details per employee if any, otherwise duration × number of employees (an operation without employee counts for one person)."
-msgstr "Somme du détail par employé s'il existe, sinon durée × nombre d'employés (une opération sans employé compte pour une personne)."
+msgid ""
+"Sum of the details per employee if any, otherwise duration × number of "
+"employees (an operation without employee counts for one person)."
+msgstr ""
+"Somme du détail par employé s'il existe, sinon durée × nombre d'employés "
+"(une opération sans employé compte pour une personne)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__harvested_qty
-msgid "Sum of the done harvest stock moves (cancellations deducted), in the unit of the harvested product (assumed to be kg). Source of truth of the production statistics."
-msgstr "Somme des mouvements de stock de récolte terminés (annulations déduites), dans l'unité du produit récolté (supposée être le kg). Source de vérité des statistiques de production."
+msgid ""
+"Sum of the done harvest stock moves (cancellations deducted), in the unit of"
+" the harvested product (assumed to be kg). Source of truth of the production"
+" statistics."
+msgstr ""
+"Somme des mouvements de stock de récolte terminés (annulations déduites), "
+"dans l'unité du produit récolté (supposée être le kg). Source de vérité des "
+"statistiques de production."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__expected_hours
-msgid "Sum of the expected durations (h/m²) of the template steps × occupied area."
-msgstr "Somme des durées attendues (h/m²) des étapes de l'itinéraire × surface occupée."
+msgid ""
+"Sum of the expected durations (h/m²) of the template steps × occupied area."
+msgstr ""
+"Somme des durées attendues (h/m²) des étapes de l'itinéraire × surface "
+"occupée."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__labour_hours
@@ -4196,17 +4615,24 @@ msgstr "Somme du coût des intrants (quantité × coût du produit)."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__input_cost
 msgid "Sum of the input cost allocated to the crop by the operations done."
-msgstr "Somme du coût des intrants réparti sur la culture par les opérations faites."
+msgstr ""
+"Somme du coût des intrants réparti sur la culture par les opérations faites."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__labour_cost
 msgid "Sum of the labor cost allocated to the crop by the operations done."
-msgstr "Somme du coût de main-d'œuvre réparti sur la culture par les opérations faites."
+msgstr ""
+"Somme du coût de main-d'œuvre réparti sur la culture par les opérations "
+"faites."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__loss_qty
-msgid "Sum of the losses of the crop (pre- and post-harvest), in the unit of the harvested product."
-msgstr "Somme des pertes de la culture (avant et après récolte), dans l'unité du produit récolté."
+msgid ""
+"Sum of the losses of the crop (pre- and post-harvest), in the unit of the "
+"harvested product."
+msgstr ""
+"Somme des pertes de la culture (avant et après récolte), dans l'unité du "
+"produit récolté."
 
 #. module: odoo_garden
 #. odoo-python
@@ -4245,8 +4671,12 @@ msgstr "Date visée pour la première planche."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__scope
-msgid "Target of the work: one or several crops, one or several beds, or a whole block. Suggested according to the operation type."
-msgstr "Cible du travail : une ou plusieurs cultures, une ou plusieurs planches, ou un îlot entier. Proposé selon le type d'opération."
+msgid ""
+"Target of the work: one or several crops, one or several beds, or a whole "
+"block. Suggested according to the operation type."
+msgstr ""
+"Cible du travail : une ou plusieurs cultures, une ou plusieurs planches, ou "
+"un îlot entier. Proposé selon le type d'opération."
 
 #. module: odoo_garden
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_season_plan_wizard__target__harvest
@@ -4260,13 +4690,21 @@ msgstr "Ravageur ou maladie visé (traitement uniquement)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_sowing_date
-msgid "Targeted sowing date. Changing it recomputes transplanting, harvest start and end."
-msgstr "Date de semis visée. La modifier recalcule repiquage, début et fin de récolte."
+msgid ""
+"Targeted sowing date. Changing it recomputes transplanting, harvest start "
+"and end."
+msgstr ""
+"Date de semis visée. La modifier recalcule repiquage, début et fin de "
+"récolte."
 
 #. module: odoo_garden
 #: model:res.groups,comment:odoo_garden.group_garden_compliance
-msgid "Technical: menus of the French regulatory registers (enabled by the module setting)."
-msgstr "Technique : menus des registres réglementaires français (activés par le paramètre du module)."
+msgid ""
+"Technical: menus of the French regulatory registers (enabled by the module "
+"setting)."
+msgstr ""
+"Technique : menus des registres réglementaires français (activés par le "
+"paramètre du module)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__template_id
@@ -4289,12 +4727,18 @@ msgstr "Itinéraire appliqué à toutes les cultures créées."
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__template_id
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__template_id
 msgid "Template providing the variety, density, intervals and expected yield."
-msgstr "Itinéraire qui fournit la variété, la densité, les délais et le rendement attendus."
+msgstr ""
+"Itinéraire qui fournit la variété, la densité, les délais et le rendement "
+"attendus."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__template_step_id
-msgid "Template step the planned operation comes from; prevents generating it twice."
-msgstr "Étape de l'itinéraire à l'origine de l'opération planifiée ; évite de la générer deux fois."
+msgid ""
+"Template step the planned operation comes from; prevents generating it "
+"twice."
+msgstr ""
+"Étape de l'itinéraire à l'origine de l'opération planifiée ; évite de la "
+"générer deux fois."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__template_ids
@@ -4349,8 +4793,13 @@ msgstr "L'export de certification bio se fait au format XLSX."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_operation_today
-msgid "The planned operations of the day and overdue ones assigned to you appear here. Remove the \"My Operations\" filter to see those of the whole team."
-msgstr "Les opérations planifiées du jour et en retard qui vous sont affectées apparaissent ici. Retirez le filtre « Mes opérations » pour voir celles de toute l'équipe."
+msgid ""
+"The planned operations of the day and overdue ones assigned to you appear "
+"here. Remove the \"My Operations\" filter to see those of the whole team."
+msgstr ""
+"Les opérations planifiées du jour et en retard qui vous sont affectées "
+"apparaissent ici. Retirez le filtre « Mes opérations » pour voir celles de "
+"toute l'équipe."
 
 #. module: odoo_garden
 #: model:ir.model.constraint,message:odoo_garden.constraint_product_template_pre_harvest_interval_positive
@@ -4364,8 +4813,13 @@ msgstr "La quantité d'un intrant doit être strictement positive."
 
 #. module: odoo_garden
 #: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_profitability
-msgid "The report compares, for each crop, the attributed revenue, the hours and the costs. It is recomputed on opening and with the \"Refresh\" button."
-msgstr "Le rapport compare, pour chaque culture, le chiffre d'affaires attribué, les heures et les coûts. Il se recalcule à l'ouverture et avec le bouton « Actualiser »."
+msgid ""
+"The report compares, for each crop, the attributed revenue, the hours and "
+"the costs. It is recomputed on opening and with the \"Refresh\" button."
+msgstr ""
+"Le rapport compare, pour chaque culture, le chiffre d'affaires attribué, les"
+" heures et les coûts. Il se recalcule à l'ouverture et avec le bouton « "
+"Actualiser »."
 
 #. module: odoo_garden
 #: model:ir.model.constraint,message:odoo_garden.constraint_garden_species_rotation_years_positive
@@ -4397,8 +4851,12 @@ msgstr "Cet employé figure déjà dans le détail de l'opération."
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_loss.py:0
-msgid "This loss already scrapped stock: it can no longer be modified (only the cause and the notes can)."
-msgstr "Cette perte a déjà mis du stock au rebut : elle n'est plus modifiable (seules la cause et les notes le sont)."
+msgid ""
+"This loss already scrapped stock: it can no longer be modified (only the "
+"cause and the notes can)."
+msgstr ""
+"Cette perte a déjà mis du stock au rebut : elle n'est plus modifiable "
+"(seules la cause et les notes le sont)."
 
 #. module: odoo_garden
 #: model:ir.model.constraint,message:odoo_garden.constraint_garden_species_name_uniq
@@ -4412,20 +4870,35 @@ msgstr "Cette variété existe déjà pour cette espèce."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__dar_override
-msgid "Ticked by the manager to allow a harvest before the end of the pre-harvest interval (PHI) of a plant protection treatment. A reason is required; the waiver is traced in the chatter."
-msgstr "Cochée par le gérant pour autoriser une récolte avant la fin du délai avant récolte (DAR) d'un traitement phytosanitaire. Un motif est obligatoire ; la dérogation est tracée dans le fil de discussion."
+msgid ""
+"Ticked by the manager to allow a harvest before the end of the pre-harvest "
+"interval (PHI) of a plant protection treatment. A reason is required; the "
+"waiver is traced in the chatter."
+msgstr ""
+"Cochée par le gérant pour autoriser une récolte avant la fin du délai avant "
+"récolte (DAR) d'un traitement phytosanitaire. Un motif est obligatoire ; la "
+"dérogation est tracée dans le fil de discussion."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__requires_quantity
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_type__requires_quantity
-msgid "Ticked for harvest: the operation cannot be completed without a harvested quantity."
-msgstr "Cochée pour la récolte : l'opération ne peut pas être terminée sans quantité récoltée."
+msgid ""
+"Ticked for harvest: the operation cannot be completed without a harvested "
+"quantity."
+msgstr ""
+"Cochée pour la récolte : l'opération ne peut pas être terminée sans quantité"
+" récoltée."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_product_product__is_organic_allowed
 #: model:ir.model.fields,help:odoo_garden.field_product_template__is_organic_allowed
-msgid "Ticked if the product can be used on an organic-certified crop. Non-ticked inputs used on an organic crop are flagged in the certification export."
-msgstr "Coché si le produit peut être utilisé sur une culture certifiée bio. Les intrants non cochés utilisés sur une culture bio sont signalés dans l'export de certification."
+msgid ""
+"Ticked if the product can be used on an organic-certified crop. Non-ticked "
+"inputs used on an organic crop are flagged in the certification export."
+msgstr ""
+"Coché si le produit peut être utilisé sur une culture certifiée bio. Les "
+"intrants non cochés utilisés sur une culture bio sont signalés dans l'export"
+" de certification."
 
 #. module: odoo_garden
 #: model:ir.model,name:odoo_garden.model_garden_operation_worker
@@ -4440,7 +4913,9 @@ msgstr "Temps passé par cet employé, en heures (hh:mm)."
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__timer_start
 msgid "Time the timer was started; set as long as the timer runs."
-msgstr "Heure de démarrage du chronomètre ; renseigné tant que le chronomètre tourne."
+msgstr ""
+"Heure de démarrage du chronomètre ; renseigné tant que le chronomètre "
+"tourne."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__timer_start
@@ -4551,23 +5026,38 @@ msgstr "Traitements"
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__consumed
-msgid "True if a consumption move is in force (not cancelled by a reverse move)."
-msgstr "Vrai si un mouvement de consommation est en vigueur (non annulé par un mouvement inverse)."
+msgid ""
+"True if a consumption move is in force (not cancelled by a reverse move)."
+msgstr ""
+"Vrai si un mouvement de consommation est en vigueur (non annulé par un "
+"mouvement inverse)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__has_overlap
-msgid "True if the bed is occupied at more than 100 % during the period of the crop."
-msgstr "Vrai si la planche est occupée à plus de 100 % pendant la période de la culture."
+msgid ""
+"True if the bed is occupied at more than 100 % during the period of the "
+"crop."
+msgstr ""
+"Vrai si la planche est occupée à plus de 100 % pendant la période de la "
+"culture."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__harvest_allowed_warning
-msgid "True if the end of the pre-harvest interval has not passed yet (on today's date)."
-msgstr "Vrai si la fin du délai avant récolte n'est pas encore passée (à la date du jour)."
+msgid ""
+"True if the end of the pre-harvest interval has not passed yet (on today's "
+"date)."
+msgstr ""
+"Vrai si la fin du délai avant récolte n'est pas encore passée (à la date du "
+"jour)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__has_rotation_conflict
-msgid "True if the same botanical family was grown on the bed more recently than the rotation interval."
-msgstr "Vrai si la même famille botanique a été cultivée sur la planche depuis moins que le délai de rotation."
+msgid ""
+"True if the same botanical family was grown on the bed more recently than "
+"the rotation interval."
+msgstr ""
+"Vrai si la même famille botanique a été cultivée sur la planche depuis moins"
+" que le délai de rotation."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
@@ -4692,22 +5182,32 @@ msgstr "Emplacements virtuels"
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_consumption_location_id
 msgid "Virtual location consumed inputs go to (created at installation)."
-msgstr "Emplacement virtuel où partent les intrants consommés (créé à l'installation)."
+msgstr ""
+"Emplacement virtuel où partent les intrants consommés (créé à "
+"l'installation)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_production_location_id
 msgid "Virtual location harvests come from (created at installation)."
-msgstr "Emplacement virtuel d'où sortent les récoltes (créé à l'installation)."
+msgstr ""
+"Emplacement virtuel d'où sortent les récoltes (créé à l'installation)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_company__garden_production_location_id
-msgid "Virtual location harvests come from (stock entry of harvested products)."
-msgstr "Emplacement virtuel d'où sortent les récoltes (entrée en stock des produits récoltés)."
+msgid ""
+"Virtual location harvests come from (stock entry of harvested products)."
+msgstr ""
+"Emplacement virtuel d'où sortent les récoltes (entrée en stock des produits "
+"récoltés)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_res_company__garden_consumption_location_id
-msgid "Virtual location the inputs consumed by operations go to (seeds, fertilizers...)."
-msgstr "Emplacement virtuel où partent les intrants consommés par les opérations (semences, engrais...)."
+msgid ""
+"Virtual location the inputs consumed by operations go to (seeds, "
+"fertilizers...)."
+msgstr ""
+"Emplacement virtuel où partent les intrants consommés par les opérations "
+"(semences, engrais...)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__dar_override_user_id
@@ -4812,13 +5312,21 @@ msgstr "Temps de travail"
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__category
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__category
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation_type__category
-msgid "Work category: it determines the specific fields of the operation (harvest, irrigation, treatment)."
-msgstr "Catégorie de travail : elle conditionne les champs spécifiques de l'opération (récolte, irrigation, traitement)."
+msgid ""
+"Work category: it determines the specific fields of the operation (harvest, "
+"irrigation, treatment)."
+msgstr ""
+"Catégorie de travail : elle conditionne les champs spécifiques de "
+"l'opération (récolte, irrigation, traitement)."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_operation__duration
-msgid "Work duration in hours for each employee (hh:mm). Without detailed entry, the total time is the duration multiplied by the number of employees."
-msgstr "Durée de travail en heures pour chaque employé (hh:mm). Sans saisie détaillée, le temps total est la durée multipliée par le nombre d'employés."
+msgid ""
+"Work duration in hours for each employee (hh:mm). Without detailed entry, "
+"the total time is the duration multiplied by the number of employees."
+msgstr ""
+"Durée de travail en heures pour chaque employé (hh:mm). Sans saisie "
+"détaillée, le temps total est la durée multipliée par le nombre d'employés."
 
 #. module: odoo_garden
 #: model:ir.model.fields,help:odoo_garden.field_garden_crop__hours_gap
@@ -4886,7 +5394,9 @@ msgstr "au"
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
 msgid "used on an organic crop (red lines, \"Organic Alerts\" tab of the export)."
-msgstr "utilisé(s) sur une culture bio (lignes en rouge, onglet « Alertes bio » de l'export)."
+msgstr ""
+"utilisé(s) sur une culture bio (lignes en rouge, onglet « Alertes bio » de "
+"l'export)."
 
 #. module: odoo_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
@@ -4908,3 +5418,657 @@ msgstr "— édité le"
 msgid "— season:"
 msgstr "— saison :"
 
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_artichoke
+msgid "Artichoke"
+msgstr "Artichaut"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_artichoke
+msgid "Artichoke (kg)"
+msgstr "Artichaut (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_asian_greens
+msgid "Asian Greens"
+msgstr "Salades asiatiques (mizuna, moutarde)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_asian_greens
+msgid "Asian Greens (kg)"
+msgstr "Salades asiatiques (mizuna, moutarde) (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_asparagus
+msgid "Asparagus"
+msgstr "Asperge"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_asparagus
+msgid "Asparagus (kg)"
+msgstr "Asperge (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_basil
+msgid "Basil"
+msgstr "Basilic"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_basil
+msgid "Basil (kg)"
+msgstr "Basilic (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_bean
+msgid "Bean"
+msgstr "Haricot"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_bean
+msgid "Bean (kg)"
+msgstr "Haricot (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_beet
+msgid "Beetroot"
+msgstr "Betterave"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_beet
+msgid "Beetroot (kg)"
+msgstr "Betterave (kg)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_mulch_film
+msgid "Biodegradable mulch film (roll)"
+msgstr "Film de paillage biodégradable (rouleau)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_biocontrol
+msgid "Biological Control"
+msgstr "Lutte biologique"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_broad_bean
+msgid "Broad Bean"
+msgstr "Fève"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_broad_bean
+msgid "Broad Bean (kg)"
+msgstr "Fève (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_broccoli
+msgid "Broccoli"
+msgstr "Brocoli"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_broccoli
+msgid "Broccoli (kg)"
+msgstr "Brocoli (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_brussels
+msgid "Brussels Sprouts"
+msgstr "Chou de Bruxelles"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_brussels
+msgid "Brussels Sprouts (kg)"
+msgstr "Chou de Bruxelles (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_cabbage
+msgid "Cabbage"
+msgstr "Chou pommé"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_cabbage
+msgid "Cabbage (kg)"
+msgstr "Chou pommé (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_carrot
+msgid "Carrot"
+msgstr "Carotte"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_carrot
+msgid "Carrot (kg)"
+msgstr "Carotte (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_cauliflower
+msgid "Cauliflower"
+msgstr "Chou-fleur"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_cauliflower
+msgid "Cauliflower (kg)"
+msgstr "Chou-fleur (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_celeriac
+msgid "Celeriac"
+msgstr "Céleri-rave"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_celeriac
+msgid "Celeriac (kg)"
+msgstr "Céleri-rave (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_celery
+msgid "Celery"
+msgstr "Céleri branche"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_celery
+msgid "Celery (kg)"
+msgstr "Céleri branche (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_chili
+msgid "Chili Pepper"
+msgstr "Piment"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_chili
+msgid "Chili Pepper (kg)"
+msgstr "Piment (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_chinese_cabbage
+msgid "Chinese Cabbage"
+msgstr "Chou chinois"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_chinese_cabbage
+msgid "Chinese Cabbage (kg)"
+msgstr "Chou chinois (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_chives
+msgid "Chives"
+msgstr "Ciboulette"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_chives
+msgid "Chives (kg)"
+msgstr "Ciboulette (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_compost_spreading
+msgid "Compost Spreading"
+msgstr "Épandage de compost"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_manure
+msgid "Composted manure (kg)"
+msgstr "Fumier composté (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_coriander
+msgid "Coriander"
+msgstr "Coriandre"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_coriander
+msgid "Coriander (kg)"
+msgstr "Coriandre (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_cucumber
+msgid "Cucumber"
+msgstr "Concombre"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_cucumber
+msgid "Cucumber (kg)"
+msgstr "Concombre (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_curing
+msgid "Curing and Drying"
+msgstr "Séchage et ressuyage"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_eggplant
+msgid "Eggplant"
+msgstr "Aubergine"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_eggplant
+msgid "Eggplant (kg)"
+msgstr "Aubergine (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_endive
+msgid "Endive and Chicory"
+msgstr "Endive et chicorée"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_endive
+msgid "Endive and Chicory (kg)"
+msgstr "Endive et chicorée (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_maintenance
+msgid "Equipment Maintenance"
+msgstr "Entretien du matériel"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_false_seedbed
+msgid "False Seedbed"
+msgstr "Faux semis"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_fennel
+msgid "Fennel"
+msgstr "Fenouil"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_fennel
+msgid "Fennel (kg)"
+msgstr "Fenouil (kg)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_lime
+msgid "Garden lime (kg)"
+msgstr "Chaux de jardin (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_garlic
+msgid "Garlic"
+msgstr "Ail"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_garlic
+msgid "Garlic (kg)"
+msgstr "Ail (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_grading
+msgid "Grading and Sorting"
+msgstr "Calibrage et tri"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_green_manure_rye
+msgid "Green Manure (Cereals)"
+msgstr "Engrais vert (céréales)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_green_manure_legume
+msgid "Green Manure (Legumes)"
+msgstr "Engrais vert (légumineuses)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_green_manure_phacelia
+msgid "Green Manure (Phacelia and Mustard)"
+msgstr "Engrais vert (phacélie et moutarde)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_green_manure_sowing
+msgid "Green Manure Sowing"
+msgstr "Semis d'engrais vert"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_green_manure_termination
+msgid "Green Manure Termination"
+msgstr "Destruction d'engrais vert"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_green_manure_seeds
+msgid "Green manure seed mix (kg)"
+msgstr "Mélange de semences d'engrais vert (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_hilling
+msgid "Hilling"
+msgstr "Buttage"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_hoeing
+msgid "Hoeing"
+msgstr "Binage"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_horn_meal
+msgid "Horn meal (kg)"
+msgstr "Corne torréfiée (kg)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_insect_net
+msgid "Insect netting (roll)"
+msgstr "Filet anti-insectes (rouleau)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_kale
+msgid "Kale"
+msgstr "Chou kale"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_kale
+msgid "Kale (kg)"
+msgstr "Chou kale (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_kohlrabi
+msgid "Kohlrabi"
+msgstr "Chou-rave"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_kohlrabi
+msgid "Kohlrabi (kg)"
+msgstr "Chou-rave (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_lambs_lettuce
+msgid "Lamb's Lettuce"
+msgstr "Mâche"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_lambs_lettuce
+msgid "Lamb's Lettuce (kg)"
+msgstr "Mâche (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_leek
+msgid "Leek"
+msgstr "Poireau"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_leek
+msgid "Leek (kg)"
+msgstr "Poireau (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_lettuce
+msgid "Lettuce"
+msgstr "Laitue"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_lettuce
+msgid "Lettuce (kg)"
+msgstr "Laitue (kg)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_compost
+msgid "Mature compost (kg)"
+msgstr "Compost mûr (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_melon
+msgid "Melon"
+msgstr "Melon"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_melon
+msgid "Melon (kg)"
+msgstr "Melon (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_netting
+msgid "Netting and Covering"
+msgstr "Pose de filet et voile"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_onion
+msgid "Onion"
+msgstr "Oignon"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_onion
+msgid "Onion (kg)"
+msgstr "Oignon (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_parsley
+msgid "Parsley"
+msgstr "Persil"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_parsley
+msgid "Parsley (kg)"
+msgstr "Persil (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_parsnip
+msgid "Parsnip"
+msgstr "Panais"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_parsnip
+msgid "Parsnip (kg)"
+msgstr "Panais (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_pea
+msgid "Pea"
+msgstr "Pois"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_pea
+msgid "Pea (kg)"
+msgstr "Pois (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_pepper
+msgid "Pepper"
+msgstr "Poivron"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_pepper
+msgid "Pepper (kg)"
+msgstr "Poivron (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_potato
+msgid "Potato"
+msgstr "Pomme de terre"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_potato
+msgid "Potato (kg)"
+msgstr "Pomme de terre (kg)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_potting_soil
+msgid "Potting soil (L)"
+msgstr "Terreau de rempotage (L)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_poultry_pellets
+msgid "Poultry manure pellets (kg)"
+msgstr "Granulés de fientes de volaille (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_pricking_out
+msgid "Pricking Out"
+msgstr "Repiquage en godets"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_pruning
+msgid "Pruning and Suckering"
+msgstr "Taille et ébourgeonnage"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_radish
+msgid "Radish"
+msgstr "Radis"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_radish
+msgid "Radish (kg)"
+msgstr "Radis (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_rhubarb
+msgid "Rhubarb"
+msgstr "Rhubarbe"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_rhubarb
+msgid "Rhubarb (kg)"
+msgstr "Rhubarbe (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_rocket
+msgid "Rocket"
+msgstr "Roquette"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_rocket
+msgid "Rocket (kg)"
+msgstr "Roquette (kg)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_potting_mix
+msgid "Seed starting mix (L)"
+msgstr "Terreau de semis (L)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_shallot
+msgid "Shallot"
+msgstr "Échalote"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_shallot
+msgid "Shallot (kg)"
+msgstr "Échalote (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_solarization
+msgid "Soil Solarization"
+msgstr "Solarisation"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_tray_sowing
+msgid "Sowing in Trays"
+msgstr "Semis en plaques"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_spinach
+msgid "Spinach"
+msgstr "Épinard"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_spinach
+msgid "Spinach (kg)"
+msgstr "Épinard (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_staking
+msgid "Staking and Trellising"
+msgstr "Tuteurage et palissage"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_straw
+msgid "Straw mulch (bale)"
+msgstr "Paille de paillage (botte)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_strawberry
+msgid "Strawberry"
+msgstr "Fraise"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_strawberry
+msgid "Strawberry (kg)"
+msgstr "Fraise (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_sweet_corn
+msgid "Sweet Corn"
+msgstr "Maïs doux"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_sweet_corn
+msgid "Sweet Corn (kg)"
+msgstr "Maïs doux (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_chard
+msgid "Swiss Chard"
+msgstr "Blette"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_chard
+msgid "Swiss Chard (kg)"
+msgstr "Blette (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_thinning
+msgid "Thinning"
+msgstr "Éclaircissage"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_tomato
+msgid "Tomato"
+msgstr "Tomate"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_tomato
+msgid "Tomato (kg)"
+msgstr "Tomate (kg)"
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_ventilation
+msgid "Tunnel Ventilation"
+msgstr "Aération des tunnels"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_turnip
+msgid "Turnip"
+msgstr "Navet"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_turnip
+msgid "Turnip (kg)"
+msgstr "Navet (kg)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_plants_generic
+msgid "Vegetable plants (unit)"
+msgstr "Plants potagers (unité)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_seeds_generic
+msgid "Vegetable seeds (g)"
+msgstr "Semences potagères (g)"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_input_vinasse
+msgid "Vinasse (kg)"
+msgstr "Vinasse (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_watermelon
+msgid "Watermelon"
+msgstr "Pastèque"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_watermelon
+msgid "Watermelon (kg)"
+msgstr "Pastèque (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_squash
+msgid "Winter Squash"
+msgstr "Courge"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_squash
+msgid "Winter Squash (kg)"
+msgstr "Courge (kg)"
+
+#. module: odoo_garden
+#: model:garden.species,name:odoo_garden.species_zucchini
+msgid "Zucchini"
+msgstr "Courgette"
+
+#. module: odoo_garden
+#: model:product.template,name:odoo_garden.product_harvest_zucchini
+msgid "Zucchini (kg)"
+msgstr "Courgette (kg)"

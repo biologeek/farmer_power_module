@@ -125,36 +125,6 @@
         <field name="length">20</field><field name="width">1.0</field><field name="soil_type">silty</field>
     </record>
 
-    <record id="demo_species_tomato" model="garden.species">
-        <field name="name">Tomato</field><field name="family">solanaceae</field><field name="rotation_years">3</field>
-    </record>
-    <record id="demo_species_lettuce" model="garden.species">
-        <field name="name">Lettuce</field><field name="family">asteraceae</field><field name="rotation_years">2</field>
-    </record>
-    <record id="demo_species_carrot" model="garden.species">
-        <field name="name">Carrot</field><field name="family">apiaceae</field><field name="rotation_years">4</field>
-    </record>
-    <record id="demo_species_leek" model="garden.species">
-        <field name="name">Leek</field><field name="family">amaryllidaceae</field><field name="rotation_years">4</field>
-    </record>
-    <record id="demo_species_zucchini" model="garden.species">
-        <field name="name">Zucchini</field><field name="family">cucurbitaceae</field><field name="rotation_years">3</field>
-    </record>
-    <record id="demo_species_cabbage" model="garden.species">
-        <field name="name">Cabbage</field><field name="family">brassicaceae</field><field name="rotation_years">4</field>
-    </record>
-    <record id="demo_species_bean" model="garden.species">
-        <field name="name">Bean</field><field name="family">fabaceae</field><field name="rotation_years">3</field>
-    </record>
-    <record id="demo_species_beet" model="garden.species">
-        <field name="name">Beetroot</field><field name="family">chenopodiaceae</field><field name="rotation_years">3</field>
-    </record>
-    <record id="demo_species_onion" model="garden.species">
-        <field name="name">Onion</field><field name="family">amaryllidaceae</field><field name="rotation_years">4</field>
-    </record>
-    <record id="demo_species_pepper" model="garden.species">
-        <field name="name">Pepper</field><field name="family">solanaceae</field><field name="rotation_years">3</field>
-    </record>
 
     <record id="demo_seed_tomato_coeur" model="product.product">
         <field name="name">Oxheart Seed (Tomato)</field>
@@ -165,7 +135,7 @@
         <field name="type">consu</field><field name="list_price">5.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_tomato_coeur" model="garden.variety">
-        <field name="name">Oxheart</field><field name="species_id" ref="demo_species_tomato"/>
+        <field name="name">Oxheart</field><field name="species_id" ref="species_tomato"/>
         <field name="seed_product_id" ref="demo_seed_tomato_coeur"/><field name="harvest_product_id" ref="demo_harvest_tomato_coeur"/>
         <field name="seeds_per_gram">300</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -178,7 +148,7 @@
         <field name="type">consu</field><field name="list_price">4.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_tomato_roma" model="garden.variety">
-        <field name="name">Roma</field><field name="species_id" ref="demo_species_tomato"/>
+        <field name="name">Roma</field><field name="species_id" ref="species_tomato"/>
         <field name="seed_product_id" ref="demo_seed_tomato_roma"/><field name="harvest_product_id" ref="demo_harvest_tomato_roma"/>
         <field name="seeds_per_gram">300</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -191,7 +161,7 @@
         <field name="type">consu</field><field name="list_price">9.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_tomato_cerise" model="garden.variety">
-        <field name="name">Sungold Cherry</field><field name="species_id" ref="demo_species_tomato"/>
+        <field name="name">Sungold Cherry</field><field name="species_id" ref="species_tomato"/>
         <field name="seed_product_id" ref="demo_seed_tomato_cerise"/><field name="harvest_product_id" ref="demo_harvest_tomato_cerise"/>
         <field name="seeds_per_gram">300</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -204,7 +174,7 @@
         <field name="type">consu</field><field name="list_price">2.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_lettuce_batavia" model="garden.variety">
-        <field name="name">Blonde Batavia</field><field name="species_id" ref="demo_species_lettuce"/>
+        <field name="name">Blonde Batavia</field><field name="species_id" ref="species_lettuce"/>
         <field name="seed_product_id" ref="demo_seed_lettuce_batavia"/><field name="harvest_product_id" ref="demo_harvest_lettuce_batavia"/>
         <field name="seeds_per_gram">800</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -217,7 +187,7 @@
         <field name="type">consu</field><field name="list_price">2.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_lettuce_romaine" model="garden.variety">
-        <field name="name">Romaine</field><field name="species_id" ref="demo_species_lettuce"/>
+        <field name="name">Romaine</field><field name="species_id" ref="species_lettuce"/>
         <field name="seed_product_id" ref="demo_seed_lettuce_romaine"/><field name="harvest_product_id" ref="demo_harvest_lettuce_romaine"/>
         <field name="seeds_per_gram">800</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -230,7 +200,7 @@
         <field name="type">consu</field><field name="list_price">2.8</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_carrot_nantes" model="garden.variety">
-        <field name="name">Nantes</field><field name="species_id" ref="demo_species_carrot"/>
+        <field name="name">Nantes</field><field name="species_id" ref="species_carrot"/>
         <field name="seed_product_id" ref="demo_seed_carrot_nantes"/><field name="harvest_product_id" ref="demo_harvest_carrot_nantes"/>
         <field name="seeds_per_gram">800</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -243,7 +213,7 @@
         <field name="type">consu</field><field name="list_price">3.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_leek_bleu" model="garden.variety">
-        <field name="name">Bleu de Solaize</field><field name="species_id" ref="demo_species_leek"/>
+        <field name="name">Bleu de Solaize</field><field name="species_id" ref="species_leek"/>
         <field name="seed_product_id" ref="demo_seed_leek_bleu"/><field name="harvest_product_id" ref="demo_harvest_leek_bleu"/>
         <field name="seeds_per_gram">300</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -256,7 +226,7 @@
         <field name="type">consu</field><field name="list_price">3.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_zucchini_verte" model="garden.variety">
-        <field name="name">Market Gardener Green</field><field name="species_id" ref="demo_species_zucchini"/>
+        <field name="name">Market Gardener Green</field><field name="species_id" ref="species_zucchini"/>
         <field name="seed_product_id" ref="demo_seed_zucchini_verte"/><field name="harvest_product_id" ref="demo_harvest_zucchini_verte"/>
         <field name="seeds_per_gram">6</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -269,7 +239,7 @@
         <field name="type">consu</field><field name="list_price">2.2</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_cabbage_milan" model="garden.variety">
-        <field name="name">Savoy</field><field name="species_id" ref="demo_species_cabbage"/>
+        <field name="name">Savoy</field><field name="species_id" ref="species_cabbage"/>
         <field name="seed_product_id" ref="demo_seed_cabbage_milan"/><field name="harvest_product_id" ref="demo_harvest_cabbage_milan"/>
         <field name="seeds_per_gram">250</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -282,7 +252,7 @@
         <field name="type">consu</field><field name="list_price">6.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_cabbage_kale" model="garden.variety">
-        <field name="name">Kale</field><field name="species_id" ref="demo_species_cabbage"/>
+        <field name="name">Kale</field><field name="species_id" ref="species_cabbage"/>
         <field name="seed_product_id" ref="demo_seed_cabbage_kale"/><field name="harvest_product_id" ref="demo_harvest_cabbage_kale"/>
         <field name="seeds_per_gram">250</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -295,7 +265,7 @@
         <field name="type">consu</field><field name="list_price">6.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_bean_contender" model="garden.variety">
-        <field name="name">Contender</field><field name="species_id" ref="demo_species_bean"/>
+        <field name="name">Contender</field><field name="species_id" ref="species_bean"/>
         <field name="seed_product_id" ref="demo_seed_bean_contender"/><field name="harvest_product_id" ref="demo_harvest_bean_contender"/>
         <field name="seeds_per_gram">3</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -308,7 +278,7 @@
         <field name="type">consu</field><field name="list_price">2.6</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_beet_detroit" model="garden.variety">
-        <field name="name">Detroit</field><field name="species_id" ref="demo_species_beet"/>
+        <field name="name">Detroit</field><field name="species_id" ref="species_beet"/>
         <field name="seed_product_id" ref="demo_seed_beet_detroit"/><field name="harvest_product_id" ref="demo_harvest_beet_detroit"/>
         <field name="seeds_per_gram">50</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -321,7 +291,7 @@
         <field name="type">consu</field><field name="list_price">2.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_onion_stuttgart" model="garden.variety">
-        <field name="name">Stuttgart</field><field name="species_id" ref="demo_species_onion"/>
+        <field name="name">Stuttgart</field><field name="species_id" ref="species_onion"/>
         <field name="seed_product_id" ref="demo_seed_onion_stuttgart"/><field name="harvest_product_id" ref="demo_harvest_onion_stuttgart"/>
         <field name="seeds_per_gram">250</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -334,7 +304,7 @@
         <field name="type">consu</field><field name="list_price">7.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_pepper_doux" model="garden.variety">
-        <field name="name">Doux des Landes</field><field name="species_id" ref="demo_species_pepper"/>
+        <field name="name">Doux des Landes</field><field name="species_id" ref="species_pepper"/>
         <field name="seed_product_id" ref="demo_seed_pepper_doux"/><field name="harvest_product_id" ref="demo_harvest_pepper_doux"/>
         <field name="seeds_per_gram">150</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
@@ -347,7 +317,7 @@
         <field name="type">consu</field><field name="list_price">7.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_pepper_corne" model="garden.variety">
-        <field name="name">Bull's Horn</field><field name="species_id" ref="demo_species_pepper"/>
+        <field name="name">Bull's Horn</field><field name="species_id" ref="species_pepper"/>
         <field name="seed_product_id" ref="demo_seed_pepper_corne"/><field name="harvest_product_id" ref="demo_harvest_pepper_corne"/>
         <field name="seeds_per_gram">150</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>

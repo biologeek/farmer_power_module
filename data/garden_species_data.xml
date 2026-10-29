@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Catalogue de départ pour la production : espèces maraîchères courantes. Les familles et durées de
+         rotation sont des valeurs usuelles, à adapter à votre exploitation. -->
+    <record id="species_tomato" model="garden.species">
+        <field name="name">Tomato</field>
+        <field name="family">solanaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_pepper" model="garden.species">
+        <field name="name">Pepper</field>
+        <field name="family">solanaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_chili" model="garden.species">
+        <field name="name">Chili Pepper</field>
+        <field name="family">solanaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_eggplant" model="garden.species">
+        <field name="name">Eggplant</field>
+        <field name="family">solanaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_potato" model="garden.species">
+        <field name="name">Potato</field>
+        <field name="family">solanaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_lettuce" model="garden.species">
+        <field name="name">Lettuce</field>
+        <field name="family">asteraceae</field>
+        <field name="rotation_years">2</field>
+    </record>
+    <record id="species_endive" model="garden.species">
+        <field name="name">Endive and Chicory</field>
+        <field name="family">asteraceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_artichoke" model="garden.species">
+        <field name="name">Artichoke</field>
+        <field name="family">asteraceae</field>
+        <field name="rotation_years">5</field>
+    </record>
+    <record id="species_carrot" model="garden.species">
+        <field name="name">Carrot</field>
+        <field name="family">apiaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_celeriac" model="garden.species">
+        <field name="name">Celeriac</field>
+        <field name="family">apiaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_celery" model="garden.species">
+        <field name="name">Celery</field>
+        <field name="family">apiaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_parsnip" model="garden.species">
+        <field name="name">Parsnip</field>
+        <field name="family">apiaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_fennel" model="garden.species">
+        <field name="name">Fennel</field>
+        <field name="family">apiaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_parsley" model="garden.species">
+        <field name="name">Parsley</field>
+        <field name="family">apiaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_coriander" model="garden.species">
+        <field name="name">Coriander</field>
+        <field name="family">apiaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_leek" model="garden.species">
+        <field name="name">Leek</field>
+        <field name="family">amaryllidaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_onion" model="garden.species">
+        <field name="name">Onion</field>
+        <field name="family">amaryllidaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_shallot" model="garden.species">
+        <field name="name">Shallot</field>
+        <field name="family">amaryllidaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_garlic" model="garden.species">
+        <field name="name">Garlic</field>
+        <field name="family">amaryllidaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_chives" model="garden.species">
+        <field name="name">Chives</field>
+        <field name="family">amaryllidaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_cabbage" model="garden.species">
+        <field name="name">Cabbage</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_cauliflower" model="garden.species">
+        <field name="name">Cauliflower</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_broccoli" model="garden.species">
+        <field name="name">Broccoli</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_kale" model="garden.species">
+        <field name="name">Kale</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_kohlrabi" model="garden.species">
+        <field name="name">Kohlrabi</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_brussels" model="garden.species">
+        <field name="name">Brussels Sprouts</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_chinese_cabbage" model="garden.species">
+        <field name="name">Chinese Cabbage</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_radish" model="garden.species">
+        <field name="name">Radish</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_turnip" model="garden.species">
+        <field name="name">Turnip</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_rocket" model="garden.species">
+        <field name="name">Rocket</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_asian_greens" model="garden.species">
+        <field name="name">Asian Greens</field>
+        <field name="family">brassicaceae</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_zucchini" model="garden.species">
+        <field name="name">Zucchini</field>
+        <field name="family">cucurbitaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_cucumber" model="garden.species">
+        <field name="name">Cucumber</field>
+        <field name="family">cucurbitaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_squash" model="garden.species">
+        <field name="name">Winter Squash</field>
+        <field name="family">cucurbitaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_melon" model="garden.species">
+        <field name="name">Melon</field>
+        <field name="family">cucurbitaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_watermelon" model="garden.species">
+        <field name="name">Watermelon</field>
+        <field name="family">cucurbitaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_bean" model="garden.species">
+        <field name="name">Bean</field>
+        <field name="family">fabaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_pea" model="garden.species">
+        <field name="name">Pea</field>
+        <field name="family">fabaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_broad_bean" model="garden.species">
+        <field name="name">Broad Bean</field>
+        <field name="family">fabaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_beet" model="garden.species">
+        <field name="name">Beetroot</field>
+        <field name="family">chenopodiaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_spinach" model="garden.species">
+        <field name="name">Spinach</field>
+        <field name="family">chenopodiaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_chard" model="garden.species">
+        <field name="name">Swiss Chard</field>
+        <field name="family">chenopodiaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_sweet_corn" model="garden.species">
+        <field name="name">Sweet Corn</field>
+        <field name="family">poaceae</field>
+        <field name="rotation_years">3</field>
+    </record>
+    <record id="species_lambs_lettuce" model="garden.species">
+        <field name="name">Lamb's Lettuce</field>
+        <field name="family">other</field>
+        <field name="rotation_years">2</field>
+    </record>
+    <record id="species_basil" model="garden.species">
+        <field name="name">Basil</field>
+        <field name="family">other</field>
+        <field name="rotation_years">2</field>
+    </record>
+    <record id="species_strawberry" model="garden.species">
+        <field name="name">Strawberry</field>
+        <field name="family">other</field>
+        <field name="rotation_years">4</field>
+    </record>
+    <record id="species_rhubarb" model="garden.species">
+        <field name="name">Rhubarb</field>
+        <field name="family">other</field>
+        <field name="rotation_years">0</field>
+    </record>
+    <record id="species_asparagus" model="garden.species">
+        <field name="name">Asparagus</field>
+        <field name="family">other</field>
+        <field name="rotation_years">0</field>
+    </record>
+    <record id="species_green_manure_legume" model="garden.species">
+        <field name="name">Green Manure (Legumes)</field>
+        <field name="family">fabaceae</field>
+        <field name="rotation_years">0</field>
+    </record>
+    <record id="species_green_manure_phacelia" model="garden.species">
+        <field name="name">Green Manure (Phacelia and Mustard)</field>
+        <field name="family">other</field>
+        <field name="rotation_years">0</field>
+    </record>
+    <record id="species_green_manure_rye" model="garden.species">
+        <field name="name">Green Manure (Cereals)</field>
+        <field name="family">poaceae</field>
+        <field name="rotation_years">0</field>
+    </record>
+</odoo>

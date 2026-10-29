@@ -6,7 +6,7 @@ class GardenSpecies(models.Model):
     _description = 'Species'
     _order = 'name'
 
-    name = fields.Char('Species', required=True)
+    name = fields.Char('Species', required=True, translate=True)
     family = fields.Selection(
         [
             ('solanaceae', 'Solanaceae'),
