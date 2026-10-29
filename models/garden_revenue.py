@@ -55,10 +55,22 @@ class GardenRevenue(models.AbstractModel):
         return self._attribute_prorata(crops)
 
     @api.model
+    def get_extra_entries(self, crops, method=None):
+        """Point d'extension des modules passerelles (par exemple ``odoo_garden_pos``).
+
+        Retourne ``{id de culture: [entrée, ...]}`` pour les ventes qui ne passent pas par une ligne de facture
+        client comptabilisée. Chaque entrée est un dict : ``key`` (tuple ``(modèle, id)``), ``date``,
+        ``document`` (référence affichée), ``is_refund``, ``partner_id``, ``product_id``, ``quantity``,
+        ``line_amount`` (montant HT de la ligne) et ``amount`` (montant attribué à la culture). Ici : aucune.
+        """
+        return {crop.id: [] for crop in crops}
+
+    @api.model
     def get_revenue(self, crops, method=None):
-        """Chiffre d'affaires par culture : ``{id de culture: montant}``."""
+        """Chiffre d'affaires par culture : ``{id de culture: montant}`` (factures et ventes des passerelles)."""
+        extra = self.get_extra_entries(crops, method)
         return {
-            crop_id: sum(lines.values())
+            crop_id: sum(lines.values()) + sum(entry['amount'] for entry in extra.get(crop_id, []))
             for crop_id, lines in self.get_attribution(crops, method).items()
         }
 

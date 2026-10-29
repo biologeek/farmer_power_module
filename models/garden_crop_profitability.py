@@ -235,6 +235,10 @@ class GardenCropProfitability(models.Model):
         for move_line in self.env['account.move.line'].sudo().browse(list(amounts)):
             key = move_line.date.strftime('%Y-%m')
             months[key] = months.get(key, 0.0) + amounts[move_line.id]
+        for entries in self.env['garden.revenue'].get_extra_entries(crops).values():
+            for entry in entries:
+                key = entry['date'].strftime('%Y-%m')
+                months[key] = months.get(key, 0.0) + entry['amount']
         monthly_revenue = [{'label': key, 'value': months[key]} for key in sorted(months)]
 
         with_hours = lines.filtered(lambda line: line.hours > 0)

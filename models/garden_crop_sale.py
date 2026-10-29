@@ -27,6 +27,19 @@ class GardenCropSale(models.TransientModel):
         attribution = self.env['garden.revenue'].get_attribution(crop).get(crop.id, {})
         lines = self.env['account.move.line'].sudo().browse(list(attribution))
         self.sudo().search([('crop_id', '=', crop.id), ('create_uid', '=', self.env.uid)]).unlink()
+        extra_entries = self.env['garden.revenue'].get_extra_entries(crop).get(crop.id, [])
+        self.sudo().create([{
+            'crop_id': crop.id,
+            'date': entry['date'],
+            'invoice_name': entry['document'],
+            'is_refund': entry['is_refund'],
+            'partner_id': entry['partner_id'],
+            'product_id': entry['product_id'],
+            'quantity': entry['quantity'],
+            'line_amount': entry['line_amount'],
+            'amount': entry['amount'],
+            'share': (entry['amount'] / entry['line_amount'] * 100.0) if entry['line_amount'] else 0.0,
+        } for entry in extra_entries])
         self.sudo().create([{
             'crop_id': crop.id,
             'date': line.date,
