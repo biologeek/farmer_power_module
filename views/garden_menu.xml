@@ -1,5 +1,5 @@
 <odoo>
-    <menuitem id="menu_garden_root" name="Market Gardening" sequence="10" groups="group_garden_worker"/>
+    <menuitem id="menu_garden_root" name="Farmer Power" sequence="10" groups="group_garden_worker"/>
 
     <menuitem id="menu_garden_today" name="My Day" parent="menu_garden_root" action="action_garden_operation_today" sequence="1"/>
 

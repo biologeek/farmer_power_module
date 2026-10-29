@@ -2650,7 +2650,6 @@ msgstr "Marge/h"
 
 #. module: odoo_garden
 #: model:ir.module.category,name:odoo_garden.module_category_garden
-#: model:ir.ui.menu,name:odoo_garden.menu_garden_root
 #: model:res.groups.privilege,name:odoo_garden.res_groups_privilege_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.hr_employee_view_form_garden
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
@@ -6101,3 +6100,8 @@ msgstr "Zucchini"
 #: model:product.template,name:odoo_garden.product_harvest_zucchini
 msgid "Zucchini (kg)"
 msgstr "Zucchini (kg)"
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_root
+msgid "Farmer Power"
+msgstr "Farmer Power"

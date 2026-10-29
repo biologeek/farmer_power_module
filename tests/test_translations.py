@@ -15,19 +15,19 @@ PO_CODES = sorted(os.path.basename(path)[:-3] for path in glob.glob(os.path.join
 ODOO_LANGS = {'fr': 'fr_FR', 'es': 'es_ES', 'de': 'de_DE', 'nl': 'nl_NL', 'it': 'it_IT', 'pt_BR': 'pt_BR'}
 # Expected translations of key terms, per language.
 EXPECTED = {
-    'fr': {'bed': 'Planche', 'block': 'Îlot', 'menu_beds': 'Planches', 'root': 'Maraîchage', 'sowing': 'Semis',
+    'fr': {'bed': 'Planche', 'block': 'Îlot', 'menu_beds': 'Planches', 'root': 'Farmer Power', 'sowing': 'Semis',
            'planned': 'Planifiée', 'crop_manager': 'Chef de culture', 'message': 'Sélectionnez au moins une planche.'},
-    'es': {'bed': 'Bancal', 'block': 'Bloque', 'menu_beds': 'Bancales', 'root': 'Horticultura de mercado',
+    'es': {'bed': 'Bancal', 'block': 'Bloque', 'menu_beds': 'Bancales', 'root': 'Farmer Power',
            'sowing': 'Siembra', 'planned': 'Planificada', 'crop_manager': 'Responsable de cultivo',
            'message': 'Seleccione al menos un bancal.'},
-    'de': {'bed': 'Beet', 'block': 'Block', 'menu_beds': 'Beete', 'root': 'Gemüsebau', 'sowing': 'Aussaat',
+    'de': {'bed': 'Beet', 'block': 'Block', 'menu_beds': 'Beete', 'root': 'Farmer Power', 'sowing': 'Aussaat',
            'planned': 'Geplant', 'crop_manager': 'Kulturleiter', 'message': 'Wählen Sie mindestens ein Beet aus.'},
-    'nl': {'bed': 'Bed', 'block': 'Blok', 'menu_beds': 'Bedden', 'root': 'Groenteteelt', 'sowing': 'Zaaien',
+    'nl': {'bed': 'Bed', 'block': 'Blok', 'menu_beds': 'Bedden', 'root': 'Farmer Power', 'sowing': 'Zaaien',
            'planned': 'Gepland', 'crop_manager': 'Teeltleider', 'message': 'Selecteer minstens één bed.'},
-    'it': {'bed': 'Aiuola', 'block': 'Blocco', 'menu_beds': 'Aiuole', 'root': 'Orticoltura', 'sowing': 'Semina',
+    'it': {'bed': 'Aiuola', 'block': 'Blocco', 'menu_beds': 'Aiuole', 'root': 'Farmer Power', 'sowing': 'Semina',
            'planned': 'Pianificata', 'crop_manager': 'Responsabile di coltura',
            'message': "Seleziona almeno un'aiuola."},
-    'pt_BR': {'bed': 'Canteiro', 'block': 'Bloco', 'menu_beds': 'Canteiros', 'root': 'Horticultura',
+    'pt_BR': {'bed': 'Canteiro', 'block': 'Bloco', 'menu_beds': 'Canteiros', 'root': 'Farmer Power',
               'sowing': 'Semeadura', 'planned': 'Planejada', 'crop_manager': 'Responsável pelo cultivo',
               'message': 'Selecione pelo menos um canteiro.'},
 }
