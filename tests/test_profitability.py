@@ -121,6 +121,14 @@ class TestGardenProfitability(GardenRevenueCase):
         self.assertEqual(rule.model_id.model, 'garden.crop.profitability')
         self.assertIn('company_ids', rule.domain_force)
 
+    def test_menu_action_runs_for_manager(self):
+        """L'entrée de menu est une action serveur : elle doit s'exécuter pour un gérant (lecture seule)."""
+        server_action = self.env.ref('odoo_garden.action_garden_profitability_open')
+        result = server_action.with_user(self.manager).run()
+        self.assertEqual(result['res_model'], 'garden.crop.profitability')
+        with self.assertRaises(AccessError):
+            server_action.with_user(self.chef).run()
+
     def test_open_action_refreshes(self):
         action = self.Profit.with_user(self.manager).action_open()
         self.assertEqual(action['res_model'], 'garden.crop.profitability')

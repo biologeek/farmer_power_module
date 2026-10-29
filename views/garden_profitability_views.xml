@@ -135,6 +135,8 @@
         <field name="model_id" ref="model_garden_crop_profitability"/>
         <field name="state">code</field>
         <field name="code">action = model.action_open()</field>
+        <!-- Sans groupe, Odoo exige le droit d'écriture sur le modèle, que le gérant n'a pas (lecture seule). -->
+        <field name="group_ids" eval="[Command.link(ref('group_garden_manager'))]"/>
     </record>
     <record id="ir_cron_garden_profitability" model="ir.cron">
         <field name="name">Market Gardening: Refresh the Profitability Report</field>
