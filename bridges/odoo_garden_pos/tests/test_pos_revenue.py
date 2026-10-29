@@ -149,16 +149,19 @@ class TestGardenPosLot(GardenPosCase):
 @tagged('post_install', '-at_install')
 class TestGardenPosReports(GardenPosCase):
 
+    def _july_revenue(self):
+        data = self.env['garden.crop.profitability'].get_dashboard_data()
+        return {row['label']: row['value'] for row in data['monthly_revenue']}.get('2027-07', 0.0)
+
     def test_profitability_and_sales_button(self):
         self._harvest(self.big, 30.0, date='2027-07-05')
+        before = self._july_revenue()  # the demo data, if installed, already has July revenue
         self._pos_order([(self.tomato, 8, 5.0)])
         self.env['garden.crop.profitability'].refresh()
         line = self.env['garden.crop.profitability'].search([('crop_id', '=', self.big.id)])
         self.assertAlmostEqual(line.revenue, 40.0)
         self.assertAlmostEqual(line.margin, 40.0 - self.big.labour_cost - self.big.input_cost)
-        data = self.env['garden.crop.profitability'].get_dashboard_data()
-        months = {row['label']: row['value'] for row in data['monthly_revenue']}
-        self.assertAlmostEqual(months['2027-07'], 40.0)
+        self.assertAlmostEqual(self._july_revenue() - before, 40.0)
         action = self.env['garden.crop.sale']._open_for(self.big)
         rows = self.env['garden.crop.sale'].search(action['domain'])
         self.assertEqual(len(rows), 1)
