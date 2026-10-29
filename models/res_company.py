@@ -5,20 +5,20 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     garden_production_location_id = fields.Many2one(
-        'stock.location', string='Emplacement « Production maraîchage »', check_company=True,
+        'stock.location', string='Market Gardening Production Location', check_company=True,
         domain="[('usage', '=', 'production')]", ondelete='restrict', copy=False,
-        help="Emplacement virtuel d'où sortent les récoltes (entrée en stock des produits récoltés).",
+        help='Virtual location harvests come from (stock entry of harvested products).',
     )
     garden_consumption_location_id = fields.Many2one(
-        'stock.location', string='Emplacement « Consommation maraîchage »', check_company=True,
+        'stock.location', string='Market Gardening Consumption Location', check_company=True,
         domain="[('usage', '=', 'production')]", ondelete='restrict', copy=False,
-        help="Emplacement virtuel où partent les intrants consommés par les opérations (semences, engrais...).",
+        help='Virtual location the inputs consumed by operations go to (seeds, fertilizers...).',
     )
     garden_stock_location_id = fields.Many2one(
-        'stock.location', string='Emplacement de stockage maraîchage', check_company=True,
+        'stock.location', string='Market Gardening Storage Location', check_company=True,
         domain="[('usage', '=', 'internal')]", ondelete='restrict', copy=False,
-        help="Emplacement où entrent les récoltes et d'où sortent les intrants. "
-             "Vide : stock principal du premier entrepôt de la société.",
+        help='Location where harvests enter and inputs leave. Empty: main stock of the first warehouse of the '
+             'company.',
     )
 
     def _get_garden_stock_location(self):
@@ -40,8 +40,8 @@ class ResCompany(models.Model):
         for company in self.sudo():
             vals = {}
             for field, xmlid, name in (
-                ('garden_production_location_id', 'odoo_garden.stock_location_garden_production', 'Production maraîchage'),
-                ('garden_consumption_location_id', 'odoo_garden.stock_location_garden_consumption', 'Consommation maraîchage'),
+                ('garden_production_location_id', 'odoo_garden.stock_location_garden_production', 'Market Gardening Production'),
+                ('garden_consumption_location_id', 'odoo_garden.stock_location_garden_consumption', 'Market Gardening Consumption'),
             ):
                 if company[field]:
                     continue

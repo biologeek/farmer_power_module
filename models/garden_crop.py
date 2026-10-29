@@ -11,7 +11,7 @@ from odoo.exceptions import AccessError
 
 class GardenCrop(models.Model):
     _name = 'garden.crop'
-    _description = 'Culture sur planche'
+    _description = 'Crop on Bed'
     # Culture d'une variété sur (une part d') une planche pendant une saison : porte le plan (dates
     # prévues, surface, prévisionnel, besoins en semences, avertissements) et l'état d'avancement.
     # Le réalisé calculé (heures, marge...) arrivera aux phases 3 à 5.
@@ -20,179 +20,179 @@ class GardenCrop(models.Model):
     _rec_names_search = ['name', 'template_id']
 
     name = fields.Char(
-        'Référence', default='/', copy=False, readonly=True, index=True,
-        help="Générée à la création : initiale de l'espèce, année, code de la planche et numéro d'ordre "
-             "(ex. T-2027-P12-01). Servira de nom de lot de traçabilité.",
+        'Reference', default='/', copy=False, readonly=True, index=True,
+        help='Generated at creation: species initial, year, bed code and sequence number (e.g. T-2027-P12-01). '
+             'Used as the traceability lot name.',
     )
     season_id = fields.Many2one(
-        'garden.season', string='Saison', index=True, ondelete='restrict', tracking=True,
-        help="Plan de culture annuel auquel appartient la culture.",
+        'garden.season', string='Season', index=True, ondelete='restrict', tracking=True,
+        help='Annual crop plan the crop belongs to.',
     )
     template_id = fields.Many2one(
-        'garden.crop.template', string='Itinéraire technique', required=True, index=True, tracking=True,
-        help="Itinéraire qui fournit la variété, la densité, les délais et le rendement attendus.",
+        'garden.crop.template', string='Crop Template', required=True, index=True, tracking=True,
+        help='Template providing the variety, density, intervals and expected yield.',
     )
     variety_id = fields.Many2one(
-        'garden.variety', string='Variété', related='template_id.variety_id', store=True, index=True,
+        'garden.variety', string='Variety', related='template_id.variety_id', store=True, index=True,
     )
     species_id = fields.Many2one(
-        'garden.species', string='Espèce', related='template_id.species_id', store=True, index=True,
+        'garden.species', string='Species', related='template_id.species_id', store=True, index=True,
     )
-    family = fields.Selection(related='species_id.family', string='Famille botanique', store=True)
+    family = fields.Selection(related='species_id.family', string='Botanical Family', store=True)
     bed_id = fields.Many2one(
-        'garden.bed', string='Planche', required=True, index=True, tracking=True,
-        help="Planche sur laquelle la culture est installée.",
+        'garden.bed', string='Bed', required=True, index=True, tracking=True,
+        help='Bed the crop is grown on.',
     )
-    bed_area = fields.Float('Surface de la planche (m²)', related='bed_id.area', help="Surface totale de la planche.")
+    bed_area = fields.Float('Bed Area (m²)', related='bed_id.area', help='Total area of the bed.')
     bed_share = fields.Float(
-        'Part de la planche (%)', default=100.0, tracking=True,
-        help="Part de la planche occupée par cette culture (100 = toute la planche).",
+        'Bed Share (%)', default=100.0, tracking=True,
+        help='Share of the bed occupied by this crop (100 = the whole bed).',
     )
     area = fields.Float(
-        'Surface occupée (m²)', compute='_compute_area', store=True,
-        help="Surface de la planche × part occupée.",
+        'Occupied Area (m²)', compute='_compute_area', store=True,
+        help='Bed area × occupied share.',
     )
     company_id = fields.Many2one(
-        'res.company', string='Société', related='bed_id.company_id', store=True, index=True,
+        'res.company', string='Company', related='bed_id.company_id', store=True, index=True,
     )
     state = fields.Selection(
         [
-            ('planned', 'Planifiée'),
-            ('sown', 'Semée'),
-            ('in_place', 'En place'),
-            ('harvesting', 'En récolte'),
-            ('done', 'Terminée'),
-            ('cancelled', 'Annulée'),
+            ('planned', 'Planned'),
+            ('sown', 'Sown'),
+            ('in_place', 'In Place'),
+            ('harvesting', 'Harvesting'),
+            ('done', 'Completed'),
+            ('cancelled', 'Cancelled'),
         ],
-        string='État', required=True, default='planned', copy=False, tracking=True, index=True,
-        help="Avancement : planifiée, semée, en place, en récolte, terminée ou annulée. "
-             "Une culture annulée n'est plus prise en compte dans les contrôles ni les besoins en semences.",
+        string='Status', required=True, default='planned', copy=False, tracking=True, index=True,
+        help='Progress: planned, sown, in place, harvesting, done or cancelled. A cancelled crop is no longer '
+             'taken into account in the checks or the seed needs.',
     )
 
     # Dates prévues
     planned_sowing_date = fields.Date(
-        'Semis prévu', tracking=True,
-        help="Date de semis visée. La modifier recalcule repiquage, début et fin de récolte.",
+        'Planned Sowing', tracking=True,
+        help='Targeted sowing date. Changing it recomputes transplanting, harvest start and end.',
     )
     planned_transplant_date = fields.Date(
-        'Repiquage prévu', help="Date de mise en place des plants en planche (semis direct : vide).",
+        'Planned Transplanting', help='Date the plants are set on the bed (direct sowing: empty).',
     )
     planned_harvest_start = fields.Date(
-        'Début de récolte prévu', tracking=True,
-        help="Date de première récolte visée. La modifier recalcule le semis (rétro-planning).",
+        'Planned Harvest Start', tracking=True,
+        help='Date of the first targeted harvest. Changing it recomputes the sowing (backward planning).',
     )
     planned_harvest_end = fields.Date(
-        'Fin de récolte prévue', help="Fin de la fenêtre de récolte (début de récolte + fenêtre de l'itinéraire).",
+        'Planned Harvest End', help='End of the harvest window (harvest start + window of the template).',
     )
     # Dates réelles (alimentées par les opérations réalisées à partir de la phase 3)
-    date_start = fields.Date('Début réel', help="Date réelle du premier semis ou de la mise en place.")
-    date_end = fields.Date('Fin réelle', help="Date réelle de fin de la culture (planche libérée).")
+    date_start = fields.Date('Actual Start', help='Actual date of the first sowing or planting.')
+    date_end = fields.Date('Actual End', help='Actual end date of the crop (bed freed).')
     occupation_start = fields.Date(
-        'Début d\'occupation', compute='_compute_occupation', store=True,
-        help="Date d'arrivée en planche : repiquage prévu pour les plants, sinon début réel ou semis prévu.",
+        'Occupation Start', compute='_compute_occupation', store=True,
+        help='Date of arrival on the bed: planned transplanting for plants, otherwise actual start or planned sowing.',
     )
     occupation_end = fields.Date(
-        'Fin d\'occupation', compute='_compute_occupation', store=True,
-        help="Fin réelle, à défaut fin de récolte prévue.",
+        'Occupation End', compute='_compute_occupation', store=True,
+        help='Actual end, otherwise planned harvest end.',
     )
 
     # Prévisionnel
     planned_plant_qty = fields.Float(
-        'Plants prévus', compute='_compute_forecast', store=True, readonly=False,
-        help="Surface occupée × densité de l'itinéraire.",
+        'Planned Plants', compute='_compute_forecast', store=True, readonly=False,
+        help='Occupied area × template density.',
     )
     expected_yield_qty = fields.Float(
-        'Récolte attendue (kg)', compute='_compute_forecast', store=True, readonly=False,
-        help="Surface occupée × rendement attendu de l'itinéraire.",
+        'Expected Harvest (kg)', compute='_compute_forecast', store=True, readonly=False,
+        help='Occupied area × expected yield of the template.',
     )
     expected_revenue = fields.Float(
-        'Chiffre d\'affaires attendu', compute='_compute_forecast', store=True, readonly=False,
-        help="Récolte attendue × prix de vente attendu.",
+        'Expected Revenue', compute='_compute_forecast', store=True, readonly=False,
+        help='Expected harvest × expected sale price.',
     )
     planned_seed_count = fields.Integer(
-        'Graines à semer', compute='_compute_seed_needs', store=True,
-        help="Plants prévus / taux de germination × (1 + marge de semis). Nul pour des plants achetés.",
+        'Seeds to Sow', compute='_compute_seed_needs', store=True,
+        help='Planned plants / germination rate × (1 + sowing margin). Zero for bought plants.',
     )
     planned_seed_qty = fields.Float(
-        'Semences prévues (g)', compute='_compute_seed_needs', store=True, digits=(16, 2),
-        help="Graines à semer / nombre de graines par gramme de la variété.",
+        'Planned Seeds (g)', compute='_compute_seed_needs', store=True, digits=(16, 2),
+        help='Seeds to sow / number of seeds per gram of the variety.',
     )
 
     # Avertissements (jamais bloquants)
     overlap_share = fields.Float(
-        'Occupation maximale (%)', compute='_compute_warnings',
-        help="Somme maximale des parts de planche occupées simultanément, cette culture comprise.",
+        'Maximum Occupation (%)', compute='_compute_warnings',
+        help='Maximum sum of the bed shares occupied simultaneously, this crop included.',
     )
     has_overlap = fields.Boolean(
-        'Chevauchement', compute='_compute_warnings',
-        help="Vrai si la planche est occupée à plus de 100 % pendant la période de la culture.",
+        'Overlap', compute='_compute_warnings',
+        help='True if the bed is occupied at more than 100 % during the period of the crop.',
     )
     overlap_warning = fields.Text(
-        'Avertissement de chevauchement', compute='_compute_warnings',
-        help="Détail du chevauchement avec les autres cultures de la planche.",
+        'Overlap Warning', compute='_compute_warnings',
+        help='Details of the overlap with the other crops of the bed.',
     )
     has_rotation_conflict = fields.Boolean(
-        'Rotation non respectée', compute='_compute_warnings',
-        help="Vrai si la même famille botanique a été cultivée sur la planche depuis moins que le délai de rotation.",
+        'Rotation Not Respected', compute='_compute_warnings',
+        help='True if the same botanical family was grown on the bed more recently than the rotation interval.',
     )
     rotation_warning = fields.Text(
-        'Avertissement de rotation', compute='_compute_warnings',
-        help="Détail des cultures précédentes de la même famille sur la planche.",
+        'Rotation Warning', compute='_compute_warnings',
+        help='Details of the previous crops of the same family on the bed.',
     )
 
-    sowing_quantity = fields.Float('Nombre de plants semés', help="Nombre de plants effectivement semés.")
-    planted_quantity = fields.Float('Nombre de plants plantés', help="Nombre de plants effectivement plantés.")
-    notes = fields.Text('Notes', help="Observations libres sur la culture.")
+    sowing_quantity = fields.Float('Plants Sown', help='Number of plants actually sown.')
+    planted_quantity = fields.Float('Plants Planted', help='Number of plants actually planted.')
+    notes = fields.Text('Notes', help='Free comments on the crop.')
     harvest_move_ids = fields.One2many(
-        'stock.move', 'garden_crop_id', string='Mouvements de récolte', readonly=True,
+        'stock.move', 'garden_crop_id', string='Harvest Moves', readonly=True,
         domain=[('garden_kind', 'in', ('harvest', 'harvest_return'))], groups='odoo_garden.group_garden_chef',
-        help="Entrées en stock créées par les opérations de récolte, et leurs annulations.",
+        help='Stock entries created by harvest operations, and their cancellations.',
     )
     harvested_qty = fields.Float(
-        'Quantité récoltée (kg)', compute='_compute_harvested_qty', store=True, digits='Product Unit',
-        help="Somme des mouvements de stock de récolte terminés (annulations déduites), dans l'unité du "
-             "produit récolté (supposée être le kg). Source de vérité des statistiques de production.",
+        'Harvested Quantity (kg)', compute='_compute_harvested_qty', store=True, digits='Product Unit',
+        help='Sum of the done harvest stock moves (cancellations deducted), in the unit of the harvested '
+             'product (assumed to be kg). Source of truth of the production statistics.',
     )
-    loss_ids = fields.One2many('garden.loss', 'crop_id', string='Pertes', help="Pertes déclarées sur la culture.")
-    loss_count = fields.Integer('Nombre de pertes', compute='_compute_loss_count')
+    loss_ids = fields.One2many('garden.loss', 'crop_id', string='Losses', help='Losses declared on the crop.')
+    loss_count = fields.Integer('Number of Losses', compute='_compute_loss_count')
     loss_qty = fields.Float(
-        'Quantité perdue', compute='_compute_loss_rate', store=True, digits='Product Unit',
-        help="Somme des pertes de la culture (avant et après récolte), dans l'unité du produit récolté.",
+        'Lost Quantity', compute='_compute_loss_rate', store=True, digits='Product Unit',
+        help='Sum of the losses of the crop (pre- and post-harvest), in the unit of the harvested product.',
     )
     loss_rate = fields.Float(
-        'Taux de perte', compute='_compute_loss_rate', store=True, digits=(16, 4),
-        help="Pertes / (récolte + pertes). Les pertes et la récolte sont supposées dans la même unité (kg).",
+        'Loss Rate', compute='_compute_loss_rate', store=True, digits=(16, 4),
+        help='Losses / (harvest + losses). Losses and harvest are assumed to be in the same unit (kg).',
     )
     lot_ids = fields.One2many(
-        'stock.lot', 'garden_crop_id', string='Lots de récolte', readonly=True,
-        help="Lots de stock créés par les récoltes de la culture (nommés d'après sa référence).",
+        'stock.lot', 'garden_crop_id', string='Harvest Lots', readonly=True,
+        help='Stock lots created by the harvests of the crop (named after its reference).',
     )
-    lot_count = fields.Integer('Nombre de lots', compute='_compute_lot_count')
+    lot_count = fields.Integer('Number of Lots', compute='_compute_lot_count')
     allocation_ids = fields.One2many(
-        'garden.operation.allocation', 'crop_id', string='Travail réparti',
-        help="Part des opérations faites (sur cette culture, des planches ou un îlot) attribuée à la culture.",
+        'garden.operation.allocation', 'crop_id', string='Allocated Work',
+        help='Share of the operations done (on this crop, beds or a block) attributed to the crop.',
     )
     labour_hours = fields.Float(
-        'Heures de travail', compute='_compute_labour', store=True,
-        help="Somme des heures réparties sur la culture par les opérations faites.",
+        'Work Hours', compute='_compute_labour', store=True,
+        help='Sum of the hours allocated to the crop by the operations done.',
     )
     labour_cost = fields.Float(
-        'Coût main-d\'œuvre', compute='_compute_labour', store=True, digits='Product Price',
+        'Labor Cost', compute='_compute_labour', store=True, digits='Product Price',
         groups='odoo_garden.group_garden_chef',
-        help="Somme du coût de main-d'œuvre réparti sur la culture par les opérations faites.",
+        help='Sum of the labor cost allocated to the crop by the operations done.',
     )
     input_cost = fields.Float(
-        'Coût des intrants', compute='_compute_labour', store=True, digits='Product Price',
+        'Input Cost', compute='_compute_labour', store=True, digits='Product Price',
         groups='odoo_garden.group_garden_chef',
-        help="Somme du coût des intrants réparti sur la culture par les opérations faites.",
+        help='Sum of the input cost allocated to the crop by the operations done.',
     )
     expected_hours = fields.Float(
-        'Heures attendues', compute='_compute_expected_hours', store=True,
-        help="Somme des durées attendues (h/m²) des étapes de l'itinéraire × surface occupée.",
+        'Expected Hours', compute='_compute_expected_hours', store=True,
+        help='Sum of the expected durations (h/m²) of the template steps × occupied area.',
     )
     occupation_days = fields.Integer(
-        "Jours d'occupation", compute='_compute_occupation_days', store=True,
-        help="Nombre de jours entre le début et la fin d'occupation (bornes comprises) ; sert aux charges fixes.",
+        'Days of Occupation', compute='_compute_occupation_days', store=True,
+        help='Number of days between the start and the end of the occupation (both included); used for fixed costs.',
     )
 
     # Rentabilité (phase 5). Champs non stockés : le chiffre d'affaires vient des factures clients
@@ -201,57 +201,57 @@ class GardenCrop(models.Model):
     # tournent en ``sudo`` (comptabilité inaccessible au chef de culture), mais la lecture reste réservée
     # au chef de culture et au gérant.
     revenue = fields.Float(
-        "Chiffre d'affaires", compute='_compute_revenue', digits='Product Price', compute_sudo=True,
+        'Revenue', compute='_compute_revenue', digits='Product Price', compute_sudo=True,
         groups='odoo_garden.group_garden_chef',
-        help="Montant HT des factures clients comptabilisées attribué à la culture, selon la méthode choisie "
-             "dans les paramètres (par lot ou au prorata des récoltes du mois).",
+        help='Amount excluding tax of the posted customer invoices attributed to the crop, according to the '
+             "method chosen in the settings (by lot or pro rata of the month's harvests).",
     )
     sale_line_count = fields.Integer(
-        'Lignes de vente', compute='_compute_revenue', compute_sudo=True, groups='odoo_garden.group_garden_chef',
-        help="Nombre de lignes de factures clients attribuées (en tout ou partie) à la culture.",
+        'Sale Lines', compute='_compute_revenue', compute_sudo=True, groups='odoo_garden.group_garden_chef',
+        help='Number of customer invoice lines attributed (wholly or partly) to the crop.',
     )
     fixed_cost = fields.Float(
-        'Charges fixes', compute='_compute_margin', digits='Product Price', compute_sudo=True,
+        'Fixed Costs', compute='_compute_margin', digits='Product Price', compute_sudo=True,
         groups='odoo_garden.group_garden_chef',
-        help="Option : coût annuel par m² (paramètres) × surface × jours d'occupation / 365. Nul si le coût "
-             "par m² est à zéro.",
+        help='Option: annual cost per m² (settings) × area × days of occupation / 365. Zero if the cost per m² '
+             'is zero.',
     )
     margin = fields.Float(
-        'Marge', compute='_compute_margin', digits='Product Price', compute_sudo=True,
+        'Margin', compute='_compute_margin', digits='Product Price', compute_sudo=True,
         groups='odoo_garden.group_garden_chef',
-        help="Chiffre d'affaires - coût de main-d'œuvre - coût des intrants - charges fixes.",
+        help='Revenue - labor cost - input cost - fixed costs.',
     )
     margin_per_hour = fields.Float(
-        'Marge par heure', compute='_compute_margin', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef', help="Marge / heures de travail (0 sans heures).",
+        'Margin per Hour', compute='_compute_margin', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef', help='Margin / work hours (0 without hours).',
     )
     margin_per_m2 = fields.Float(
-        'Marge par m²', compute='_compute_margin', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef', help="Marge / surface occupée (0 sans surface).",
+        'Margin per m²', compute='_compute_margin', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef', help='Margin / occupied area (0 without area).',
     )
     yield_gap = fields.Float(
-        'Écart de récolte (kg)', compute='_compute_gaps', digits='Product Unit',
-        help="Quantité récoltée - récolte attendue.",
+        'Harvest Gap (kg)', compute='_compute_gaps', digits='Product Unit',
+        help='Harvested quantity - expected harvest.',
     )
     hours_gap = fields.Float(
-        'Écart d\'heures', compute='_compute_gaps', help="Heures de travail - heures attendues.",
+        'Hours Gap', compute='_compute_gaps', help='Work hours - expected hours.',
     )
     revenue_gap = fields.Float(
-        "Écart de chiffre d'affaires", compute='_compute_revenue_gap', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef', help="Chiffre d'affaires - chiffre d'affaires attendu.",
+        'Revenue Gap', compute='_compute_revenue_gap', digits='Product Price', compute_sudo=True,
+        groups='odoo_garden.group_garden_chef', help='Revenue - expected revenue.',
     )
     operation_count = fields.Integer(
-        'Nombre d\'opérations', compute='_compute_operation_count',
-        help="Opérations qui visent la culture ou qui lui sont réparties (planche, îlot).",
+        'Number of Operations', compute='_compute_operation_count',
+        help='Operations targeting the crop or allocated to it (bed, block).',
     )
     operation_ids = fields.Many2many(
-        'garden.operation', 'garden_operation_crop_rel', 'crop_id', 'operation_id', string='Opérations',
-        help="Opérations dont la cible est directement cette culture (périmètre « Culture »).",
+        'garden.operation', 'garden_operation_crop_rel', 'crop_id', 'operation_id', string='Operations',
+        help='Operations directly targeting this crop ("Crop" scope).',
     )
 
     _bed_share_range = models.Constraint(
         'CHECK (bed_share > 0 AND bed_share <= 100)',
-        'La part de la planche doit être comprise entre 0 (exclu) et 100 %.',
+        'The bed share must be between 0 (excluded) and 100 %.',
     )
 
     @api.depends('name', 'template_id.name')
@@ -384,14 +384,14 @@ class GardenCrop(models.Model):
         action = self.env['ir.actions.act_window']._for_xml_id('stock.stock_move_line_action')
         action['domain'] = [('move_id', 'in', moves.ids)]
         action['context'] = {}
-        action['name'] = self.env._("Récoltes : %s", self.name)
+        action['name'] = self.env._('Harvests: %s', self.name)
         return action
 
     def action_view_sales(self):
         """Bouton « Ventes » : lignes de factures clients attribuées à la culture (sans accès aux factures)."""
         self.ensure_one()
         if not self.env.user.has_group('odoo_garden.group_garden_chef'):
-            raise AccessError(self.env._("Seuls le chef de culture et le gérant consultent les ventes."))
+            raise AccessError(self.env._('Only the crop manager and the manager can view sales.'))
         return self.env['garden.crop.sale']._open_for(self)
 
     def action_garden_traceability(self):
@@ -404,7 +404,7 @@ class GardenCrop(models.Model):
         action = self.env['ir.actions.act_window']._for_xml_id('stock.action_production_lot_form')
         action['domain'] = [('garden_crop_id', '=', self.id)]
         action['context'] = {'default_garden_crop_id': self.id, 'create': False}
-        action['name'] = self.env._("Lots : %s", self.name)
+        action['name'] = self.env._('Lots: %s', self.name)
         return action
 
     def _get_operations_domain(self):
@@ -426,7 +426,7 @@ class GardenCrop(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': self.env._("Nouvelle opération"),
+            'name': self.env._('New Operation'),
             'res_model': 'garden.operation',
             'view_mode': 'form',
             'target': 'current',
@@ -531,13 +531,13 @@ class GardenCrop(models.Model):
     # Délai avant récolte (DAR, phase 6)
     # ------------------------------------------------------------------
     harvest_allowed_from = fields.Date(
-        'Récolte possible à partir du', compute='_compute_harvest_allowed_from', compute_sudo=True,
-        help="Fin du délai avant récolte (DAR) du dernier traitement phytosanitaire fait sur la culture : "
-             "date du traitement + DAR du produit le plus contraignant. Vide si aucun traitement ne fixe de délai.",
+        'Harvest possible from', compute='_compute_harvest_allowed_from', compute_sudo=True,
+        help='End of the pre-harvest interval (PHI) of the last plant protection treatment done on the crop: '
+             'treatment date + PHI of the most restrictive product. Empty if no treatment sets an interval.',
     )
     harvest_allowed_warning = fields.Boolean(
-        'Récolte encore interdite', compute='_compute_harvest_allowed_from', compute_sudo=True,
-        help="Vrai si la fin du délai avant récolte n'est pas encore passée (à la date du jour).",
+        'Harvest Still Forbidden', compute='_compute_harvest_allowed_from', compute_sudo=True,
+        help="True if the end of the pre-harvest interval has not passed yet (on today's date).",
     )
 
     def _get_treatment_deadlines(self):
@@ -644,16 +644,15 @@ class GardenCrop(models.Model):
                 crop.overlap_share = peak
                 crop.has_overlap = True
                 crop.overlap_warning = self.env._(
-                    "Chevauchement sur la planche %(bed)s : %(share).0f %% de la planche occupés en même temps "
-                    "(avec %(crops)s).",
+                    'Overlap on bed %(bed)s: %(share).0f %% of the bed occupied at the same time (with %(crops)s).',
                     bed=crop.bed_id.display_name, share=peak, crops=", ".join(rivals.mapped('name')),
                 )
             conflicts = crop._get_rotation_conflicts()
             if conflicts:
                 crop.has_rotation_conflict = True
                 crop.rotation_warning = self.env._(
-                    "Rotation : la famille %(family)s a déjà été cultivée sur cette planche moins de "
-                    "%(years)s an(s) avant (%(crops)s).",
+                    'Rotation: the family %(family)s was already grown on this bed less than %(years)s year(s) before '
+                    '(%(crops)s).',
                     family=dict(crop.species_id._fields['family'].selection).get(crop.family),
                     years=crop.species_id.rotation_years, crops=", ".join(conflicts.mapped('name')),
                 )

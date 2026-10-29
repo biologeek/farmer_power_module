@@ -21,22 +21,22 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_new_operation" string="Nouvelle opération" type="object" class="btn-primary"/>
-                    <button name="%(odoo_garden.action_report_garden_bed_label)d" string="Étiquette QR" type="action"/>
+                    <button name="action_new_operation" string="New Operation" type="object" class="btn-primary"/>
+                    <button name="%(odoo_garden.action_report_garden_bed_label)d" string="QR Label" type="action"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_operations" type="object" class="oe_stat_button" icon="fa-tasks">
-                            <field name="operation_count" widget="statinfo" string="Opérations"/>
+                            <field name="operation_count" widget="statinfo" string="Operations"/>
                         </button>
                     </div>
-                    <widget name="web_ribbon" title="Archivée" bg_color="text-bg-danger" invisible="active"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <field name="active" invisible="1"/>
                     <group>
                         <group>
-                            <field name="name" string="Nom" placeholder="Nom de la planche"/>
+                            <field name="name" string="Name" placeholder="Bed name"/>
                             <field name="code"/>
-                            <field name="garden_id" string="Îlot" placeholder="Îlot parent"/>
+                            <field name="garden_id" string="Block" placeholder="Parent Block"/>
                             <field name="site_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
@@ -48,7 +48,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Cultures" name="crops">
+                        <page string="Crops" name="crops">
                             <field name="crop_ids">
                                 <list>
                                     <field name="name"/>
@@ -59,7 +59,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Cultures en place" name="current_crops">
+                        <page string="Crops in Place" name="current_crops">
                             <field name="current_crop_ids">
                                 <list>
                                     <field name="name"/>
@@ -70,8 +70,8 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Opérations" name="operations">
-                            <field name="operation_ids" readonly="1" placeholder="Opérations dont la cible est cette planche">
+                        <page string="Operations" name="operations">
+                            <field name="operation_ids" readonly="1" placeholder="Operations targeting this bed">
                                 <list>
                                     <field name="name"/>
                                     <field name="type_id"/>
@@ -95,25 +95,25 @@
         <field name="model">garden.bed</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Nom ou code"/>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Name or code"/>
                 <field name="garden_id"/>
                 <field name="site_id"/>
-                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
                 <group>
                     <filter name="group_site" string="Site" context="{'group_by': 'site_id'}"/>
-                    <filter name="group_garden" string="Îlot" context="{'group_by': 'garden_id'}"/>
-                    <filter name="group_soil" string="Type de sol" context="{'group_by': 'soil_type'}"/>
+                    <filter name="group_garden" string="Block" context="{'group_by': 'garden_id'}"/>
+                    <filter name="group_soil" string="Soil Type" context="{'group_by': 'soil_type'}"/>
                 </group>
             </search>
         </field>
     </record>
     <record id="action_garden_bed" model="ir.actions.act_window">
-        <field name="name">Planches</field>
+        <field name="name">Beds</field>
         <field name="res_model">garden.bed</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Créez votre première planche
+                Create your first bed
             </p>
         </field>
     </record>

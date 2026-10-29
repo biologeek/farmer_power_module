@@ -15,14 +15,14 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <widget name="web_ribbon" title="Archivée" bg_color="text-bg-danger" invisible="active"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <field name="active" invisible="1"/>
                     <group>
-                        <field name="name" string="Nom" placeholder="Nom de la ferme"/>
+                        <field name="name" string="Name" placeholder="Farm name"/>
                         <field name="company_id" groups="base.group_multi_company"/>
                     </group>
                     <group>
-                        <field name="site_ids" string="Sites" placeholder="Sites rattachés à cette ferme"/>
+                        <field name="site_ids" string="Sites" placeholder="Sites attached to this farm"/>
                     </group>
                 </sheet>
             </form>
@@ -34,17 +34,17 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
-                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>
     <record id="action_garden_farm" model="ir.actions.act_window">
-        <field name="name">Fermes</field>
+        <field name="name">Farms</field>
         <field name="res_model">garden.farm</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Créez votre première ferme
+                Create your first farm
             </p>
         </field>
     </record>

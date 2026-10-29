@@ -7,54 +7,54 @@ class ProductTemplate(models.Model):
 
     garden_input_type = fields.Selection(
         [
-            ('seed', 'Semence'),
+            ('seed', 'Seed'),
             ('plant', 'Plant'),
-            ('fertilizer', 'Engrais'),
-            ('amendment', 'Amendement'),
-            ('phytosanitary', 'Phytosanitaire'),
-            ('substrate', 'Substrat'),
-            ('other', 'Autre'),
+            ('fertilizer', 'Fertilizer'),
+            ('amendment', 'Soil Amendment'),
+            ('phytosanitary', 'Plant Protection'),
+            ('substrate', 'Growing Medium'),
+            ('other', 'Other'),
         ],
-        string="Type d'intrant maraîcher", index='btree_not_null',
-        help="Renseigné pour les produits consommés par les opérations (semences, plants, engrais, "
-             "traitements...) : seuls ces produits sont proposés comme intrants d'une opération.",
+        string='Market Gardening Input Type', index='btree_not_null',
+        help='Set for products consumed by operations (seeds, plants, fertilizers, treatments...): only these '
+             'products are suggested as operation inputs.',
     )
     amm_number = fields.Char(
-        "N° AMM", copy=False,
-        help="Numéro d'autorisation de mise sur le marché du produit phytosanitaire (mention obligatoire "
-             "du registre phytosanitaire).",
+        'MA No.', copy=False,
+        help='Marketing authorization number of the plant protection product (mandatory entry of the plant '
+             'protection register).',
     )
     pre_harvest_interval_days = fields.Integer(
-        'Délai avant récolte (jours)',
-        help="DAR : nombre de jours à respecter entre le dernier traitement avec ce produit et la récolte. "
-             "0 : aucun délai. Une récolte plus proche du traitement est bloquée (levée possible par le gérant).",
+        'Pre-Harvest Interval (days)',
+        help='PHI: number of days to respect between the last treatment with this product and the harvest. 0: '
+             'no interval. A harvest closer to the treatment is blocked (can be waived by the manager).',
     )
     is_organic_allowed = fields.Boolean(
-        'Autorisé en agriculture biologique',
-        help="Coché si le produit peut être utilisé sur une culture certifiée bio. Les intrants non cochés "
-             "utilisés sur une culture bio sont signalés dans l'export de certification.",
+        'Allowed in organic farming',
+        help='Ticked if the product can be used on an organic-certified crop. Non-ticked inputs used on an '
+             'organic crop are flagged in the certification export.',
     )
     nitrogen_content = fields.Float(
-        'Teneur en azote (%)', digits=(5, 2),
-        help="Pourcentage d'azote (N) en masse de l'engrais. Sert au registre de fertilisation : "
-             "azote apporté = quantité (kg) × teneur / 100.",
+        'Nitrogen Content (%)', digits=(5, 2),
+        help='Percentage of nitrogen (N) by mass of the fertilizer. Used for the fertilization register: '
+             'nitrogen applied = quantity (kg) × content / 100.',
     )
     garden_variety_ids = fields.Many2many(
-        'garden.variety', string='Variétés maraîchères', compute='_compute_garden_variety_ids',
-        help="Variétés dont ce produit est la semence ou le produit récolté.",
+        'garden.variety', string='Market Gardening Varieties', compute='_compute_garden_variety_ids',
+        help='Varieties whose seed or harvested product is this product.',
     )
     is_garden_product = fields.Boolean(
-        'Produit maraîcher', compute='_compute_garden_variety_ids', search='_search_is_garden_product',
+        'Market Gardening Product', compute='_compute_garden_variety_ids', search='_search_is_garden_product',
     )
 
     _pre_harvest_interval_positive = models.Constraint(
-        'CHECK (pre_harvest_interval_days >= 0)', "Le délai avant récolte ne peut pas être négatif.",
+        'CHECK (pre_harvest_interval_days >= 0)', 'The pre-harvest interval cannot be negative.',
     )
 
     @api.constrains('nitrogen_content')
     def _check_nitrogen_content(self):
         if any(not 0 <= template.nitrogen_content <= 100 for template in self):
-            raise ValidationError(self.env._("La teneur en azote est un pourcentage compris entre 0 et 100."))
+            raise ValidationError(self.env._('The nitrogen content is a percentage between 0 and 100.'))
 
     # Champs réglementaires : le chef de culture et le gérant les modifient sans disposer des droits
     # d'écriture sur les produits (Ventes, Inventaire). Une écriture qui ne touche que ces champs est
@@ -91,7 +91,7 @@ class ProductTemplate(models.Model):
 
     def _search_is_garden_product(self, operator, value):
         if operator not in ('=', '!='):
-            raise NotImplementedError("Opérateur non supporté : %s" % operator)
+            raise NotImplementedError("Unsupported operator: %s" % operator)
         positive = (operator == '=') == bool(value)
         varieties = self.env['garden.variety'].sudo().with_context(active_test=False).search([])
         template_ids = (varieties.seed_product_id | varieties.harvest_product_id).product_tmpl_id.ids

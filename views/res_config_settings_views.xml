@@ -6,10 +6,10 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app data-string="Maraîchage" string="Maraîchage" name="odoo_garden" groups="odoo_garden.group_garden_manager">
-                    <block title="Planification" name="garden_planning_setting_container">
-                        <setting string="Marge de semis" id="garden_seed_margin_setting"
-                                 help="Surplus de graines prévu en plus du taux de germination pour calculer les besoins en semences.">
+                <app data-string="Market Gardening" string="Market Gardening" name="odoo_garden" groups="odoo_garden.group_garden_manager">
+                    <block title="Planning" name="garden_planning_setting_container">
+                        <setting string="Sowing Margin" id="garden_seed_margin_setting"
+                                 help="Extra seeds planned on top of the germination rate to compute the seed needs.">
                             <div class="content-group">
                                 <div class="mt16">
                                     <field name="garden_seed_margin" class="oe_inline"/> %
@@ -17,51 +17,51 @@
                             </div>
                         </setting>
                     </block>
-                    <block title="Main-d'œuvre" name="garden_labour_setting_container">
-                        <setting string="Taux horaire par défaut" id="garden_default_hourly_rate_setting"
-                                 help="Coût horaire appliqué quand l'employé n'a pas de coût horaire maraîchage ou qu'aucun employé n'est affecté.">
+                    <block title="Labor" name="garden_labour_setting_container">
+                        <setting string="Default Hourly Rate" id="garden_default_hourly_rate_setting"
+                                 help="Hourly cost applied when the employee has no market gardening hourly cost or when no employee is assigned.">
                             <div class="content-group">
                                 <div class="mt16">
-                                    <field name="garden_default_hourly_rate" class="oe_inline"/> par heure
+                                    <field name="garden_default_hourly_rate" class="oe_inline"/> per hour
                                 </div>
                             </div>
                         </setting>
                     </block>
-                    <block title="Rentabilité" name="garden_profitability_setting_container">
-                        <setting string="Attribution du chiffre d'affaires" id="garden_revenue_method_setting"
-                                 help="Par lot : via les lots livrés (produits suivis par lots, commandes de vente). Au prorata : selon les quantités récoltées du mois pour chaque produit.">
+                    <block title="Profitability" name="garden_profitability_setting_container">
+                        <setting string="Revenue Attribution" id="garden_revenue_method_setting"
+                                 help="By lot: through the delivered lots (lot-tracked products, sales orders). Pro rata: according to the quantities harvested in the month for each product.">
                             <div class="content-group">
                                 <div class="mt16">
                                     <field name="garden_revenue_method" class="oe_inline"/>
                                 </div>
                             </div>
                         </setting>
-                        <setting string="Charges fixes" id="garden_fixed_cost_setting"
-                                 help="Coût annuel par m² imputé aux cultures (surface × jours d'occupation / 365) dans la marge. 0 : pas de charges fixes.">
+                        <setting string="Fixed Costs" id="garden_fixed_cost_setting"
+                                 help="Annual cost per m² charged to the crops (area × days of occupation / 365) in the margin. 0: no fixed costs.">
                             <div class="content-group">
                                 <div class="mt16">
-                                    <field name="garden_fixed_cost_per_m2" class="oe_inline"/> par m² et par an
+                                    <field name="garden_fixed_cost_per_m2" class="oe_inline"/> per m² per year
                                 </div>
                             </div>
                         </setting>
                     </block>
-                    <block title="Conformité" name="garden_compliance_setting_container">
-                        <setting string="Registres réglementaires (France)" id="garden_compliance_setting"
-                                 help="Registre phytosanitaire, registre de fertilisation et export de certification bio, propres à la réglementation française. À désactiver pour les autres marchés.">
+                    <block title="Compliance" name="garden_compliance_setting_container">
+                        <setting string="Regulatory Registers (France)" id="garden_compliance_setting"
+                                 help="Plant protection register, fertilization register and organic certification export, specific to French regulations. Disable for other markets.">
                             <field name="garden_compliance_enabled"/>
                         </setting>
                     </block>
                     <block title="Stock" name="garden_stock_setting_container">
-                        <setting string="Emplacement de stockage" id="garden_stock_location_setting"
-                                 help="Les récoltes entrent dans cet emplacement et les intrants en sortent. Vide : stock principal de l'entrepôt de la société.">
+                        <setting string="Storage Location" id="garden_stock_location_setting"
+                                 help="Harvests enter this location and inputs leave it. Empty: main stock of the warehouse of the company.">
                             <div class="content-group">
                                 <div class="mt16">
                                     <field name="garden_stock_location_id" options="{'no_create': True}"/>
                                 </div>
                             </div>
                         </setting>
-                        <setting string="Emplacements virtuels" id="garden_virtual_locations_setting"
-                                 help="Emplacements de contrepartie des entrées (récoltes) et des sorties (intrants consommés) de stock.">
+                        <setting string="Virtual Locations" id="garden_virtual_locations_setting"
+                                 help="Counterpart locations of stock entries (harvests) and exits (consumed inputs).">
                             <div class="content-group">
                                 <div class="mt16">
                                     <label for="garden_production_location_id" class="o_light_label"/>
@@ -79,7 +79,7 @@
         </field>
     </record>
     <record id="action_garden_settings" model="ir.actions.act_window">
-        <field name="name">Paramètres</field>
+        <field name="name">Settings</field>
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
         <field name="context">{'module': 'odoo_garden', 'bin_size': False}</field>

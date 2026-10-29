@@ -3,15 +3,15 @@ import { registry } from "@web/core/registry";
 registry.category("web_tour.tours").add("garden_gantt_tour", {
     steps: () => [
         {
-            content: "Le plan de culture affiche les barres prévues",
+            content: "The crop plan shows the expected bars",
             trigger: ".o_garden_gantt .o_garden_gantt_bar_planned",
         },
         {
-            content: "Les barres réalisées sont affichées",
+            content: "The actual bars are shown",
             trigger: ".o_garden_gantt .o_garden_gantt_bar_real",
         },
         {
-            content: "La légende liste les familles botaniques",
+            content: "The legend lists the botanical families",
             trigger: ".o_garden_gantt .o_garden_gantt_legend .o_garden_family_solanaceae",
         },
         {

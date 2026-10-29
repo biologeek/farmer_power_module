@@ -24,11 +24,11 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_scrap" type="object" class="oe_stat_button" icon="fa-trash"
-                                invisible="not scrap_id" string="Rebut de stock"/>
+                                invisible="not scrap_id" string="Stock Scrap"/>
                     </div>
                     <group>
                         <group name="main">
-                            <field name="crop_id" options="{'no_create': True}" placeholder="Culture concernée"/>
+                            <field name="crop_id" options="{'no_create': True}" placeholder="Crop Concerned"/>
                             <field name="date"/>
                             <field name="stage" widget="radio"/>
                             <field name="cause"/>
@@ -48,7 +48,7 @@
                         </group>
                     </group>
                     <group string="Notes">
-                        <field name="notes" nolabel="1" placeholder="Précisions sur la perte"/>
+                        <field name="notes" nolabel="1" placeholder="Loss Details"/>
                     </group>
                 </sheet>
                 <chatter/>
@@ -63,14 +63,14 @@
                 <field name="crop_id"/>
                 <field name="bed_id"/>
                 <field name="product_id"/>
-                <filter name="filter_pre_harvest" string="Avant récolte" domain="[('stage', '=', 'pre_harvest')]"/>
-                <filter name="filter_post_harvest" string="Après récolte" domain="[('stage', '=', 'post_harvest')]"/>
+                <filter name="filter_pre_harvest" string="Pre-Harvest" domain="[('stage', '=', 'pre_harvest')]"/>
+                <filter name="filter_post_harvest" string="Post-Harvest" domain="[('stage', '=', 'post_harvest')]"/>
                 <group>
-                    <filter name="group_crop" string="Culture" context="{'group_by': 'crop_id'}"/>
-                    <filter name="group_bed" string="Planche" context="{'group_by': 'bed_id'}"/>
-                    <filter name="group_stage" string="Étape" context="{'group_by': 'stage'}"/>
+                    <filter name="group_crop" string="Crop" context="{'group_by': 'crop_id'}"/>
+                    <filter name="group_bed" string="Bed" context="{'group_by': 'bed_id'}"/>
+                    <filter name="group_stage" string="Step" context="{'group_by': 'stage'}"/>
                     <filter name="group_cause" string="Cause" context="{'group_by': 'cause'}"/>
-                    <filter name="group_date" string="Mois" context="{'group_by': 'date:month'}"/>
+                    <filter name="group_date" string="Month" context="{'group_by': 'date:month'}"/>
                 </group>
             </search>
         </field>
@@ -79,7 +79,7 @@
         <field name="name">garden.loss.pivot</field>
         <field name="model">garden.loss</field>
         <field name="arch" type="xml">
-            <pivot string="Pertes">
+            <pivot string="Losses">
                 <field name="cause" type="row"/>
                 <field name="stage" type="col"/>
                 <field name="quantity_ref" type="measure"/>
@@ -87,14 +87,14 @@
         </field>
     </record>
     <record id="action_garden_loss" model="ir.actions.act_window">
-        <field name="name">Pertes</field>
+        <field name="name">Losses</field>
         <field name="res_model">garden.loss</field>
         <field name="view_mode">list,form,pivot</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Déclarez votre première perte
+                Declare your first loss
             </p>
-            <p>Une perte après récolte met aussi le stock au rebut, sur le lot de la culture.</p>
+            <p>A post-harvest loss also scraps the stock, on the crop lot.</p>
         </field>
     </record>
 </odoo>

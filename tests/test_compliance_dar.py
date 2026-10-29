@@ -13,7 +13,7 @@ class TestGardenPreHarvestInterval(GardenComplianceCase):
         harvest = self._harvest('2031-06-13')  # 3 jours après
         with self.assertRaises(ValidationError) as caught:
             harvest.action_done()
-        self.assertIn("Délai avant récolte", str(caught.exception))
+        self.assertIn("Pre-harvest interval", str(caught.exception))
         self.assertEqual(harvest.state, 'planned')
         self.assertFalse(harvest.move_ids)
         # la veille de la fin du délai : encore bloquée ; le jour de la fin : autorisée
@@ -46,7 +46,7 @@ class TestGardenPreHarvestInterval(GardenComplianceCase):
         self.assertEqual(harvest.state, 'done')
         self.assertTrue(harvest.move_ids)
         notes = " ".join(harvest.message_ids.mapped('body'))
-        self.assertIn('Récolte validée en dérogation', notes)
+        self.assertIn('Harvest validated with a pre-harvest interval waiver', notes)
         self.assertIn(self.crop.name, notes)
 
     def test_chef_and_worker_cannot_override(self):
@@ -104,7 +104,7 @@ class TestGardenPreHarvestInterval(GardenComplianceCase):
         with self.assertRaises(ValidationError) as caught:
             harvest.action_done()
         self.assertIn(other.name, str(caught.exception))
-        self.assertEqual(str(caught.exception).count('traitement du'), 1)  # seule la culture traitée est citée
+        self.assertEqual(str(caught.exception).count('treated on'), 1)  # seule la culture traitée est citée
         # récolte de planche : les cultures en place sont contrôlées
         bed_harvest = self._operation(
             type_id=self.type_harvest.id, scope='bed', bed_ids=[(6, 0, self.bed2.ids)], date='2031-06-12',

@@ -5,54 +5,54 @@ from odoo import api, fields, models
 
 class GardenBed(models.Model):
     _name = 'garden.bed'
-    _description = 'Planche de culture'
+    _description = 'Crop Bed'
     _inherit = ['mail.thread']
     _order = 'garden_id, code, name'
 
-    name = fields.Char('Nom de la planche', required=True, tracking=True)
+    name = fields.Char('Bed name', required=True, tracking=True)
     code = fields.Char('Code', copy=False, tracking=True)
     garden_id = fields.Many2one(
-        'garden.garden', string='Îlot', required=True, index=True, ondelete='cascade', tracking=True,
+        'garden.garden', string='Block', required=True, index=True, ondelete='cascade', tracking=True,
     )
     site_id = fields.Many2one(
         'garden.site', string='Site', related='garden_id.site_id', store=True, index=True,
     )
     company_id = fields.Many2one(
-        'res.company', string='Société', related='garden_id.company_id', store=True, index=True,
+        'res.company', string='Company', related='garden_id.company_id', store=True, index=True,
     )
-    length = fields.Float('Longueur (m)')
-    width = fields.Float('Largeur (m)')
-    area = fields.Float('Surface (m²)', compute='_compute_area', store=True)
+    length = fields.Float('Length (m)')
+    width = fields.Float('Width (m)')
+    area = fields.Float('Area (m²)', compute='_compute_area', store=True)
     soil_type = fields.Selection(
         [
-            ('sandy', 'Sableux'),
-            ('silty', 'Limoneux'),
-            ('clayey', 'Argileux'),
-            ('loamy', 'Limono-argileux'),
-            ('humus', 'Humifère'),
-            ('other', 'Autre'),
+            ('sandy', 'Sandy'),
+            ('silty', 'Silt'),
+            ('clayey', 'Clay'),
+            ('loamy', 'Silty Clay'),
+            ('humus', 'Humus-rich'),
+            ('other', 'Other'),
         ],
-        string='Type de sol',
+        string='Soil Type',
     )
     notes = fields.Text('Notes')
-    active = fields.Boolean('Actif', default=True)
-    crop_ids = fields.One2many('garden.crop', 'bed_id', string='Cultures')
+    active = fields.Boolean('Active', default=True)
+    crop_ids = fields.One2many('garden.crop', 'bed_id', string='Crops')
     current_crop_ids = fields.One2many(
-        'garden.crop', string='Cultures en place', compute='_compute_current_crop_ids',
+        'garden.crop', string='Crops in Place', compute='_compute_current_crop_ids',
     )
     operation_ids = fields.Many2many(
-        'garden.operation', 'garden_operation_bed_rel', 'bed_id', 'operation_id', string='Opérations',
-        help="Opérations dont la cible est directement cette planche (périmètre « Planche »).",
+        'garden.operation', 'garden_operation_bed_rel', 'bed_id', 'operation_id', string='Operations',
+        help='Operations directly targeting this bed ("Bed" scope).',
     )
 
     operation_count = fields.Integer(
-        'Nombre d\'opérations', compute='_compute_operation_count',
-        help="Opérations qui visent la planche, l'une de ses cultures ou son îlot.",
+        'Number of Operations', compute='_compute_operation_count',
+        help='Operations targeting the bed, one of its crops or its block.',
     )
 
     _code_site_uniq = models.Constraint(
         'UNIQUE (site_id, code)',
-        'Le code de la planche doit être unique par site.',
+        'The bed code must be unique per site.',
     )
 
     @api.depends('length', 'width')
@@ -83,7 +83,7 @@ class GardenBed(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': self.env._("Nouvelle opération"),
+            'name': self.env._('New Operation'),
             'res_model': 'garden.operation',
             'view_mode': 'form',
             'target': 'current',

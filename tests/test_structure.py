@@ -11,7 +11,7 @@ class TestGardenStructure(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.farm = cls.env['garden.farm'].create({'name': 'Ferme'})
+        cls.farm = cls.env['garden.farm'].create({'name': 'Farm'})
         cls.site = cls.env['garden.site'].create({'name': 'Site', 'farm_id': cls.farm.id})
         cls.garden = cls.env['garden.garden'].create({
             'name': 'Îlot A', 'code': 'A', 'site_id': cls.site.id,
@@ -19,7 +19,7 @@ class TestGardenStructure(TransactionCase):
         })
 
     def _bed(self, **vals):
-        vals.setdefault('name', 'Planche')
+        vals.setdefault('name', 'Bed')
         vals.setdefault('garden_id', self.garden.id)
         return self.env['garden.bed'].create(vals)
 
@@ -46,7 +46,7 @@ class TestGardenStructure(TransactionCase):
         # même code sur un autre site : autorisé
         site2 = self.env['garden.site'].create({'name': 'Site 2', 'farm_id': self.farm.id})
         garden2 = self.env['garden.garden'].create({'name': 'Îlot B', 'site_id': site2.id})
-        self.assertTrue(self._bed(name='Autre', code='P01', garden_id=garden2.id))
+        self.assertTrue(self._bed(name='Other', code='P01', garden_id=garden2.id))
         # plusieurs planches sans code : autorisé
         self._bed(name='Sans code 1')
         self._bed(name='Sans code 2')

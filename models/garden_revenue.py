@@ -5,7 +5,7 @@ from odoo import api, models
 
 class GardenRevenue(models.AbstractModel):
     _name = 'garden.revenue'
-    _description = "Attribution du chiffre d'affaires aux cultures"
+    _description = 'Revenue Attribution to Crops'
     # Service (pas de table) : calcule, à la demande, quelle part des lignes de factures clients
     # comptabilisées revient à chaque culture. Rien n'est stocké : la facture reste la source de vérité.
     #

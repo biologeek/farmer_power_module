@@ -3,10 +3,10 @@
     <!-- Phase 5 : récoltes et factures clients comptabilisées, pour le rapport et le tableau de bord de rentabilité.
          Méthode par défaut « au prorata » : le chiffre d'affaires du mois se répartit selon les récoltes du mois. -->
     <record id="demo_customer_market" model="res.partner">
-        <field name="name">Marché de la Halle (démo)</field>
+        <field name="name">Covered Market (demo)</field>
     </record>
     <record id="demo_customer_restaurant" model="res.partner">
-        <field name="name">Restaurant Le Potager (démo)</field>
+        <field name="name">Restaurant The Kitchen Garden (demo)</field>
     </record>
 
     <!-- Récoltes supplémentaires (produits non suivis par lots) : carotte en juin, courgette en juillet. -->

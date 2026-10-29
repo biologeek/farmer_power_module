@@ -138,7 +138,7 @@ class TestGardenProfitability(GardenRevenueCase):
         species = {row['label']: row['value'] for row in data['margin_by_species']}
         self.assertAlmostEqual(species[self.solanaceae.display_name], 100.0 + 38.0)
         categories = {row['label'] for row in data['hours_by_category']}
-        self.assertIn('Désherbage', categories)
+        self.assertIn('Weeding', categories)
         months = {row['label']: row['value'] for row in data['monthly_revenue']}
         self.assertGreaterEqual(months['2027-07'], 200.0 - 1e-6)  # la démo peut s'y ajouter
         best = [row['value'] for row in data['best']]

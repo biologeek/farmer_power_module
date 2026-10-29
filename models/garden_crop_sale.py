@@ -3,22 +3,22 @@ from odoo import api, fields, models
 
 class GardenCropSale(models.TransientModel):
     _name = 'garden.crop.sale'
-    _description = "Ligne de vente attribuée à une culture"
+    _description = 'Sale Line Attributed to a Crop'
     _order = 'date desc, id'
     # Lignes temporaires créées à l'ouverture du bouton « Ventes » de la culture : elles exposent au chef de
     # culture le détail du chiffre d'affaires attribué (facture, client, produit, montant) sans lui donner
     # accès aux factures ni à la comptabilité. Les factures sont lues en ``sudo`` à la création uniquement.
 
-    crop_id = fields.Many2one('garden.crop', string='Culture', required=True, ondelete='cascade', index=True)
+    crop_id = fields.Many2one('garden.crop', string='Crop', required=True, ondelete='cascade', index=True)
     date = fields.Date('Date')
-    invoice_name = fields.Char('Facture')
-    is_refund = fields.Boolean('Avoir')
-    partner_id = fields.Many2one('res.partner', string='Client')
-    product_id = fields.Many2one('product.product', string='Produit')
-    quantity = fields.Float('Quantité', digits='Product Unit')
-    line_amount = fields.Float('Montant HT de la ligne', digits='Product Price')
-    amount = fields.Float('Montant attribué', digits='Product Price')
-    share = fields.Float('Part attribuée (%)')
+    invoice_name = fields.Char('Invoice')
+    is_refund = fields.Boolean('Credit Note')
+    partner_id = fields.Many2one('res.partner', string='Customer')
+    product_id = fields.Many2one('product.product', string='Product')
+    quantity = fields.Float('Quantity', digits='Product Unit')
+    line_amount = fields.Float('Line Amount Excl. Tax', digits='Product Price')
+    amount = fields.Float('Attributed Amount', digits='Product Price')
+    share = fields.Float('Attributed Share (%)')
 
     @api.model
     def _open_for(self, crop):
@@ -54,5 +54,5 @@ class GardenCropSale(models.TransientModel):
         } for line in lines])
         action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_crop_sale')
         action['domain'] = [('crop_id', '=', crop.id), ('create_uid', '=', self.env.uid)]
-        action['name'] = self.env._("Ventes : %s", crop.name)
+        action['name'] = self.env._('Sales: %s', crop.name)
         return action

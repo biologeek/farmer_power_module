@@ -29,15 +29,15 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_start" string="Démarrer" type="object" class="btn-primary"
+                    <button name="action_start" string="Start" type="object" class="btn-primary"
                             invisible="state not in ('planned', 'in_progress') or timer_start"/>
-                    <button name="action_stop_timer" string="Arrêter le chrono" type="object"
+                    <button name="action_stop_timer" string="Stop Timer" type="object"
                             invisible="not timer_start"/>
-                    <button name="action_done" string="Terminer" type="object" class="btn-primary"
+                    <button name="action_done" string="Complete" type="object" class="btn-primary"
                             invisible="state not in ('planned', 'in_progress')"/>
-                    <button name="action_cancel" string="Annuler" type="object"
+                    <button name="action_cancel" string="Cancel" type="object"
                             invisible="state in ('done', 'cancelled')"/>
-                    <button name="action_reset_planned" string="Remettre en planifiée" type="object"
+                    <button name="action_reset_planned" string="Reset to Planned" type="object"
                             invisible="state not in ('done', 'cancelled')"/>
                     <field name="state" widget="statusbar" statusbar_visible="planned,in_progress,done"/>
                 </header>
@@ -47,13 +47,13 @@
                         <field name="allocation_warning" nolabel="1"/>
                     </div>
                     <div class="alert alert-danger" role="alert" invisible="not dar_warning">
-                        <strong>Délai avant récolte (DAR) non écoulé.</strong>
+                        <strong>Pre-harvest interval (PHI) not elapsed.</strong>
                         <field name="dar_warning" nolabel="1"/>
-                        <span>La validation sera refusée, sauf dérogation accordée par un gérant.</span>
+                        <span>Validation will be refused unless a manager grants a waiver.</span>
                     </div>
                     <field name="timer_start" invisible="1"/>
                     <div class="oe_title">
-                        <h1><field name="name" placeholder="Libellé de l'opération"/></h1>
+                        <h1><field name="name" placeholder="Operation Label"/></h1>
                     </div>
                     <group>
                         <group name="target">
@@ -73,7 +73,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Travail" name="work">
+                        <page string="Work" name="work">
                             <group>
                                 <group>
                                     <field name="employee_ids" widget="many2many_avatar_employee"/>
@@ -85,7 +85,7 @@
                                     <field name="labour_cost" groups="odoo_garden.group_garden_chef"/>
                                 </group>
                             </group>
-                            <field name="worker_ids" nolabel="1" placeholder="Saisie détaillée du temps par employé (optionnel)">
+                            <field name="worker_ids" nolabel="1" placeholder="Detailed time entry per employee (optional)">
                                 <list editable="bottom">
                                     <field name="employee_id" options="{'no_create': True}"/>
                                     <field name="duration" widget="float_time"/>
@@ -93,7 +93,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Intrants" name="inputs">
+                        <page string="Inputs" name="inputs">
                             <field name="input_ids" readonly="state == 'done'">
                                 <list editable="bottom">
                                     <field name="sequence" widget="handle"/>
@@ -115,7 +115,7 @@
                                 <field name="input_cost" groups="odoo_garden.group_garden_chef"/>
                             </group>
                         </page>
-                        <page string="Récolte" name="harvest" invisible="category != 'harvest'">
+                        <page string="Harvest" name="harvest" invisible="category != 'harvest'">
                             <group>
                                 <field name="harvest_product_id"/>
                                 <label for="harvest_qty"/>
@@ -124,7 +124,7 @@
                                     <field name="harvest_uom_id" options="{'no_create': True}"/>
                                 </div>
                             </group>
-                            <group string="Dérogation au délai avant récolte" groups="odoo_garden.group_garden_manager">
+                            <group string="Pre-Harvest Interval Waiver" groups="odoo_garden.group_garden_manager">
                                 <field name="dar_override" readonly="state == 'done'"/>
                                 <field name="dar_override_reason" invisible="not dar_override"
                                        required="dar_override" readonly="state == 'done'"/>
@@ -136,13 +136,13 @@
                                 <field name="water_volume"/>
                             </group>
                         </page>
-                        <page string="Traitement" name="treatment" invisible="category != 'treatment'">
+                        <page string="Treatment" name="treatment" invisible="category != 'treatment'">
                             <group>
                                 <field name="target"/>
                                 <field name="weather_notes"/>
                             </group>
                         </page>
-                        <page string="Répartition" name="allocations" invisible="state != 'done'">
+                        <page string="Allocation" name="allocations" invisible="state != 'done'">
                             <field name="allocation_ids" readonly="1">
                                 <list>
                                     <field name="crop_id"/>
@@ -155,7 +155,7 @@
                             </field>
                         </page>
                         <page string="Description" name="description">
-                            <field name="description" placeholder="Consignes ou compte rendu"/>
+                            <field name="description" placeholder="Instructions or Report"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -175,24 +175,24 @@
                 <field name="bed_ids"/>
                 <field name="garden_id"/>
                 <field name="employee_ids"/>
-                <filter name="filter_planned" string="Planifiées" domain="[('state', '=', 'planned')]"/>
-                <filter name="filter_in_progress" string="En cours" domain="[('state', '=', 'in_progress')]"/>
-                <filter name="filter_done" string="Faites" domain="[('state', '=', 'done')]"/>
-                <filter name="filter_cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
+                <filter name="filter_planned" string="Planned" domain="[('state', '=', 'planned')]"/>
+                <filter name="filter_in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter name="filter_done" string="Done" domain="[('state', '=', 'done')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
                 <separator/>
-                <filter name="filter_todo" string="À faire" domain="[('state', 'in', ('planned', 'in_progress'))]"/>
+                <filter name="filter_todo" string="To Do" domain="[('state', 'in', ('planned', 'in_progress'))]"/>
                 <separator/>
-                <filter name="filter_today_overdue" string="Du jour et en retard"
+                <filter name="filter_today_overdue" string="Today and Overdue"
                         domain="[('state', 'in', ('planned', 'in_progress')), ('planned_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
                 <separator/>
-                <filter name="filter_my_operations" string="Mes opérations"
+                <filter name="filter_my_operations" string="My Operations"
                         domain="[('employee_ids.user_id', '=', uid)]"/>
                 <group>
-                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
                     <filter name="group_type" string="Type" context="{'group_by': 'type_id'}"/>
-                    <filter name="group_category" string="Catégorie" context="{'group_by': 'category'}"/>
-                    <filter name="group_garden" string="Îlot" context="{'group_by': 'garden_main_id'}"/>
-                    <filter name="group_date" string="Date prévue" context="{'group_by': 'planned_date:week'}"/>
+                    <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                    <filter name="group_garden" string="Block" context="{'group_by': 'garden_main_id'}"/>
+                    <filter name="group_date" string="Planned Date" context="{'group_by': 'planned_date:week'}"/>
                 </group>
             </search>
         </field>
@@ -202,7 +202,7 @@
         <field name="name">garden.operation.calendar</field>
         <field name="model">garden.operation</field>
         <field name="arch" type="xml">
-            <calendar string="Calendrier des opérations" date_start="planned_date" color="type_id" mode="month"
+            <calendar string="Operation Calendar" date_start="planned_date" color="type_id" mode="month"
                       quick_create="0" event_open_popup="1">
                 <field name="garden_main_id"/>
                 <field name="employee_ids" widget="many2many_tags"/>
@@ -226,7 +226,7 @@
                 <templates>
                     <t t-name="card">
                         <div class="d-flex align-items-start">
-                            <i t-att-class="'fa fa-fw fa-lg me-2 text-primary ' + (record.type_icon.raw_value or 'fa-wrench')" title="Type d'opération" role="img"/>
+                            <i t-att-class="'fa fa-fw fa-lg me-2 text-primary ' + (record.type_icon.raw_value or 'fa-wrench')" title="Operation Type" role="img"/>
                             <div class="flex-grow-1">
                                 <field name="name" class="fw-bold"/>
                                 <div class="text-muted">
@@ -236,7 +236,7 @@
                                 </div>
                             </div>
                             <span t-if="record.timer_start.raw_value" class="badge text-bg-warning">
-                                <i class="fa fa-clock-o" title="Chronomètre en marche" role="img"/> Chrono
+                                <i class="fa fa-clock-o" title="Timer running" role="img"/> Timer
                             </span>
                         </div>
                         <footer class="pt-2">
@@ -244,11 +244,11 @@
                             <div class="ms-auto d-flex gap-2">
                                 <button t-if="(record.state.raw_value == 'planned' or record.state.raw_value == 'in_progress') and !record.timer_start.raw_value"
                                         name="action_start" type="object" class="btn btn-sm btn-primary">
-                                    Démarrer
+                                    Start
                                 </button>
                                 <button t-if="record.state.raw_value == 'planned' or record.state.raw_value == 'in_progress'"
                                         name="action_done" type="object" class="btn btn-sm btn-success">
-                                    Terminer
+                                    Complete
                                 </button>
                             </div>
                         </footer>
@@ -259,20 +259,20 @@
     </record>
 
     <record id="action_garden_operation" model="ir.actions.act_window">
-        <field name="name">Opérations</field>
+        <field name="name">Operations</field>
         <field name="res_model">garden.operation</field>
         <field name="view_mode">list,form,calendar</field>
         <field name="search_view_id" ref="view_garden_operation_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Créez votre première opération
+                Create your first operation
             </p>
-            <p>Une opération est un travail (semis, arrosage, récolte...) sur une culture, des planches ou un îlot.</p>
+            <p>An operation is a piece of work (sowing, watering, harvest...) on a crop, beds or a block.</p>
         </field>
     </record>
 
     <record id="action_garden_operation_calendar" model="ir.actions.act_window">
-        <field name="name">Calendrier des opérations</field>
+        <field name="name">Operation Calendar</field>
         <field name="res_model">garden.operation</field>
         <field name="view_mode">calendar,list,form</field>
         <field name="domain">[('state', '!=', 'cancelled')]</field>
@@ -280,16 +280,16 @@
     </record>
 
     <record id="action_garden_operation_today" model="ir.actions.act_window">
-        <field name="name">Ma journée</field>
+        <field name="name">My Day</field>
         <field name="res_model">garden.operation</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="search_view_id" ref="view_garden_operation_search"/>
         <field name="context">{'search_default_filter_today_overdue': 1, 'search_default_filter_my_operations': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Rien à faire pour le moment
+                Nothing to do for now
             </p>
-            <p>Les opérations planifiées du jour et en retard qui vous sont affectées apparaissent ici. Retirez le filtre « Mes opérations » pour voir celles de toute l'équipe.</p>
+            <p>The planned operations of the day and overdue ones assigned to you appear here. Remove the "My Operations" filter to see those of the whole team.</p>
         </field>
     </record>
     <!-- Statistiques de temps : heures réparties sur les cultures (remplacent l'ancien écran Chart.js) -->
@@ -297,7 +297,7 @@
         <field name="name">garden.operation.allocation.pivot</field>
         <field name="model">garden.operation.allocation</field>
         <field name="arch" type="xml">
-            <pivot string="Temps de travail" disable_linking="1">
+            <pivot string="Work Time" disable_linking="1">
                 <field name="category" type="row"/>
                 <field name="template_id" type="col"/>
                 <field name="hours" type="measure" widget="float_time"/>
@@ -308,7 +308,7 @@
         <field name="name">garden.operation.allocation.graph</field>
         <field name="model">garden.operation.allocation</field>
         <field name="arch" type="xml">
-            <graph string="Temps de travail" type="bar" stacked="1">
+            <graph string="Work Time" type="bar" stacked="1">
                 <field name="category"/>
                 <field name="template_id"/>
                 <field name="hours" type="measure"/>
@@ -325,23 +325,23 @@
                 <field name="bed_id"/>
                 <field name="template_id"/>
                 <group>
-                    <filter name="group_category" string="Catégorie" context="{'group_by': 'category'}"/>
-                    <filter name="group_type" string="Type d'opération" context="{'group_by': 'type_id'}"/>
-                    <filter name="group_template" string="Itinéraire" context="{'group_by': 'template_id'}"/>
-                    <filter name="group_bed" string="Planche" context="{'group_by': 'bed_id'}"/>
-                    <filter name="group_month" string="Mois" context="{'group_by': 'date:month'}"/>
+                    <filter name="group_category" string="Category" context="{'group_by': 'category'}"/>
+                    <filter name="group_type" string="Operation Type" context="{'group_by': 'type_id'}"/>
+                    <filter name="group_template" string="Template" context="{'group_by': 'template_id'}"/>
+                    <filter name="group_bed" string="Bed" context="{'group_by': 'bed_id'}"/>
+                    <filter name="group_month" string="Month" context="{'group_by': 'date:month'}"/>
                 </group>
             </search>
         </field>
     </record>
     <record id="action_garden_time_statistics" model="ir.actions.act_window">
-        <field name="name">Temps de travail</field>
+        <field name="name">Work Time</field>
         <field name="res_model">garden.operation.allocation</field>
         <field name="view_mode">pivot,graph</field>
         <field name="search_view_id" ref="view_garden_time_search"/>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">Aucun temps de travail réparti</p>
-            <p>Les heures apparaissent quand les opérations sont faites.</p>
+            <p class="o_view_nocontent_smiling_face">No labor time allocated</p>
+            <p>Hours appear when operations are done.</p>
         </field>
     </record>
 </odoo>

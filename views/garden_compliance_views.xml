@@ -3,7 +3,7 @@
         <field name="name">garden.compliance.line.phyto.list</field>
         <field name="model">garden.compliance.line</field>
         <field name="arch" type="xml">
-            <list string="Registre phytosanitaire" create="0" edit="0" delete="0">
+            <list string="Plant Protection Register" create="0" edit="0" delete="0">
                 <field name="date"/>
                 <field name="crop_id"/>
                 <field name="parcel"/>
@@ -26,7 +26,7 @@
         <field name="name">garden.compliance.line.fertilization.list</field>
         <field name="model">garden.compliance.line</field>
         <field name="arch" type="xml">
-            <list string="Registre de fertilisation" create="0" edit="0" delete="0"
+            <list string="Fertilization Register" create="0" edit="0" delete="0"
                   decoration-warning="note">
                 <field name="date"/>
                 <field name="season_id"/>
@@ -48,7 +48,7 @@
         <field name="name">garden.compliance.line.fertilization.pivot</field>
         <field name="model">garden.compliance.line</field>
         <field name="arch" type="xml">
-            <pivot string="Azote par planche et par saison" disable_linking="1">
+            <pivot string="Nitrogen per Bed and Season" disable_linking="1">
                 <field name="bed_id" type="row"/>
                 <field name="season_id" type="col"/>
                 <field name="nitrogen_kg" type="measure"/>
@@ -61,7 +61,7 @@
         <field name="name">garden.compliance.line.organic.list</field>
         <field name="model">garden.compliance.line</field>
         <field name="arch" type="xml">
-            <list string="Intrants et certification bio" create="0" edit="0" delete="0" decoration-danger="alert">
+            <list string="Inputs and Organic Certification" create="0" edit="0" delete="0" decoration-danger="alert">
                 <field name="date"/>
                 <field name="season_id"/>
                 <field name="crop_id"/>
@@ -88,9 +88,9 @@
                 <field name="parcel"/>
                 <field name="operator"/>
                 <group>
-                    <filter name="group_crop" string="Culture" context="{'group_by': 'crop_id'}"/>
-                    <filter name="group_product" string="Produit" context="{'group_by': 'product_id'}"/>
-                    <filter name="group_season" string="Saison" context="{'group_by': 'season_id'}"/>
+                    <filter name="group_crop" string="Crop" context="{'group_by': 'crop_id'}"/>
+                    <filter name="group_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="group_season" string="Season" context="{'group_by': 'season_id'}"/>
                 </group>
             </search>
         </field>
@@ -100,13 +100,13 @@
         <field name="name">garden.compliance.wizard.form</field>
         <field name="model">garden.compliance.wizard</field>
         <field name="arch" type="xml">
-            <form string="Registre réglementaire" create="0" delete="0">
+            <form string="Regulatory Register" create="0" delete="0">
                 <header>
-                    <button name="action_compute" string="Calculer" type="object" class="btn-primary"/>
-                    <button name="action_print" string="Imprimer (PDF)" type="object" invisible="register == 'organic'"/>
-                    <button name="action_open_pivot" string="Synthèse par planche" type="object"
+                    <button name="action_compute" string="Compute" type="object" class="btn-primary"/>
+                    <button name="action_print" string="Print (PDF)" type="object" invisible="register == 'organic'"/>
+                    <button name="action_open_pivot" string="Summary per Bed" type="object"
                             invisible="register != 'fertilization'"/>
-                    <button name="action_export_xlsx" string="Exporter (XLSX)" type="object"/>
+                    <button name="action_export_xlsx" string="Export (XLSX)" type="object"/>
                 </header>
                 <sheet>
                     <field name="register" invisible="1"/>
@@ -114,9 +114,9 @@
                         <h1><field name="register" readonly="1" nolabel="1"/></h1>
                     </div>
                     <div class="alert alert-info" role="alert">
-                        Registre propre à la réglementation française, calculé à partir des opérations faites.
-                        Choisissez la période, la saison ou les cultures puis cliquez sur « Calculer », « Imprimer »
-                        ou « Exporter ».
+                        Register specific to French regulations, computed from the operations done.
+                        Choose the period, the season or the crops then click "Compute", "Print"
+                        or "Export".
                     </div>
                     <group>
                         <group>
@@ -130,8 +130,8 @@
                     </group>
                     <field name="line_count" invisible="1"/>
                     <div class="alert alert-danger" role="alert" invisible="register != 'organic' or not alert_count">
-                        <strong><field name="alert_count" readonly="1" class="oe_inline"/> intrant(s) non autorisé(s) en bio</strong>
-                        utilisé(s) sur une culture bio (lignes en rouge, onglet « Alertes bio » de l'export).
+                        <strong><field name="alert_count" readonly="1" class="oe_inline"/> input(s) not allowed in organic</strong>
+                        used on an organic crop (red lines, "Organic Alerts" tab of the export).
                     </div>
                     <field name="phyto_line_ids" nolabel="1" invisible="register != 'phyto' or not line_count"
                            readonly="1" context="{'list_view_ref': 'odoo_garden.view_garden_compliance_line_phyto_list'}"/>
@@ -145,7 +145,7 @@
     </record>
 
     <record id="action_garden_compliance_phyto" model="ir.actions.act_window">
-        <field name="name">Registre phytosanitaire</field>
+        <field name="name">Plant Protection Register</field>
         <field name="res_model">garden.compliance.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">current</field>
@@ -153,7 +153,7 @@
     </record>
 
     <record id="action_garden_compliance_fertilization" model="ir.actions.act_window">
-        <field name="name">Registre de fertilisation</field>
+        <field name="name">Fertilization Register</field>
         <field name="res_model">garden.compliance.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">current</field>
@@ -161,7 +161,7 @@
     </record>
 
     <record id="action_garden_compliance_organic" model="ir.actions.act_window">
-        <field name="name">Export certification bio</field>
+        <field name="name">Organic Certification Export</field>
         <field name="res_model">garden.compliance.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">current</field>

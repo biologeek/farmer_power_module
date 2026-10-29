@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="paperformat_garden_compliance" model="report.paperformat">
-        <field name="name">Registres réglementaires (A4 paysage)</field>
+        <field name="name">Regulatory Registers (A4 landscape)</field>
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Landscape</field>
@@ -14,12 +14,12 @@
     </record>
 
     <record id="action_report_garden_compliance" model="ir.actions.report">
-        <field name="name">Registre réglementaire</field>
+        <field name="name">Regulatory Register</field>
         <field name="model">garden.compliance.wizard</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">odoo_garden.report_garden_compliance</field>
         <field name="report_file">odoo_garden.report_garden_compliance</field>
-        <field name="print_report_name">'Registre-%s' % object.register</field>
+        <field name="print_report_name">'Register-%s' % object.register</field>
         <field name="paperformat_id" ref="paperformat_garden_compliance"/>
     </record>
 
@@ -29,34 +29,34 @@
                 <t t-foreach="docs" t-as="doc">
                     <div class="page o_garden_compliance">
                         <t t-if="doc.register == 'phyto'">
-                            <h2>Registre phytosanitaire</h2>
+                            <h2>Plant Protection Register</h2>
                         </t>
                         <t t-if="doc.register == 'fertilization'">
-                            <h2>Registre de fertilisation</h2>
+                            <h2>Fertilization Register</h2>
                         </t>
                         <p style="font-size:9pt; color:#555;">
                             <strong t-out="doc.env.company.name"/>
-                            <span t-if="doc.date_from or doc.date_to"> — période :
-                                <span t-out="doc.date_from" t-options="{'widget': 'date'}"/> au
+                            <span t-if="doc.date_from or doc.date_to"> — period:
+                                <span t-out="doc.date_from" t-options="{'widget': 'date'}"/> to
                                 <span t-out="doc.date_to" t-options="{'widget': 'date'}"/></span>
-                            <span t-if="doc.season_id"> — saison : <span t-out="doc.season_id.name"/></span>
-                            <span t-if="doc.crop_ids"> — cultures : <span t-out="', '.join(doc.crop_ids.mapped('name'))"/></span>
-                            — édité le <span t-out="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                            <span t-if="doc.season_id"> — season: <span t-out="doc.season_id.name"/></span>
+                            <span t-if="doc.crop_ids"> — crops: <span t-out="', '.join(doc.crop_ids.mapped('name'))"/></span>
+                            — printed on <span t-out="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
                         </p>
                         <table t-if="doc.register == 'phyto'" class="table table-sm table-bordered o_garden_register_phyto"
                                style="font-size:8pt;">
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Culture</th>
-                                    <th>Parcelle</th>
-                                    <th class="text-end">Surface traitée (m²)</th>
-                                    <th>Produit</th>
-                                    <th>N° AMM</th>
-                                    <th class="text-end">Dose (par ha)</th>
-                                    <th class="text-end">Quantité</th>
-                                    <th>Opérateur</th>
-                                    <th>Cible</th>
+                                    <th>Crop</th>
+                                    <th>Plot</th>
+                                    <th class="text-end">Treated Area (m²)</th>
+                                    <th>Product</th>
+                                    <th>MA No.</th>
+                                    <th class="text-end">Dose (per ha)</th>
+                                    <th class="text-end">Quantity</th>
+                                    <th>Operator</th>
+                                    <th>Target</th>
                                     <th>Conditions</th>
                                 </tr>
                             </thead>
@@ -78,20 +78,20 @@
                                     <td><span t-out="line.weather_notes"/></td>
                                 </tr>
                                 <tr t-if="not doc.phyto_line_ids">
-                                    <td colspan="11" class="text-center text-muted">Aucun traitement sur la période.</td>
+                                    <td colspan="11" class="text-center text-muted">No treatment in the period.</td>
                                 </tr>
                             </tbody>
                         </table>
                         <t t-if="doc.register == 'fertilization'">
-                            <h4>Azote apporté par planche et par saison</h4>
+                            <h4>Nitrogen Applied per Bed and Season</h4>
                             <table class="table table-sm table-bordered o_garden_register_fertilization_summary"
                                    style="font-size:9pt; width:60%;">
                                 <thead>
                                     <tr>
-                                        <th>Saison</th>
-                                        <th>Planche</th>
-                                        <th class="text-end">Azote (kg N)</th>
-                                        <th class="text-end">Azote (kg N/ha)</th>
+                                        <th>Season</th>
+                                        <th>Bed</th>
+                                        <th class="text-end">Nitrogen (kg N)</th>
+                                        <th class="text-end">Nitrogen (kg N/ha)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -103,21 +103,21 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <h4>Détail des apports</h4>
+                            <h4>Application Details</h4>
                             <table class="table table-sm table-bordered o_garden_register_fertilization" style="font-size:8pt;">
                                 <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th>Saison</th>
-                                        <th>Planche</th>
-                                        <th>Culture</th>
-                                        <th class="text-end">Surface (m²)</th>
-                                        <th>Engrais</th>
-                                        <th class="text-end">Quantité</th>
+                                        <th>Season</th>
+                                        <th>Bed</th>
+                                        <th>Crop</th>
+                                        <th class="text-end">Area (m²)</th>
+                                        <th>Fertilizer</th>
+                                        <th class="text-end">Quantity</th>
                                         <th class="text-end">N (%)</th>
                                         <th class="text-end">kg N</th>
                                         <th class="text-end">kg N/ha</th>
-                                        <th>Remarque</th>
+                                        <th>Remark</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -138,7 +138,7 @@
                                         <td><span t-out="line.note"/></td>
                                     </tr>
                                     <tr t-if="not doc.fertilization_line_ids">
-                                        <td colspan="11" class="text-center text-muted">Aucune fertilisation sur la période.</td>
+                                        <td colspan="11" class="text-center text-muted">No fertilization in the period.</td>
                                     </tr>
                                 </tbody>
                             </table>

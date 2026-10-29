@@ -5,7 +5,7 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='hr_settings']/group[@name='settings_group']" position="inside">
-                <group string="Maraîchage" name="garden_group" groups="odoo_garden.group_garden_chef">
+                <group string="Market Gardening" name="garden_group" groups="odoo_garden.group_garden_chef">
                     <field name="garden_hourly_cost"/>
                 </group>
             </xpath>

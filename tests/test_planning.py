@@ -185,7 +185,7 @@ class TestGardenPlanningSecurity(GardenPlanningCase):
     def test_season_multi_company_rule(self):
         company2 = self.env['res.company'].create({'name': 'Autre société'})
         season2 = self.env['garden.season'].create({
-            'name': 'Autre', 'date_start': '2027-01-01', 'date_end': '2027-12-31', 'company_id': company2.id,
+            'name': 'Other', 'date_start': '2027-01-01', 'date_end': '2027-12-31', 'company_id': company2.id,
         })
         chef = self.chef.with_company(self.env.company)
         self.assertNotIn(season2, self.env['garden.season'].with_user(chef).search([]))
@@ -305,7 +305,7 @@ class TestGardenPlanWizard(GardenPlanningCase):
         crops = self.env['garden.crop'].search(wizard.action_create_crops()['domain'])
         self.assertEqual(set(crops.mapped('planned_sowing_date')), {Date.to_date('2027-03-01')})
         self.assertEqual(set(crops.mapped('planned_harvest_start')), {Date.to_date('2027-05-30')})
-        self.assertIn('Planche', wizard.preview)
+        self.assertIn('Planche 12', wizard.preview)
 
     def test_wizard_requires_beds(self):
         from odoo.exceptions import UserError

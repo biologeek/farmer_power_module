@@ -3,6 +3,7 @@ import { useService } from "@web/core/utils/hooks";
 import { Layout } from "@web/search/layout";
 import { useSetupAction } from "@web/search/action_hook";
 import { registry } from "@web/core/registry";
+import { _t } from "@web/core/l10n/translation";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
 
 const DAY = 24 * 3600 * 1000;
@@ -145,10 +146,16 @@ class GardenBedOccupancyAction extends Component {
         const parts = [
             `${crop.name} — ${crop.label}`,
             `${crop.family_label} · ${crop.state_label} · ${crop.share}%`,
-            `Prévu : ${this.formatDate(crop.planned_start)} → ${this.formatDate(crop.planned_end)}`,
+            _t("Expected: %(start)s → %(end)s", {
+                start: this.formatDate(crop.planned_start),
+                end: this.formatDate(crop.planned_end),
+            }),
         ];
         if (crop.real_start) {
-            parts.push(`Réel : ${this.formatDate(crop.real_start)} → ${this.formatDate(crop.real_end)}`);
+            parts.push(_t("Actual: %(start)s → %(end)s", {
+                start: this.formatDate(crop.real_start),
+                end: this.formatDate(crop.real_end),
+            }));
         }
         return parts.concat(crop.warnings).join("\n");
     }

@@ -31,7 +31,7 @@ class TestGardenDemo(TransactionCase):
         if not self.env.ref('odoo_garden.demo_season_2027', raise_if_not_found=False):
             self.skipTest("Données de démonstration non installées.")
         ref = self.env.ref
-        self.assertEqual(len(self.env['hr.employee'].search([('name', 'in', ('Léa Maraîchère', 'Hugo Cultivateur', 'Sarah Saisonnière'))])), 3)
+        self.assertEqual(len(self.env['hr.employee'].search([('name', 'in', ('Léa Gardener', 'Hugo Grower', 'Sarah Seasonal'))])), 3)
         # opération d'îlot répartie entre les cultures en place le 10 juin 2027
         irrigation = ref('odoo_garden.demo_operation_irrigation_n1')
         shares = {a.crop_id: round(a.share, 2) for a in irrigation.allocation_ids}
@@ -137,7 +137,7 @@ class TestGardenComplianceDemo(TransactionCase):
     def test_demo_products(self):
         copper = self.env.ref('odoo_garden.demo_input_copper')
         self.assertEqual(copper.pre_harvest_interval_days, 7)
-        self.assertIn('fictif', copper.amm_number)
+        self.assertIn('dummy', copper.amm_number)
         fertilizer = self.env.ref('odoo_garden.demo_input_fertilizer')
         self.assertEqual(fertilizer.nitrogen_content, 5.0)
 
@@ -151,8 +151,8 @@ class TestGardenComplianceDemo(TransactionCase):
             ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01') | ref('odoo_garden.demo_crop_2027_lettuce_batavia_n1_01'),
         )
         tomato = lines.filtered(lambda l: l.crop_id == ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01'))
-        self.assertEqual(tomato.target, 'Mildiou')
-        self.assertIn('fictif', tomato.amm_number)
+        self.assertEqual(tomato.target, 'Downy mildew')
+        self.assertIn('dummy', tomato.amm_number)
         self.assertTrue(all(lines.mapped('treated_area')))
         fertilization = self.env['garden.compliance.wizard'].create({'register': 'fertilization'})
         fertilization._compute_lines()

@@ -5,9 +5,9 @@ from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
 
 REGISTER_SELECTION = [
-    ('phyto', 'Registre phytosanitaire'),
-    ('fertilization', 'Registre de fertilisation'),
-    ('organic', 'Export certification bio'),
+    ('phyto', 'Plant Protection Register'),
+    ('fertilization', 'Fertilization Register'),
+    ('organic', 'Organic Certification Export'),
 ]
 INPUT_TYPES = ['seed', 'plant', 'fertilizer', 'amendment', 'phytosanitary', 'substrate', 'other']
 ORGANIC_CONTROLLED_TYPES = ('fertilizer', 'amendment', 'phytosanitary', 'substrate')
@@ -15,7 +15,7 @@ ORGANIC_CONTROLLED_TYPES = ('fertilizer', 'amendment', 'phytosanitary', 'substra
 
 class GardenComplianceLine(models.TransientModel):
     _name = 'garden.compliance.line'
-    _description = "Ligne d'un registre réglementaire"
+    _description = 'Regulatory Register Line'
     _order = 'date, id'
     # Ligne calculée (ORM, aucune vue SQL) par ``garden.compliance.wizard`` à partir des intrants des
     # opérations « faites ». Une ligne par intrant et par culture concernée : un traitement réparti sur
@@ -23,81 +23,81 @@ class GardenComplianceLine(models.TransientModel):
     # répartition de l'opération. Modèle transitoire : les lignes ne sont conservées que le temps de
     # la consultation et des exports ; le registre se recalcule à chaque demande.
 
-    wizard_id = fields.Many2one('garden.compliance.wizard', string='Registre', required=True, ondelete='cascade')
-    register = fields.Selection(REGISTER_SELECTION, string='Registre de la ligne', required=True)
-    operation_id = fields.Many2one('garden.operation', string='Opération', ondelete='cascade')
+    wizard_id = fields.Many2one('garden.compliance.wizard', string='Register', required=True, ondelete='cascade')
+    register = fields.Selection(REGISTER_SELECTION, string='Register of the line', required=True)
+    operation_id = fields.Many2one('garden.operation', string='Operation', ondelete='cascade')
     date = fields.Date('Date')
-    season_id = fields.Many2one('garden.season', string='Saison', ondelete='cascade')
-    crop_id = fields.Many2one('garden.crop', string='Culture', ondelete='cascade')
-    bed_id = fields.Many2one('garden.bed', string='Planche', ondelete='cascade')
-    parcel = fields.Char('Parcelle', help="Site, îlot et planche traités.")
-    product_id = fields.Many2one('product.product', string='Produit', ondelete='cascade')
-    amm_number = fields.Char('N° AMM')
-    quantity = fields.Float('Quantité utilisée', digits='Product Unit')
-    uom_id = fields.Many2one('uom.uom', string='Unité', ondelete='cascade')
-    treated_area = fields.Float('Surface traitée (m²)', digits=(16, 2))
-    dose = fields.Float('Dose (par ha)', digits=(16, 3))
-    operator = fields.Char('Opérateur')
-    target = fields.Char('Cible')
+    season_id = fields.Many2one('garden.season', string='Season', ondelete='cascade')
+    crop_id = fields.Many2one('garden.crop', string='Crop', ondelete='cascade')
+    bed_id = fields.Many2one('garden.bed', string='Bed', ondelete='cascade')
+    parcel = fields.Char('Plot', help='Site, block and bed treated.')
+    product_id = fields.Many2one('product.product', string='Product', ondelete='cascade')
+    amm_number = fields.Char('MA No.')
+    quantity = fields.Float('Quantity Used', digits='Product Unit')
+    uom_id = fields.Many2one('uom.uom', string='Unit', ondelete='cascade')
+    treated_area = fields.Float('Treated Area (m²)', digits=(16, 2))
+    dose = fields.Float('Dose (per ha)', digits=(16, 3))
+    operator = fields.Char('Operator')
+    target = fields.Char('Target')
     weather_notes = fields.Text('Conditions')
-    nitrogen_content = fields.Float('Teneur en azote (%)', digits=(5, 2))
-    quantity_kg = fields.Float('Quantité (kg)', digits=(16, 3), help="Quantité d'engrais convertie en kilogrammes.")
+    nitrogen_content = fields.Float('Nitrogen Content (%)', digits=(5, 2))
+    quantity_kg = fields.Float('Quantity (kg)', digits=(16, 3), help='Fertilizer quantity converted into kilograms.')
     nitrogen_kg = fields.Float(
-        'Azote apporté (kg N)', digits=(16, 3), help="Quantité d'engrais (kg) × teneur en azote / 100.",
+        'Nitrogen Applied (kg N)', digits=(16, 3), help='Fertilizer quantity (kg) × nitrogen content / 100.',
     )
     nitrogen_per_ha = fields.Float(
-        'Azote (kg N/ha)', digits=(16, 2), help="Azote apporté ramené à l'hectare de surface fertilisée.",
+        'Nitrogen (kg N/ha)', digits=(16, 2), help='Nitrogen applied per hectare of fertilized area.',
     )
-    note = fields.Char('Remarque')
+    note = fields.Char('Remark')
     input_type = fields.Selection(
-        related='product_id.garden_input_type', string="Type d'intrant",
+        related='product_id.garden_input_type', string='Input Type',
     )
     lot_id = fields.Many2one('stock.lot', string='Lot', ondelete='cascade')
-    organic_crop = fields.Boolean('Culture bio', help="La variété de la culture a le statut « Bio ».")
+    organic_crop = fields.Boolean('Organic Crop', help='The variety of the crop has the "Organic" status.')
     organic_allowed = fields.Selection(
-        [('yes', 'Oui'), ('no', 'Non'), ('na', 'Sans objet')], string='Autorisé en bio',
-        help="Champ « Autorisé en agriculture biologique » du produit (engrais, amendements, phytosanitaires "
-             "et substrats uniquement).",
+        [('yes', 'Yes'), ('no', 'No'), ('na', 'Not applicable')], string='Allowed in organic',
+        help='"Allowed in organic farming" field of the product (fertilizers, amendments, plant protection '
+             'products and substrates only).',
     )
     alert = fields.Boolean(
-        'Non autorisé en bio', help="Intrant non autorisé en agriculture biologique utilisé sur une culture bio.",
+        'Not Allowed in Organic', help='Input not allowed in organic farming used on an organic crop.',
     )
 
 
 class GardenComplianceWizard(models.TransientModel):
     _name = 'garden.compliance.wizard'
-    _description = 'Registre réglementaire (France)'
+    _description = 'Regulatory Register (France)'
     # Écran commun aux registres réglementaires français : filtres (période, saison, cultures), liste
     # calculée, impression PDF et export XLSX. Réservé au chef de culture et au gérant (droits d'accès).
     # Les données sont lues en ``sudo()`` (opérations faites, répartitions, produits, employés) mais
     # limitées aux sociétés autorisées de l'utilisateur.
 
     register = fields.Selection(
-        REGISTER_SELECTION, string='Registre', required=True,
+        REGISTER_SELECTION, string='Register', required=True,
         default=lambda self: self.env.context.get('default_register') or 'phyto',
     )
-    date_from = fields.Date('Du', help="Premier jour de la période (date de réalisation des opérations).")
-    date_to = fields.Date('Au', help="Dernier jour de la période (inclus).")
-    season_id = fields.Many2one('garden.season', string='Saison', help="Limite le registre aux cultures de la saison.")
+    date_from = fields.Date('From', help='First day of the period (date the operations were done).')
+    date_to = fields.Date('To', help='Last day of the period (included).')
+    season_id = fields.Many2one('garden.season', string='Season', help='Limits the register to the crops of the season.')
     crop_ids = fields.Many2many(
-        'garden.crop', 'garden_compliance_wizard_crop_rel', 'wizard_id', 'crop_id', string='Cultures',
-        help="Limite le registre à ces cultures (vide : toutes).",
+        'garden.crop', 'garden_compliance_wizard_crop_rel', 'wizard_id', 'crop_id', string='Crops',
+        help='Limits the register to these crops (empty: all).',
     )
-    line_ids = fields.One2many('garden.compliance.line', 'wizard_id', string='Lignes')
+    line_ids = fields.One2many('garden.compliance.line', 'wizard_id', string='Lines')
     phyto_line_ids = fields.One2many(
-        'garden.compliance.line', 'wizard_id', string='Traitements', domain=[('register', '=', 'phyto')],
+        'garden.compliance.line', 'wizard_id', string='Treatments', domain=[('register', '=', 'phyto')],
     )
     organic_line_ids = fields.One2many(
-        'garden.compliance.line', 'wizard_id', string='Intrants', domain=[('register', '=', 'organic')],
+        'garden.compliance.line', 'wizard_id', string='Inputs', domain=[('register', '=', 'organic')],
     )
     alert_count = fields.Integer(
-        'Intrants non autorisés en bio', compute='_compute_line_count',
-        help="Nombre de lignes d'intrants non autorisés en bio utilisés sur une culture bio.",
+        'Inputs Not Allowed in Organic', compute='_compute_line_count',
+        help='Number of lines of inputs not allowed in organic used on an organic crop.',
     )
     fertilization_line_ids = fields.One2many(
-        'garden.compliance.line', 'wizard_id', string='Fertilisations', domain=[('register', '=', 'fertilization')],
+        'garden.compliance.line', 'wizard_id', string='Fertilizations', domain=[('register', '=', 'fertilization')],
     )
-    line_count = fields.Integer('Nombre de lignes', compute='_compute_line_count')
+    line_count = fields.Integer('Number of Lines', compute='_compute_line_count')
 
     @api.depends('line_ids', 'line_ids.alert')
     def _compute_line_count(self):
@@ -209,11 +209,11 @@ class GardenComplianceWizard(models.TransientModel):
                 nitrogen_content=product.nitrogen_content,
             )
             if not line.uom_id._has_common_reference(kilogram):
-                vals['note'] = self.env._("Unité non convertible en kg : azote non calculé.")
+                vals['note'] = self.env._('Unit not convertible into kg: nitrogen not computed.')
             else:
                 vals['quantity_kg'] = line.uom_id._compute_quantity(vals['quantity'], kilogram, round=False)
                 if not product.nitrogen_content:
-                    vals['note'] = self.env._("Teneur en azote non renseignée sur le produit.")
+                    vals['note'] = self.env._('Nitrogen content not set on the product.')
                 vals['nitrogen_kg'] = vals['quantity_kg'] * product.nitrogen_content / 100.0
                 if vals['treated_area'] > 0:
                     vals['nitrogen_per_ha'] = vals['nitrogen_kg'] * 10000.0 / vals['treated_area']
@@ -240,7 +240,7 @@ class GardenComplianceWizard(models.TransientModel):
                 organic_crop=organic_crop,
                 organic_allowed=allowed,
                 alert=organic_crop and allowed == 'no',
-                note=self.env._("Non autorisé en bio sur une culture bio") if organic_crop and allowed == 'no' else False,
+                note=self.env._('Not allowed in organic on an organic crop') if organic_crop and allowed == 'no' else False,
             ))
         return vals_list
 
@@ -284,7 +284,7 @@ class GardenComplianceWizard(models.TransientModel):
     # ------------------------------------------------------------------
     def _check_access_chef(self):
         if not self.env.user.has_group('odoo_garden.group_garden_chef'):
-            raise AccessError(self.env._("Les registres réglementaires sont réservés au chef de culture et au gérant."))
+            raise AccessError(self.env._('Regulatory registers are reserved to the crop manager and the manager.'))
 
     @api.model
     def _is_compliance_enabled(self):
@@ -297,7 +297,7 @@ class GardenComplianceWizard(models.TransientModel):
         self._check_access_chef()
         if not self._is_compliance_enabled():
             raise UserError(self.env._(
-                "Les registres réglementaires (France) sont désactivés : activez-les dans Paramètres > Maraîchage."
+                'Regulatory registers (France) are disabled: enable them in Settings > Market Gardening.'
             ))
         for wizard in self:
             wizard.line_ids.unlink()
@@ -327,7 +327,7 @@ class GardenComplianceWizard(models.TransientModel):
         """Bouton « Imprimer » : registre au format PDF."""
         self.ensure_one()
         if self.register == 'organic':
-            raise UserError(self.env._("L'export de certification bio se fait au format XLSX."))
+            raise UserError(self.env._('The organic certification export is in XLSX format.'))
         self._compute_lines()
         return self.env.ref('odoo_garden.action_report_garden_compliance').report_action(self)
 
@@ -347,7 +347,7 @@ class GardenComplianceWizard(models.TransientModel):
         self._compute_lines()
         return {
             'type': 'ir.actions.act_window',
-            'name': self.env._("Azote par planche et par saison"),
+            'name': self.env._('Nitrogen per Bed and Season'),
             'res_model': 'garden.compliance.line',
             'view_mode': 'pivot,list',
             'views': [
@@ -363,26 +363,26 @@ class GardenComplianceWizard(models.TransientModel):
         """Colonnes de chaque registre : ``{registre: [(titre, champ de la ligne, largeur)]}``."""
         return {
             'phyto': [
-                ('Date', 'date', 12), ('Culture', 'crop_id', 18), ('Saison', 'season_id', 14),
-                ('Parcelle', 'parcel', 30), ('Surface traitée (m²)', 'treated_area', 12),
-                ('Produit', 'product_id', 26), ('N° AMM', 'amm_number', 14), ('Dose (par ha)', 'dose', 12),
-                ('Quantité utilisée', 'quantity', 12), ('Unité', 'uom_id', 8), ('Opérateur', 'operator', 20),
-                ('Cible', 'target', 18), ('Conditions', 'weather_notes', 28),
+                (self.env._('Date'), 'date', 12), (self.env._('Crop'), 'crop_id', 18), (self.env._('Season'), 'season_id', 14),
+                (self.env._('Plot'), 'parcel', 30), (self.env._('Treated Area (m²)'), 'treated_area', 12),
+                (self.env._('Product'), 'product_id', 26), (self.env._('MA No.'), 'amm_number', 14), (self.env._('Dose (per ha)'), 'dose', 12),
+                (self.env._('Quantity Used'), 'quantity', 12), (self.env._('Unit'), 'uom_id', 8), (self.env._('Operator'), 'operator', 20),
+                (self.env._('Target'), 'target', 18), (self.env._('Conditions'), 'weather_notes', 28),
             ],
             'fertilization': [
-                ('Date', 'date', 12), ('Saison', 'season_id', 14), ('Planche', 'bed_id', 16),
-                ('Culture', 'crop_id', 18), ('Surface fertilisée (m²)', 'treated_area', 12),
-                ('Engrais', 'product_id', 26), ('Quantité', 'quantity', 12), ('Unité', 'uom_id', 8),
-                ('Quantité (kg)', 'quantity_kg', 12), ('Teneur en azote (%)', 'nitrogen_content', 12),
-                ('Azote apporté (kg N)', 'nitrogen_kg', 14), ('Azote (kg N/ha)', 'nitrogen_per_ha', 12),
-                ('Remarque', 'note', 30),
+                (self.env._('Date'), 'date', 12), (self.env._('Season'), 'season_id', 14), (self.env._('Bed'), 'bed_id', 16),
+                (self.env._('Crop'), 'crop_id', 18), (self.env._('Fertilized Area (m²)'), 'treated_area', 12),
+                (self.env._('Fertilizer'), 'product_id', 26), (self.env._('Quantity'), 'quantity', 12), (self.env._('Unit'), 'uom_id', 8),
+                (self.env._('Quantity (kg)'), 'quantity_kg', 12), (self.env._('Nitrogen Content (%)'), 'nitrogen_content', 12),
+                (self.env._('Nitrogen Applied (kg N)'), 'nitrogen_kg', 14), (self.env._('Nitrogen (kg N/ha)'), 'nitrogen_per_ha', 12),
+                (self.env._('Remark'), 'note', 30),
             ],
             'organic': [
-                ('Date', 'date', 12), ('Saison', 'season_id', 14), ('Culture', 'crop_id', 18),
-                ('Planche', 'bed_id', 16), ('Culture bio', 'organic_crop', 10), ('Produit', 'product_id', 26),
-                ("Type d'intrant", 'input_type', 16), ('Lot', 'lot_id', 14), ('Quantité', 'quantity', 12),
-                ('Unité', 'uom_id', 8), ('Autorisé en bio', 'organic_allowed', 14),
-                ('Non autorisé en bio', 'alert', 14), ('Remarque', 'note', 36),
+                (self.env._('Date'), 'date', 12), (self.env._('Season'), 'season_id', 14), (self.env._('Crop'), 'crop_id', 18),
+                (self.env._('Bed'), 'bed_id', 16), (self.env._('Organic Crop'), 'organic_crop', 10), (self.env._('Product'), 'product_id', 26),
+                (self.env._('Input Type'), 'input_type', 16), (self.env._('Lot'), 'lot_id', 14), (self.env._('Quantity'), 'quantity', 12),
+                (self.env._('Unit'), 'uom_id', 8), (self.env._('Allowed in organic'), 'organic_allowed', 14),
+                (self.env._('Not Allowed in Organic'), 'alert', 14), (self.env._('Remark'), 'note', 36),
             ],
         }
 
@@ -393,7 +393,7 @@ class GardenComplianceWizard(models.TransientModel):
         try:
             import xlsxwriter  # noqa: PLC0415
         except ImportError:
-            raise UserError(self.env._("La bibliothèque xlsxwriter est nécessaire à l'export XLSX."))
+            raise UserError(self.env._('The xlsxwriter library is required for the XLSX export.'))
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         bold = workbook.add_format({'bold': True, 'bg_color': '#D9E8D0', 'border': 1, 'text_wrap': True})
@@ -408,7 +408,7 @@ class GardenComplianceWizard(models.TransientModel):
             for row, cells in enumerate(rows, start=1):
                 for col, value in enumerate(cells):
                     if isinstance(value, bool):
-                        sheet.write(row, col, self.env._("Oui") if value else self.env._("Non"))
+                        sheet.write(row, col, self.env._('Yes') if value else self.env._('No'))
                     elif isinstance(value, (int, float)):
                         sheet.write_number(row, col, value, number_format)
                     elif isinstance(value, date):
@@ -445,21 +445,21 @@ class GardenComplianceWizard(models.TransientModel):
         )]
         if self.register == 'organic':
             seed_headers = [
-                (self.env._("Culture"), 18), (self.env._("Saison"), 14), (self.env._("Planche"), 16),
-                (self.env._("Espèce"), 16), (self.env._("Variété"), 20), (self.env._("Statut bio de la variété"), 22),
-                (self.env._("Fournisseur de la variété"), 22), (self.env._("Semences et plants utilisés"), 28),
-                (self.env._("Lots"), 18), (self.env._("Origine des lots (réception)"), 26),
-                (self.env._("Date de réception"), 14),
+                (self.env._('Crop'), 18), (self.env._('Season'), 14), (self.env._('Bed'), 16),
+                (self.env._('Species'), 16), (self.env._('Variety'), 20), (self.env._('Organic status of the variety'), 22),
+                (self.env._('Variety Supplier'), 22), (self.env._('Seeds and Plants Used'), 28),
+                (self.env._("Lots"), 18), (self.env._('Origin of the Lots (Receipt)'), 26),
+                (self.env._('Receipt Date'), 14),
             ]
             alert_rows = [row for line, row in zip(self.line_ids, tabs[0][2]) if line.alert]
-            tabs = [(self.env._("Semences"), seed_headers, self._get_organic_seed_rows()),
-                    (self.env._("Intrants"), tabs[0][1], tabs[0][2]),
-                    (self.env._("Alertes bio"), tabs[0][1], alert_rows)]
+            tabs = [(self.env._('Seeds'), seed_headers, self._get_organic_seed_rows()),
+                    (self.env._('Inputs'), tabs[0][1], tabs[0][2]),
+                    (self.env._('Organic Alerts'), tabs[0][1], alert_rows)]
         if self.register == 'fertilization':
             tabs.append((
-                self.env._("Synthèse par planche"),
-                [(self.env._("Saison"), 14), (self.env._("Planche"), 16), (self.env._("Azote apporté (kg N)"), 16),
-                 (self.env._("Azote cumulé (kg N/ha)"), 16)],
+                self.env._('Summary per Bed'),
+                [(self.env._('Season'), 14), (self.env._('Bed'), 16), (self.env._('Nitrogen Applied (kg N)'), 16),
+                 (self.env._('Cumulative Nitrogen (kg N/ha)'), 16)],
                 [[season.name or '', bed.name or '', kg, per_ha]
                  for season, bed, kg, per_ha in self._get_fertilization_summary()],
             ))

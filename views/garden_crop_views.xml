@@ -18,7 +18,7 @@
                 <field name="date_end" optional="hide"/>
                 <field name="harvested_qty" optional="show" sum="Total"/>
                 <field name="loss_rate" optional="hide" widget="percentage"/>
-                <field name="overlap_share" optional="hide" string="Occupation max (%)"/>
+                <field name="overlap_share" optional="hide" string="Max Occupation (%)"/>
                 <field name="has_overlap" optional="show"/>
                 <field name="has_rotation_conflict" optional="show"/>
                 <field name="state" widget="badge"
@@ -33,11 +33,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_plan_from_sowing" string="Recalculer depuis le semis" type="object"
+                    <button name="action_plan_from_sowing" string="Recompute from Sowing" type="object"
                             invisible="not planned_sowing_date or state in ('done', 'cancelled')"/>
-                    <button name="action_plan_from_harvest" string="Recalculer depuis la récolte" type="object"
+                    <button name="action_plan_from_harvest" string="Recompute from Harvest" type="object"
                             invisible="not planned_harvest_start or state in ('done', 'cancelled')"/>
-                    <button name="action_generate_operations" string="Générer les opérations" type="object"
+                    <button name="action_generate_operations" string="Generate Operations" type="object"
                             invisible="not planned_sowing_date or state in ('done', 'cancelled')"/>
                     <field name="state" widget="statusbar" options="{'clickable': '1'}"
                            statusbar_visible="planned,sown,in_place,harvesting,done"/>
@@ -45,21 +45,21 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_operations" type="object" class="oe_stat_button" icon="fa-tasks">
-                            <field name="operation_count" widget="statinfo" string="Opérations"/>
+                            <field name="operation_count" widget="statinfo" string="Operations"/>
                         </button>
                         <button name="action_view_harvests" type="object" class="oe_stat_button" icon="fa-shopping-basket"
                                 invisible="not harvested_qty">
-                            <field name="harvested_qty" widget="statinfo" string="Récolté (kg)"/>
+                            <field name="harvested_qty" widget="statinfo" string="Harvested (kg)"/>
                         </button>
                         <button name="action_view_sales" type="object" class="oe_stat_button" icon="fa-money"
                                 groups="odoo_garden.group_garden_chef">
-                            <field name="sale_line_count" widget="statinfo" string="Ventes"/>
+                            <field name="sale_line_count" widget="statinfo" string="Sales"/>
                         </button>
                         <button name="action_view_losses" type="object" class="oe_stat_button" icon="fa-trash-o">
-                            <field name="loss_count" widget="statinfo" string="Pertes"/>
+                            <field name="loss_count" widget="statinfo" string="Losses"/>
                         </button>
                         <button name="action_garden_traceability" type="object" class="oe_stat_button" icon="fa-leaf"
-                                invisible="not lot_count" string="Traçabilité"/>
+                                invisible="not lot_count" string="Traceability"/>
                         <button name="action_view_lots" type="object" class="oe_stat_button" icon="fa-barcode"
                                 invisible="not lot_count">
                             <field name="lot_count" widget="statinfo" string="Lots"/>
@@ -73,22 +73,22 @@
                     </div>
                     <field name="harvest_allowed_warning" invisible="1"/>
                     <div class="alert alert-danger" role="alert" invisible="not harvest_allowed_warning">
-                        Délai avant récolte (DAR) en cours : récolte possible à partir du
+                        Pre-harvest interval (PHI) running: harvest possible from
                         <field name="harvest_allowed_from" readonly="1" class="oe_inline fw-bold"/>.
                     </div>
                     <div class="oe_title">
                         <h1><field name="name"/></h1>
                     </div>
                     <group>
-                        <group string="Culture" name="crop">
+                        <group string="Crop" name="crop">
                             <field name="season_id"/>
-                            <field name="template_id" placeholder="Sélectionnez un itinéraire"/>
+                            <field name="template_id" placeholder="Select a template"/>
                             <field name="variety_id"/>
                             <field name="species_id"/>
                             <field name="family"/>
                         </group>
-                        <group string="Planche" name="bed">
-                            <field name="bed_id" placeholder="Sélectionnez la planche"/>
+                        <group string="Bed" name="bed">
+                            <field name="bed_id" placeholder="Select the bed"/>
                             <field name="bed_area"/>
                             <field name="bed_share"/>
                             <field name="area"/>
@@ -96,29 +96,29 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Planification" name="planning">
+                        <page string="Planning" name="planning">
                             <group>
-                                <group string="Dates prévues" name="planned_dates">
+                                <group string="Planned Dates" name="planned_dates">
                                     <field name="planned_sowing_date"/>
                                     <field name="planned_transplant_date"/>
                                     <field name="planned_harvest_start"/>
                                     <field name="planned_harvest_end"/>
                                 </group>
-                                <group string="Dates réelles" name="real_dates">
+                                <group string="Actual Dates" name="real_dates">
                                     <field name="date_start"/>
                                     <field name="date_end"/>
                                     <field name="occupation_start"/>
                                     <field name="occupation_end"/>
                                     <field name="harvest_allowed_from"/>
                                 </group>
-                                <group string="Prévisionnel" name="forecast">
+                                <group string="Forecast" name="forecast">
                                     <field name="planned_plant_qty"/>
                                     <field name="expected_yield_qty"/>
                                     <field name="expected_revenue"/>
                                     <field name="planned_seed_count"/>
                                     <field name="planned_seed_qty"/>
                                 </group>
-                                <group string="Réalisé" name="actual">
+                                <group string="Actual" name="actual">
                                     <field name="sowing_quantity"/>
                                     <field name="planted_quantity"/>
                                     <field name="harvested_qty"/>
@@ -130,10 +130,10 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Opérations" name="operations">
-                            <button name="action_new_operation" type="object" string="Nouvelle opération"
+                        <page string="Operations" name="operations">
+                            <button name="action_new_operation" type="object" string="New Operation"
                                     class="btn btn-secondary mb-2"/>
-                            <field name="operation_ids" readonly="1" placeholder="Opérations sur cette culture">
+                            <field name="operation_ids" readonly="1" placeholder="Operations on this crop">
                                 <list>
                                     <field name="name"/>
                                     <field name="type_id"/>
@@ -143,7 +143,7 @@
                                     <field name="state"/>
                                 </list>
                             </field>
-                            <separator string="Travail réparti sur la culture"/>
+                            <separator string="Work Allocated to the Crop"/>
                             <field name="allocation_ids" readonly="1">
                                 <list>
                                     <field name="operation_id"/>
@@ -156,18 +156,18 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Récoltes" name="harvests">
-                            <field name="lot_ids" readonly="1" placeholder="Lots de récolte de la culture">
+                        <page string="Harvests" name="harvests">
+                            <field name="lot_ids" readonly="1" placeholder="Harvest Lots of the Crop">
                                 <list>
                                     <field name="name"/>
                                     <field name="product_id"/>
                                     <field name="product_qty" sum="Total"/>
-                                    <field name="create_date" string="Créé le"/>
+                                    <field name="create_date" string="Created on"/>
                                 </list>
                             </field>
                         </page>
-                        <page string="Pertes" name="losses">
-                            <field name="loss_ids" readonly="1" placeholder="Pertes déclarées sur la culture">
+                        <page string="Losses" name="losses">
+                            <field name="loss_ids" readonly="1" placeholder="Losses Declared on the Crop">
                                 <list>
                                     <field name="date"/>
                                     <field name="stage"/>
@@ -177,9 +177,9 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Rentabilité" name="profitability" groups="odoo_garden.group_garden_chef">
+                        <page string="Profitability" name="profitability" groups="odoo_garden.group_garden_chef">
                             <group>
-                                <group string="Réalisé" name="profit_actual">
+                                <group string="Actual" name="profit_actual">
                                     <field name="labour_hours" widget="float_time"/>
                                     <field name="labour_cost"/>
                                     <field name="input_cost"/>
@@ -190,12 +190,12 @@
                                     <field name="margin_per_m2"/>
                                     <field name="harvested_qty"/>
                                 </group>
-                                <group string="Prévu" name="profit_expected">
+                                <group string="Expected" name="profit_expected">
                                     <field name="expected_hours" widget="float_time"/>
                                     <field name="expected_yield_qty"/>
                                     <field name="expected_revenue"/>
                                 </group>
-                                <group string="Écart (réalisé - prévu)" name="profit_gap">
+                                <group string="Gap (actual - planned)" name="profit_gap">
                                     <field name="hours_gap" widget="float_time"/>
                                     <field name="yield_gap"/>
                                     <field name="revenue_gap"/>
@@ -203,7 +203,7 @@
                             </group>
                         </page>
                         <page string="Notes" name="notes">
-                            <field name="notes" placeholder="Notes sur la culture"/>
+                            <field name="notes" placeholder="Crop Notes"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -222,17 +222,17 @@
                 <field name="template_id"/>
                 <field name="variety_id"/>
                 <field name="species_id"/>
-                <filter name="filter_planned" string="Planifiées" domain="[('state', '=', 'planned')]"/>
-                <filter name="filter_ongoing" string="En cours" domain="[('state', 'in', ('sown', 'in_place', 'harvesting'))]"/>
-                <filter name="filter_done" string="Terminées" domain="[('state', '=', 'done')]"/>
-                <filter name="filter_cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
+                <filter name="filter_planned" string="Planned" domain="[('state', '=', 'planned')]"/>
+                <filter name="filter_ongoing" string="In Progress" domain="[('state', 'in', ('sown', 'in_place', 'harvesting'))]"/>
+                <filter name="filter_done" string="Completed" domain="[('state', '=', 'done')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
                 <group>
-                    <filter name="group_season" string="Saison" context="{'group_by': 'season_id'}"/>
-                    <filter name="group_bed" string="Planche" context="{'group_by': 'bed_id'}"/>
-                    <filter name="group_species" string="Espèce" context="{'group_by': 'species_id'}"/>
-                    <filter name="group_variety" string="Variété" context="{'group_by': 'variety_id'}"/>
-                    <filter name="group_family" string="Famille botanique" context="{'group_by': 'family'}"/>
-                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_season" string="Season" context="{'group_by': 'season_id'}"/>
+                    <filter name="group_bed" string="Bed" context="{'group_by': 'bed_id'}"/>
+                    <filter name="group_species" string="Species" context="{'group_by': 'species_id'}"/>
+                    <filter name="group_variety" string="Variety" context="{'group_by': 'variety_id'}"/>
+                    <filter name="group_family" string="Botanical Family" context="{'group_by': 'family'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
                 </group>
             </search>
         </field>
@@ -241,7 +241,7 @@
         <field name="name">garden.crop.calendar</field>
         <field name="model">garden.crop</field>
         <field name="arch" type="xml">
-            <calendar string="Calendrier des cultures" date_start="planned_sowing_date" date_stop="planned_harvest_end"
+            <calendar string="Crop Calendar" date_start="planned_sowing_date" date_stop="planned_harvest_end"
                       color="species_id" mode="month" quick_create="0" event_open_popup="1">
                 <field name="bed_id"/>
                 <field name="season_id"/>
@@ -251,19 +251,19 @@
         </field>
     </record>
     <record id="action_garden_crop_calendar" model="ir.actions.act_window">
-        <field name="name">Calendrier des cultures</field>
+        <field name="name">Crop Calendar</field>
         <field name="res_model">garden.crop</field>
         <field name="view_mode">calendar,list,form</field>
         <field name="domain">[('state', '!=', 'cancelled')]</field>
         <field name="search_view_id" ref="view_garden_crop_search"/>
     </record>
     <record id="action_garden_crop" model="ir.actions.act_window">
-        <field name="name">Cultures</field>
+        <field name="name">Crops</field>
         <field name="res_model">garden.crop</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Créez votre première culture sur planche
+                Create your first crop on a bed
             </p>
         </field>
         <field name="view_id" ref="view_garden_crop_tree"/>
@@ -272,7 +272,7 @@
         <field name="name">garden.crop.seed.pivot</field>
         <field name="model">garden.crop</field>
         <field name="arch" type="xml">
-            <pivot string="Besoins en semences">
+            <pivot string="Seed Needs">
                 <field name="variety_id" type="row"/>
                 <field name="season_id" type="col"/>
                 <field name="area" type="measure"/>
@@ -286,7 +286,7 @@
         <field name="name">garden.crop.seed.tree</field>
         <field name="model">garden.crop</field>
         <field name="arch" type="xml">
-            <list string="Besoins en semences" create="0" edit="0">
+            <list string="Seed Needs" create="0" edit="0">
                 <field name="variety_id"/>
                 <field name="name"/>
                 <field name="season_id"/>
@@ -300,7 +300,7 @@
         </field>
     </record>
     <record id="action_garden_seed_needs" model="ir.actions.act_window">
-        <field name="name">Besoins en semences</field>
+        <field name="name">Seed Needs</field>
         <field name="res_model">garden.crop</field>
         <field name="view_mode">pivot,list</field>
         <field name="domain">[('state', '!=', 'cancelled')]</field>
@@ -308,9 +308,9 @@
         <field name="context">{'search_default_group_variety': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Aucun besoin en semences
+                No seed needs
             </p>
-            <p>Les besoins sont calculés à partir des cultures planifiées : surface × densité, germination et marge de semis.</p>
+            <p>Needs are computed from the planned crops: area × density, germination and sowing margin.</p>
         </field>
     </record>
     <record id="action_garden_seed_needs_pivot" model="ir.actions.act_window.view">

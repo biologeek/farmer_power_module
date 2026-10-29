@@ -3,10 +3,10 @@
         <field name="name">garden.crop.profitability.list</field>
         <field name="model">garden.crop.profitability</field>
         <field name="arch" type="xml">
-            <list string="Rentabilité par culture" create="0" edit="0" delete="0"
+            <list string="Profitability per Crop" create="0" edit="0" delete="0"
                   decoration-danger="margin &lt; 0" default_order="margin_per_hour desc">
                 <header>
-                    <button name="action_refresh" type="object" string="Actualiser" display="always" class="btn-primary"/>
+                    <button name="action_refresh" type="object" string="Refresh" display="always" class="btn-primary"/>
                 </header>
                 <field name="crop_id"/>
                 <field name="season_id" optional="show"/>
@@ -42,7 +42,7 @@
         <field name="name">garden.crop.profitability.pivot</field>
         <field name="model">garden.crop.profitability</field>
         <field name="arch" type="xml">
-            <pivot string="Rentabilité" disable_linking="1">
+            <pivot string="Profitability" disable_linking="1">
                 <field name="species_id" type="row"/>
                 <field name="season_id" type="col"/>
                 <field name="revenue" type="measure"/>
@@ -56,7 +56,7 @@
         <field name="name">garden.crop.profitability.graph</field>
         <field name="model">garden.crop.profitability</field>
         <field name="arch" type="xml">
-            <graph string="Rentabilité" type="bar">
+            <graph string="Profitability" type="bar">
                 <field name="species_id"/>
                 <field name="margin" type="measure"/>
             </graph>
@@ -74,33 +74,33 @@
                 <field name="bed_id"/>
                 <field name="species_id"/>
                 <field name="variety_id"/>
-                <filter name="filter_loss" string="Marge négative" domain="[('margin', '&lt;', 0)]"/>
-                <filter name="filter_revenue" string="Avec chiffre d'affaires" domain="[('revenue', '!=', 0)]"/>
-                <filter name="filter_done" string="Terminées" domain="[('state', '=', 'done')]"/>
-                <filter name="filter_ongoing" string="En cours" domain="[('state', 'in', ('sown', 'in_place', 'harvesting'))]"/>
+                <filter name="filter_loss" string="Negative Margin" domain="[('margin', '&lt;', 0)]"/>
+                <filter name="filter_revenue" string="With Revenue" domain="[('revenue', '!=', 0)]"/>
+                <filter name="filter_done" string="Completed" domain="[('state', '=', 'done')]"/>
+                <filter name="filter_ongoing" string="In Progress" domain="[('state', 'in', ('sown', 'in_place', 'harvesting'))]"/>
                 <group>
-                    <filter name="group_season" string="Saison" context="{'group_by': 'season_id'}"/>
+                    <filter name="group_season" string="Season" context="{'group_by': 'season_id'}"/>
                     <filter name="group_site" string="Site" context="{'group_by': 'site_id'}"/>
-                    <filter name="group_garden" string="Îlot" context="{'group_by': 'garden_id'}"/>
-                    <filter name="group_bed" string="Planche" context="{'group_by': 'bed_id'}"/>
-                    <filter name="group_species" string="Espèce" context="{'group_by': 'species_id'}"/>
-                    <filter name="group_family" string="Famille botanique" context="{'group_by': 'family'}"/>
-                    <filter name="group_variety" string="Variété" context="{'group_by': 'variety_id'}"/>
+                    <filter name="group_garden" string="Block" context="{'group_by': 'garden_id'}"/>
+                    <filter name="group_bed" string="Bed" context="{'group_by': 'bed_id'}"/>
+                    <filter name="group_species" string="Species" context="{'group_by': 'species_id'}"/>
+                    <filter name="group_family" string="Botanical Family" context="{'group_by': 'family'}"/>
+                    <filter name="group_variety" string="Variety" context="{'group_by': 'variety_id'}"/>
                 </group>
             </search>
         </field>
     </record>
     <record id="action_garden_profitability" model="ir.actions.act_window">
-        <field name="name">Rentabilité par culture</field>
+        <field name="name">Profitability per Crop</field>
         <field name="res_model">garden.crop.profitability</field>
         <field name="view_mode">pivot,graph,list</field>
         <field name="search_view_id" ref="view_garden_profitability_search"/>
         <field name="context">{'search_default_group_species': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Aucune culture à analyser
+                No crop to analyze
             </p>
-            <p>Le rapport compare, pour chaque culture, le chiffre d'affaires attribué, les heures et les coûts. Il se recalcule à l'ouverture et avec le bouton « Actualiser ».</p>
+            <p>The report compares, for each crop, the attributed revenue, the hours and the costs. It is recomputed on opening and with the "Refresh" button.</p>
         </field>
     </record>
     <record id="view_garden_crop_sale_list" model="ir.ui.view">
@@ -121,23 +121,23 @@
         </field>
     </record>
     <record id="action_garden_crop_sale" model="ir.actions.act_window">
-        <field name="name">Ventes de la culture</field>
+        <field name="name">Crop Sales</field>
         <field name="res_model">garden.crop.sale</field>
         <field name="view_mode">list</field>
     </record>
     <record id="action_garden_dashboard" model="ir.actions.client">
-        <field name="name">Tableau de bord de rentabilité</field>
+        <field name="name">Profitability Dashboard</field>
         <field name="tag">garden_dashboard</field>
     </record>
     <!-- Ouvre le rapport après l'avoir actualisé. -->
     <record id="action_garden_profitability_open" model="ir.actions.server">
-        <field name="name">Rentabilité par culture</field>
+        <field name="name">Profitability per Crop</field>
         <field name="model_id" ref="model_garden_crop_profitability"/>
         <field name="state">code</field>
         <field name="code">action = model.action_open()</field>
     </record>
     <record id="ir_cron_garden_profitability" model="ir.cron">
-        <field name="name">Maraîchage : actualiser le rapport de rentabilité</field>
+        <field name="name">Market Gardening: Refresh the Profitability Report</field>
         <field name="model_id" ref="model_garden_crop_profitability"/>
         <field name="state">code</field>
         <field name="code">model._cron_refresh()</field>

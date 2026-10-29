@@ -3,12 +3,12 @@
     <data noupdate="1">
         <!-- Emplacements virtuels de la société principale (usage « production », comme pour la fabrication). -->
         <record id="stock_location_garden_production" model="stock.location">
-            <field name="name">Production maraîchage</field>
+            <field name="name">Market Gardening Production</field>
             <field name="usage">production</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
         <record id="stock_location_garden_consumption" model="stock.location">
-            <field name="name">Consommation maraîchage</field>
+            <field name="name">Market Gardening Consumption</field>
             <field name="usage">production</field>
             <field name="company_id" ref="base.main_company"/>
         </record>

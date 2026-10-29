@@ -3,33 +3,33 @@ from odoo import fields, models
 
 class GardenSpecies(models.Model):
     _name = 'garden.species'
-    _description = 'Espèce'
+    _description = 'Species'
     _order = 'name'
 
-    name = fields.Char('Espèce', required=True)
+    name = fields.Char('Species', required=True)
     family = fields.Selection(
         [
-            ('solanaceae', 'Solanacées'),
-            ('brassicaceae', 'Brassicacées'),
-            ('cucurbitaceae', 'Cucurbitacées'),
-            ('apiaceae', 'Apiacées'),
-            ('asteraceae', 'Astéracées'),
-            ('fabaceae', 'Fabacées'),
-            ('amaryllidaceae', 'Amaryllidacées'),
-            ('chenopodiaceae', 'Chénopodiacées'),
-            ('poaceae', 'Poacées'),
-            ('other', 'Autre'),
+            ('solanaceae', 'Solanaceae'),
+            ('brassicaceae', 'Brassicaceae'),
+            ('cucurbitaceae', 'Cucurbitaceae'),
+            ('apiaceae', 'Apiaceae'),
+            ('asteraceae', 'Asteraceae'),
+            ('fabaceae', 'Fabaceae'),
+            ('amaryllidaceae', 'Amaryllidaceae'),
+            ('chenopodiaceae', 'Chenopodiaceae'),
+            ('poaceae', 'Poaceae'),
+            ('other', 'Other'),
         ],
-        string='Famille botanique', required=True, default='other',
+        string='Botanical Family', required=True, default='other',
     )
     rotation_years = fields.Integer(
-        'Délai de rotation (années)', default=3,
-        help="Délai minimal de retour de la famille sur une même planche.",
+        'Rotation Interval (years)', default=3,
+        help='Minimum time before the family returns to the same bed.',
     )
-    variety_ids = fields.One2many('garden.variety', 'species_id', string='Variétés')
-    active = fields.Boolean('Actif', default=True)
+    variety_ids = fields.One2many('garden.variety', 'species_id', string='Varieties')
+    active = fields.Boolean('Active', default=True)
 
-    _name_uniq = models.Constraint('UNIQUE (name)', "Cette espèce existe déjà.")
+    _name_uniq = models.Constraint('UNIQUE (name)', 'This species already exists.')
     _rotation_years_positive = models.Constraint(
-        'CHECK (rotation_years >= 0)', 'Le délai de rotation ne peut pas être négatif.',
+        'CHECK (rotation_years >= 0)', 'The rotation interval cannot be negative.',
     )

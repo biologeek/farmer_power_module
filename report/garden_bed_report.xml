@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="paperformat_garden_bed_label" model="report.paperformat">
-        <field name="name">Étiquettes de planches (A4)</field>
+        <field name="name">Bed Labels (A4)</field>
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
@@ -14,12 +14,12 @@
     </record>
 
     <record id="action_report_garden_bed_label" model="ir.actions.report">
-        <field name="name">Étiquettes QR des planches</field>
+        <field name="name">Bed QR Labels</field>
         <field name="model">garden.bed</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">odoo_garden.report_garden_bed_label</field>
         <field name="report_file">odoo_garden.report_garden_bed_label</field>
-        <field name="print_report_name">'Etiquettes-planches'</field>
+        <field name="print_report_name">'Bed-Labels'</field>
         <field name="paperformat_id" ref="paperformat_garden_bed_label"/>
         <field name="binding_model_id" ref="model_garden_bed"/>
         <field name="binding_type">report</field>
@@ -39,14 +39,14 @@
                                 </div>
                                 <div style="font-size:20pt; font-weight:bold; line-height:1.1;" t-out="bed.name"/>
                                 <div style="font-size:16pt;" t-if="bed.code">
-                                    Code : <strong t-out="bed.code"/>
+                                    Code: <strong t-out="bed.code"/>
                                 </div>
                                 <div style="font-size:10pt; color:#555; margin-top:3mm;">
                                     <span t-out="bed.area" t-options="{'widget': 'float', 'precision': 1}"/> m²
                                 </div>
-                                <div style="font-size:8pt; color:#777; margin-top:4mm;">Scanner pour ouvrir la planche</div>
+                                <div style="font-size:8pt; color:#777; margin-top:4mm;">Scan to open the bed</div>
                             </div>
-                            <img class="o_garden_bed_qr" t-att-src="bed._get_qr_image_src(200)" alt="QR code de la planche"
+                            <img class="o_garden_bed_qr" t-att-src="bed._get_qr_image_src(200)" alt="Bed QR Code"
                                  style="width:36%; height:auto;"/>
                         </div>
                     </t>

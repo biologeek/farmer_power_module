@@ -19,13 +19,13 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <field name="active" invisible="1"/>
                     <group>
                         <group>
-                            <field name="name" string="Nom" placeholder="Nom de l'îlot"/>
+                            <field name="name" string="Name" placeholder="Block name"/>
                             <field name="code"/>
-                            <field name="site_id" string="Site" placeholder="Site parent"/>
+                            <field name="site_id" string="Site" placeholder="Parent Site"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group>
@@ -36,7 +36,7 @@
                         </group>
                     </group>
                     <group>
-                        <field name="bed_ids" string="Planches" placeholder="Planches de l'îlot">
+                        <field name="bed_ids" string="Beds" placeholder="Beds of the Block">
                             <list>
                                 <field name="code"/>
                                 <field name="name"/>
@@ -55,11 +55,11 @@
         <field name="model">garden.garden</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Nom ou code"/>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]" string="Name or code"/>
                 <field name="site_id"/>
-                <filter name="open_air" string="Plein air" domain="[('culture_type', '=', 'open_air')]"/>
-                <filter name="sheltered" string="Sous abri" domain="[('culture_type', '=', 'sheltered')]"/>
-                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <filter name="open_air" string="Open Field" domain="[('culture_type', '=', 'open_air')]"/>
+                <filter name="sheltered" string="Sheltered" domain="[('culture_type', '=', 'sheltered')]"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
                 <group>
                     <filter name="group_site" string="Site" context="{'group_by': 'site_id'}"/>
                     <filter name="group_irrigation" string="Irrigation" context="{'group_by': 'irrigation_type'}"/>
@@ -68,12 +68,12 @@
         </field>
     </record>
     <record id="action_garden_garden" model="ir.actions.act_window">
-        <field name="name">Îlots</field>
+        <field name="name">Blocks</field>
         <field name="res_model">garden.garden</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Créez votre premier îlot
+                Create your first block
             </p>
         </field>
     </record>

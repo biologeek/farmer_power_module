@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="module_category_garden" model="ir.module.category">
-        <field name="name">Maraîchage</field>
+        <field name="name">Market Gardening</field>
         <field name="sequence">25</field>
     </record>
 
     <record id="res_groups_privilege_garden" model="res.groups.privilege">
-        <field name="name">Maraîchage</field>
-        <field name="description">Gestion d'une exploitation maraîchère.</field>
-        <field name="placeholder">Aucun accès</field>
+        <field name="name">Market Gardening</field>
+        <field name="description">Management of a market gardening farm.</field>
+        <field name="placeholder">No access</field>
         <field name="category_id" ref="module_category_garden"/>
         <field name="sequence">25</field>
     </record>
 
     <record id="group_garden_worker" model="res.groups">
-        <field name="name">Ouvrier</field>
+        <field name="name">Worker</field>
         <field name="sequence">10</field>
         <field name="privilege_id" ref="res_groups_privilege_garden"/>
         <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
-        <field name="comment">Consulte le plan de culture, saisit ses actions, récoltes et pertes.</field>
+        <field name="comment">Views the crop plan, records their operations, harvests and losses.</field>
     </record>
 
     <record id="group_garden_chef" model="res.groups">
-        <field name="name">Chef de culture</field>
+        <field name="name">Crop Manager</field>
         <field name="sequence">20</field>
         <field name="privilege_id" ref="res_groups_privilege_garden"/>
         <field name="implied_ids" eval="[Command.link(ref('group_garden_worker'))]"/>
-        <field name="comment">Gère le catalogue, les itinéraires, la structure et les cultures.</field>
+        <field name="comment">Manages the catalog, templates, structure and crops.</field>
     </record>
 
     <record id="group_garden_manager" model="res.groups">
-        <field name="name">Gérant</field>
+        <field name="name">Manager</field>
         <field name="sequence">30</field>
         <field name="privilege_id" ref="res_groups_privilege_garden"/>
         <field name="implied_ids" eval="[Command.link(ref('group_garden_chef'))]"/>
-        <field name="comment">Accès complet, y compris la configuration.</field>
+        <field name="comment">Full access, including the configuration.</field>
         <field name="user_ids" eval="[Command.link(ref('base.user_root')), Command.link(ref('base.user_admin'))]"/>
     </record>
 
@@ -42,81 +42,81 @@
          le chef de culture tant que le paramètre « Registres réglementaires (France) » est activé
          (Paramètres > Maraîchage) ; res.config.settings l'ajoute ou le retire du chef de culture. -->
     <record id="group_garden_compliance" model="res.groups">
-        <field name="name">Registres réglementaires (France)</field>
+        <field name="name">Regulatory Registers (France)</field>
         <field name="sequence">40</field>
-        <field name="comment">Technique : menus des registres réglementaires français (activés par le paramètre du module).</field>
+        <field name="comment">Technical: menus of the French regulatory registers (enabled by the module setting).</field>
     </record>
 
     <data noupdate="1">
         <record id="garden_farm_company_rule" model="ir.rule">
-            <field name="name">Ferme : multi-société</field>
+            <field name="name">Farm: multi-company</field>
             <field name="model_id" ref="model_garden_farm"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_site_company_rule" model="ir.rule">
-            <field name="name">Site : multi-société</field>
+            <field name="name">Site: multi-company</field>
             <field name="model_id" ref="model_garden_site"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_garden_company_rule" model="ir.rule">
-            <field name="name">Îlot : multi-société</field>
+            <field name="name">Block: multi-company</field>
             <field name="model_id" ref="model_garden_garden"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_bed_company_rule" model="ir.rule">
-            <field name="name">Planche : multi-société</field>
+            <field name="name">Bed: multi-company</field>
             <field name="model_id" ref="model_garden_bed"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_crop_company_rule" model="ir.rule">
-            <field name="name">Culture : multi-société</field>
+            <field name="name">Crop: multi-company</field>
             <field name="model_id" ref="model_garden_crop"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_operation_company_rule" model="ir.rule">
-            <field name="name">Opération : multi-société</field>
+            <field name="name">Operation: multi-company</field>
             <field name="model_id" ref="model_garden_operation"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_operation_worker_rule" model="ir.rule">
-            <field name="name">Opération : l'ouvrier voit ses opérations et celles sans employé</field>
+            <field name="name">Operation: the worker sees their own operations and those without employee</field>
             <field name="model_id" ref="model_garden_operation"/>
             <field name="groups" eval="[Command.link(ref('group_garden_worker'))]"/>
             <field name="domain_force">['|', ('employee_ids', '=', False), ('employee_ids.user_id', '=', user.id)]</field>
         </record>
         <record id="garden_operation_chef_rule" model="ir.rule">
-            <field name="name">Opération : le chef de culture voit tout</field>
+            <field name="name">Operation: the crop manager sees everything</field>
             <field name="model_id" ref="model_garden_operation"/>
             <field name="groups" eval="[Command.link(ref('group_garden_chef'))]"/>
             <field name="domain_force">[(1, '=', 1)]</field>
         </record>
         <record id="garden_operation_worker_company_rule" model="ir.rule">
-            <field name="name">Temps par employé : multi-société</field>
+            <field name="name">Time per employee: multi-company</field>
             <field name="model_id" ref="model_garden_operation_worker"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_operation_allocation_company_rule" model="ir.rule">
-            <field name="name">Répartition d'opération : multi-société</field>
+            <field name="name">Operation allocation: multi-company</field>
             <field name="model_id" ref="model_garden_operation_allocation"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_operation_input_company_rule" model="ir.rule">
-            <field name="name">Intrant d'opération : multi-société</field>
+            <field name="name">Operation input: multi-company</field>
             <field name="model_id" ref="model_garden_operation_input"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_loss_company_rule" model="ir.rule">
-            <field name="name">Perte : multi-société</field>
+            <field name="name">Loss: multi-company</field>
             <field name="model_id" ref="model_garden_loss"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_season_company_rule" model="ir.rule">
-            <field name="name">Saison : multi-société</field>
+            <field name="name">Season: multi-company</field>
             <field name="model_id" ref="model_garden_season"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>
         <record id="garden_crop_profitability_company_rule" model="ir.rule">
-            <field name="name">Rentabilité par culture : multi-société</field>
+            <field name="name">Crop profitability: multi-company</field>
             <field name="model_id" ref="model_garden_crop_profitability"/>
             <field name="domain_force">[('company_id', 'in', company_ids)]</field>
         </record>

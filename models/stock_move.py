@@ -5,30 +5,30 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     garden_operation_id = fields.Many2one(
-        'garden.operation', string='Opération maraîchage', index='btree_not_null', ondelete='set null', copy=False,
-        help="Opération qui a créé ce mouvement (consommation d'intrants ou récolte).",
+        'garden.operation', string='Market Gardening Operation', index='btree_not_null', ondelete='set null', copy=False,
+        help='Operation that created this move (input consumption or harvest).',
     )
     garden_crop_id = fields.Many2one(
-        'garden.crop', string='Culture', index='btree_not_null', ondelete='set null', copy=False,
-        help="Culture récoltée (mouvements de récolte).",
+        'garden.crop', string='Crop', index='btree_not_null', ondelete='set null', copy=False,
+        help='Harvested crop (harvest moves).',
     )
     garden_kind = fields.Selection(
         [
-            ('input', 'Consommation d\'intrant'),
-            ('input_return', 'Annulation de consommation'),
-            ('harvest', 'Récolte'),
-            ('harvest_return', 'Annulation de récolte'),
+            ('input', 'Input Consumption'),
+            ('input_return', 'Consumption Cancellation'),
+            ('harvest', 'Harvest'),
+            ('harvest_return', 'Harvest Cancellation'),
         ],
-        string='Type de mouvement maraîchage', index='btree_not_null', copy=False,
-        help="Nature du mouvement créé par le module de maraîchage ; les annulations sont des mouvements inverses.",
+        string='Market Gardening Move Type', index='btree_not_null', copy=False,
+        help='Kind of the move created by the market gardening module; cancellations are reverse moves.',
     )
     garden_reverse_of_id = fields.Many2one(
-        'stock.move', string='Annule le mouvement', index='btree_not_null', ondelete='set null', copy=False,
-        help="Mouvement d'origine, pour un mouvement qui annule une consommation ou une récolte.",
+        'stock.move', string='Cancels the move', index='btree_not_null', ondelete='set null', copy=False,
+        help='Original move, for a move that cancels a consumption or a harvest.',
     )
     garden_reversal_ids = fields.One2many(
-        'stock.move', 'garden_reverse_of_id', string='Annulations',
-        help="Mouvements inverses qui annulent celui-ci.",
+        'stock.move', 'garden_reverse_of_id', string='Cancellations',
+        help='Reverse moves that cancel this one.',
     )
 
 
@@ -36,6 +36,6 @@ class StockLot(models.Model):
     _inherit = 'stock.lot'
 
     garden_crop_id = fields.Many2one(
-        'garden.crop', string='Culture', index='btree_not_null', ondelete='set null', copy=False,
-        help="Culture dont la récolte a produit ce lot (traçabilité amont).",
+        'garden.crop', string='Crop', index='btree_not_null', ondelete='set null', copy=False,
+        help='Crop whose harvest produced this lot (upstream traceability).',
     )

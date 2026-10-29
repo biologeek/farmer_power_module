@@ -31,7 +31,7 @@ class TestGardenGanttData(GardenPlanningCase):
         self.assertEqual(beds[self.bed2.id]['lanes'], 1)
         self.assertEqual([c['id'] for c in beds[self.bed2.id]['crops']], [other_bed.id])
         self.assertEqual(data['start_date'], '2027-03-01')
-        self.assertIn({'key': 'solanaceae', 'label': 'Solanacées'}, data['families'])
+        self.assertIn({'key': 'solanaceae', 'label': 'Solanaceae'}, data['families'])
         self.assertIn(self.season.id, [s['id'] for s in data['seasons']])
         self.assertIn(self.site.id, [s['id'] for s in data['sites']])
 
@@ -99,7 +99,7 @@ class TestGardenMyDayTour(HttpCase):
         employee = self.env['hr.employee'].search([('user_id', '=', admin.id)], limit=1) or \
             self.env['hr.employee'].create({'name': 'Admin tour', 'user_id': admin.id})
         operation = self.env['garden.operation'].create({
-            'name': 'Désherbage - Tour',
+            'name': 'Weeding - Tour',
             'type_id': self.env.ref('odoo_garden.operation_type_weeding').id,
             'scope': 'bed', 'bed_ids': [(6, 0, bed.ids)],
             # Le filtre « Du jour et en retard » compare à la date du navigateur (fuseau du processus de test,

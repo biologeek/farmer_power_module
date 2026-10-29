@@ -45,7 +45,7 @@ class TestGardenCatalog(TransactionCase):
         sowing = self.env.ref('odoo_garden.operation_type_sowing')
         harvest = self.env.ref('odoo_garden.operation_type_harvest')
         template = self.env['garden.crop.template'].create({
-            'name': 'Itinéraire', 'variety_id': self.variety.id,
+            'name': 'Template', 'variety_id': self.variety.id,
             'step_ids': [
                 (0, 0, {'operation_type_id': harvest.id, 'day_offset': 90, 'sequence': 20}),
                 (0, 0, {'operation_type_id': sowing.id, 'day_offset': 0, 'sequence': 10, 'expected_duration': 0.01}),

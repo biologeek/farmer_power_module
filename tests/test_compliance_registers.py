@@ -146,15 +146,15 @@ class TestGardenPhytoRegister(GardenRegisterCase):
         rows = list(sheet.iter_rows(values_only=True))
         self.assertEqual(len(rows), 2)
         header, data = rows
-        self.assertIn('N° AMM', header)
+        self.assertIn('MA No.', header)
         values = dict(zip(header, data))
-        self.assertEqual(values['Culture'], self.crop.name)
-        self.assertEqual(values['Produit'], self.phyto.display_name)
-        self.assertEqual(values['N° AMM'], 'AMM-TEST-0001')
-        self.assertAlmostEqual(values['Dose (par ha)'], 100.0)
-        self.assertAlmostEqual(values['Quantité utilisée'], 0.36)
-        self.assertAlmostEqual(values['Surface traitée (m²)'], 36.0)
-        self.assertEqual(values['Cible'], 'Mildiou')
+        self.assertEqual(values['Crop'], self.crop.name)
+        self.assertEqual(values['Product'], self.phyto.display_name)
+        self.assertEqual(values['MA No.'], 'AMM-TEST-0001')
+        self.assertAlmostEqual(values['Dose (per ha)'], 100.0)
+        self.assertAlmostEqual(values['Quantity Used'], 0.36)
+        self.assertAlmostEqual(values['Treated Area (m²)'], 36.0)
+        self.assertEqual(values['Target'], 'Mildiou')
         self.assertEqual(values['Date'].strftime('%Y-%m-%d'), '2031-06-10')
         with self.assertRaises(AccessError):
             wizard.with_user(self.worker)._get_xlsx()
@@ -169,7 +169,7 @@ class TestGardenPhytoRegister(GardenRegisterCase):
         html, report_type = self.env['ir.actions.report']._render_qweb_html(report.report_name, wizard.ids)
         self.assertEqual(report_type, 'html')
         text = html.decode()
-        for expected in ('Registre phytosanitaire', self.crop.name, 'AMM-TEST-0001', 'Mildiou', 'Phyto test'):
+        for expected in ('Plant Protection Register', self.crop.name, 'AMM-TEST-0001', 'Mildiou', 'Phyto test'):
             self.assertIn(expected, text)
         action = wizard.action_print()
         self.assertEqual(action['report_name'], 'odoo_garden.report_garden_compliance')
@@ -234,9 +234,9 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
         self.assertAlmostEqual(lines[10].nitrogen_kg, 0.05)
         self.assertAlmostEqual(lines[10].quantity_kg, 0.5)
         self.assertEqual(lines[11].nitrogen_kg, 0.0)
-        self.assertIn('Teneur en azote non renseignée', lines[11].note)
+        self.assertIn('Nitrogen content not set', lines[11].note)
         self.assertEqual(lines[12].nitrogen_kg, 0.0)
-        self.assertIn('Unité non convertible', lines[12].note)
+        self.assertIn('Unit not convertible', lines[12].note)
 
     def test_summary_per_bed_and_season(self):
         other = self._crop(planned_sowing_date='2031-03-01', bed_id=self.bed2.id)  # 10 m²
@@ -281,14 +281,14 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
         self.assertEqual(len(workbook.worksheets), 2)
         detail, summary = (list(ws.iter_rows(values_only=True)) for ws in workbook.worksheets)
         values = dict(zip(detail[0], detail[1]))
-        self.assertAlmostEqual(values['Azote apporté (kg N)'], 1.0)
-        self.assertAlmostEqual(values['Azote (kg N/ha)'], 10000 / 36, delta=0.01)
-        self.assertEqual(values['Planche'], self.bed.name)
+        self.assertAlmostEqual(values['Nitrogen Applied (kg N)'], 1.0)
+        self.assertAlmostEqual(values['Nitrogen (kg N/ha)'], 10000 / 36, delta=0.01)
+        self.assertEqual(values['Bed'], self.bed.name)
         self.assertEqual(summary[1][1], self.bed.name)
         self.assertAlmostEqual(summary[1][2], 1.0)
         html, _type = self.env['ir.actions.report']._render_qweb_html('odoo_garden.report_garden_compliance', wizard.ids)
         text = html.decode()
-        self.assertIn('Registre de fertilisation', text)
+        self.assertIn('Fertilization Register', text)
         self.assertIn('o_garden_register_fertilization_summary', text)
         self.assertIn(self.nitro.display_name, text)
         action = wizard.action_open_pivot()
@@ -375,24 +375,24 @@ class TestGardenOrganicExport(GardenRegisterCase):
         self._set_stock(no_organic, 10)
         self._treatment('2031-05-01', product=no_organic)
         tabs = self._tabs(self._wizard(register='organic'))
-        self.assertEqual(list(tabs), ['Semences', 'Intrants', 'Alertes bio'])
-        header, seed_row = tabs['Semences']
+        self.assertEqual(list(tabs), ['Seeds', 'Inputs', 'Organic Alerts'])
+        header, seed_row = tabs['Seeds']
         values = dict(zip(header, seed_row))
-        self.assertEqual(values['Culture'], self.crop.name)
-        self.assertEqual(values['Variété'], self.variety.name)
-        self.assertEqual(values['Statut bio de la variété'], 'Bio')
-        self.assertEqual(values['Fournisseur de la variété'], 'Graineterie test')
-        self.assertIn(self.seed.display_name, values['Semences et plants utilisés'])
+        self.assertEqual(values['Crop'], self.crop.name)
+        self.assertEqual(values['Variety'], self.variety.name)
+        self.assertEqual(values['Organic status of the variety'], 'Organic')
+        self.assertEqual(values['Variety Supplier'], 'Graineterie test')
+        self.assertIn(self.seed.display_name, values['Seeds and Plants Used'])
         self.assertEqual(values['Lots'], 'LOT-BIO-7')
-        self.assertEqual(values['Origine des lots (réception)'], 'Graineterie test')
-        inputs = tabs['Intrants']
+        self.assertEqual(values['Origin of the Lots (Receipt)'], 'Graineterie test')
+        inputs = tabs['Inputs']
         self.assertEqual(len(inputs), 3)  # en-tête, semence, phytosanitaire
-        alerts = tabs['Alertes bio']
+        alerts = tabs['Organic Alerts']
         self.assertEqual(len(alerts), 2)
         alert = dict(zip(alerts[0], alerts[1]))
-        self.assertEqual(alert['Produit'], no_organic.display_name)
-        self.assertEqual(alert['Autorisé en bio'], 'Non')
-        self.assertEqual(alert['Non autorisé en bio'], 'Oui')
+        self.assertEqual(alert['Product'], no_organic.display_name)
+        self.assertEqual(alert['Allowed in organic'], 'No')
+        self.assertEqual(alert['Not Allowed in Organic'], 'Yes')
 
     def test_period_filter_and_no_pdf(self):
         wizard = self._wizard(register='organic', date_to='2031-03-01')

@@ -7,30 +7,30 @@ from odoo.exceptions import UserError
 class GardenSeasonPlanWizard(models.TransientModel):
     """Crée en série des cultures d'une saison sur une liste de planches, éventuellement échelonnées."""
     _name = 'garden.season.plan.wizard'
-    _description = 'Assistant de planification en série'
+    _description = 'Batch Planning Wizard'
 
-    season_id = fields.Many2one('garden.season', string='Saison', required=True, help="Saison qui recevra les cultures créées.")
+    season_id = fields.Many2one('garden.season', string='Season', required=True, help='Season that will receive the crops created.')
     template_id = fields.Many2one(
-        'garden.crop.template', string='Itinéraire technique', required=True,
-        help="Itinéraire appliqué à toutes les cultures créées.",
+        'garden.crop.template', string='Crop Template', required=True,
+        help='Template applied to all the crops created.',
     )
     bed_ids = fields.Many2many(
-        'garden.bed', string='Planches', required=True,
-        help="Une culture est créée sur chacune de ces planches.",
+        'garden.bed', string='Beds', required=True,
+        help='A crop is created on each of these beds.',
     )
     target = fields.Selection(
-        [('harvest', 'Début de récolte visé'), ('sowing', 'Date de semis')],
-        string='Date visée', required=True, default='harvest',
-        help="Indique si la date saisie est celle du début de récolte (rétro-planning) ou celle du semis.",
+        [('harvest', 'Targeted Harvest Start'), ('sowing', 'Sowing Date')],
+        string='Target Date', required=True, default='harvest',
+        help='Indicates whether the date entered is the harvest start (backward planning) or the sowing.',
     )
-    target_date = fields.Date('Date', required=True, help="Date visée pour la première planche.")
+    target_date = fields.Date('Date', required=True, help='Target date for the first bed.')
     stagger_days = fields.Integer(
-        'Décalage entre planches (jours)', default=0,
-        help="Nombre de jours ajouté à la date visée à chaque planche successive, pour échelonner "
-             "les cultures (0 = toutes les planches à la même date).",
+        'Offset between Beds (days)', default=0,
+        help='Number of days added to the target date for each successive bed, to stagger the crops (0 = all '
+             'beds on the same date).',
     )
-    bed_share = fields.Float('Part de la planche (%)', default=100.0, help="Part de chaque planche occupée par la culture.")
-    preview = fields.Text('Aperçu', compute='_compute_preview', help="Dates calculées pour chaque planche avant création.")
+    bed_share = fields.Float('Bed Share (%)', default=100.0, help='Share of each bed occupied by the crop.')
+    preview = fields.Text('Preview', compute='_compute_preview', help='Dates computed for each bed before creation.')
 
     def _get_dates_per_bed(self):
         """Liste de (planche, dates prévues) ; la planche n°i est décalée de i × ``stagger_days``."""
@@ -52,9 +52,10 @@ class GardenSeasonPlanWizard(models.TransientModel):
                 wizard.preview = False
                 continue
             lines = [
-                "%s : semis %s, récolte %s → %s" % (
-                    bed.display_name, dates['planned_sowing_date'], dates['planned_harvest_start'],
-                    dates['planned_harvest_end'],
+                wizard.env._(
+                    "%(bed)s: sowing %(sowing)s, harvest %(start)s → %(end)s",
+                    bed=bed.display_name, sowing=dates['planned_sowing_date'], start=dates['planned_harvest_start'],
+                    end=dates['planned_harvest_end'],
                 )
                 for bed, dates in wizard._get_dates_per_bed()
             ]
@@ -63,7 +64,7 @@ class GardenSeasonPlanWizard(models.TransientModel):
     def action_create_crops(self):
         self.ensure_one()
         if not self.bed_ids:
-            raise UserError(self.env._("Sélectionnez au moins une planche."))
+            raise UserError(self.env._('Select at least one bed.'))
         vals_list = [
             {
                 'season_id': self.season_id.id,
@@ -77,7 +78,7 @@ class GardenSeasonPlanWizard(models.TransientModel):
         crops = self.env['garden.crop'].create(vals_list)
         return {
             'type': 'ir.actions.act_window',
-            'name': self.env._("Cultures créées"),
+            'name': self.env._('Crops Created'),
             'res_model': 'garden.crop',
             'view_mode': 'list,form',
             'domain': [('id', 'in', crops.ids)],

@@ -4,7 +4,7 @@ from odoo.tools import SQL
 
 class GardenCropProfitability(models.Model):
     _name = 'garden.crop.profitability'
-    _description = 'Rentabilité par culture'
+    _description = 'Profitability per Crop'
     _order = 'margin_per_hour desc, id'
     _rec_name = 'crop_id'
     # Modèle de reporting : une ligne par culture (non annulée), recalculée par ``refresh()`` à partir de
@@ -21,64 +21,64 @@ class GardenCropProfitability(models.Model):
     # monnaies différentes n'a pas de sens (limite connue).
 
     crop_id = fields.Many2one(
-        'garden.crop', string='Culture', required=True, index=True, ondelete='cascade', readonly=True,
+        'garden.crop', string='Crop', required=True, index=True, ondelete='cascade', readonly=True,
     )
-    company_id = fields.Many2one('res.company', string='Société', readonly=True, index=True)
-    currency_id = fields.Many2one('res.currency', string='Monnaie', related='company_id.currency_id')
-    season_id = fields.Many2one('garden.season', string='Saison', readonly=True, index=True)
+    company_id = fields.Many2one('res.company', string='Company', readonly=True, index=True)
+    currency_id = fields.Many2one('res.currency', string='Currency', related='company_id.currency_id')
+    season_id = fields.Many2one('garden.season', string='Season', readonly=True, index=True)
     site_id = fields.Many2one('garden.site', string='Site', readonly=True, index=True)
-    garden_id = fields.Many2one('garden.garden', string='Îlot', readonly=True, index=True)
-    bed_id = fields.Many2one('garden.bed', string='Planche', readonly=True, index=True)
-    species_id = fields.Many2one('garden.species', string='Espèce', readonly=True, index=True)
+    garden_id = fields.Many2one('garden.garden', string='Block', readonly=True, index=True)
+    bed_id = fields.Many2one('garden.bed', string='Bed', readonly=True, index=True)
+    species_id = fields.Many2one('garden.species', string='Species', readonly=True, index=True)
     family = fields.Selection(
-        related='species_id.family', string='Famille botanique', store=True, readonly=True,
+        related='species_id.family', string='Botanical Family', store=True, readonly=True,
     )
-    variety_id = fields.Many2one('garden.variety', string='Variété', readonly=True, index=True)
+    variety_id = fields.Many2one('garden.variety', string='Variety', readonly=True, index=True)
     state = fields.Selection(
-        related='crop_id.state', string='État', store=True, readonly=True,
+        related='crop_id.state', string='Status', store=True, readonly=True,
     )
     date = fields.Date(
-        'Début', readonly=True, help="Début d'occupation de la planche (réel, à défaut prévu).",
+        'Start Date', readonly=True, help='Start of the occupation of the bed (actual, otherwise planned).',
     )
-    area = fields.Float('Surface (m²)', readonly=True, aggregator='sum')
-    occupation_days = fields.Integer("Jours d'occupation", readonly=True, aggregator='sum')
+    area = fields.Float('Area (m²)', readonly=True, aggregator='sum')
+    occupation_days = fields.Integer('Days of Occupation', readonly=True, aggregator='sum')
 
-    hours = fields.Float('Heures de travail', readonly=True, aggregator='sum')
-    labour_cost = fields.Float("Coût main-d'œuvre", readonly=True, aggregator='sum')
-    input_cost = fields.Float('Coût des intrants', readonly=True, aggregator='sum')
-    fixed_cost = fields.Float('Charges fixes', readonly=True, aggregator='sum')
-    harvested_qty = fields.Float('Quantité récoltée (kg)', readonly=True, aggregator='sum')
-    loss_qty = fields.Float('Quantité perdue (kg)', readonly=True, aggregator='sum')
-    revenue = fields.Float("Chiffre d'affaires", readonly=True, aggregator='sum')
-    margin = fields.Float('Marge', readonly=True, aggregator='sum')
+    hours = fields.Float('Work Hours', readonly=True, aggregator='sum')
+    labour_cost = fields.Float('Labor Cost', readonly=True, aggregator='sum')
+    input_cost = fields.Float('Input Cost', readonly=True, aggregator='sum')
+    fixed_cost = fields.Float('Fixed Costs', readonly=True, aggregator='sum')
+    harvested_qty = fields.Float('Harvested Quantity (kg)', readonly=True, aggregator='sum')
+    loss_qty = fields.Float('Lost Quantity (kg)', readonly=True, aggregator='sum')
+    revenue = fields.Float('Revenue', readonly=True, aggregator='sum')
+    margin = fields.Float('Margin', readonly=True, aggregator='sum')
 
     # Ratios : en vue pivot ou graphique, la valeur d'un groupe est le ratio des sommes (pondérée),
     # pas la moyenne des ratios (voir ``_read_group_select``).
     margin_per_hour = fields.Float(
-        'Marge par heure', readonly=True, aggregator='avg',
-        help="Marge / heures de travail. Sur un groupe : somme des marges / somme des heures.",
+        'Margin per Hour', readonly=True, aggregator='avg',
+        help='Margin / work hours. On a group: sum of margins / sum of hours.',
     )
     margin_per_m2 = fields.Float(
-        'Marge par m²', readonly=True, aggregator='avg',
-        help="Marge / surface. Sur un groupe : somme des marges / somme des surfaces.",
+        'Margin per m²', readonly=True, aggregator='avg',
+        help='Margin / area. On a group: sum of margins / sum of areas.',
     )
     yield_per_m2 = fields.Float(
-        'Rendement (kg/m²)', readonly=True, aggregator='avg',
-        help="Quantité récoltée / surface. Sur un groupe : somme des récoltes / somme des surfaces.",
+        'Yield (kg/m²)', readonly=True, aggregator='avg',
+        help='Harvested quantity / area. On a group: sum of harvests / sum of areas.',
     )
     loss_rate = fields.Float(
-        'Taux de perte', readonly=True, aggregator='avg', digits=(16, 4),
-        help="Pertes / (récolte + pertes). Sur un groupe : calculé sur les sommes.",
+        'Loss Rate', readonly=True, aggregator='avg', digits=(16, 4),
+        help='Losses / (harvest + losses). On a group: computed on the sums.',
     )
 
-    expected_yield_qty = fields.Float('Récolte attendue (kg)', readonly=True, aggregator='sum')
-    expected_revenue = fields.Float("Chiffre d'affaires attendu", readonly=True, aggregator='sum')
-    expected_hours = fields.Float('Heures attendues', readonly=True, aggregator='sum')
-    yield_gap = fields.Float('Écart de récolte (kg)', readonly=True, aggregator='sum')
-    revenue_gap = fields.Float("Écart de chiffre d'affaires", readonly=True, aggregator='sum')
-    hours_gap = fields.Float("Écart d'heures", readonly=True, aggregator='sum')
+    expected_yield_qty = fields.Float('Expected Harvest (kg)', readonly=True, aggregator='sum')
+    expected_revenue = fields.Float('Expected Revenue', readonly=True, aggregator='sum')
+    expected_hours = fields.Float('Expected Hours', readonly=True, aggregator='sum')
+    yield_gap = fields.Float('Harvest Gap (kg)', readonly=True, aggregator='sum')
+    revenue_gap = fields.Float('Revenue Gap', readonly=True, aggregator='sum')
+    hours_gap = fields.Float('Hours Gap', readonly=True, aggregator='sum')
 
-    _crop_unique = models.Constraint('UNIQUE (crop_id)', 'Une seule ligne de rentabilité par culture.')
+    _crop_unique = models.Constraint('UNIQUE (crop_id)', 'Only one profitability line per crop.')
 
     # ------------------------------------------------------------------
     # Agrégation des ratios (le seul endroit où du SQL est écrit)
@@ -207,7 +207,7 @@ class GardenCropProfitability(models.Model):
         lines = self.search([])
         species = {}
         for line in lines:
-            label = line.species_id.display_name or self.env._("Sans espèce")
+            label = line.species_id.display_name or self.env._('No species')
             species[label] = species.get(label, 0.0) + line.margin
         margin_by_species = sorted(
             ({'label': label, 'value': value} for label, value in species.items()),
@@ -217,7 +217,7 @@ class GardenCropProfitability(models.Model):
         categories = dict(self.env['garden.operation.type']._fields['category']._description_selection(self.env))
         hours_by_category = sorted(
             (
-                {'label': categories.get(category) or self.env._("Autre"), 'value': hours}
+                {'label': categories.get(category) or self.env._('Other'), 'value': hours}
                 for category, hours in self.env['garden.operation.allocation']._read_group(
                     [], ['category'], ['hours:sum'],
                 ) if hours

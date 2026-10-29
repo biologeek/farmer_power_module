@@ -4,72 +4,72 @@ from odoo.exceptions import UserError, ValidationError
 
 class GardenOperationInput(models.Model):
     _name = 'garden.operation.input'
-    _description = "Intrant consommé par une opération"
+    _description = 'Input Consumed by an Operation'
     _order = 'operation_id, sequence, id'
     # Une ligne par produit consommé (semence, plant, engrais, traitement...). Quand l'opération passe à
     # « faite », un mouvement de stock part de l'emplacement de stockage vers « Consommation maraîchage ».
 
-    sequence = fields.Integer('Séquence', default=10)
+    sequence = fields.Integer('Sequence', default=10)
     operation_id = fields.Many2one(
-        'garden.operation', string='Opération', required=True, index=True, ondelete='cascade',
+        'garden.operation', string='Operation', required=True, index=True, ondelete='cascade',
     )
     company_id = fields.Many2one(
-        'res.company', string='Société', related='operation_id.company_id', store=True, index=True,
+        'res.company', string='Company', related='operation_id.company_id', store=True, index=True,
     )
-    operation_state = fields.Selection(related='operation_id.state', string="État de l'opération")
+    operation_state = fields.Selection(related='operation_id.state', string='Operation Status')
     product_id = fields.Many2one(
-        'product.product', string='Produit', required=True, index=True, ondelete='restrict',
+        'product.product', string='Product', required=True, index=True, ondelete='restrict',
         domain="[('garden_input_type', '!=', False)]",
-        help="Produit consommé. Seuls les produits dont le « type d'intrant maraîcher » est renseigné sont proposés.",
+        help='Consumed product. Only products with a "market gardening input type" are suggested.',
     )
-    garden_input_type = fields.Selection(related='product_id.garden_input_type', string="Type d'intrant", store=True)
-    tracking = fields.Selection(related='product_id.tracking', string='Suivi')
+    garden_input_type = fields.Selection(related='product_id.garden_input_type', string='Input Type', store=True)
+    tracking = fields.Selection(related='product_id.tracking', string='Tracking')
     quantity = fields.Float(
-        'Quantité', digits='Product Unit', default=1.0, required=True,
-        help="Quantité consommée, dans l'unité de la ligne.",
+        'Quantity', digits='Product Unit', default=1.0, required=True,
+        help='Quantity consumed, in the unit of the line.',
     )
     uom_id = fields.Many2one(
-        'uom.uom', string='Unité', compute='_compute_uom_id', store=True, readonly=False, precompute=True,
-        required=True, help="Unité de la quantité (proposée d'après le produit).",
+        'uom.uom', string='Unit', compute='_compute_uom_id', store=True, readonly=False, precompute=True,
+        required=True, help='Unit of the quantity (suggested from the product).',
     )
     treated_area = fields.Float(
-        'Surface traitée (m²)', compute='_compute_treated_area', store=True, readonly=False, digits=(16, 2),
-        help="Surface sur laquelle le produit est appliqué (registre phytosanitaire). Proposée d'après la cible "
-             "de l'opération (surface occupée des cultures, des planches ou de l'îlot) ; modifiable si seule une "
-             "partie est traitée. Figée une fois l'opération faite.",
+        'Treated Area (m²)', compute='_compute_treated_area', store=True, readonly=False, digits=(16, 2),
+        help='Area on which the product is applied (plant protection register). Suggested from the target of '
+             'the operation (occupied area of the crops, beds or block); editable if only a part is treated. '
+             'Frozen once the operation is done.',
     )
     dose = fields.Float(
-        'Dose (par ha)', compute='_compute_dose', store=True, digits=(16, 3),
-        help="Quantité appliquée par hectare, dans l'unité de la ligne (ex. kg/ha, L/ha) : "
-             "quantité × 10 000 / surface traitée.",
+        'Dose (per ha)', compute='_compute_dose', store=True, digits=(16, 3),
+        help='Quantity applied per hectare, in the unit of the line (e.g. kg/ha, L/ha): quantity × 10,000 / '
+             'treated area.',
     )
     lot_id = fields.Many2one(
         'stock.lot', string='Lot', domain="[('product_id', '=', product_id)]", ondelete='restrict',
-        help="Lot du produit consommé, obligatoire pour un produit suivi par lots (ex. lot de semences).",
+        help='Lot of the consumed product, required for a product tracked by lots (e.g. seed lot).',
     )
     move_id = fields.Many2one(
-        'stock.move', string='Mouvement de stock', copy=False, readonly=True, index='btree_not_null',
+        'stock.move', string='Stock Move', copy=False, readonly=True, index='btree_not_null',
         ondelete='set null',
-        help="Dernier mouvement de consommation créé à la validation de l'opération.",
+        help='Last consumption move created when the operation was validated.',
     )
     consumed = fields.Boolean(
-        'Consommé', compute='_compute_consumed',
-        help="Vrai si un mouvement de consommation est en vigueur (non annulé par un mouvement inverse).",
+        'Consumed', compute='_compute_consumed',
+        help='True if a consumption move is in force (not cancelled by a reverse move).',
     )
     unit_cost = fields.Float(
-        'Coût unitaire', compute='_compute_unit_cost', store=True, readonly=False, digits=(16, 5),
+        'Unit Cost', compute='_compute_unit_cost', store=True, readonly=False, digits=(16, 5),
         groups='odoo_garden.group_garden_chef',
-        help="Coût du produit par unité de la ligne. Proposé d'après le coût du produit ; "
-             "figé au moment où l'opération est faite.",
+        help='Cost of the product per unit of the line. Suggested from the product cost; frozen when the '
+             'operation is done.',
     )
     cost = fields.Float(
-        'Coût', compute='_compute_cost', store=True, digits='Product Price',
+        'Cost', compute='_compute_cost', store=True, digits='Product Price',
         groups='odoo_garden.group_garden_chef',
-        help="Quantité × coût unitaire.",
+        help='Quantity × unit cost.',
     )
 
     _quantity_positive = models.Constraint(
-        'CHECK (quantity > 0)', "La quantité d'un intrant doit être strictement positive.",
+        'CHECK (quantity > 0)', 'The quantity of an input must be strictly positive.',
     )
 
     @api.depends('product_id')
@@ -95,7 +95,7 @@ class GardenOperationInput(models.Model):
     @api.constrains('treated_area')
     def _check_treated_area(self):
         if any(line.treated_area < 0 for line in self):
-            raise ValidationError(self.env._("La surface traitée ne peut pas être négative."))
+            raise ValidationError(self.env._('The treated area cannot be negative.'))
 
     @api.depends('move_id.garden_reversal_ids')
     def _compute_consumed(self):
@@ -123,7 +123,7 @@ class GardenOperationInput(models.Model):
     def _check_lot_product(self):
         for line in self:
             if line.lot_id and line.lot_id.product_id != line.product_id:
-                raise ValidationError(self.env._("Le lot « %(lot)s » n'est pas un lot du produit « %(product)s ».",
+                raise ValidationError(self.env._('Lot "%(lot)s" is not a lot of product "%(product)s".',
                                                  lot=line.lot_id.name, product=line.product_id.display_name))
 
     # ------------------------------------------------------------------
@@ -137,7 +137,7 @@ class GardenOperationInput(models.Model):
         for operation in (operations or self.operation_id):
             if operation.state == 'done':
                 raise UserError(self.env._(
-                    "L'opération « %s » est faite : remettez-la en planifiée pour modifier ses intrants.",
+                    'Operation "%s" is done: set it back to planned to modify its inputs.',
                     operation.name,
                 ))
 
@@ -170,18 +170,18 @@ class GardenOperationInput(models.Model):
             destination = company.garden_consumption_location_id
             if not source or not destination:
                 raise UserError(self.env._(
-                    "Configurez l'emplacement de stockage et l'emplacement « Consommation maraîchage » de la société « %s ».",
+                    'Configure the storage location and the "Market Gardening Consumption" location of company "%s".',
                     company.name,
                 ))
             product = line.product_id
             if product.tracking != 'none' and not line.lot_id:
                 raise UserError(self.env._(
-                    "Renseignez le lot de « %(product)s » (opération « %(operation)s »).",
+                    'Enter the lot of "%(product)s" (operation "%(operation)s").',
                     product=product.display_name, operation=operation.name,
                 ))
             if product.tracking == 'serial' and line.uom_id._compute_quantity(line.quantity, product.uom_id) != 1:
                 raise UserError(self.env._(
-                    "Un produit suivi par numéro de série se consomme une unité à la fois (« %s »).",
+                    'A product tracked by serial number is consumed one unit at a time ("%s").',
                     product.display_name,
                 ))
             line.unit_cost = line._get_product_cost()

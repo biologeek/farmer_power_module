@@ -19,47 +19,46 @@ CATEGORY_ICONS = {
 
 class GardenOperationType(models.Model):
     _name = 'garden.operation.type'
-    _description = "Type d'opération"
+    _description = 'Operation Type'
     _order = 'sequence, id'
     # Remplace l'ancien « type d'action » : le catalogue des types sert aux opérations réalisées
     # comme aux étapes des itinéraires techniques.
 
-    name = fields.Char('Nom', required=True, translate=True)
+    name = fields.Char('Name', required=True, translate=True)
     category = fields.Selection(
         [
-            ('soil_preparation', 'Préparation du sol'),
-            ('sowing', 'Semis'),
-            ('transplanting', 'Repiquage'),
-            ('planting', 'Plantation'),
+            ('soil_preparation', 'Soil Preparation'),
+            ('sowing', 'Sowing'),
+            ('transplanting', 'Transplanting'),
+            ('planting', 'Planting'),
             ('irrigation', 'Irrigation'),
-            ('weeding', 'Désherbage'),
-            ('fertilization', 'Fertilisation'),
-            ('treatment', 'Traitement'),
-            ('mulching', 'Paillage'),
-            ('harvest', 'Récolte'),
-            ('post_harvest', 'Après récolte (lavage, conditionnement)'),
-            ('other', 'Autre'),
+            ('weeding', 'Weeding'),
+            ('fertilization', 'Fertilization'),
+            ('treatment', 'Treatment'),
+            ('mulching', 'Mulching'),
+            ('harvest', 'Harvest'),
+            ('post_harvest', 'Post-harvest (washing, packing)'),
+            ('other', 'Other'),
         ],
-        string='Catégorie', required=True, default='other',
-        help="Catégorie de travail : elle conditionne les champs spécifiques de l'opération "
-             "(récolte, irrigation, traitement).",
+        string='Category', required=True, default='other',
+        help='Work category: it determines the specific fields of the operation (harvest, irrigation, treatment).',
     )
     default_scope = fields.Selection(
-        [('crop', 'Culture'), ('bed', 'Planche'), ('garden', 'Îlot')],
-        string='Périmètre par défaut', required=True, default='crop',
-        help="Périmètre proposé à la création d'une opération de ce type.",
+        [('crop', 'Crop'), ('bed', 'Bed'), ('garden', 'Block')],
+        string='Default Scope', required=True, default='crop',
+        help='Scope suggested when creating an operation of this type.',
     )
     requires_quantity = fields.Boolean(
-        'Quantité obligatoire', compute='_compute_requires_quantity', store=True, readonly=False,
-        help="Cochée pour la récolte : l'opération ne peut pas être terminée sans quantité récoltée.",
+        'Quantity Required', compute='_compute_requires_quantity', store=True, readonly=False,
+        help='Ticked for harvest: the operation cannot be completed without a harvested quantity.',
     )
     icon = fields.Char(
-        'Icône', compute='_compute_icon', store=True, readonly=False,
-        help="Classe Font Awesome affichée sur la carte « Ma journée » (ex. fa-tint).",
+        'Icon', compute='_compute_icon', store=True, readonly=False,
+        help='Font Awesome class displayed on the "My Day" card (e.g. fa-tint).',
     )
     description = fields.Text('Description')
-    sequence = fields.Integer('Séquence', default=10)
-    active = fields.Boolean('Actif', default=True)
+    sequence = fields.Integer('Sequence', default=10)
+    active = fields.Boolean('Active', default=True)
 
     @api.depends('category')
     def _compute_requires_quantity(self):

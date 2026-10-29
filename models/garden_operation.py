@@ -7,170 +7,170 @@ from odoo.exceptions import UserError, ValidationError
 
 class GardenOperation(models.Model):
     _name = 'garden.operation'
-    _description = 'Opération (travail sur culture, planche ou îlot)'
+    _description = 'Operation (work on a crop, bed or block)'
     # Remplace les anciennes « actions » et le « post-process » : un travail planifié puis réalisé,
     # sur une ou plusieurs cultures, sur des planches ou sur un îlot entier.
     _inherit = ['mail.thread', 'hr.mixin']
     _order = 'planned_date desc, id desc'
 
     name = fields.Char(
-        'Libellé', compute='_compute_name', store=True, readonly=False, tracking=True,
-        help="Proposé automatiquement : type d'opération et cible. Modifiable.",
+        'Label', compute='_compute_name', store=True, readonly=False, tracking=True,
+        help='Suggested automatically: operation type and target. Editable.',
     )
     type_id = fields.Many2one(
-        'garden.operation.type', string="Type d'opération", required=True, index=True, ondelete='restrict',
-        tracking=True, help="Nature du travail (semis, arrosage, récolte...).",
+        'garden.operation.type', string='Operation Type', required=True, index=True, ondelete='restrict',
+        tracking=True, help='Nature of the work (sowing, watering, harvest...).',
     )
     category = fields.Selection(
-        related='type_id.category', string='Catégorie', store=True, index=True,
+        related='type_id.category', string='Category', store=True, index=True,
     )
-    type_icon = fields.Char(related='type_id.icon', string='Icône du type')
-    requires_quantity = fields.Boolean(related='type_id.requires_quantity', string='Quantité obligatoire')
+    type_icon = fields.Char(related='type_id.icon', string='Type Icon')
+    requires_quantity = fields.Boolean(related='type_id.requires_quantity', string='Quantity Required')
     state = fields.Selection(
         [
-            ('planned', 'Planifiée'),
-            ('in_progress', 'En cours'),
-            ('done', 'Faite'),
-            ('cancelled', 'Annulée'),
+            ('planned', 'Planned'),
+            ('in_progress', 'In Progress'),
+            ('done', 'Done'),
+            ('cancelled', 'Cancelled'),
         ],
-        string='État', required=True, default='planned', copy=False, tracking=True, index=True,
-        help="Planifiée : à faire. En cours : commencée. Faite : terminée, le temps est réparti sur les cultures. "
-             "Annulée : ne sera pas faite.",
+        string='Status', required=True, default='planned', copy=False, tracking=True, index=True,
+        help='Planned: to do. In progress: started. Done: finished, the time is allocated to the crops. '
+             'Cancelled: will not be done.',
     )
     planned_date = fields.Date(
-        'Date prévue', default=fields.Date.context_today, index=True, tracking=True,
-        help="Jour où l'opération doit être faite ; elle apparaît dans « Ma journée » à partir de cette date.",
+        'Planned Date', default=fields.Date.context_today, index=True, tracking=True,
+        help='Day the operation must be done; it appears in "My Day" from that date.',
     )
     date = fields.Date(
-        'Date de réalisation', copy=False, index=True, tracking=True,
-        help="Jour où l'opération a été faite (renseigné à la fin de l'opération). "
-             "Sert à retrouver les cultures en place pour la répartition.",
+        'Completion Date', copy=False, index=True, tracking=True,
+        help='Day the operation was done (set when the operation is completed). Used to find the crops in '
+             'place for the allocation.',
     )
     company_id = fields.Many2one(
-        'res.company', string='Société', required=True, default=lambda self: self.env.company, index=True,
-        help="Société propriétaire de l'opération.",
+        'res.company', string='Company', required=True, default=lambda self: self.env.company, index=True,
+        help='Company owning the operation.',
     )
 
     # Périmètre
     scope = fields.Selection(
-        [('crop', 'Culture'), ('bed', 'Planche'), ('garden', 'Îlot')],
-        string='Périmètre', compute='_compute_scope', store=True, readonly=False, precompute=True,
+        [('crop', 'Crop'), ('bed', 'Bed'), ('garden', 'Block')],
+        string='Scope', compute='_compute_scope', store=True, readonly=False, precompute=True,
         required=True,
-        help="Cible du travail : une ou plusieurs cultures, une ou plusieurs planches, ou un îlot entier. "
-             "Proposé selon le type d'opération.",
+        help='Target of the work: one or several crops, one or several beds, or a whole block. Suggested '
+             'according to the operation type.',
     )
     crop_ids = fields.Many2many(
-        'garden.crop', 'garden_operation_crop_rel', 'operation_id', 'crop_id', string='Cultures',
-        help="Cultures concernées (périmètre « Culture »).",
+        'garden.crop', 'garden_operation_crop_rel', 'operation_id', 'crop_id', string='Crops',
+        help='Crops concerned ("Crop" scope).',
     )
     bed_ids = fields.Many2many(
-        'garden.bed', 'garden_operation_bed_rel', 'operation_id', 'bed_id', string='Planches',
-        help="Planches concernées (périmètre « Planche »).",
+        'garden.bed', 'garden_operation_bed_rel', 'operation_id', 'bed_id', string='Beds',
+        help='Beds concerned ("Bed" scope).',
     )
     garden_id = fields.Many2one(
-        'garden.garden', string='Îlot', index=True, help="Îlot concerné (périmètre « Îlot »).",
+        'garden.garden', string='Block', index=True, help='Block concerned ("Block" scope).',
     )
     garden_main_id = fields.Many2one(
-        'garden.garden', string='Îlot principal', compute='_compute_garden_main', store=True, index=True,
-        help="Îlot de la cible (le premier si plusieurs) ; sert à regrouper les opérations.",
+        'garden.garden', string='Main Block', compute='_compute_garden_main', store=True, index=True,
+        help='Block of the target (the first one if several); used to group the operations.',
     )
 
     # Travail
     employee_ids = fields.Many2many(
-        'hr.employee', 'garden_operation_employee_rel', 'operation_id', 'employee_id', string='Employés',
-        help="Personnes qui réalisent l'opération.",
+        'hr.employee', 'garden_operation_employee_rel', 'operation_id', 'employee_id', string='Employees',
+        help='People who carry out the operation.',
     )
     duration = fields.Float(
-        'Durée (par employé)',
-        help="Durée de travail en heures pour chaque employé (hh:mm). Sans saisie détaillée, "
-             "le temps total est la durée multipliée par le nombre d'employés.",
+        'Duration (per employee)',
+        help='Work duration in hours for each employee (hh:mm). Without detailed entry, the total time is the '
+             'duration multiplied by the number of employees.',
     )
     worker_ids = fields.One2many(
-        'garden.operation.worker', 'operation_id', string='Détail par employé', copy=True,
-        help="Saisie détaillée du temps par employé. Quand elle est renseignée, elle remplace "
-             "« durée × nombre d'employés ».",
+        'garden.operation.worker', 'operation_id', string='Details per Employee', copy=True,
+        help='Detailed time entry per employee. When filled, it replaces "duration × number of employees".',
     )
     total_hours = fields.Float(
-        'Temps total (h)', compute='_compute_total_hours', store=True,
-        help="Somme du détail par employé s'il existe, sinon durée × nombre d'employés "
-             "(une opération sans employé compte pour une personne).",
+        'Total Time (h)', compute='_compute_total_hours', store=True,
+        help='Sum of the details per employee if any, otherwise duration × number of employees (an operation '
+             'without employee counts for one person).',
     )
     labour_cost = fields.Float(
-        'Coût main-d\'œuvre', compute='_compute_labour_cost', store=True, digits='Product Price',
+        'Labor Cost', compute='_compute_labour_cost', store=True, digits='Product Price',
         groups='odoo_garden.group_garden_chef',
-        help="Somme de la durée × coût horaire de chaque employé ; à défaut de coût horaire sur l'employé "
-             "(ou sans employé), le taux horaire par défaut des paramètres s'applique.",
+        help='Sum of duration × hourly cost of each employee; without an hourly cost on the employee (or '
+             'without employee), the default hourly rate of the settings applies.',
     )
     template_step_id = fields.Many2one(
-        'garden.crop.template.step', string="Étape d'itinéraire", copy=False, index=True, ondelete='set null',
-        help="Étape de l'itinéraire à l'origine de l'opération planifiée ; évite de la générer deux fois.",
+        'garden.crop.template.step', string='Template Step', copy=False, index=True, ondelete='set null',
+        help='Template step the planned operation comes from; prevents generating it twice.',
     )
     allocation_ids = fields.One2many(
-        'garden.operation.allocation', 'operation_id', string='Répartition',
-        help="Répartition du temps et du coût entre les cultures, calculée quand l'opération est faite.",
+        'garden.operation.allocation', 'operation_id', string='Allocation',
+        help='Allocation of time and cost between crops, computed when the operation is done.',
     )
     allocation_warning = fields.Char(
-        'Avertissement de répartition', compute='_compute_allocation_warning',
-        help="Renseigné si l'opération est faite mais qu'aucune culture n'était en place : rien n'est alloué.",
+        'Allocation Warning', compute='_compute_allocation_warning',
+        help='Set if the operation is done but no crop was in place: nothing is allocated.',
     )
     timer_start = fields.Datetime(
-        'Début du chronomètre', copy=False, readonly=True,
-        help="Heure de démarrage du chronomètre ; renseigné tant que le chronomètre tourne.",
+        'Timer Start', copy=False, readonly=True,
+        help='Time the timer was started; set as long as the timer runs.',
     )
-    description = fields.Text('Description', help="Consignes ou compte rendu du travail.")
+    description = fields.Text('Description', help='Instructions or report of the work.')
 
     # Intrants et mouvements de stock
     input_ids = fields.One2many(
-        'garden.operation.input', 'operation_id', string='Intrants', copy=True,
-        help="Produits consommés par l'opération. Les mouvements de stock sont créés quand elle est faite.",
+        'garden.operation.input', 'operation_id', string='Inputs', copy=True,
+        help='Products consumed by the operation. Stock moves are created when it is done.',
     )
     input_cost = fields.Float(
-        'Coût des intrants', compute='_compute_input_cost', store=True, digits='Product Price',
+        'Input Cost', compute='_compute_input_cost', store=True, digits='Product Price',
         groups='odoo_garden.group_garden_chef',
-        help="Somme du coût des intrants (quantité × coût du produit).",
+        help='Sum of the input cost (quantity × product cost).',
     )
     move_ids = fields.One2many(
-        'stock.move', 'garden_operation_id', string='Mouvements de stock', readonly=True,
+        'stock.move', 'garden_operation_id', string='Stock Moves', readonly=True,
         groups='odoo_garden.group_garden_chef',
-        help="Mouvements de consommation et de récolte créés par l'opération, avec leurs annulations.",
+        help='Consumption and harvest moves created by the operation, with their cancellations.',
     )
 
     # Spécifique à la catégorie
     harvest_product_id = fields.Many2one(
-        'product.product', string='Produit récolté', compute='_compute_harvest_product', store=True,
-        readonly=False, help="Produit récolté (proposé d'après la variété de la culture). Récolte uniquement.",
+        'product.product', string='Harvested Product', compute='_compute_harvest_product', store=True,
+        readonly=False, help='Harvested product (suggested from the variety of the crop). Harvest only.',
     )
-    harvest_qty = fields.Float('Quantité récoltée', digits='Product Unit', help="Quantité récoltée (récolte uniquement).")
+    harvest_qty = fields.Float('Harvested Quantity', digits='Product Unit', help='Harvested quantity (harvest only).')
     harvest_uom_id = fields.Many2one(
-        'uom.uom', string='Unité de récolte', compute='_compute_harvest_uom', store=True, readonly=False,
-        help="Unité de la quantité récoltée (proposée d'après le produit).",
+        'uom.uom', string='Harvest Unit', compute='_compute_harvest_uom', store=True, readonly=False,
+        help='Unit of the harvested quantity (suggested from the product).',
     )
     water_volume = fields.Float(
-        "Volume d'eau (L)", compute='_compute_water_volume', store=True, readonly=False,
-        help="Durée × débit d'irrigation de l'îlot (irrigation uniquement). Modifiable si le volume est mesuré.",
+        'Water Volume (L)', compute='_compute_water_volume', store=True, readonly=False,
+        help='Duration × irrigation flow of the block (irrigation only). Editable if the volume is measured.',
     )
-    target = fields.Char('Cible du traitement', help="Ravageur ou maladie visé (traitement uniquement).")
-    weather_notes = fields.Text('Conditions météo', help="Météo au moment du traitement (traitement uniquement).")
+    target = fields.Char('Treatment Target', help='Targeted pest or disease (treatment only).')
+    weather_notes = fields.Text('Weather Conditions', help='Weather at the time of the treatment (treatment only).')
 
     # Délai avant récolte (DAR, phase 6)
     dar_override = fields.Boolean(
-        'Dérogation au délai avant récolte', copy=False, tracking=True, groups='odoo_garden.group_garden_manager',
-        help="Cochée par le gérant pour autoriser une récolte avant la fin du délai avant récolte (DAR) d'un "
-             "traitement phytosanitaire. Un motif est obligatoire ; la dérogation est tracée dans le fil de discussion.",
+        'Pre-Harvest Interval Waiver', copy=False, tracking=True, groups='odoo_garden.group_garden_manager',
+        help='Ticked by the manager to allow a harvest before the end of the pre-harvest interval (PHI) of a '
+             'plant protection treatment. A reason is required; the waiver is traced in the chatter.',
     )
     dar_override_reason = fields.Char(
-        'Motif de la dérogation', copy=False, tracking=True, groups='odoo_garden.group_garden_manager',
-        help="Justification de la dérogation au délai avant récolte (obligatoire quand elle est cochée).",
+        'Waiver Reason', copy=False, tracking=True, groups='odoo_garden.group_garden_manager',
+        help='Justification of the pre-harvest interval waiver (required when it is ticked).',
     )
     dar_override_user_id = fields.Many2one(
-        'res.users', string='Dérogation accordée par', copy=False, readonly=True,
+        'res.users', string='Waiver Granted by', copy=False, readonly=True,
         groups='odoo_garden.group_garden_manager',
-        help="Gérant qui a coché la dérogation au délai avant récolte.",
+        help='Manager who ticked the pre-harvest interval waiver.',
     )
     dar_warning = fields.Text(
-        'Avertissement DAR', compute='_compute_dar_warning', compute_sudo=True,
-        help="Pour une récolte non encore faite : cultures dont le délai avant récolte (DAR) n'est pas écoulé à la "
-             "date de récolte. La validation sera bloquée tant que le délai court, sauf dérogation du gérant.",
+        'PHI Warning', compute='_compute_dar_warning', compute_sudo=True,
+        help='For a harvest not yet done: crops whose pre-harvest interval (PHI) has not elapsed on the '
+             'harvest date. Validation will be blocked while the interval runs, unless the manager grants a '
+             'waiver.',
     )
 
     # ------------------------------------------------------------------
@@ -287,9 +287,9 @@ class GardenOperation(models.Model):
     @api.constrains('scope', 'crop_ids', 'bed_ids', 'garden_id')
     def _check_scope_target(self):
         messages = {
-            'crop': self.env._("Choisissez au moins une culture pour une opération de périmètre « Culture »."),
-            'bed': self.env._("Choisissez au moins une planche pour une opération de périmètre « Planche »."),
-            'garden': self.env._("Choisissez l'îlot pour une opération de périmètre « Îlot »."),
+            'crop': self.env._('Choose at least one crop for an operation with the "Crop" scope.'),
+            'bed': self.env._('Choose at least one bed for an operation with the "Bed" scope.'),
+            'garden': self.env._('Choose the block for an operation with the "Block" scope.'),
         }
         for operation in self:
             if not operation._get_target_records():
@@ -300,13 +300,13 @@ class GardenOperation(models.Model):
         for operation in self.sudo():
             if operation.dar_override and not (operation.dar_override_reason or '').strip():
                 raise ValidationError(self.env._(
-                    "Indiquez le motif de la dérogation au délai avant récolte (opération « %s »).", operation.name,
+                    'Enter the reason for the pre-harvest interval waiver (operation "%s").', operation.name,
                 ))
 
     @api.constrains('duration')
     def _check_duration(self):
         if any(operation.duration < 0 for operation in self):
-            raise ValidationError(self.env._("La durée ne peut pas être négative."))
+            raise ValidationError(self.env._('The duration cannot be negative.'))
 
     # ------------------------------------------------------------------
     # Chronomètre
@@ -343,11 +343,11 @@ class GardenOperation(models.Model):
         for operation in self.filtered(lambda o: o.state in ('planned', 'in_progress')):
             if operation.type_id.requires_quantity and operation.harvest_qty <= 0:
                 raise UserError(self.env._(
-                    "Renseignez la quantité récoltée avant de terminer l'opération « %s ».", operation.name,
+                    'Enter the harvested quantity before completing operation "%s".', operation.name,
                 ))
             if operation.category == 'harvest' and operation.harvest_qty > 0 and not operation.harvest_product_id:
                 raise UserError(self.env._(
-                    "Renseignez le produit récolté avant de terminer l'opération « %s ».", operation.name,
+                    'Enter the harvested product before completing operation "%s".', operation.name,
                 ))
             operation.write({
                 'state': 'done',
@@ -393,7 +393,7 @@ class GardenOperation(models.Model):
     def _format_dar_conflicts(self, conflicts):
         return "\n".join(
             self.env._(
-                "%(crop)s : traitement du %(day)s avec « %(product)s » (délai %(days)s j), récolte possible à partir du %(end)s.",
+                '%(crop)s: treated on %(day)s with "%(product)s" (interval %(days)s d), harvest possible from %(end)s.',
                 crop=crop.name, day=fields.Date.to_string(day), product=line.product_id.display_name,
                 days=line.product_id.pre_harvest_interval_days, end=fields.Date.to_string(end),
             )
@@ -419,16 +419,15 @@ class GardenOperation(models.Model):
             if operation_sudo.dar_override:
                 operation.message_post(
                     body=plaintext2html(self.env._(
-                        "Récolte validée en dérogation au délai avant récolte (dérogation de %(user)s). "
-                        "Motif : %(reason)s",
+                        'Harvest validated with a pre-harvest interval waiver (waiver by %(user)s). Reason: %(reason)s',
                         user=operation_sudo.dar_override_user_id.name or "?", reason=operation_sudo.dar_override_reason,
                     ) + "\n" + details),
                     subtype_xmlid='mail.mt_note',
                 )
                 continue
             raise ValidationError(self.env._(
-                "Délai avant récolte (DAR) non respecté, la récolte « %(operation)s » est bloquée :\n%(details)s\n"
-                "Seul un gérant peut lever ce blocage (dérogation avec motif).",
+                'Pre-harvest interval (PHI) not respected, harvest "%(operation)s" is blocked:\n%(details)s\nOnly a '
+                'manager can lift this block (waiver with a reason).',
                 operation=operation.name, details=details,
             ))
 
@@ -466,7 +465,7 @@ class GardenOperation(models.Model):
         for operation in self:
             if operation.state == 'done' and not operation.allocation_ids:
                 operation.allocation_warning = self.env._(
-                    "Aucune culture en place à la date de l'opération : le temps et le coût ne sont alloués à aucune culture.",
+                    'No crop in place on the date of the operation: time and cost are not allocated to any crop.',
                 )
             else:
                 operation.allocation_warning = False
@@ -532,7 +531,7 @@ class GardenOperation(models.Model):
         for operation in self:
             operation.message_post(
                 body=plaintext2html(self.env._(
-                    "Dérogation au délai avant récolte accordée par %(user)s. Motif : %(reason)s",
+                    'Pre-harvest interval waiver granted by %(user)s. Reason: %(reason)s',
                     user=(operation.dar_override_user_id or self.env.user).name,
                     reason=operation.dar_override_reason or "-",
                 )),
@@ -566,7 +565,7 @@ class GardenOperation(models.Model):
         for operation in self.filtered(lambda o: o.state == 'done'):
             if operation._get_active_moves('harvest'):
                 raise UserError(self.env._(
-                    "La récolte « %s » est déjà en stock : remettez l'opération en planifiée avant de la modifier.",
+                    'Harvest "%s" is already in stock: set the operation back to planned before modifying it.',
                     operation.name,
                 ))
 
@@ -641,7 +640,7 @@ class GardenOperation(models.Model):
                 self._prepare_stock_move_vals(
                     move.product_id, move.product_uom_qty, move.product_uom, move.location_dest_id,
                     move.location_id, lines[:1].lot_id, kind=kind,
-                    origin=self.env._("Annulation : %s", self.name), crop=move.garden_crop_id,
+                    origin=self.env._('Cancellation: %s', self.name), crop=move.garden_crop_id,
                 ),
                 garden_reverse_of_id=move.id,
             ),
@@ -700,19 +699,19 @@ class GardenOperation(models.Model):
         destination = company._get_garden_stock_location()
         if not source or not destination:
             raise UserError(self.env._(
-                "Configurez l'emplacement de stockage et l'emplacement « Production maraîchage » de la société « %s ».",
+                'Configure the storage location and the "Market Gardening Production" location of company "%s".',
                 company.name,
             ))
         product = self.harvest_product_id.sudo()
         uom = self.harvest_uom_id or product.uom_id
         if product.tracking == 'serial':
             raise UserError(self.env._(
-                "Un produit récolté suivi par numéro de série n'est pas géré (« %s »).", product.display_name,
+                'A harvested product tracked by serial number is not supported ("%s").', product.display_name,
             ))
         shares = self._get_harvest_shares()
         if product.tracking == 'lot' and not all(crop for crop, _qty in shares):
             raise UserError(self.env._(
-                "Le produit « %s » est suivi par lots : aucune culture en place à la date de l'opération pour nommer le lot.",
+                'Product "%s" is tracked by lots: no crop in place on the date of the operation to name the lot.',
                 product.display_name,
             ))
         Move = self.env['stock.move'].sudo().with_company(company)
@@ -727,6 +726,6 @@ class GardenOperation(models.Model):
             self._set_move_date(move)
         if not all(crop for crop, _qty in shares):
             self.message_post(
-                body=self.env._("Récolte mise en stock sans culture ni lot : aucune culture en place à la date de l'opération."),
+                body=self.env._('Harvest put in stock without crop or lot: no crop in place on the date of the operation.'),
                 subtype_xmlid='mail.mt_note',
             )

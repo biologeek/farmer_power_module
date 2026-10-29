@@ -17,7 +17,7 @@
         <field name="tracking">lot</field>
     </record>
     <record id="demo_input_potting_soil" model="product.product">
-        <field name="name">Terreau de semis (sac 50 L)</field>
+        <field name="name">Seedling compost (50 L bag)</field>
         <field name="type">consu</field>
         <field name="is_storable" eval="True"/>
         <field name="garden_input_type">substrate</field>
@@ -27,7 +27,7 @@
         <field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_input_fertilizer" model="product.product">
-        <field name="name">Engrais organique (kg)</field>
+        <field name="name">Organic fertilizer (kg)</field>
         <field name="type">consu</field>
         <field name="is_storable" eval="True"/>
         <field name="uom_id" ref="uom.product_uom_kgm"/>
@@ -39,13 +39,13 @@
         <field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_input_copper" model="product.product">
-        <field name="name">Bouillie bordelaise (kg)</field>
+        <field name="name">Bordeaux mixture (kg)</field>
         <field name="type">consu</field>
         <field name="is_storable" eval="True"/>
         <field name="uom_id" ref="uom.product_uom_kgm"/>
         <field name="garden_input_type">phytosanitary</field>
         <!-- Phase 6 : numéro d'AMM FICTIF (données de démonstration, ne pas utiliser pour un vrai registre). -->
-        <field name="amm_number">AMM-DEMO-0000000 (numéro fictif)</field>
+        <field name="amm_number">AMM-DEMO-0000000 (dummy number)</field>
         <field name="pre_harvest_interval_days">7</field>
         <field name="is_organic_allowed" eval="True"/>
         <field name="standard_price">6.5</field>
@@ -95,7 +95,7 @@
         <field name="date">2027-03-10</field>
         <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
         <field name="duration">1.5</field>
-        <field name="description">Semis en godets sous abri.</field>
+        <field name="description">Sowing in pots under shelter.</field>
         <field name="input_ids" eval="[
             Command.create({'product_id': ref('demo_seed_tomato_coeur'), 'quantity': 8, 'lot_id': ref('demo_lot_seed_tomato')}),
             Command.create({'product_id': ref('demo_input_potting_soil'), 'quantity': 3}),
@@ -121,8 +121,8 @@
         <field name="date">2027-06-12</field>
         <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
         <field name="duration">0.5</field>
-        <field name="target">Mildiou</field>
-        <field name="weather_notes">Matin sec, 18 °C, vent faible.</field>
+        <field name="target">Downy mildew</field>
+        <field name="weather_notes">Dry morning, 18 °C, light wind.</field>
         <field name="input_ids" eval="[Command.create({'product_id': ref('demo_input_copper'), 'quantity': 1.5})]"/>
         <field name="state">done</field>
     </record>
@@ -136,8 +136,8 @@
         <field name="date">2027-04-20</field>
         <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
         <field name="duration">0.5</field>
-        <field name="target">Mildiou de la laitue</field>
-        <field name="weather_notes">Ciel couvert, 14 °C, sans vent, pas de pluie prévue dans les 6 heures.</field>
+        <field name="target">Lettuce downy mildew</field>
+        <field name="weather_notes">Overcast, 14 °C, no wind, no rain expected within 6 hours.</field>
         <field name="input_ids" eval="[Command.create({'product_id': ref('demo_input_copper'), 'quantity': 0.4})]"/>
         <field name="state">done</field>
     </record>
@@ -163,7 +163,7 @@
         <field name="stage">pre_harvest</field>
         <field name="cause">disease</field>
         <field name="quantity">3.0</field>
-        <field name="notes">Plants touchés par le mildiou avant la récolte.</field>
+        <field name="notes">Plants hit by downy mildew before harvest.</field>
     </record>
     <record id="demo_loss_tomato_post" model="garden.loss">
         <field name="crop_id" ref="demo_crop_2027_tomato_coeur_s1_01"/>
@@ -171,7 +171,7 @@
         <field name="stage">post_harvest</field>
         <field name="cause">unsold</field>
         <field name="quantity">4.0</field>
-        <field name="notes">Fruits abîmés invendus du marché.</field>
+        <field name="notes">Damaged unsold fruit from the market.</field>
     </record>
 
 </odoo>

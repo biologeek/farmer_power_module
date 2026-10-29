@@ -1,46 +1,46 @@
 <odoo>
-    <menuitem id="menu_garden_root" name="Maraîchage" sequence="10" groups="group_garden_worker"/>
+    <menuitem id="menu_garden_root" name="Market Gardening" sequence="10" groups="group_garden_worker"/>
 
-    <menuitem id="menu_garden_today" name="Ma journée" parent="menu_garden_root" action="action_garden_operation_today" sequence="1"/>
+    <menuitem id="menu_garden_today" name="My Day" parent="menu_garden_root" action="action_garden_operation_today" sequence="1"/>
 
-    <menuitem id="menu_garden_exploitation" name="Exploitation" parent="menu_garden_root" sequence="5"/>
-    <menuitem id="menu_garden_farm" name="Fermes" parent="menu_garden_exploitation" action="action_garden_farm" sequence="10"/>
+    <menuitem id="menu_garden_exploitation" name="Farm Setup" parent="menu_garden_root" sequence="5"/>
+    <menuitem id="menu_garden_farm" name="Farms" parent="menu_garden_exploitation" action="action_garden_farm" sequence="10"/>
     <menuitem id="menu_garden_site" name="Sites" parent="menu_garden_exploitation" action="action_garden_site" sequence="20"/>
-    <menuitem id="menu_garden_garden" name="Îlots" parent="menu_garden_exploitation" action="action_garden_garden" sequence="30"/>
-    <menuitem id="menu_garden_bed" name="Planches" parent="menu_garden_exploitation" action="action_garden_bed" sequence="40"/>
+    <menuitem id="menu_garden_garden" name="Blocks" parent="menu_garden_exploitation" action="action_garden_garden" sequence="30"/>
+    <menuitem id="menu_garden_bed" name="Beds" parent="menu_garden_exploitation" action="action_garden_bed" sequence="40"/>
 
-    <menuitem id="menu_garden_planning" name="Planification" parent="menu_garden_root" sequence="8"/>
-    <menuitem id="menu_garden_season" name="Saisons" parent="menu_garden_planning" action="action_garden_season" sequence="10"/>
-    <menuitem id="menu_garden_bed_occupancy" name="Plan de culture (Gantt)" parent="menu_garden_planning" action="action_garden_bed_occupancy" sequence="15"/>
-    <menuitem id="menu_garden_crop_calendar" name="Calendrier" parent="menu_garden_planning" action="action_garden_crop_calendar" sequence="20"/>
-    <menuitem id="menu_garden_seed_needs" name="Besoins en semences" parent="menu_garden_planning" action="action_garden_seed_needs" sequence="30"/>
-    <menuitem id="menu_garden_season_plan_wizard" name="Planifier en série" parent="menu_garden_planning" action="action_garden_season_plan_wizard" sequence="40" groups="group_garden_chef"/>
+    <menuitem id="menu_garden_planning" name="Planning" parent="menu_garden_root" sequence="8"/>
+    <menuitem id="menu_garden_season" name="Seasons" parent="menu_garden_planning" action="action_garden_season" sequence="10"/>
+    <menuitem id="menu_garden_bed_occupancy" name="Crop Plan (Gantt)" parent="menu_garden_planning" action="action_garden_bed_occupancy" sequence="15"/>
+    <menuitem id="menu_garden_crop_calendar" name="Calendar" parent="menu_garden_planning" action="action_garden_crop_calendar" sequence="20"/>
+    <menuitem id="menu_garden_seed_needs" name="Seed Needs" parent="menu_garden_planning" action="action_garden_seed_needs" sequence="30"/>
+    <menuitem id="menu_garden_season_plan_wizard" name="Plan in Batch" parent="menu_garden_planning" action="action_garden_season_plan_wizard" sequence="40" groups="group_garden_chef"/>
 
     <menuitem id="menu_garden_production" name="Production" parent="menu_garden_root" sequence="10"/>
-    <menuitem id="menu_garden_crop" name="Cultures" parent="menu_garden_production" action="action_garden_crop"/>
-    <menuitem id="menu_garden_operation" name="Opérations" parent="menu_garden_production" action="action_garden_operation"/>
-    <menuitem id="menu_garden_operation_calendar" name="Calendrier des opérations" parent="menu_garden_production" action="action_garden_operation_calendar"/>
-    <menuitem id="menu_garden_loss" name="Pertes" parent="menu_garden_production" action="action_garden_loss"/>
-    <menuitem id="menu_garden_lots" name="Lots de récolte" parent="menu_garden_production" action="action_garden_lots"/>
+    <menuitem id="menu_garden_crop" name="Crops" parent="menu_garden_production" action="action_garden_crop"/>
+    <menuitem id="menu_garden_operation" name="Operations" parent="menu_garden_production" action="action_garden_operation"/>
+    <menuitem id="menu_garden_operation_calendar" name="Operation Calendar" parent="menu_garden_production" action="action_garden_operation_calendar"/>
+    <menuitem id="menu_garden_loss" name="Losses" parent="menu_garden_production" action="action_garden_loss"/>
+    <menuitem id="menu_garden_lots" name="Harvest Lots" parent="menu_garden_production" action="action_garden_lots"/>
 
-    <menuitem id="menu_garden_profitability" name="Rentabilité" parent="menu_garden_root" sequence="15" groups="group_garden_manager"/>
-    <menuitem id="menu_garden_profitability_report" name="Rapport de rentabilité" parent="menu_garden_profitability" action="action_garden_profitability_open" sequence="10"/>
-    <menuitem id="menu_garden_profitability_dashboard" name="Tableau de bord" parent="menu_garden_profitability" action="action_garden_dashboard" sequence="5"/>
-    <menuitem id="menu_garden_profitability_settings" name="Paramètres de rentabilité" parent="menu_garden_profitability" action="action_garden_settings" sequence="90" groups="base.group_system"/>
+    <menuitem id="menu_garden_profitability" name="Profitability" parent="menu_garden_root" sequence="15" groups="group_garden_manager"/>
+    <menuitem id="menu_garden_profitability_report" name="Profitability Report" parent="menu_garden_profitability" action="action_garden_profitability_open" sequence="10"/>
+    <menuitem id="menu_garden_profitability_dashboard" name="Dashboard" parent="menu_garden_profitability" action="action_garden_dashboard" sequence="5"/>
+    <menuitem id="menu_garden_profitability_settings" name="Profitability Settings" parent="menu_garden_profitability" action="action_garden_settings" sequence="90" groups="base.group_system"/>
 
-    <menuitem id="menu_garden_compliance" name="Conformité (registres réglementaires, France)" parent="menu_garden_root" sequence="18" groups="group_garden_compliance"/>
-    <menuitem id="menu_garden_compliance_phyto" name="Registre phytosanitaire" parent="menu_garden_compliance" action="action_garden_compliance_phyto" sequence="10"/>
-    <menuitem id="menu_garden_compliance_fertilization" name="Registre de fertilisation" parent="menu_garden_compliance" action="action_garden_compliance_fertilization" sequence="20"/>
-    <menuitem id="menu_garden_compliance_organic" name="Export certification bio" parent="menu_garden_compliance" action="action_garden_compliance_organic" sequence="30"/>
+    <menuitem id="menu_garden_compliance" name="Compliance (regulatory registers, France)" parent="menu_garden_root" sequence="18" groups="group_garden_compliance"/>
+    <menuitem id="menu_garden_compliance_phyto" name="Plant Protection Register" parent="menu_garden_compliance" action="action_garden_compliance_phyto" sequence="10"/>
+    <menuitem id="menu_garden_compliance_fertilization" name="Fertilization Register" parent="menu_garden_compliance" action="action_garden_compliance_fertilization" sequence="20"/>
+    <menuitem id="menu_garden_compliance_organic" name="Organic Certification Export" parent="menu_garden_compliance" action="action_garden_compliance_organic" sequence="30"/>
 
-    <menuitem id="menu_garden_statistics" name="Statistiques" parent="menu_garden_root" sequence="20"/>
-    <menuitem id="menu_garden_time_statistics" name="Temps de travail" parent="menu_garden_statistics" action="action_garden_time_statistics"/>
+    <menuitem id="menu_garden_statistics" name="Statistics" parent="menu_garden_root" sequence="20"/>
+    <menuitem id="menu_garden_time_statistics" name="Work Time" parent="menu_garden_statistics" action="action_garden_time_statistics"/>
 
     <menuitem id="menu_garden_configuration" name="Configuration" parent="menu_garden_root" sequence="90" groups="group_garden_chef"/>
-    <menuitem id="menu_garden_species" name="Espèces" parent="menu_garden_configuration" action="action_garden_species" sequence="10"/>
-    <menuitem id="menu_garden_variety" name="Variétés" parent="menu_garden_configuration" action="action_garden_variety" sequence="20"/>
-    <menuitem id="menu_garden_crop_template" name="Itinéraires techniques" parent="menu_garden_configuration" action="action_garden_crop_template" sequence="30"/>
-    <menuitem id="menu_garden_operation_type" name="Types d'opération" parent="menu_garden_configuration" action="action_garden_operation_type" sequence="40"/>
-    <menuitem id="menu_garden_settings" name="Paramètres" parent="menu_garden_configuration" action="action_garden_settings" sequence="90" groups="base.group_system"/>
-    <menuitem id="menu_garden_product" name="Produits maraîchers" parent="menu_garden_configuration" action="action_garden_product" sequence="50"/>
+    <menuitem id="menu_garden_species" name="Plant Species" parent="menu_garden_configuration" action="action_garden_species" sequence="10"/>
+    <menuitem id="menu_garden_variety" name="Varieties" parent="menu_garden_configuration" action="action_garden_variety" sequence="20"/>
+    <menuitem id="menu_garden_crop_template" name="Crop Templates" parent="menu_garden_configuration" action="action_garden_crop_template" sequence="30"/>
+    <menuitem id="menu_garden_operation_type" name="Operation Types" parent="menu_garden_configuration" action="action_garden_operation_type" sequence="40"/>
+    <menuitem id="menu_garden_settings" name="Settings" parent="menu_garden_configuration" action="action_garden_settings" sequence="90" groups="base.group_system"/>
+    <menuitem id="menu_garden_product" name="Market Gardening Products" parent="menu_garden_configuration" action="action_garden_product" sequence="50"/>
 </odoo>

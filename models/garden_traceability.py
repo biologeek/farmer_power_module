@@ -6,7 +6,7 @@ SEED_TYPES = ('seed', 'plant')
 
 class GardenTraceability(models.TransientModel):
     _name = 'garden.traceability'
-    _description = "Traçabilité d'un lot ou d'une culture"
+    _description = 'Traceability of a Lot or a Crop'
     # Écran de traçabilité en lecture seule, construit avec l'ORM (aucune vue SQL) :
     # - amont : culture, opérations faites, intrants, lots de semence ou de plant utilisés (et leur réception) ;
     # - aval : mouvements de sortie du lot (livraisons, ventes, rebuts...) lus dans `stock.move.line`,
@@ -15,42 +15,42 @@ class GardenTraceability(models.TransientModel):
 
     lot_id = fields.Many2one('stock.lot', string='Lot', readonly=True, ondelete='cascade')
     crop_id = fields.Many2one(
-        'garden.crop', string='Culture', compute='_compute_crop_id', store=True, readonly=False, ondelete='cascade',
-        help="Culture d'origine du lot ; sans lot choisi, tous les lots de récolte de la culture sont tracés.",
+        'garden.crop', string='Crop', compute='_compute_crop_id', store=True, readonly=False, ondelete='cascade',
+        help='Crop the lot comes from; without a chosen lot, all the harvest lots of the crop are traced.',
     )
-    product_id = fields.Many2one('product.product', string='Produit', compute='_compute_lots')
-    lot_ids = fields.Many2many('stock.lot', string='Lots tracés', compute='_compute_lots')
-    on_hand_qty = fields.Float('En stock', compute='_compute_lots', digits='Product Unit')
+    product_id = fields.Many2one('product.product', string='Product', compute='_compute_lots')
+    lot_ids = fields.Many2many('stock.lot', string='Traced Lots', compute='_compute_lots')
+    on_hand_qty = fields.Float('In Stock', compute='_compute_lots', digits='Product Unit')
     operation_ids = fields.Many2many(
-        'garden.operation', string='Opérations faites', compute='_compute_upstream',
-        help="Opérations faites sur la culture (directement ou par la répartition d'une planche ou d'un îlot).",
+        'garden.operation', string='Operations Done', compute='_compute_upstream',
+        help='Operations done on the crop (directly or through the allocation of a bed or block).',
     )
     input_ids = fields.Many2many(
-        'garden.operation.input', string='Intrants consommés', compute='_compute_upstream',
-        help="Intrants des opérations faites de la culture.",
+        'garden.operation.input', string='Consumed Inputs', compute='_compute_upstream',
+        help='Inputs of the operations done on the crop.',
     )
     seed_input_ids = fields.Many2many(
-        'garden.operation.input', string='Semences et plants', compute='_compute_upstream',
-        help="Intrants de type semence ou plant des opérations de semis, repiquage ou plantation.",
+        'garden.operation.input', string='Seeds and Plants', compute='_compute_upstream',
+        help='Seed or plant inputs of sowing, transplanting or planting operations.',
     )
     seed_lot_ids = fields.Many2many(
-        'stock.lot', string='Lots de semence ou de plant', compute='_compute_upstream',
-        help="Lots fournisseur des semences et plants utilisés (traçabilité amont).",
+        'stock.lot', string='Seed or Plant Lots', compute='_compute_upstream',
+        help='Supplier lots of the seeds and plants used (upstream traceability).',
     )
     seed_receipt_line_ids = fields.Many2many(
-        'stock.move.line', string='Réception des lots de semence', compute='_compute_upstream',
-        help="Entrées de ces lots depuis un fournisseur.",
+        'stock.move.line', string='Seed Lot Receipt', compute='_compute_upstream',
+        help='Receipts of these lots from a supplier.',
     )
     harvest_line_ids = fields.Many2many(
-        'stock.move.line', string='Entrées en stock (récolte)', compute='_compute_upstream',
+        'stock.move.line', string='Stock Entries (Harvest)', compute='_compute_upstream',
     )
     out_line_ids = fields.Many2many(
-        'stock.move.line', string='Sorties du lot', compute='_compute_downstream',
-        help="Mouvements terminés qui sortent le lot du stock (livraison, vente, rebut...).",
+        'stock.move.line', string='Lot Outputs', compute='_compute_downstream',
+        help='Done moves taking the lot out of stock (delivery, sale, scrap...).',
     )
     usage_input_ids = fields.Many2many(
-        'garden.operation.input', string='Consommé par les opérations', compute='_compute_downstream',
-        help="Opérations qui ont consommé ce lot comme intrant (lot de semence, d'engrais...).",
+        'garden.operation.input', string='Consumed by Operations', compute='_compute_downstream',
+        help='Operations that consumed this lot as an input (seed lot, fertilizer lot...).',
     )
 
     @api.depends('lot_id')
@@ -124,7 +124,7 @@ class GardenTraceability(models.TransientModel):
         trace = self.create(vals)
         return {
             'type': 'ir.actions.act_window',
-            'name': self.env._("Traçabilité"),
+            'name': self.env._('Traceability'),
             'res_model': 'garden.traceability',
             'res_id': trace.id,
             'view_mode': 'form',

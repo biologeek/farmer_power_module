@@ -4,12 +4,12 @@
         <div class="o_action o_garden_gantt">
             <Layout display="display">
                 <div class="o_garden_gantt_header">
-                    <h1 class="o_garden_gantt_title">Plan de culture</h1>
+                    <h1 class="o_garden_gantt_title">Crop Plan</h1>
                     <div class="o_garden_gantt_filters">
                         <label>
-                            Saison
+                            Season
                             <select class="form-select form-select-sm" t-on-change="(ev) => this.onFilterChange('seasonId', ev)">
-                                <option value="">Toutes les saisons</option>
+                                <option value="">All Seasons</option>
                                 <t t-foreach="state.seasons" t-as="season" t-key="season.id">
                                     <option t-att-value="season.id" t-att-selected="season.id === state.seasonId"><t t-esc="season.name"/></option>
                                 </t>
@@ -18,7 +18,7 @@
                         <label>
                             Site
                             <select class="form-select form-select-sm" t-on-change="(ev) => this.onFilterChange('siteId', ev)">
-                                <option value="">Tous les sites</option>
+                                <option value="">All Sites</option>
                                 <t t-foreach="state.sites" t-as="site" t-key="site.id">
                                     <option t-att-value="site.id" t-att-selected="site.id === state.siteId"><t t-esc="site.name"/></option>
                                 </t>
@@ -26,7 +26,7 @@
                         </label>
                         <label class="form-check">
                             <input type="checkbox" class="form-check-input" t-att-checked="state.hideEmpty" t-on-change="onHideEmptyChange"/>
-                            Masquer les planches libres
+                            Hide Free Beds
                         </label>
                     </div>
                 </div>
@@ -37,8 +37,8 @@
                             <t t-esc="family.label"/>
                         </span>
                     </t>
-                    <span class="o_garden_gantt_legend_item"><span class="o_garden_gantt_swatch o_garden_gantt_swatch_planned"/> Prévu</span>
-                    <span class="o_garden_gantt_legend_item"><span class="o_garden_gantt_swatch o_garden_gantt_swatch_real"/> Réalisé</span>
+                    <span class="o_garden_gantt_legend_item"><span class="o_garden_gantt_swatch o_garden_gantt_swatch_planned"/> Expected</span>
+                    <span class="o_garden_gantt_legend_item"><span class="o_garden_gantt_swatch o_garden_gantt_swatch_real"/> Actual</span>
                 </div>
                 <t t-if="visibleGroups.length">
                     <div class="o_garden_gantt_scroll">
@@ -84,7 +84,7 @@
                     </div>
                 </t>
                 <t t-else="">
-                    <div class="o_garden_gantt_empty">Aucune planche à afficher.</div>
+                    <div class="o_garden_gantt_empty">No bed to display.</div>
                 </t>
             </Layout>
         </div>

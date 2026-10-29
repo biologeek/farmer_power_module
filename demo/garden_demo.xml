@@ -2,179 +2,179 @@
 <odoo>
     <!-- Données de démonstration : 1 ferme, 2 sites, 4 îlots, 20 planches, 10 espèces, 15 variétés. -->
     <record id="demo_farm" model="garden.farm">
-        <field name="name">Ferme des Quatre Saisons</field>
+        <field name="name">Four Seasons Farm</field>
     </record>
     <record id="demo_partner_site_nord" model="res.partner">
-        <field name="name">Ferme des Quatre Saisons - Site Nord</field>
+        <field name="name">Four Seasons Farm - North Site</field>
         <field name="city">Rennes</field>
         <field name="country_id" ref="base.fr"/>
     </record>
     <record id="demo_site_north" model="garden.site">
-        <field name="name">Site Nord</field>
+        <field name="name">North Site</field>
         <field name="farm_id" ref="demo_farm"/>
         <field name="partner_id" ref="demo_partner_site_nord"/>
         <field name="latitude">48.1173</field>
         <field name="longitude">-1.6778</field>
     </record>
     <record id="demo_site_south" model="garden.site">
-        <field name="name">Site Sud</field>
+        <field name="name">South Site</field>
         <field name="farm_id" ref="demo_farm"/>
         <field name="latitude">48.0493</field>
         <field name="longitude">-1.7000</field>
     </record>
 
     <record id="demo_garden_n1" model="garden.garden">
-        <field name="name">Îlot Nord 1</field><field name="code">N1</field>
+        <field name="name">North Block 1</field><field name="code">N1</field>
         <field name="site_id" ref="demo_site_north"/>
         <field name="culture_type">open_air</field><field name="irrigation_type">drip</field><field name="irrigation_flow">1200</field>
     </record>
     <record id="demo_garden_n2" model="garden.garden">
-        <field name="name">Îlot Nord 2</field><field name="code">N2</field>
+        <field name="name">North Block 2</field><field name="code">N2</field>
         <field name="site_id" ref="demo_site_north"/>
         <field name="culture_type">open_air</field><field name="irrigation_type">sprinkler</field><field name="irrigation_flow">2500</field>
     </record>
     <record id="demo_garden_s1" model="garden.garden">
-        <field name="name">Tunnel Sud 1</field><field name="code">S1</field>
+        <field name="name">South Tunnel 1</field><field name="code">S1</field>
         <field name="site_id" ref="demo_site_south"/>
         <field name="culture_type">sheltered</field><field name="irrigation_type">drip</field><field name="irrigation_flow">800</field>
     </record>
     <record id="demo_garden_s2" model="garden.garden">
-        <field name="name">Îlot Sud 2</field><field name="code">S2</field>
+        <field name="name">South Block 2</field><field name="code">S2</field>
         <field name="site_id" ref="demo_site_south"/>
         <field name="culture_type">open_air</field><field name="irrigation_type">manual</field>
     </record>
 
     <record id="demo_bed_n1_01" model="garden.bed">
-        <field name="name">Planche N1-01</field><field name="code">N101</field><field name="garden_id" ref="demo_garden_n1"/>
+        <field name="name">Bed N1-01</field><field name="code">N101</field><field name="garden_id" ref="demo_garden_n1"/>
         <field name="length">30</field><field name="width">1.2</field><field name="soil_type">loamy</field>
     </record>
     <record id="demo_bed_n1_02" model="garden.bed">
-        <field name="name">Planche N1-02</field><field name="code">N102</field><field name="garden_id" ref="demo_garden_n1"/>
+        <field name="name">Bed N1-02</field><field name="code">N102</field><field name="garden_id" ref="demo_garden_n1"/>
         <field name="length">30</field><field name="width">1.2</field><field name="soil_type">clayey</field>
     </record>
     <record id="demo_bed_n1_03" model="garden.bed">
-        <field name="name">Planche N1-03</field><field name="code">N103</field><field name="garden_id" ref="demo_garden_n1"/>
+        <field name="name">Bed N1-03</field><field name="code">N103</field><field name="garden_id" ref="demo_garden_n1"/>
         <field name="length">30</field><field name="width">1.2</field><field name="soil_type">sandy</field>
     </record>
     <record id="demo_bed_n1_04" model="garden.bed">
-        <field name="name">Planche N1-04</field><field name="code">N104</field><field name="garden_id" ref="demo_garden_n1"/>
+        <field name="name">Bed N1-04</field><field name="code">N104</field><field name="garden_id" ref="demo_garden_n1"/>
         <field name="length">30</field><field name="width">1.2</field><field name="soil_type">humus</field>
     </record>
     <record id="demo_bed_n1_05" model="garden.bed">
-        <field name="name">Planche N1-05</field><field name="code">N105</field><field name="garden_id" ref="demo_garden_n1"/>
+        <field name="name">Bed N1-05</field><field name="code">N105</field><field name="garden_id" ref="demo_garden_n1"/>
         <field name="length">30</field><field name="width">1.2</field><field name="soil_type">silty</field>
     </record>
     <record id="demo_bed_n1_06" model="garden.bed">
-        <field name="name">Planche N1-06</field><field name="code">N106</field><field name="garden_id" ref="demo_garden_n1"/>
+        <field name="name">Bed N1-06</field><field name="code">N106</field><field name="garden_id" ref="demo_garden_n1"/>
         <field name="length">30</field><field name="width">1.2</field><field name="soil_type">loamy</field>
     </record>
     <record id="demo_bed_n2_01" model="garden.bed">
-        <field name="name">Planche N2-01</field><field name="code">N201</field><field name="garden_id" ref="demo_garden_n2"/>
+        <field name="name">Bed N2-01</field><field name="code">N201</field><field name="garden_id" ref="demo_garden_n2"/>
         <field name="length">25</field><field name="width">1.2</field><field name="soil_type">clayey</field>
     </record>
     <record id="demo_bed_n2_02" model="garden.bed">
-        <field name="name">Planche N2-02</field><field name="code">N202</field><field name="garden_id" ref="demo_garden_n2"/>
+        <field name="name">Bed N2-02</field><field name="code">N202</field><field name="garden_id" ref="demo_garden_n2"/>
         <field name="length">25</field><field name="width">1.2</field><field name="soil_type">sandy</field>
     </record>
     <record id="demo_bed_n2_03" model="garden.bed">
-        <field name="name">Planche N2-03</field><field name="code">N203</field><field name="garden_id" ref="demo_garden_n2"/>
+        <field name="name">Bed N2-03</field><field name="code">N203</field><field name="garden_id" ref="demo_garden_n2"/>
         <field name="length">25</field><field name="width">1.2</field><field name="soil_type">humus</field>
     </record>
     <record id="demo_bed_n2_04" model="garden.bed">
-        <field name="name">Planche N2-04</field><field name="code">N204</field><field name="garden_id" ref="demo_garden_n2"/>
+        <field name="name">Bed N2-04</field><field name="code">N204</field><field name="garden_id" ref="demo_garden_n2"/>
         <field name="length">25</field><field name="width">1.2</field><field name="soil_type">silty</field>
     </record>
     <record id="demo_bed_n2_05" model="garden.bed">
-        <field name="name">Planche N2-05</field><field name="code">N205</field><field name="garden_id" ref="demo_garden_n2"/>
+        <field name="name">Bed N2-05</field><field name="code">N205</field><field name="garden_id" ref="demo_garden_n2"/>
         <field name="length">25</field><field name="width">1.2</field><field name="soil_type">loamy</field>
     </record>
     <record id="demo_bed_n2_06" model="garden.bed">
-        <field name="name">Planche N2-06</field><field name="code">N206</field><field name="garden_id" ref="demo_garden_n2"/>
+        <field name="name">Bed N2-06</field><field name="code">N206</field><field name="garden_id" ref="demo_garden_n2"/>
         <field name="length">25</field><field name="width">1.2</field><field name="soil_type">clayey</field>
     </record>
     <record id="demo_bed_s1_01" model="garden.bed">
-        <field name="name">Planche S1-01</field><field name="code">S101</field><field name="garden_id" ref="demo_garden_s1"/>
+        <field name="name">Bed S1-01</field><field name="code">S101</field><field name="garden_id" ref="demo_garden_s1"/>
         <field name="length">40</field><field name="width">1.0</field><field name="soil_type">sandy</field>
     </record>
     <record id="demo_bed_s1_02" model="garden.bed">
-        <field name="name">Planche S1-02</field><field name="code">S102</field><field name="garden_id" ref="demo_garden_s1"/>
+        <field name="name">Bed S1-02</field><field name="code">S102</field><field name="garden_id" ref="demo_garden_s1"/>
         <field name="length">40</field><field name="width">1.0</field><field name="soil_type">humus</field>
     </record>
     <record id="demo_bed_s1_03" model="garden.bed">
-        <field name="name">Planche S1-03</field><field name="code">S103</field><field name="garden_id" ref="demo_garden_s1"/>
+        <field name="name">Bed S1-03</field><field name="code">S103</field><field name="garden_id" ref="demo_garden_s1"/>
         <field name="length">40</field><field name="width">1.0</field><field name="soil_type">silty</field>
     </record>
     <record id="demo_bed_s1_04" model="garden.bed">
-        <field name="name">Planche S1-04</field><field name="code">S104</field><field name="garden_id" ref="demo_garden_s1"/>
+        <field name="name">Bed S1-04</field><field name="code">S104</field><field name="garden_id" ref="demo_garden_s1"/>
         <field name="length">40</field><field name="width">1.0</field><field name="soil_type">loamy</field>
     </record>
     <record id="demo_bed_s2_01" model="garden.bed">
-        <field name="name">Planche S2-01</field><field name="code">S201</field><field name="garden_id" ref="demo_garden_s2"/>
+        <field name="name">Bed S2-01</field><field name="code">S201</field><field name="garden_id" ref="demo_garden_s2"/>
         <field name="length">20</field><field name="width">1.0</field><field name="soil_type">clayey</field>
     </record>
     <record id="demo_bed_s2_02" model="garden.bed">
-        <field name="name">Planche S2-02</field><field name="code">S202</field><field name="garden_id" ref="demo_garden_s2"/>
+        <field name="name">Bed S2-02</field><field name="code">S202</field><field name="garden_id" ref="demo_garden_s2"/>
         <field name="length">20</field><field name="width">1.0</field><field name="soil_type">sandy</field>
     </record>
     <record id="demo_bed_s2_03" model="garden.bed">
-        <field name="name">Planche S2-03</field><field name="code">S203</field><field name="garden_id" ref="demo_garden_s2"/>
+        <field name="name">Bed S2-03</field><field name="code">S203</field><field name="garden_id" ref="demo_garden_s2"/>
         <field name="length">20</field><field name="width">1.0</field><field name="soil_type">humus</field>
     </record>
     <record id="demo_bed_s2_04" model="garden.bed">
-        <field name="name">Planche S2-04</field><field name="code">S204</field><field name="garden_id" ref="demo_garden_s2"/>
+        <field name="name">Bed S2-04</field><field name="code">S204</field><field name="garden_id" ref="demo_garden_s2"/>
         <field name="length">20</field><field name="width">1.0</field><field name="soil_type">silty</field>
     </record>
 
     <record id="demo_species_tomato" model="garden.species">
-        <field name="name">Tomate</field><field name="family">solanaceae</field><field name="rotation_years">3</field>
+        <field name="name">Tomato</field><field name="family">solanaceae</field><field name="rotation_years">3</field>
     </record>
     <record id="demo_species_lettuce" model="garden.species">
-        <field name="name">Laitue</field><field name="family">asteraceae</field><field name="rotation_years">2</field>
+        <field name="name">Lettuce</field><field name="family">asteraceae</field><field name="rotation_years">2</field>
     </record>
     <record id="demo_species_carrot" model="garden.species">
-        <field name="name">Carotte</field><field name="family">apiaceae</field><field name="rotation_years">4</field>
+        <field name="name">Carrot</field><field name="family">apiaceae</field><field name="rotation_years">4</field>
     </record>
     <record id="demo_species_leek" model="garden.species">
-        <field name="name">Poireau</field><field name="family">amaryllidaceae</field><field name="rotation_years">4</field>
+        <field name="name">Leek</field><field name="family">amaryllidaceae</field><field name="rotation_years">4</field>
     </record>
     <record id="demo_species_zucchini" model="garden.species">
-        <field name="name">Courgette</field><field name="family">cucurbitaceae</field><field name="rotation_years">3</field>
+        <field name="name">Zucchini</field><field name="family">cucurbitaceae</field><field name="rotation_years">3</field>
     </record>
     <record id="demo_species_cabbage" model="garden.species">
-        <field name="name">Chou</field><field name="family">brassicaceae</field><field name="rotation_years">4</field>
+        <field name="name">Cabbage</field><field name="family">brassicaceae</field><field name="rotation_years">4</field>
     </record>
     <record id="demo_species_bean" model="garden.species">
-        <field name="name">Haricot</field><field name="family">fabaceae</field><field name="rotation_years">3</field>
+        <field name="name">Bean</field><field name="family">fabaceae</field><field name="rotation_years">3</field>
     </record>
     <record id="demo_species_beet" model="garden.species">
-        <field name="name">Betterave</field><field name="family">chenopodiaceae</field><field name="rotation_years">3</field>
+        <field name="name">Beetroot</field><field name="family">chenopodiaceae</field><field name="rotation_years">3</field>
     </record>
     <record id="demo_species_onion" model="garden.species">
-        <field name="name">Oignon</field><field name="family">amaryllidaceae</field><field name="rotation_years">4</field>
+        <field name="name">Onion</field><field name="family">amaryllidaceae</field><field name="rotation_years">4</field>
     </record>
     <record id="demo_species_pepper" model="garden.species">
-        <field name="name">Poivron</field><field name="family">solanaceae</field><field name="rotation_years">3</field>
+        <field name="name">Pepper</field><field name="family">solanaceae</field><field name="rotation_years">3</field>
     </record>
 
     <record id="demo_seed_tomato_coeur" model="product.product">
-        <field name="name">Semence Cœur de bœuf (Tomate)</field>
+        <field name="name">Oxheart Seed (Tomato)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_tomato_coeur" model="product.product">
-        <field name="name">Tomate Cœur de bœuf (kg)</field>
+        <field name="name">Tomato Oxheart (kg)</field>
         <field name="type">consu</field><field name="list_price">5.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_tomato_coeur" model="garden.variety">
-        <field name="name">Cœur de bœuf</field><field name="species_id" ref="demo_species_tomato"/>
+        <field name="name">Oxheart</field><field name="species_id" ref="demo_species_tomato"/>
         <field name="seed_product_id" ref="demo_seed_tomato_coeur"/><field name="harvest_product_id" ref="demo_harvest_tomato_coeur"/>
         <field name="seeds_per_gram">300</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_tomato_roma" model="product.product">
-        <field name="name">Semence Roma (Tomate)</field>
+        <field name="name">Roma Seed (Tomato)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_tomato_roma" model="product.product">
-        <field name="name">Tomate Roma (kg)</field>
+        <field name="name">Tomato Roma (kg)</field>
         <field name="type">consu</field><field name="list_price">4.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_tomato_roma" model="garden.variety">
@@ -183,37 +183,37 @@
         <field name="seeds_per_gram">300</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_tomato_cerise" model="product.product">
-        <field name="name">Semence Cerise Sungold (Tomate)</field>
+        <field name="name">Sungold Cherry Seed (Tomato)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_tomato_cerise" model="product.product">
-        <field name="name">Tomate Cerise Sungold (kg)</field>
+        <field name="name">Tomato Sungold Cherry (kg)</field>
         <field name="type">consu</field><field name="list_price">9.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_tomato_cerise" model="garden.variety">
-        <field name="name">Cerise Sungold</field><field name="species_id" ref="demo_species_tomato"/>
+        <field name="name">Sungold Cherry</field><field name="species_id" ref="demo_species_tomato"/>
         <field name="seed_product_id" ref="demo_seed_tomato_cerise"/><field name="harvest_product_id" ref="demo_harvest_tomato_cerise"/>
         <field name="seeds_per_gram">300</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_lettuce_batavia" model="product.product">
-        <field name="name">Semence Batavia blonde (Laitue)</field>
+        <field name="name">Blonde Batavia Seed (Lettuce)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_lettuce_batavia" model="product.product">
-        <field name="name">Laitue Batavia blonde (kg)</field>
+        <field name="name">Lettuce Blonde Batavia (kg)</field>
         <field name="type">consu</field><field name="list_price">2.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_lettuce_batavia" model="garden.variety">
-        <field name="name">Batavia blonde</field><field name="species_id" ref="demo_species_lettuce"/>
+        <field name="name">Blonde Batavia</field><field name="species_id" ref="demo_species_lettuce"/>
         <field name="seed_product_id" ref="demo_seed_lettuce_batavia"/><field name="harvest_product_id" ref="demo_harvest_lettuce_batavia"/>
         <field name="seeds_per_gram">800</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_lettuce_romaine" model="product.product">
-        <field name="name">Semence Romaine (Laitue)</field>
+        <field name="name">Romaine Seed (Lettuce)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_lettuce_romaine" model="product.product">
-        <field name="name">Laitue Romaine (kg)</field>
+        <field name="name">Lettuce Romaine (kg)</field>
         <field name="type">consu</field><field name="list_price">2.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_lettuce_romaine" model="garden.variety">
@@ -222,24 +222,24 @@
         <field name="seeds_per_gram">800</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_carrot_nantes" model="product.product">
-        <field name="name">Semence Nantaise (Carotte)</field>
+        <field name="name">Nantes Seed (Carrot)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_carrot_nantes" model="product.product">
-        <field name="name">Carotte Nantaise (kg)</field>
+        <field name="name">Carrot Nantes (kg)</field>
         <field name="type">consu</field><field name="list_price">2.8</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_carrot_nantes" model="garden.variety">
-        <field name="name">Nantaise</field><field name="species_id" ref="demo_species_carrot"/>
+        <field name="name">Nantes</field><field name="species_id" ref="demo_species_carrot"/>
         <field name="seed_product_id" ref="demo_seed_carrot_nantes"/><field name="harvest_product_id" ref="demo_harvest_carrot_nantes"/>
         <field name="seeds_per_gram">800</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_leek_bleu" model="product.product">
-        <field name="name">Semence Bleu de Solaize (Poireau)</field>
+        <field name="name">Bleu de Solaize Seed (Leek)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_leek_bleu" model="product.product">
-        <field name="name">Poireau Bleu de Solaize (kg)</field>
+        <field name="name">Leek Bleu de Solaize (kg)</field>
         <field name="type">consu</field><field name="list_price">3.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_leek_bleu" model="garden.variety">
@@ -248,50 +248,50 @@
         <field name="seeds_per_gram">300</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_zucchini_verte" model="product.product">
-        <field name="name">Semence Verte maraîchère (Courgette)</field>
+        <field name="name">Market Gardener Green Seed (Zucchini)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_zucchini_verte" model="product.product">
-        <field name="name">Courgette Verte maraîchère (kg)</field>
+        <field name="name">Zucchini Market Gardener Green (kg)</field>
         <field name="type">consu</field><field name="list_price">3.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_zucchini_verte" model="garden.variety">
-        <field name="name">Verte maraîchère</field><field name="species_id" ref="demo_species_zucchini"/>
+        <field name="name">Market Gardener Green</field><field name="species_id" ref="demo_species_zucchini"/>
         <field name="seed_product_id" ref="demo_seed_zucchini_verte"/><field name="harvest_product_id" ref="demo_harvest_zucchini_verte"/>
         <field name="seeds_per_gram">6</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_cabbage_milan" model="product.product">
-        <field name="name">Semence Chou de Milan (Chou)</field>
+        <field name="name">Savoy Seed (Cabbage)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_cabbage_milan" model="product.product">
-        <field name="name">Chou Chou de Milan (kg)</field>
+        <field name="name">Cabbage Savoy (kg)</field>
         <field name="type">consu</field><field name="list_price">2.2</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_cabbage_milan" model="garden.variety">
-        <field name="name">Chou de Milan</field><field name="species_id" ref="demo_species_cabbage"/>
+        <field name="name">Savoy</field><field name="species_id" ref="demo_species_cabbage"/>
         <field name="seed_product_id" ref="demo_seed_cabbage_milan"/><field name="harvest_product_id" ref="demo_harvest_cabbage_milan"/>
         <field name="seeds_per_gram">250</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_cabbage_kale" model="product.product">
-        <field name="name">Semence Chou kale (Chou)</field>
+        <field name="name">Kale Seed (Cabbage)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_cabbage_kale" model="product.product">
-        <field name="name">Chou Chou kale (kg)</field>
+        <field name="name">Cabbage Kale (kg)</field>
         <field name="type">consu</field><field name="list_price">6.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_cabbage_kale" model="garden.variety">
-        <field name="name">Chou kale</field><field name="species_id" ref="demo_species_cabbage"/>
+        <field name="name">Kale</field><field name="species_id" ref="demo_species_cabbage"/>
         <field name="seed_product_id" ref="demo_seed_cabbage_kale"/><field name="harvest_product_id" ref="demo_harvest_cabbage_kale"/>
         <field name="seeds_per_gram">250</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_bean_contender" model="product.product">
-        <field name="name">Semence Contender (Haricot)</field>
+        <field name="name">Contender Seed (Bean)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_bean_contender" model="product.product">
-        <field name="name">Haricot Contender (kg)</field>
+        <field name="name">Bean Contender (kg)</field>
         <field name="type">consu</field><field name="list_price">6.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_bean_contender" model="garden.variety">
@@ -300,11 +300,11 @@
         <field name="seeds_per_gram">3</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_beet_detroit" model="product.product">
-        <field name="name">Semence Detroit (Betterave)</field>
+        <field name="name">Detroit Seed (Beetroot)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_beet_detroit" model="product.product">
-        <field name="name">Betterave Detroit (kg)</field>
+        <field name="name">Beetroot Detroit (kg)</field>
         <field name="type">consu</field><field name="list_price">2.6</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_beet_detroit" model="garden.variety">
@@ -313,11 +313,11 @@
         <field name="seeds_per_gram">50</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_onion_stuttgart" model="product.product">
-        <field name="name">Semence Stuttgart (Oignon)</field>
+        <field name="name">Stuttgart Seed (Onion)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_onion_stuttgart" model="product.product">
-        <field name="name">Oignon Stuttgart (kg)</field>
+        <field name="name">Onion Stuttgart (kg)</field>
         <field name="type">consu</field><field name="list_price">2.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_onion_stuttgart" model="garden.variety">
@@ -326,11 +326,11 @@
         <field name="seeds_per_gram">250</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_pepper_doux" model="product.product">
-        <field name="name">Semence Doux des Landes (Poivron)</field>
+        <field name="name">Doux des Landes Seed (Pepper)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_pepper_doux" model="product.product">
-        <field name="name">Poivron Doux des Landes (kg)</field>
+        <field name="name">Pepper Doux des Landes (kg)</field>
         <field name="type">consu</field><field name="list_price">7.0</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_pepper_doux" model="garden.variety">
@@ -339,119 +339,119 @@
         <field name="seeds_per_gram">150</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
     <record id="demo_seed_pepper_corne" model="product.product">
-        <field name="name">Semence Corne de bœuf (Poivron)</field>
+        <field name="name">Bull's Horn Seed (Pepper)</field>
         <field name="type">consu</field><field name="list_price">0</field><field name="sale_ok" eval="False"/>
     </record>
     <record id="demo_harvest_pepper_corne" model="product.product">
-        <field name="name">Poivron Corne de bœuf (kg)</field>
+        <field name="name">Pepper Bull's Horn (kg)</field>
         <field name="type">consu</field><field name="list_price">7.5</field><field name="purchase_ok" eval="False"/>
     </record>
     <record id="demo_variety_pepper_corne" model="garden.variety">
-        <field name="name">Corne de bœuf</field><field name="species_id" ref="demo_species_pepper"/>
+        <field name="name">Bull's Horn</field><field name="species_id" ref="demo_species_pepper"/>
         <field name="seed_product_id" ref="demo_seed_pepper_corne"/><field name="harvest_product_id" ref="demo_harvest_pepper_corne"/>
         <field name="seeds_per_gram">150</field><field name="germination_rate">90</field><field name="organic_status">organic</field>
     </record>
 
     <record id="demo_template_tomato_coeur" model="garden.crop.template">
-        <field name="name">Tomate Cœur de bœuf</field><field name="variety_id" ref="demo_variety_tomato_coeur"/>
+        <field name="name">Tomato Oxheart</field><field name="variety_id" ref="demo_variety_tomato_coeur"/>
         <field name="culture_type">sheltered</field><field name="propagation">own_plants</field>
         <field name="row_count">2</field><field name="row_spacing">50</field><field name="plant_spacing">50</field>
         <field name="days_to_transplant">35</field><field name="days_to_maturity">90</field><field name="harvest_window_days">45</field>
         <field name="expected_yield">8</field>
     </record>
     <record id="demo_template_tomato_roma" model="garden.crop.template">
-        <field name="name">Tomate Roma</field><field name="variety_id" ref="demo_variety_tomato_roma"/>
+        <field name="name">Tomato Roma</field><field name="variety_id" ref="demo_variety_tomato_roma"/>
         <field name="culture_type">sheltered</field><field name="propagation">own_plants</field>
         <field name="row_count">2</field><field name="row_spacing">50</field><field name="plant_spacing">40</field>
         <field name="days_to_transplant">35</field><field name="days_to_maturity">85</field><field name="harvest_window_days">45</field>
         <field name="expected_yield">9</field>
     </record>
     <record id="demo_template_tomato_cerise" model="garden.crop.template">
-        <field name="name">Tomate Cerise Sungold</field><field name="variety_id" ref="demo_variety_tomato_cerise"/>
+        <field name="name">Tomato Sungold Cherry</field><field name="variety_id" ref="demo_variety_tomato_cerise"/>
         <field name="culture_type">sheltered</field><field name="propagation">bought_plants</field>
         <field name="row_count">2</field><field name="row_spacing">50</field><field name="plant_spacing">45</field>
         <field name="days_to_transplant">0</field><field name="days_to_maturity">80</field><field name="harvest_window_days">60</field>
         <field name="expected_yield">6</field>
     </record>
     <record id="demo_template_lettuce_batavia" model="garden.crop.template">
-        <field name="name">Laitue Batavia blonde</field><field name="variety_id" ref="demo_variety_lettuce_batavia"/>
+        <field name="name">Lettuce Blonde Batavia</field><field name="variety_id" ref="demo_variety_lettuce_batavia"/>
         <field name="culture_type">open_air</field><field name="propagation">own_plants</field>
         <field name="row_count">3</field><field name="row_spacing">30</field><field name="plant_spacing">30</field>
         <field name="days_to_transplant">25</field><field name="days_to_maturity">55</field><field name="harvest_window_days">14</field>
         <field name="expected_yield">3</field>
     </record>
     <record id="demo_template_lettuce_romaine" model="garden.crop.template">
-        <field name="name">Laitue Romaine</field><field name="variety_id" ref="demo_variety_lettuce_romaine"/>
+        <field name="name">Lettuce Romaine</field><field name="variety_id" ref="demo_variety_lettuce_romaine"/>
         <field name="culture_type">open_air</field><field name="propagation">own_plants</field>
         <field name="row_count">3</field><field name="row_spacing">30</field><field name="plant_spacing">30</field>
         <field name="days_to_transplant">25</field><field name="days_to_maturity">60</field><field name="harvest_window_days">14</field>
         <field name="expected_yield">3</field>
     </record>
     <record id="demo_template_carrot_nantes" model="garden.crop.template">
-        <field name="name">Carotte Nantaise</field><field name="variety_id" ref="demo_variety_carrot_nantes"/>
+        <field name="name">Carrot Nantes</field><field name="variety_id" ref="demo_variety_carrot_nantes"/>
         <field name="culture_type">open_air</field><field name="propagation">direct_sowing</field>
         <field name="row_count">3</field><field name="row_spacing">25</field><field name="plant_spacing">5</field>
         <field name="days_to_transplant">0</field><field name="days_to_maturity">100</field><field name="harvest_window_days">30</field>
         <field name="expected_yield">4</field>
     </record>
     <record id="demo_template_leek_bleu" model="garden.crop.template">
-        <field name="name">Poireau Bleu de Solaize</field><field name="variety_id" ref="demo_variety_leek_bleu"/>
+        <field name="name">Leek Bleu de Solaize</field><field name="variety_id" ref="demo_variety_leek_bleu"/>
         <field name="culture_type">open_air</field><field name="propagation">own_plants</field>
         <field name="row_count">3</field><field name="row_spacing">30</field><field name="plant_spacing">12</field>
         <field name="days_to_transplant">60</field><field name="days_to_maturity">150</field><field name="harvest_window_days">60</field>
         <field name="expected_yield">5</field>
     </record>
     <record id="demo_template_zucchini_verte" model="garden.crop.template">
-        <field name="name">Courgette Verte maraîchère</field><field name="variety_id" ref="demo_variety_zucchini_verte"/>
+        <field name="name">Zucchini Market Gardener Green</field><field name="variety_id" ref="demo_variety_zucchini_verte"/>
         <field name="culture_type">open_air</field><field name="propagation">own_plants</field>
         <field name="row_count">2</field><field name="row_spacing">100</field><field name="plant_spacing">80</field>
         <field name="days_to_transplant">21</field><field name="days_to_maturity">55</field><field name="harvest_window_days">60</field>
         <field name="expected_yield">6</field>
     </record>
     <record id="demo_template_cabbage_milan" model="garden.crop.template">
-        <field name="name">Chou Chou de Milan</field><field name="variety_id" ref="demo_variety_cabbage_milan"/>
+        <field name="name">Cabbage Savoy</field><field name="variety_id" ref="demo_variety_cabbage_milan"/>
         <field name="culture_type">open_air</field><field name="propagation">own_plants</field>
         <field name="row_count">2</field><field name="row_spacing">50</field><field name="plant_spacing">50</field>
         <field name="days_to_transplant">35</field><field name="days_to_maturity">110</field><field name="harvest_window_days">30</field>
         <field name="expected_yield">3.5</field>
     </record>
     <record id="demo_template_cabbage_kale" model="garden.crop.template">
-        <field name="name">Chou Chou kale</field><field name="variety_id" ref="demo_variety_cabbage_kale"/>
+        <field name="name">Cabbage Kale</field><field name="variety_id" ref="demo_variety_cabbage_kale"/>
         <field name="culture_type">open_air</field><field name="propagation">own_plants</field>
         <field name="row_count">2</field><field name="row_spacing">50</field><field name="plant_spacing">40</field>
         <field name="days_to_transplant">30</field><field name="days_to_maturity">70</field><field name="harvest_window_days">90</field>
         <field name="expected_yield">2.5</field>
     </record>
     <record id="demo_template_bean_contender" model="garden.crop.template">
-        <field name="name">Haricot Contender</field><field name="variety_id" ref="demo_variety_bean_contender"/>
+        <field name="name">Bean Contender</field><field name="variety_id" ref="demo_variety_bean_contender"/>
         <field name="culture_type">open_air</field><field name="propagation">direct_sowing</field>
         <field name="row_count">3</field><field name="row_spacing">40</field><field name="plant_spacing">8</field>
         <field name="days_to_transplant">0</field><field name="days_to_maturity">60</field><field name="harvest_window_days">21</field>
         <field name="expected_yield">1.5</field>
     </record>
     <record id="demo_template_beet_detroit" model="garden.crop.template">
-        <field name="name">Betterave Detroit</field><field name="variety_id" ref="demo_variety_beet_detroit"/>
+        <field name="name">Beetroot Detroit</field><field name="variety_id" ref="demo_variety_beet_detroit"/>
         <field name="culture_type">open_air</field><field name="propagation">direct_sowing</field>
         <field name="row_count">3</field><field name="row_spacing">30</field><field name="plant_spacing">8</field>
         <field name="days_to_transplant">0</field><field name="days_to_maturity">70</field><field name="harvest_window_days">30</field>
         <field name="expected_yield">3.5</field>
     </record>
     <record id="demo_template_onion_stuttgart" model="garden.crop.template">
-        <field name="name">Oignon Stuttgart</field><field name="variety_id" ref="demo_variety_onion_stuttgart"/>
+        <field name="name">Onion Stuttgart</field><field name="variety_id" ref="demo_variety_onion_stuttgart"/>
         <field name="culture_type">open_air</field><field name="propagation">direct_sowing</field>
         <field name="row_count">3</field><field name="row_spacing">25</field><field name="plant_spacing">8</field>
         <field name="days_to_transplant">0</field><field name="days_to_maturity">140</field><field name="harvest_window_days">30</field>
         <field name="expected_yield">3</field>
     </record>
     <record id="demo_template_pepper_doux" model="garden.crop.template">
-        <field name="name">Poivron Doux des Landes</field><field name="variety_id" ref="demo_variety_pepper_doux"/>
+        <field name="name">Pepper Doux des Landes</field><field name="variety_id" ref="demo_variety_pepper_doux"/>
         <field name="culture_type">sheltered</field><field name="propagation">own_plants</field>
         <field name="row_count">2</field><field name="row_spacing">50</field><field name="plant_spacing">40</field>
         <field name="days_to_transplant">45</field><field name="days_to_maturity">110</field><field name="harvest_window_days">60</field>
         <field name="expected_yield">3.5</field>
     </record>
     <record id="demo_template_pepper_corne" model="garden.crop.template">
-        <field name="name">Poivron Corne de bœuf</field><field name="variety_id" ref="demo_variety_pepper_corne"/>
+        <field name="name">Pepper Bull's Horn</field><field name="variety_id" ref="demo_variety_pepper_corne"/>
         <field name="culture_type">sheltered</field><field name="propagation">bought_plants</field>
         <field name="row_count">2</field><field name="row_spacing">50</field><field name="plant_spacing">40</field>
         <field name="days_to_transplant">0</field><field name="days_to_maturity">105</field><field name="harvest_window_days">60</field>
@@ -737,12 +737,12 @@
 
     <!-- Plan de culture : saison 2026 (historique pour la rotation) et saison 2027 (12 cultures). -->
     <record id="demo_season_2026" model="garden.season">
-        <field name="name">Saison 2026</field>
+        <field name="name">Season 2026</field>
         <field name="date_start">2026-01-01</field><field name="date_end">2026-12-31</field>
         <field name="state">closed</field>
     </record>
     <record id="demo_season_2027" model="garden.season">
-        <field name="name">Saison 2027</field>
+        <field name="name">Season 2027</field>
         <field name="date_start">2027-01-01</field><field name="date_end">2027-12-31</field>
         <field name="state">validated</field>
     </record>
@@ -848,15 +848,15 @@
 
     <!-- Main-d'œuvre : trois employés (l'administrateur de démo en est un quatrième, avec un coût horaire). -->
     <record id="demo_employee_1" model="hr.employee">
-        <field name="name">Léa Maraîchère</field>
+        <field name="name">Léa Gardener</field>
         <field name="garden_hourly_cost">18.0</field>
     </record>
     <record id="demo_employee_2" model="hr.employee">
-        <field name="name">Hugo Cultivateur</field>
+        <field name="name">Hugo Grower</field>
         <field name="garden_hourly_cost">15.0</field>
     </record>
     <record id="demo_employee_3" model="hr.employee">
-        <field name="name">Sarah Saisonnière</field>
+        <field name="name">Sarah Seasonal</field>
         <!-- sans coût horaire : taux horaire par défaut des paramètres -->
     </record>
     <record id="hr.employee_admin" model="hr.employee">
@@ -883,7 +883,7 @@
         <field name="date">2027-06-10</field>
         <field name="employee_ids" eval="[Command.set([ref('demo_employee_2'), ref('demo_employee_3')])]"/>
         <field name="duration">1.5</field>
-        <field name="description">Désherbage manuel des planches N1-01 et N1-05.</field>
+        <field name="description">Manual weeding of beds N1-01 and N1-05.</field>
         <field name="state">done</field>
     </record>
     <record id="demo_operation_irrigation_n1" model="garden.operation">
@@ -894,7 +894,7 @@
         <field name="date">2027-06-10</field>
         <field name="employee_ids" eval="[Command.set([ref('demo_employee_1')])]"/>
         <field name="duration">2.0</field>
-        <field name="description">Arrosage de tout l'îlot : le temps est réparti entre les cultures en place.</field>
+        <field name="description">Watering of the whole block: the time is split between the crops in place.</field>
         <field name="state">done</field>
     </record>
     <record id="demo_operation_harvest_lettuce" model="garden.operation">
@@ -915,7 +915,7 @@
         <field name="planned_date">2027-06-20</field>
         <field name="date">2027-06-20</field>
         <field name="duration">0</field>
-        <field name="description">Saisie détaillée du temps par employé.</field>
+        <field name="description">Detailed time entry per employee.</field>
         <field name="state">done</field>
     </record>
     <record id="demo_operation_weeding_zucchini_worker_1" model="garden.operation.worker">
@@ -945,8 +945,8 @@
         <field name="planned_date" eval="(DateTime.today() - relativedelta(days=1)).strftime('%Y-%m-%d')"/>
         <field name="employee_ids" eval="[Command.set([ref('hr.employee_admin')])]"/>
         <field name="duration">0.75</field>
-        <field name="target">Mildiou</field>
-        <field name="description">Traitement préventif à la bouillie bordelaise.</field>
+        <field name="target">Downy mildew</field>
+        <field name="description">Preventive treatment with Bordeaux mixture.</field>
     </record>
     <record id="demo_operation_tomorrow_weeding" model="garden.operation">
         <field name="type_id" ref="operation_type_weeding"/>
@@ -962,7 +962,7 @@
         <field name="bed_ids" eval="[Command.set([ref('demo_bed_s1_01')])]"/>
         <field name="planned_date" eval="DateTime.today().strftime('%Y-%m-%d')"/>
         <field name="duration">1.0</field>
-        <field name="description">Sans employé : n'importe quel ouvrier peut la démarrer.</field>
+        <field name="description">No employee: any worker can start it.</field>
     </record>
 
     <!-- Opérations prévues par les itinéraires pour toutes les cultures de la saison 2027. -->

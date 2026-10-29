@@ -4,38 +4,38 @@ from odoo.exceptions import ValidationError
 
 class GardenSeason(models.Model):
     _name = 'garden.season'
-    _description = 'Saison (plan de culture annuel)'
+    _description = 'Season (annual crop plan)'
     _inherit = ['mail.thread']
     _order = 'date_start desc, id desc'
 
     # Une saison regroupe le plan de culture d'une année (ou d'une campagne) : ses cultures, leurs
     # planches et leurs dates prévues. Les contrôles et les besoins en semences s'y rapportent.
 
-    name = fields.Char('Nom', required=True, tracking=True, help="Libellé de la saison, par exemple « Saison 2027 ». Unique par société.")
-    date_start = fields.Date('Début', required=True, tracking=True, help="Premier jour de la saison.")
-    date_end = fields.Date('Fin', required=True, tracking=True, help="Dernier jour de la saison ; ne peut pas précéder le début.")
+    name = fields.Char('Name', required=True, tracking=True, help='Season label, for example "Season 2027". Unique per company.')
+    date_start = fields.Date('Start Date', required=True, tracking=True, help='First day of the season.')
+    date_end = fields.Date('End Date', required=True, tracking=True, help='Last day of the season; cannot precede the start.')
     company_id = fields.Many2one(
-        'res.company', string='Société', required=True, default=lambda self: self.env.company, index=True,
-        help="Société propriétaire du plan de culture.",
+        'res.company', string='Company', required=True, default=lambda self: self.env.company, index=True,
+        help='Company owning the crop plan.',
     )
     state = fields.Selection(
-        [('draft', 'Brouillon'), ('validated', 'Validé'), ('closed', 'Clôturé')],
-        string='État', required=True, default='draft', tracking=True, copy=False,
-        help="Brouillon : plan en préparation. Validé : plan arrêté. Clôturé : saison terminée.",
+        [('draft', 'Draft'), ('validated', 'Validated'), ('closed', 'Closed')],
+        string='Status', required=True, default='draft', tracking=True, copy=False,
+        help='Draft: plan being prepared. Validated: plan frozen. Closed: season over.',
     )
-    crop_ids = fields.One2many('garden.crop', 'season_id', string='Cultures', help="Cultures planifiées pendant cette saison.")
-    crop_count = fields.Integer('Nombre de cultures', compute='_compute_crop_count', help="Nombre de cultures rattachées à la saison.")
+    crop_ids = fields.One2many('garden.crop', 'season_id', string='Crops', help='Crops planned during this season.')
+    crop_count = fields.Integer('Number of Crops', compute='_compute_crop_count', help='Number of crops attached to the season.')
     notes = fields.Text('Notes')
 
     _name_company_uniq = models.Constraint(
-        'UNIQUE (name, company_id)', 'Une saison de ce nom existe déjà pour cette société.',
+        'UNIQUE (name, company_id)', 'A season with this name already exists for this company.',
     )
 
     @api.constrains('date_start', 'date_end')
     def _check_dates(self):
         for season in self:
             if season.date_start and season.date_end and season.date_end < season.date_start:
-                raise ValidationError(self.env._("La fin de la saison ne peut pas précéder son début."))
+                raise ValidationError(self.env._('The end of the season cannot precede its start.'))
 
     @api.depends('crop_ids')
     def _compute_crop_count(self):

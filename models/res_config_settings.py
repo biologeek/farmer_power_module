@@ -5,51 +5,50 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     garden_seed_margin = fields.Float(
-        'Marge de semis (%)', config_parameter='odoo_garden.seed_margin', default=20.0,
-        help="Surplus de graines prévu pour compenser les pertes au semis, en plus du taux de germination.",
+        'Sowing Margin (%)', config_parameter='odoo_garden.seed_margin', default=20.0,
+        help='Extra seeds planned to compensate sowing losses, on top of the germination rate.',
     )
     garden_default_hourly_rate = fields.Float(
-        'Taux horaire par défaut', config_parameter='odoo_garden.default_hourly_rate', default=15.0,
-        help="Coût horaire appliqué au temps de travail quand l'employé n'a pas de coût horaire "
-             "renseigné ou qu'aucun employé n'est affecté à l'opération.",
+        'Default Hourly Rate', config_parameter='odoo_garden.default_hourly_rate', default=15.0,
+        help='Hourly cost applied to work time when the employee has no hourly cost set or when no employee is '
+             'assigned to the operation.',
     )
     garden_revenue_method = fields.Selection(
-        [('prorata', 'Au prorata des récoltes du mois'), ('lot', 'Par lot de livraison')],
-        string="Attribution du chiffre d'affaires", config_parameter='odoo_garden.revenue_method',
+        [('prorata', "Pro rata of the month's harvests"), ('lot', 'By Delivery Lot')],
+        string='Revenue Attribution', config_parameter='odoo_garden.revenue_method',
         default='prorata',
-        help="Par lot : le chiffre d'affaires d'une facture revient aux cultures dont les lots ont été livrés "
-             "(produits suivis par lots, factures issues de commandes de vente). Au prorata : pour chaque "
-             "produit et chaque mois, le chiffre d'affaires est réparti entre les cultures selon leurs récoltes du mois.",
+        help='By lot: the revenue of an invoice goes to the crops whose lots were delivered (lot-tracked '
+             'products, invoices from sales orders). Pro rata: for each product and each month, the revenue is '
+             'split between the crops according to their harvests of the month.',
     )
     garden_fixed_cost_per_m2 = fields.Float(
-        'Charges fixes annuelles par m²', config_parameter='odoo_garden.fixed_cost_per_m2', default=0.0,
-        help="Option : coût annuel par m² imputé aux cultures (coût × surface × jours d'occupation / 365). "
-             "Laisser à 0 pour ne pas imputer de charges fixes.",
+        'Annual Fixed Costs per m²', config_parameter='odoo_garden.fixed_cost_per_m2', default=0.0,
+        help='Option: annual cost per m² charged to the crops (cost × area × days of occupation / 365). Leave '
+             'at 0 to charge no fixed costs.',
     )
 
     garden_compliance_enabled = fields.Boolean(
-        'Registres réglementaires (France)', config_parameter='odoo_garden.compliance_enabled', default=True,
-        help="Affiche le menu « Conformité » (registre phytosanitaire, registre de fertilisation, export "
-             "de certification bio) au chef de culture et au gérant. À décocher hors de France : les menus "
-             "et les exports sont alors masqués et refusés. Le contrôle du délai avant récolte reste actif "
-             "(il ne bloque que les produits qui ont un délai).",
+        'Regulatory Registers (France)', config_parameter='odoo_garden.compliance_enabled', default=True,
+        help='Shows the "Compliance" menu (plant protection register, fertilization register, organic '
+             'certification export) to the crop manager and the manager. Untick outside France: the menus and '
+             'exports are then hidden and refused. The pre-harvest interval check stays active (it only blocks '
+             'products that have an interval).',
     )
 
     garden_stock_location_id = fields.Many2one(
-        'stock.location', string='Emplacement de stockage', domain="[('usage', '=', 'internal')]",
+        'stock.location', string='Storage Location', domain="[('usage', '=', 'internal')]",
         related='company_id.garden_stock_location_id', readonly=False, check_company=True,
-        help="Emplacement où entrent les récoltes et d'où sortent les intrants. "
-             "Vide : stock principal de l'entrepôt de la société.",
+        help='Location where harvests enter and inputs leave. Empty: main stock of the warehouse of the company.',
     )
     garden_production_location_id = fields.Many2one(
-        'stock.location', string='Emplacement « Production maraîchage »', domain="[('usage', '=', 'production')]",
+        'stock.location', string='Market Gardening Production Location', domain="[('usage', '=', 'production')]",
         related='company_id.garden_production_location_id', readonly=False, check_company=True,
-        help="Emplacement virtuel d'où sortent les récoltes (créé à l'installation).",
+        help='Virtual location harvests come from (created at installation).',
     )
     garden_consumption_location_id = fields.Many2one(
-        'stock.location', string='Emplacement « Consommation maraîchage »', domain="[('usage', '=', 'production')]",
+        'stock.location', string='Market Gardening Consumption Location', domain="[('usage', '=', 'production')]",
         related='company_id.garden_consumption_location_id', readonly=False, check_company=True,
-        help="Emplacement virtuel où partent les intrants consommés (créé à l'installation).",
+        help='Virtual location consumed inputs go to (created at installation).',
     )
 
     @api.model

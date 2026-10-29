@@ -4,70 +4,70 @@ from odoo.exceptions import UserError
 
 class GardenLoss(models.Model):
     _name = 'garden.loss'
-    _description = 'Perte sur une culture'
+    _description = 'Loss on a Crop'
     _inherit = ['mail.thread']
     _order = 'date desc, id desc'
     # Une perte avant récolte (maladie, ravageur, météo...) n'a aucun effet sur le stock. Une perte après
     # récolte (invendu, abîmé...) crée un rebut (`stock.scrap`) sur le lot de la culture.
 
     crop_id = fields.Many2one(
-        'garden.crop', string='Culture', required=True, index=True, ondelete='cascade', tracking=True,
-        help="Culture concernée par la perte.",
+        'garden.crop', string='Crop', required=True, index=True, ondelete='cascade', tracking=True,
+        help='Crop concerned by the loss.',
     )
-    bed_id = fields.Many2one('garden.bed', string='Planche', related='crop_id.bed_id', store=True, index=True)
+    bed_id = fields.Many2one('garden.bed', string='Bed', related='crop_id.bed_id', store=True, index=True)
     company_id = fields.Many2one(
-        'res.company', string='Société', related='crop_id.company_id', store=True, index=True,
+        'res.company', string='Company', related='crop_id.company_id', store=True, index=True,
     )
     date = fields.Date(
         'Date', required=True, default=fields.Date.context_today, index=True, tracking=True,
-        help="Jour où la perte a été constatée.",
+        help='Day the loss was noticed.',
     )
     stage = fields.Selection(
-        [('pre_harvest', 'Avant récolte'), ('post_harvest', 'Après récolte')],
-        string='Étape', required=True, default='pre_harvest', tracking=True,
-        help="Avant récolte : perte au champ, sans effet sur le stock. "
-             "Après récolte : un rebut de stock est créé sur le lot de la culture.",
+        [('pre_harvest', 'Pre-Harvest'), ('post_harvest', 'Post-Harvest')],
+        string='Step', required=True, default='pre_harvest', tracking=True,
+        help='Pre-harvest: loss in the field, no effect on stock. Post-harvest: a stock scrap is created on '
+             'the crop lot.',
     )
     product_id = fields.Many2one(
-        'product.product', string='Produit', compute='_compute_product_id', store=True, readonly=False,
+        'product.product', string='Product', compute='_compute_product_id', store=True, readonly=False,
         precompute=True,
-        help="Produit perdu (proposé d'après la variété de la culture) ; il détermine le rebut après récolte.",
+        help='Lost product (suggested from the variety of the crop); it determines the post-harvest scrap.',
     )
     quantity = fields.Float(
-        'Quantité perdue', digits='Product Unit', required=True, tracking=True,
-        help="Quantité perdue, dans l'unité choisie.",
+        'Lost Quantity', digits='Product Unit', required=True, tracking=True,
+        help='Lost quantity, in the chosen unit.',
     )
     uom_id = fields.Many2one(
-        'uom.uom', string='Unité', compute='_compute_uom_id', store=True, readonly=False, required=True,
-        precompute=True, help="Unité de la quantité (proposée d'après le produit, sinon le kg).",
+        'uom.uom', string='Unit', compute='_compute_uom_id', store=True, readonly=False, required=True,
+        precompute=True, help='Unit of the quantity (suggested from the product, otherwise kg).',
     )
     quantity_ref = fields.Float(
-        'Quantité (unité du produit)', compute='_compute_quantity_ref', store=True, digits='Product Unit',
-        help="Quantité convertie dans l'unité du produit récolté, utilisée pour le taux de perte.",
+        'Quantity (product unit)', compute='_compute_quantity_ref', store=True, digits='Product Unit',
+        help='Quantity converted into the unit of the harvested product, used for the loss rate.',
     )
     cause = fields.Selection(
         [
-            ('disease', 'Maladie'),
-            ('pest', 'Ravageur'),
-            ('weather', 'Météo'),
-            ('unsold', 'Invendu'),
-            ('other', 'Autre'),
+            ('disease', 'Disease'),
+            ('pest', 'Pest'),
+            ('weather', 'Weather'),
+            ('unsold', 'Unsold'),
+            ('other', 'Other'),
         ],
         string='Cause', required=True, default='other', tracking=True,
-        help="Cause principale de la perte.",
+        help='Main cause of the loss.',
     )
-    notes = fields.Text('Notes', help="Précisions sur la perte.")
+    notes = fields.Text('Notes', help='Details about the loss.')
     scrap_id = fields.Many2one(
-        'stock.scrap', string='Rebut de stock', readonly=True, copy=False, index='btree_not_null', ondelete='restrict',
-        help="Rebut créé pour une perte après récolte.",
+        'stock.scrap', string='Stock Scrap', readonly=True, copy=False, index='btree_not_null', ondelete='restrict',
+        help='Scrap created for a post-harvest loss.',
     )
     lot_id = fields.Many2one(
         'stock.lot', string='Lot', related='scrap_id.lot_id',
-        help="Lot de la culture sur lequel le rebut a été fait.",
+        help='Crop lot the scrap was made on.',
     )
 
     _quantity_positive = models.Constraint(
-        'CHECK (quantity > 0)', 'La quantité perdue doit être strictement positive.',
+        'CHECK (quantity > 0)', 'The lost quantity must be strictly positive.',
     )
 
     @api.depends('crop_id')
@@ -103,8 +103,8 @@ class GardenLoss(models.Model):
         ], limit=1)
         if not lot:
             raise UserError(self.env._(
-                "Aucun lot de récolte de la culture « %(crop)s » pour « %(product)s » : "
-                "enregistrez d'abord une récolte avant de déclarer une perte après récolte.",
+                'No harvest lot of crop "%(crop)s" for "%(product)s": record a harvest first before declaring a '
+                'post-harvest loss.',
                 crop=self.crop_id.name, product=product.display_name,
             ))
         return lot
@@ -127,14 +127,14 @@ class GardenLoss(models.Model):
         for loss in self.filtered(lambda l: l.stage == 'post_harvest' and not l.scrap_id):
             if not loss.product_id:
                 raise UserError(self.env._(
-                    "Choisissez le produit perdu : la variété de la culture « %s » n'a pas de produit récolté.",
+                    'Choose the lost product: the variety of crop "%s" has no harvest product.',
                     loss.crop_id.name,
                 ))
             lot = loss._get_scrap_lot()
             location = loss._get_scrap_location(lot)
             if not location:
                 raise UserError(self.env._(
-                    "Configurez l'emplacement de stockage de la société « %s ».", loss.company_id.name,
+                    'Configure the storage location of company "%s".', loss.company_id.name,
                 ))
             scrap = self.env['stock.scrap'].sudo().with_company(loss.company_id).create({
                 'product_id': loss.product_id.id,
@@ -143,11 +143,11 @@ class GardenLoss(models.Model):
                 'lot_id': lot.id or False,
                 'location_id': location.id,
                 'company_id': loss.company_id.id,
-                'origin': self.env._("Perte : %s", loss.crop_id.name),
+                'origin': self.env._('Loss: %s', loss.crop_id.name),
             })
             if scrap.product_id.is_storable and not scrap.check_available_qty():
                 raise UserError(self.env._(
-                    "Stock insuffisant pour mettre au rebut %(qty)s %(uom)s de « %(product)s »%(lot)s.",
+                    'Insufficient stock to scrap %(qty)s %(uom)s of "%(product)s"%(lot)s.',
                     qty=loss.quantity, uom=loss.uom_id.name, product=loss.product_id.display_name,
                     lot=lot and self.env._(" (lot %s)", lot.name) or "",
                 ))
@@ -166,7 +166,7 @@ class GardenLoss(models.Model):
     def write(self, vals):
         if self._LOCKED_FIELDS & vals.keys() and any(loss.scrap_id for loss in self):
             raise UserError(self.env._(
-                "Cette perte a déjà mis du stock au rebut : elle n'est plus modifiable (seules la cause et les notes le sont).",
+                'This loss already scrapped stock: it can no longer be modified (only the cause and the notes can).',
             ))
         result = super().write(vals)
         if self._LOCKED_FIELDS & vals.keys():
@@ -177,7 +177,7 @@ class GardenLoss(models.Model):
     def _unlink_except_scrapped(self):
         if any(loss.scrap_id for loss in self):
             raise UserError(self.env._(
-                "Une perte qui a mis du stock au rebut ne peut pas être supprimée : corrigez le stock par un ajustement d'inventaire.",
+                'A loss that scrapped stock cannot be deleted: correct the stock with an inventory adjustment.',
             ))
 
     def action_view_scrap(self):
