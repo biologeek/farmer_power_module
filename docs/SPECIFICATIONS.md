@@ -6,6 +6,19 @@ Il est destiné à l'agent de développement : chaque phase (§ 7) est autonome,
 
 ---
 
+## État d'avancement : phases 0 à 7 réalisées
+
+Toutes les phases du § 7 sont réalisées et commitées (version du module `19.0.1.7.0`). Le détail de ce qui existe (modèle de données, menus, sécurité, tests) est dans [`README.md`](../README.md), le vocabulaire dans [`GLOSSARY.md`](GLOSSARY.md). Le cahier des charges ci-dessous est conservé tel qu'il a été écrit ; ses libellés métier restent français (les chaînes sources du code sont en anglais, traduites par `i18n/*.po`).
+
+**Écarts connus au cahier des charges** (les points de détail des phases 0 à 6 sont dans la section « Points connus / à corriger » du README) :
+- **Ponts** (§ 4, § 7) : `odoo_garden_purchase` et `odoo_garden_pos` sont deux modules `auto_install` placés sous `bridges/` ; pour qu'Odoo les trouve il faut les lier ou les copier dans l'`addons_path` (README, « Installation »). Le pont Achats est un assistant par saison (quantités déjà demandées déduites) plutôt qu'un simple bouton ; le pont Point de vente rapproche les lots par **nom de lot** saisi sur la ligne (le lot de culture porte le nom de la culture) et ignore, au prorata, les commandes déjà facturées (§ 5.3).
+- **Traductions** (§ 7) : `i18n/odoo_garden.pot` (et non `fr.pot`), `fr.po` repris des anciens libellés français, puis es, de, nl, it, pt_BR **traduits par machine, à relire** ; arabe, chinois et japonais ne sont pas faits. « Îlot » est traduit « Block » en anglais.
+- **Registres français** (§ 7) : isolés derrière le paramètre `odoo_garden.compliance_enabled`, libellés « (France) » ; ils ne sont pas retirés du module.
+- **Publication** (§ 7, § 9 point 5) : licence `OPL-1`, `price`, `currency`, `author` et `website` sont **provisoires** (`TODO`), le texte de la licence n'est pas dans le dépôt ; page `static/description/index.html`, icône et six captures sont fournies ; rien n'a été publié. Voir « À définir avant publication » dans le README.
+- **Environnement** (§ 8) : le module n'est plus recopié dans `odoo/custom_addons/` ; `custom_addons/` (hors dépôt) contient des liens symboliques vers le module et les ponts.
+
+---
+
 ## 1. Le besoin, vu du maraîcher
 
 > « J'ai une ferme répartie sur deux sites. Sur chaque site, j'ai des îlots : des groupes de planches arrosées ensemble par le même secteur d'irrigation. Une planche porte trois ou quatre cultures dans l'année. Pour chacune je sème, je repique, je plante, j'arrose, je désherbe, je traite, je récolte, je lave, je conditionne. Je vends au marché, en AMAP, à deux restaurants et à une épicerie.

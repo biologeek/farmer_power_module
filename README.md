@@ -1,21 +1,36 @@
 # Odoo Garden
 
-Module Odoo 19 (`odoo_garden`, version `19.0.1.6.0`, licence LGPL-3) pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), stock (intrants consommés, récoltes en entrée de stock avec lot de culture, pertes et rebuts, traçabilité), ventes et rentabilité (chiffre d'affaires attribué aux cultures, marge, tableau de bord), conformité française (registre phytosanitaire, délai avant récolte, registre de fertilisation, export de certification bio).
+Module Odoo 19 (`odoo_garden`, version `19.0.1.7.0`, licence `OPL-1` : voir « À définir avant publication ») pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), stock (intrants consommés, récoltes en entrée de stock avec lot de culture, pertes et rebuts, traçabilité), ventes et rentabilité (chiffre d'affaires attribué aux cultures, marge, tableau de bord), conformité française (registre phytosanitaire, délai avant récolte, registre de fertilisation, export de certification bio) et, en modules optionnels, demandes de prix de semences (Achats) et ventes de marché (Point de Vente).
 
-Le module dépend de `base`, `web`, `product`, `uom`, `mail`, `hr`, `stock`, `account`, `sale_management` et `sale_stock` et s'installe comme une application (menu **Maraîchage**). Il est livré à la **phase 6** (conformité) de la feuille de route (`docs/SPECIFICATIONS.md`, § 7).
+Le module dépend de `product`, `uom`, `mail`, `hr`, `stock`, `account`, `sale_management` et `sale_stock` et s'installe comme une application (menu **Market Gardening**, « Maraîchage » en français). Il est livré à la **phase 7** (ponts optionnels, traductions, préparation de la publication) de la feuille de route (`docs/SPECIFICATIONS.md`, § 7) : toutes les phases (0 à 7) sont réalisées. La page de présentation destinée à l'Apps Store est `static/description/index.html` ; ce README est la documentation technique du dépôt.
+
+> **Langue des libellés.** Les chaînes sources du code (champs, vues, menus, messages, données, rapports) sont en **anglais** ; la traduction française (`i18n/fr.po`) reprend le vocabulaire d'origine du projet. Dans la suite de ce document, qui date des phases 0 à 6, les libellés cités entre guillemets sont les libellés **français** (« Planche », « Îlot », « Délai avant récolte »...) ; l'équivalent anglais figure dans `docs/GLOSSARY.md` (Bed, Block, Pre-Harvest Interval...). Les noms techniques (modèles, champs, identifiants XML) n'ont pas changé.
 
 ## Installation
 
-1. Copier le dossier du module dans un répertoire `addons` d'Odoo, sous le nom `odoo_garden` (les chemins des assets du manifeste supposent ce nom).
-2. Redémarrer Odoo et mettre à jour la liste des applications.
-3. Installer **Odoo Garden** depuis l'interface.
+1. Copier (ou lier) le dossier du module dans un répertoire `addons` d'Odoo, sous le nom `odoo_garden` (les chemins des assets du manifeste supposent ce nom).
+2. Pour les **ponts optionnels**, rendre aussi visibles `bridges/odoo_garden_purchase` et `bridges/odoo_garden_pos` : ce sont deux modules Odoo distincts, qui doivent donc être dans un répertoire de l'`addons_path` (Odoo ne cherche pas dans les sous-dossiers d'un module). Dans l'environnement de développement (`custom_addons/` est dans l'`addons_path` de `odoo.conf`, hors dépôt) :
 
-> Pour le développement, ce dossier est la source de vérité ; les modifications sont ensuite recopiées dans `odoo/custom_addons/odoo_garden` (voir `COPILOT.md`).
+   ```
+   cd custom_addons
+   ln -s ../module                              odoo_garden
+   ln -s ../module/bridges/odoo_garden_purchase odoo_garden_purchase
+   ln -s ../module/bridges/odoo_garden_pos      odoo_garden_pos
+   ```
+
+   Ailleurs, ajouter `<dépôt>/bridges` à l'`addons_path` (`--addons-path=...,<dépôt>/..,<dépôt>/bridges`, le dépôt devant s'appeler `odoo_garden`), ou copier les trois dossiers côte à côte.
+3. Redémarrer Odoo et mettre à jour la liste des applications.
+4. Installer **Odoo Garden**. Les ponts s'installent d'eux-mêmes (`auto_install`) dès que leurs dépendances sont présentes : `odoo_garden_purchase` avec **Achats** (`purchase`), `odoo_garden_pos` avec **Point de vente** (`point_of_sale`). Le module principal n'en dépend pas et fonctionne seul.
+5. Pour une langue : activer la langue dans Odoo (ou `--load-language=de_DE`) ; les termes sont chargés depuis `i18n/`.
+
+`odoo_garden` ne charge pas le contenu de `bridges/` (aucun `import`, aucune entrée du manifeste) ; seuls les fichiers de traduction exportés par Odoo mentionnent ces dossiers (voir « Traductions »).
+
+> Pour une archive à distribuer, partir de `git archive` (ou exclure `.venv/`, `__pycache__/` et `bridges/` selon ce qui est publié) ; le dossier de travail peut contenir un environnement virtuel local ignoré par Git.
 
 ## Arborescence
 
 ```
-__manifest__.py           Déclaration du module (dépendances, données, démo, assets)
+__manifest__.py           Déclaration du module (dépendances, données, démo, assets, licence, images)
 controllers/
   odoo_garden.py          Route /odoo/garden (redirection vers l'application)
   garden_compliance.py    Export XLSX des registres réglementaires
@@ -23,6 +38,7 @@ models/                   Modèles métier (un fichier par modèle)
 views/                    Vues list/form, actions et menus
 static/src/js|xml|scss/   Actions client OWL (Gantt du plan de culture, tableau de bord de rentabilité) et styles
 static/tests/tours/       Tours de test (Gantt, « Ma journée », tableau de bord, registres de conformité)
+static/description/       Page Apps Store (index.html, sans ressource externe), icône 128x128, 6 captures d'écran
 report/
   garden_bed_report.xml   Étiquettes QR des planches (rapport QWeb PDF)
   garden_compliance_report.xml  Registres phytosanitaire et de fertilisation (rapport QWeb PDF, A4 paysage)
@@ -31,8 +47,34 @@ security/
   ir.model.access.csv     Droits d'accès par groupe
 data/                     Types d'opération par défaut, emplacements virtuels de stock (noupdate), activation des registres réglementaires
 demo/                     Données de démonstration (ferme, sites, îlots, planches, catalogue, opérations, stock, récoltes et factures clients)
+i18n/                     odoo_garden.pot et fr, es, de, nl, it, pt_BR (.po)
 tests/                    Tests Odoo (post_install)
+docs/                     SPECIFICATIONS.md (cahier des charges) et GLOSSARY.md (glossaire FR/EN/ES/DE/NL/IT/PT-BR)
+bridges/
+  odoo_garden_purchase/   Pont Achats : demandes de prix de semences (module distinct, auto_install)
+  odoo_garden_pos/        Pont Point de vente : ventes de marché dans le CA des cultures (module distinct, auto_install)
 ```
+
+## Ponts optionnels (phase 7)
+
+Deux modules séparés, sous `bridges/`, chacun avec son manifeste, ses droits, ses tests, son README et sa page descriptive. Le module principal n'a aucune dépendance vis-à-vis d'eux ; seul un point d'extension a été ajouté dans `garden.revenue` (`get_extra_entries`, voir ci-dessous).
+
+### `odoo_garden_purchase` (dépend de `odoo_garden` et `purchase`)
+
+Menu **Planning > Create Seed Requests for Quotation** (« Planification > Créer les demandes de prix de semences ») et bouton **Create Requests for Quotation** sur la saison (chef de culture et gérant). L'assistant `garden.seed.order.wizard` (saison obligatoire, option « plants achetés ») affiche un aperçu puis crée des `purchase.order` **brouillon**, un par fournisseur (`garden.variety.supplier_id`), avec une ligne par variété et produit.
+- *Quantités* : `garden.crop.get_seed_needs` (le rapport « Besoins en semences ») donne des grammes et un nombre de graines. Un produit semence dont l'unité de mesure est une unité de poids (g, kg...) est commandé dans cette unité (conversion depuis les grammes, arrondi au supérieur à la précision de l'unité) ; un produit compté en « Unités » est commandé en **graines** ; toute autre unité est ignorée avec avertissement. Les cultures dont l'itinéraire est « plants achetés » sont commandées via `plant_product_id` de l'itinéraire, en plants.
+- *Variété sans fournisseur ou sans produit semence*, itinéraire sans produit plant, unité non gérée, quantité non calculable (graines par gramme manquant) : ignorés, listés en avertissement dans l'aperçu et le résultat.
+- *Idempotence* : les lignes créées portent `garden_season_id` et `garden_variety_id`. À chaque exécution, la quantité déjà demandée pour la même saison, variété et produit (lignes des commandes non annulées, quel que soit leur état, converties dans l'unité du produit) est déduite du besoin ; seule la quantité manquante est demandée. Relancer l'assistant ne crée donc rien ; si le plan grossit, seule la différence est demandée ; annuler une commande rend sa quantité de nouveau demandable. La règle est par saison (la saison est obligatoire).
+- *Droits* : le chef de culture n'a pas forcément accès aux achats. Les commandes sont créées en `sudo()` ciblé (l'utilisateur reste le créateur) ; il ne voit que le message de résultat (et un bouton d'ouverture s'il lit déjà les achats). Testé : il ne peut pas lire les commandes, l'ouvrier ne peut pas ouvrir l'assistant.
+
+### `odoo_garden_pos` (dépend de `odoo_garden` et `point_of_sale`)
+
+Étend (héritage) le service `garden.revenue` pour inclure les ventes de marché du Point de vente dans le chiffre d'affaires des cultures, la rentabilité (`garden.crop.profitability`), le tableau de bord (CA mensuel) et le bouton **Sales** de la culture. Mécanisme : le service expose `get_extra_entries(crops, method)` (une entrée par ligne : date, document, client, produit, quantité, montant de la ligne, montant attribué) ; le module principal l'additionne à l'attribution des factures, le pont l'implémente.
+- *Lignes retenues* : `pos.order.line` des commandes `paid` ou `done` (comptabilisées) ; montant = `price_subtotal` (HT) converti en monnaie de la société à la date de commande ; un remboursement (quantité négative) donne un montant négatif.
+- *Au prorata* : même règle que pour les factures (CA du produit et du mois réparti selon les récoltes du mois).
+- *Par lot* : les lots saisis sur la ligne (`pack_lot_ids`, modèle `pos.pack.operation.lot`, champ `lot_name`) sont rapprochés des lots de culture par (produit, nom de lot) ; le montant de la ligne est réparti à parts égales entre les lots saisis, la part des lots inconnus n'étant attribuée à aucune culture.
+- *Pas de double comptage* : au **prorata**, une commande PdV qui possède une facture **comptabilisée** est ignorée (ses lignes sont déjà comptées avec les factures clients) ; une facture encore brouillon ou annulée ne l'exclut pas. **Par lot**, l'attribution des factures passe par la commande de vente et les livraisons, ce qu'une facture issue du PdV n'a pas : le lot saisi sur la ligne PdV est la seule source, la commande est comptée une fois, facturée ou non. Testé dans les deux méthodes.
+- *Droits* : les commandes sont lues en `sudo()` ; le chef de culture ne voit que les montants attribués par culture (testé : il n'accède pas à `pos.order`).
 
 ## Modèle de données
 
@@ -98,14 +140,15 @@ Notes :
 
 ## Menus
 
-- **Maraîchage › Ma journée** : kanban mobile des opérations du jour et en retard (voir « Opérations et main-d'œuvre »)
-- **Maraîchage › Exploitation** : Fermes, Sites, Îlots, Planches
-- **Maraîchage › Planification** : Saisons, Plan de culture (Gantt), Calendrier, Besoins en semences, Planifier en série (chef de culture)
-- **Maraîchage › Production** : Cultures (avec les onglets Opérations, Récoltes et Pertes), Opérations (onglet Intrants), Calendrier des opérations, Pertes, Lots de récolte
-- **Maraîchage › Rentabilité** (gérant) : Tableau de bord, Rapport de rentabilité (pivot, graphique, liste ; actualisé à l'ouverture), Paramètres de rentabilité (administrateur)
-- **Maraîchage › Conformité (registres réglementaires, France)** (chef de culture et gérant) : Registre phytosanitaire, Registre de fertilisation, Export certification bio (voir « Conformité »)
-- **Maraîchage › Statistiques** : Temps de travail (pivot et graphique sur les répartitions)
-- **Maraîchage › Configuration** (chef de culture) : Espèces, Variétés, Itinéraires techniques, Types d'opération, Paramètres (administrateur : marge de semis), Produits maraîchers (produits filtrés sur ceux liés à une variété)
+Noms anglais (source) ; entre parenthèses la traduction française.
+- **Market Gardening** (Maraîchage) **› My Day** (Ma journée) : kanban mobile des opérations du jour et en retard (voir « Opérations et main-d'œuvre »)
+- **› Farm Setup** (Exploitation) : Farms (Fermes), Sites, Blocks (Îlots), Beds (Planches)
+- **› Planning** (Planification) : Seasons (Saisons), Crop Plan (Gantt) (Plan de culture), Calendar (Calendrier), Seed Needs (Besoins en semences), Plan in Batch (Planifier en série, chef de culture) ; avec le pont Achats : Create Seed Requests for Quotation (chef de culture)
+- **› Production** : Crops (Cultures, avec les onglets Opérations, Récoltes et Pertes), Operations (onglet Intrants), Operation Calendar (Calendrier des opérations), Losses (Pertes), Harvest Lots (Lots de récolte)
+- **› Profitability** (Rentabilité, gérant) : Dashboard (Tableau de bord), Profitability Report (Rapport de rentabilité : pivot, graphique, liste ; actualisé à l'ouverture), Profitability Settings (Paramètres de rentabilité, administrateur)
+- **› Compliance (regulatory registers, France)** (Conformité, chef de culture et gérant) : Plant Protection Register (Registre phytosanitaire), Fertilization Register (Registre de fertilisation), Organic Certification Export (Export certification bio) (voir « Conformité »)
+- **› Statistics** (Statistiques) : Work Time (Temps de travail, pivot et graphique sur les répartitions)
+- **› Configuration** (chef de culture) : Plant Species (Espèces), Varieties (Variétés), Crop Templates (Itinéraires techniques), Operation Types (Types d'opération), Settings (Paramètres, administrateur : marge de semis), Market Gardening Products (Produits maraîchers : produits filtrés sur ceux liés à une variété)
 
 ## Statistiques et plan de culture
 
@@ -119,7 +162,7 @@ Le Gantt (`garden_bed_occupancy`, `garden.bed.get_occupancy_data(domain, season_
 
 **Charges fixes** (option) : paramètre `odoo_garden.fixed_cost_per_m2` (coût annuel par m²) ; imputées = coût/m² x surface x jours d'occupation / 365 (jours d'occupation = fin - début d'occupation + 1, périodes prévues à défaut de réelles). Actives seulement si le paramètre est > 0.
 
-**Attribution du chiffre d'affaires** (`garden.revenue`, paramètre `odoo_garden.revenue_method`, défaut `prorata`). Sont comptées les lignes de produit des factures (`out_invoice`) et avoirs (`out_refund`) clients comptabilisés (`posted`). Le montant d'une ligne est son HT en monnaie de la société (`-balance`, converti par la comptabilité au taux de la date de facture ; négatif pour un avoir). Les ventes du Point de Vente ne sont pas prises en compte (phase 7).
+**Attribution du chiffre d'affaires** (`garden.revenue`, paramètre `odoo_garden.revenue_method`, défaut `prorata`). Sont comptées les lignes de produit des factures (`out_invoice`) et avoirs (`out_refund`) clients comptabilisés (`posted`). Le montant d'une ligne est son HT en monnaie de la société (`-balance`, converti par la comptabilité au taux de la date de facture ; négatif pour un avoir). Les ventes du Point de vente sont ajoutées par le pont optionnel `odoo_garden_pos` (voir « Ponts optionnels »), via le point d'extension `get_extra_entries` : `get_revenue`, le champ `revenue` de la culture (`sale_line_count` compte aussi ces lignes), le bouton « Ventes » et le tableau de bord les additionnent aux factures.
 - *Par lot* : ligne de facture -> ligne de commande (`sale_line_ids`) -> mouvements de livraison (`stock.move.sale_line_id`, module `sale_stock`) -> lignes de mouvement avec lot -> lot de culture (`stock.lot.garden_crop_id`). Le montant est réparti au prorata des quantités livrées par lot sur la ligne de commande (retours clients déduits). La part livrée sur un lot qui n'est pas un lot de culture, ou sans lot, n'est attribuée à aucune culture. Une facture sans commande de vente n'est pas attribuée par lot. **`sale_stock` est ajouté aux dépendances** car c'est lui qui relie la ligne de commande à ses mouvements de stock (`sale` seul ne le permet pas).
 - *Au prorata* : pour chaque produit récolté et chaque mois de la facture (date comptable), le CA du produit est réparti entre les cultures au prorata de leurs quantités récoltées ce mois-là (mouvements de récolte terminés, annulations déduites, seules les quantités positives comptent). Un mois sans récolte du produit n'attribue rien : le CA n'est pas inventé. Un avoir réduit le CA du mois selon la même répartition.
 
@@ -219,6 +262,22 @@ UX : saisir ou modifier le **semis prévu** recalcule repiquage, début et fin d
 
 **Données de démonstration** (`demo/garden_stock_demo.xml`) : produits d'intrants (semence de tomate en grammes avec lot, terreau, engrais, bouillie bordelaise) avec stock initial, semis / fertilisation / traitement avec intrants, récolte de 45 kg de tomates sur le lot de la culture, une perte avant récolte et une après récolte (rebut) ; la récolte de laitue de la phase 3 reste un exemple de produit non stockable.
 
+## Traductions (phase 7)
+
+- **Source anglaise.** Tous les libellés visibles (`string`, `help`, `_description`, sélections, messages `_()`, vues, menus, actions, groupes, rapports QWeb, templates OWL, `_t` JavaScript, types d'opération et noms de données) sont en anglais ; la terminologie suit `docs/GLOSSARY.md` (bed, block, crop, crop template, operation, season, harvest, loss, pre-harvest interval...). Les enregistrements de démonstration sont aussi en anglais. Les messages d'erreur visibles passent tous par `_()` ; les en-têtes des exports XLSX aussi.
+- **Fichiers** : `i18n/odoo_garden.pot` (modèle, 816 termes) et `fr.po`, `es.po`, `de.po`, `nl.po`, `it.po`, `pt_BR.po` ; pour le pont Achats : `bridges/odoo_garden_purchase/i18n/` (modèle et les mêmes langues). Le pont Point de vente n'a aucun terme propre. L'arabe, le chinois et le japonais (optionnels dans le cahier des charges) ne sont pas faits.
+- **fr.po** : reprend les libellés français d'origine du dépôt (Planche, Îlot, Culture, Itinéraire technique, Délai avant récolte (DAR)...), récupérés dans l'historique Git. Quand deux libellés français différaient seulement par le genre ou le nombre (« Annulée » / « Annulées », « Archivé » / « Archivées »...), le même terme anglais ne peut avoir qu'une traduction : la forme de l'état de l'enregistrement est retenue.
+- **es, de, nl, it, pt_BR : traductions automatiques** (faites par un assistant IA, suivant le glossaire) **à faire relire par des locuteurs natifs, en particulier les termes agricoles** (bancal / Beet / aiuola / canteiro..., plazo de seguridad / Wartezeit / tempo di carenza...). L'en-tête de chaque `.po` le dit.
+- **Régénérer** (syntaxe d'Odoo 19, base avec le module installé, **sans** données de démo pour ne pas exporter les noms de produits de démonstration) :
+  ```
+  odoo-bin i18n export -c odoo.conf -d <base> -o i18n/odoo_garden.pot odoo_garden
+  odoo-bin i18n loadlang -c odoo.conf -d <base> -l de_DE fr_FR      # ou --load-language à l'installation
+  ```
+  L'export parcourt tout le dossier du module : **supprimer du `.pot` les entrées dont les seuls emplacements sont sous `bridges/`** (elles vont dans les `.pot` des ponts, exportés depuis leurs propres modules). Les `.po` se mettent à jour avec `i18n export -l <langue>` (ou à la main à partir du `.pot`).
+- **Termes traduisibles vérifiés** par `tests/test_translations.py` : champs, sélections, menus, groupes, types d'opération et familles botaniques par défaut, messages Python, vues (extraits dans le `.pot`), rapports (étiquettes QR, registres), templates OWL et JavaScript.
+- **Registres français** : le menu et les écrans de la phase 6 sont libellés « Compliance (regulatory registers, France) » / « Regulatory Registers (France) » (français : « Conformité (registres réglementaires, France) ») et restent isolés derrière le paramètre `odoo_garden.compliance_enabled` (Paramètres > Maraîchage) : désactivé, le menu est masqué et les exports sont refusés.
+- **Mise à jour depuis la phase 6** : les enregistrements par défaut en données `noupdate` (types d'opération, emplacements virtuels « Market Gardening Production / Consumption », règles multi-société) gardaient leur nom français. `migrations/19.0.1.7.0/post-migration.py` les renomme en anglais s'ils portent encore le nom d'origine (un nom modifié par l'utilisateur n'est pas touché) et conserve le nom français comme traduction `fr_FR` quand la langue est active (testé par `tests/test_migration.py` et sur une copie de la base de développement).
+
 ## Contrôleur
 
 `GET /odoo/garden` redirige un utilisateur connecté vers l'action des fermes, et un visiteur anonyme vers la page de connexion.
@@ -269,13 +328,22 @@ Le dossier `tests/` contient (tests `post_install`, `-at_install`) :
 - `test_compliance_fields.py` : champs réglementaires des produits (contraintes, écriture limitée par le chef de culture, vue), surface traitée et dose ;
 - `test_compliance_dar.py` : blocage dans le délai (limites incluses), création directe à « faite », dérogation du gérant et traçabilité, chef de culture et ouvrier sans dérogation, absence de blocage (produit sans DAR, traitement annulé, planifié, postérieur ou d'une autre culture), récolte sur plusieurs cultures et de planche, avertissement et date « récolte possible à partir du » ;
 - `test_compliance_registers.py` : registre phytosanitaire (contenu, répartition entre cultures, filtres période / saison / cultures, droits, multi-société, XLSX lu avec `openpyxl`, PDF au niveau HTML QWeb, téléchargement HTTP), registre de fertilisation (azote, conversion d'unités, synthèse, XLSX, PDF, pivot), export bio (alertes, onglets), paramètre `compliance_enabled` (menus, groupe, blocage, mise à jour), tour navigateur `garden_compliance_tour` ;
+- `test_migration.py` : migration 19.0.1.7.0 (renommage des enregistrements par défaut, nom modifié par l'utilisateur respecté, idempotence) ;
+- `test_translations.py` : cohérence des `.pot` / `.po` (mêmes termes, aucune traduction vide, mêmes variables `%s` / `%(x)s` et balises, mention « machine translation »), puis chargement de chaque langue (fr, es, de, nl, it, pt_BR) et vérification de libellés de champs, sélections, menus, groupes, données par défaut, messages Python et vues ;
 - `test_demo.py` : plan de culture, opérations, intrants, récolte, pertes et traçabilité de démonstration (ignoré sans données de démo).
 
 Le tour navigateur nécessite Chrome et le paquet Python `websocket-client` ; sans lui Odoo l'ignore (« skipped »). Pour l'exécuter sans modifier l'environnement : `pip install --target /tmp/pylibs websocket-client` puis `PYTHONPATH=/tmp/pylibs ./run.sh ...`.
 
+Les ponts ont leurs propres tests (`bridges/*/tests/`, mêmes conventions) : `odoo_garden_purchase` (assistant, un brouillon par fournisseur, conversion d'unités, avertissements, idempotence, plants achetés, droits du chef de culture, traductions) et `odoo_garden_pos` (prorata, lot, remboursements, états retenus, double comptage avec les factures, rentabilité, bouton Ventes, droits).
+
 ```
-cd <racine du projet> && ./run.sh -d garden_test -i odoo_garden --test-enable --test-tags /odoo_garden --stop-after-init
+cd <racine du projet> && ./run.sh -d garden_test -i odoo_garden,odoo_garden_purchase,odoo_garden_pos --test-enable \
+  --test-tags /odoo_garden,/odoo_garden_purchase,/odoo_garden_pos --stop-after-init
 ```
+
+Pour ne lancer qu'une classe : `--test-tags /odoo_garden:TestGardenTranslationFiles`.
+
+Résultats de la phase 7 : **276 tests** (modules `odoo_garden` + `odoo_garden_purchase` + `odoo_garden_pos`, dont les 4 tours navigateur), **0 échec, 0 erreur**, installation avec et sans données de démonstration ; module principal seul (sans les ponts) : 248 tests avant l'ajout des tests de migration, 0 échec ; installation avec les six langues (`--load-language`) sans avertissement ; mise à jour (`-u`) d'une copie de la base de développement de la phase 6 sans erreur (les tours supposent un utilisateur en anglais : sur une base dont l'administrateur est en français, ils échouent sur les libellés, pas sur le code).
 
 Les tests sont lancés sans `--with-demo` par défaut ; avec elle, `test_demo.py` s'exécute aussi (un échec du chargement des données de démo n'est qu'un avertissement dans le journal : le vérifier). La démo contient la saison 2027 (12 cultures dont un chevauchement sur N1-01 et une rotation sur S1-03 grâce à la tomate 2026), une saison 2026 close, trois employés (plus l'employé administrateur de `hr`, avec un coût horaire), des opérations faites (dont un arrosage d'îlot réparti 40 / 40 / 20 % entre trois cultures le 10 juin 2027, un désherbage de deux planches, une récolte et un détail par employé), des récoltes (tomate, carotte, courgette, laitue) et des factures clients comptabilisées (dont un avoir et une vente livrée sur le lot de la tomate) pour la rentabilité, des opérations planifiées autour de la date du jour pour « Ma journée » et les opérations prévues par les itinéraires de la saison 2027. Les données de démonstration ne sont chargées qu'avec `--with-demo` (désactivées par défaut en Odoo 19). Ajouter `--http-port=<port>` si le serveur de développement tourne déjà.
 
@@ -297,15 +365,36 @@ Les tests sont lancés sans `--with-demo` par défaut ; avec elle, `test_demo.py
 - **Lot de récolte** : nommé d'après la référence de la culture au moment de la première récolte ; renommer ensuite la culture ne renomme pas le lot (le lien reste `garden_crop_id`).
 - **Tests de mise à jour** : pour tester `-u` sur une copie de base (`pg_dump`), copier aussi le filestore (`odoo-data/filestore/<base>`), sinon les bundles d'assets référencés par la copie sont introuvables et le tour du Gantt échoue (page sans CSS).
 - **Accès aux lots** : l'ouvrier lit tous les lots de sa société (nécessaire au choix du lot d'un intrant).
-- **Rentabilité** : le rapport est une copie stockée actualisée à l'ouverture, au bouton et chaque nuit ; le CA par lot exige des produits suivis par lots et des factures issues de commandes de vente (sinon utiliser le prorata) ; le CA du Point de Vente n'est pas compté (phase 7) ; les paramètres de rentabilité s'enregistrent dans l'écran de configuration, réservé à l'administrateur système.
+- **Rentabilité** : le rapport est une copie stockée actualisée à l'ouverture, au bouton et chaque nuit ; le CA par lot exige des produits suivis par lots et des factures issues de commandes de vente (sinon utiliser le prorata) ; le CA du Point de vente est compté par le pont `odoo_garden_pos` ; les paramètres de rentabilité s'enregistrent dans l'écran de configuration, réservé à l'administrateur système.
 - **Attribution au prorata** : suppose que le produit facturé est le produit récolté (`harvest_product_id`) et la même unité ; le mois est celui de la date comptable de la facture.
 - **Conformité** : le rendu PDF des registres n'a été vérifié qu'au niveau HTML QWeb (pas de moteur wkhtmltopdf dans l'environnement de développement) ; les registres sont des lignes transitoires recalculées à chaque ouverture (jamais archivées : exporter le fichier pour le conserver) ; les produits non renseignés (`is_organic_allowed` décoché par défaut) sont signalés en bio ; le DAR suppose un `date` de réalisation (une récolte faite sans date est contrôlée à la date prévue) ; l'azote n'est calculé que pour des engrais exprimés dans une unité de masse (pas de conversion de densité des engrais liquides) ; le groupe `group_garden_compliance` est ajouté au chef de culture à l'activation du paramètre et, dans une base ayant reçu un état intermédiaire de la phase 6, le menu peut garder aussi le groupe chef de culture (lien additif de la mise à jour).
-- **Manifeste** : `author` et `website` contiennent encore des valeurs par défaut.
+- **Manifeste** : `author`, `website`, `price` et `currency` sont des valeurs provisoires (voir « À définir avant publication »).
+- **Ponts** : les tests du pont Point de vente construisent les commandes PdV à la main (ORM, états forcés) et non par l'interface du point de vente ni `sync_from_ui` ; le rapprochement des lots PdV se fait sur le **nom** du lot saisi (le lot de culture porte le nom de la culture) et suppose donc une saisie exacte. L'assistant d'achat suppose que les unités de mesure des semences sont des poids ou des « Unités » (1 unité = 1 graine) ; une autre unité (sachet de contenu inconnu) est ignorée avec avertissement.
+- **Traductions** : es, de, nl, it, pt_BR sont des traductions automatiques non relues ; le genre et le nombre des filtres (« Annulées », « Archivées »...) ne sont pas distingués des états dans les `.po` (un seul terme anglais) ; arabe, chinois et japonais non faits.
+- **Captures d'écran** : prises sur la base de démonstration avec Chrome headless ; à refaire si l'interface change.
 - **Mise à jour depuis la phase 0** : les cultures existantes perdent leur lien vers l'ancien catalogue (`template_id` vide, contrainte NOT NULL non posée) ; aucune migration de données n'est fournie (aucune donnée de production, hypothèse 1).
-- **Description du module** : Odoo interprète `README.md` en reStructuredText lors de l'installation et journalise des avertissements de syntaxe sans conséquence.
+- **Description du module** : Odoo lit `static/description/index.html` (et non plus le README interprété en reStructuredText) ; les avertissements docutils des phases précédentes ont disparu à l'installation. Le `<style>` de cette page peut être retiré par l'assainissement HTML d'Odoo dans la fiche du module (la page reste lisible) ; l'Apps Store l'affiche telle quelle.
+
+## À définir avant publication
+
+Valeurs **provisoires**, repérables par `TODO`, que seul le propriétaire du projet peut décider. Rien n'a été publié (aucun `git push`, aucun dépôt sur l'Apps Store) ; seuls les fichiers sont préparés.
+
+| Élément | Valeur actuelle | Où |
+|---|---|---|
+| Éditeur (`author`) | `TODO - publisher to be defined` | `__manifest__.py` du module et des deux ponts |
+| Site web (`website`) | `https://example.com/TODO` | idem |
+| Prix (`price`) et devise (`currency`) | `99.00` EUR, provisoires | `__manifest__.py` (les ponts n'ont pas de prix : à décider, gratuits ou vendus à part) |
+| Nom commercial | « Odoo Garden » (nom de travail) | `name`, `static/description/index.html`, icône |
+| Licence | `OPL-1` (voir ci-dessous) | `license` des trois manifestes |
+| Page de support / contact | non renseignée | `static/description/index.html` |
+| Relecture des traductions | es, de, nl, it, pt_BR faites par machine, à faire relire par des locuteurs natifs, en particulier les termes agricoles | `i18n/*.po`, `docs/GLOSSARY.md` |
+| Captures d'écran | 6 captures réelles de la base de démonstration ; à refaire avec le nom définitif ou des données de l'éditeur | `static/description/screenshot_*.png` |
+
+**Licence.** Le cahier des charges prévoit `OPL-1` (Odoo Proprietary License v1.0) pour la vente sur l'Apps Store : les manifestes l'appliquent, ce qui **change la licence précédente (`LGPL-3`)** ; c'est une décision à confirmer par le propriétaire. Le texte de la licence n'est pas reproduit dans le dépôt : il appartient à Odoo S.A. et ne doit pas être réécrit. **TODO** : ajouter le fichier `LICENSE` avec le texte officiel d'OPL-1 (ou celui de la licence finalement choisie) et, au besoin, l'adresse de copyright de l'éditeur.
 
 ## À venir
 
 La feuille de route complète (version payante intégrée aux applications Odoo) est décrite dans [`docs/SPECIFICATIONS.md`](docs/SPECIFICATIONS.md).
 
+- Traductions arabe, chinois et japonais (optionnelles)
 - Schéma visuel des sites et planches
