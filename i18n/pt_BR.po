@@ -469,12 +469,14 @@ msgid "Bed the crop is grown on."
 msgstr "Canteiro no qual a cultura está instalada."
 
 #. module: odoo_garden
+#. odoo-python
 #: model:ir.actions.act_window,name:odoo_garden.action_garden_bed
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__bed_ids
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__bed_ids
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__bed_ids
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_bed
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Beds"
 msgstr "Canteiros"
 
@@ -1118,6 +1120,7 @@ msgstr ""
 
 #. module: odoo_garden
 #. odoo-javascript
+#. odoo-python
 #: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
 #: model:ir.actions.act_window,name:odoo_garden.action_garden_crop
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__crop_ids
@@ -1127,6 +1130,7 @@ msgstr ""
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_crop
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Crops"
 msgstr "Culturas"
 
@@ -1368,12 +1372,15 @@ msgstr "Doença"
 #: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:odoo_garden.field_stock_lot__display_name
 #: model:ir.model.fields,field_description:odoo_garden.field_stock_move__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_analytics__display_name
 msgid "Display Name"
 msgstr "Nome exibido"
 
 #. module: odoo_garden
+#. odoo-python
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation__state__done
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Done"
 msgstr "Realizada"
 
@@ -1803,11 +1810,13 @@ msgid "Growing Medium"
 msgstr "Substrato"
 
 #. module: odoo_garden
+#. odoo-python
 #: model:garden.operation.type,name:odoo_garden.operation_type_harvest
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__harvest
 #: model:ir.model.fields.selection,name:odoo_garden.selection__stock_move__garden_kind__harvest
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Harvest"
 msgstr "Colheita"
 
@@ -2005,8 +2014,10 @@ msgstr ""
 
 #. module: odoo_garden
 #. odoo-javascript
+#. odoo-python
 #: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__hours
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Hours"
 msgstr "Horas"
 
@@ -2063,6 +2074,7 @@ msgstr "Rico em húmus"
 #: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__id
 #: model:ir.model.fields,field_description:odoo_garden.field_stock_lot__id
 #: model:ir.model.fields,field_description:odoo_garden.field_stock_move__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_analytics__id
 msgid "ID"
 msgstr "ID"
 
@@ -2164,6 +2176,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__organic_line_ids
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__input_ids
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Inputs"
 msgstr "Insumos"
 
@@ -2260,7 +2273,9 @@ msgid "Label"
 msgstr "Rótulo"
 
 #. module: odoo_garden
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Labor"
 msgstr "Mão de obra"
 
@@ -2421,11 +2436,13 @@ msgid "Loss: %s"
 msgstr "Perda: %s"
 
 #. module: odoo_garden
+#. odoo-python
 #: model:ir.actions.act_window,name:odoo_garden.action_garden_loss
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__loss_ids
 #: model:ir.ui.menu,name:odoo_garden.menu_garden_loss
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_pivot
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Losses"
 msgstr "Perdas"
 
@@ -2573,9 +2590,11 @@ msgstr "Manual"
 
 #. module: odoo_garden
 #. odoo-javascript
+#. odoo-python
 #: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__margin
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__margin
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Margin"
 msgstr "Margem"
 
@@ -2951,6 +2970,7 @@ msgstr "Nenhuma necessidade de sementes"
 #. module: odoo_garden
 #. odoo-python
 #: code:addons/odoo_garden/models/garden_crop_profitability.py:0
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "No species"
 msgstr "Sem espécie"
 
@@ -3392,6 +3412,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__other
 #: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__other
 #: model:ir.model.fields.selection,name:odoo_garden.selection__product_template__garden_input_type__other
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Other"
 msgstr "Outro"
 
@@ -3900,6 +3921,7 @@ msgstr "Referência"
 #. odoo-javascript
 #: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_list
+#: code:addons/odoo_garden/static/src/xml/garden_analytics.xml:0
 msgid "Refresh"
 msgstr "Atualizar"
 
@@ -3986,9 +4008,11 @@ msgstr "Voltar para planejada"
 
 #. module: odoo_garden
 #. odoo-javascript
+#. odoo-python
 #: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__revenue
 #: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__revenue
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Revenue"
 msgstr "Receita"
 
@@ -4446,6 +4470,7 @@ msgstr "Semeada"
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_search
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
 #: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_search
+#: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "Species"
 msgstr "Espécie"
 
