@@ -18,3 +18,4 @@ from . import test_demo
 from . import test_compliance_fields
 from . import test_compliance_dar
 from . import test_compliance_registers
+from . import test_translations

@@ -1,0 +1,5126 @@
+# Translation of Odoo Garden (odoo_garden), template.
+# This file contains the translation of the following modules:
+# 	* odoo_garden
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-29 00:18+0000\n"
+"PO-Revision-Date: 2026-10-29 00:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_loss.py:0
+msgid " (lot %s)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__organic_allowed
+msgid ""
+"\"Allowed in organic farming\" field of the product (fertilizers, "
+"amendments, plant protection products and substrates only)."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_season_plan_wizard.py:0
+msgid "%(bed)s: sowing %(sowing)s, harvest %(start)s → %(end)s"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid ""
+"%(crop)s: treated on %(day)s with \"%(product)s\" (interval %(days)s d), "
+"harvest possible from %(end)s."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.report,print_report_name:odoo_garden.action_report_garden_bed_label
+msgid "'Bed-Labels'"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.report,print_report_name:odoo_garden.action_report_garden_compliance
+msgid "'Register-%s' % object.register"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+msgid "10 least profitable crops per hour"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+msgid "10 most profitable crops per hour"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop_template__density
+msgid "10,000 / (row spacing × plant spacing), in cm."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_kanban
+msgid "<i class=\"fa fa-clock-o\" title=\"Timer running\" role=\"img\"/> Timer"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_stock_lot_form_garden
+msgid "<span class=\"o_stat_text\">Market Garden Traceability</span>"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid ""
+"<span>Validation will be refused unless a manager grants a waiver.</span>"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "<strong>Pre-harvest interval (PHI) not elapsed.</strong>"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__bed_ids
+msgid "A crop is created on each of these beds."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "A harvested product tracked by serial number is not supported (\"%s\")."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_loss.py:0
+msgid ""
+"A loss that scrapped stock cannot be deleted: correct the stock with an "
+"inventory adjustment."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_lots
+msgid ""
+"A lot is created for each crop at the first harvest of a lot-tracked "
+"product."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_loss
+msgid "A post-harvest loss also scraps the stock, on the crop lot."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation_input.py:0
+msgid ""
+"A product tracked by serial number is consumed one unit at a time (\"%s\")."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_season
+msgid ""
+"A season groups the crop plan of a year: crops, beds and planned dates."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_season_name_company_uniq
+msgid "A season with this name already exists for this company."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_needaction
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_needaction
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_needaction
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_needaction
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__active
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__active
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__active
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__active
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__active
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__active
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__active
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__active
+msgid "Active"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Actual"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Actual Dates"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__date_end
+msgid "Actual End"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__date_start
+msgid "Actual Start"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__date_start
+msgid "Actual date of the first sowing or planting."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__date_end
+msgid "Actual end date of the crop (bed freed)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__occupation_end
+msgid "Actual end, otherwise planned harvest end."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/js/garden_bed_occupancy.js:0
+msgid "Actual: %(start)s → %(end)s"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__partner_id
+msgid "Address"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+msgid "All Seasons"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+msgid "All Sites"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__allocation_ids
+msgid "Allocated Work"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__allocation_ids
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Allocation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__allocation_warning
+msgid "Allocation Warning"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_operation_allocation
+msgid "Allocation of an Operation to a Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__allocation_ids
+msgid ""
+"Allocation of time and cost between crops, computed when the operation is "
+"done."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__organic_allowed
+msgid "Allowed in organic"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_product_product__is_organic_allowed
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__is_organic_allowed
+msgid "Allowed in organic farming"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__amaryllidaceae
+msgid "Amaryllidaceae"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__revenue
+msgid ""
+"Amount excluding tax of the posted customer invoices attributed to the crop,"
+" according to the method chosen in the settings (by lot or pro rata of the "
+"month's harvests)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_operation
+msgid ""
+"An operation is a piece of work (sowing, watering, harvest...) on a crop, "
+"beds or a block."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_fixed_cost_per_m2
+msgid "Annual Fixed Costs per m²"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid ""
+"Annual cost per m² charged to the crops (area × days of occupation / 365) in"
+" the margin. 0: no fixed costs."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__season_id
+msgid "Annual crop plan the crop belongs to."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__apiaceae
+msgid "Apiaceae"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Application Details"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_farm_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_farm_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_type_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_type_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_species_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_species_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_search
+msgid "Archived"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__area
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__area
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__area
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Area (m²)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__treated_area
+msgid ""
+"Area on which the product is applied (plant protection register). Suggested "
+"from the target of the operation (occupied area of the crops, beds or "
+"block); editable if only a part is treated. Frozen once the operation is "
+"done."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__asteraceae
+msgid "Asteraceae"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_attachment_count
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_attachment_count
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_attachment_count
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_attachment_count
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__amount
+msgid "Attributed Amount"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__share
+msgid "Attributed Share (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_season_plan_wizard
+msgid "Batch Planning Wizard"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__bed_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__bed_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__bed_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__bed_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__bed_id
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation__scope__bed
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__default_scope__bed
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_time_search
+msgid "Bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__bed_area
+msgid "Bed Area (m²)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_bed_label
+msgid "Bed QR Code"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.report,name:odoo_garden.action_report_garden_bed_label
+msgid "Bed QR Labels"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__bed_share
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__bed_share
+msgid "Bed Share (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__area
+msgid "Bed area × occupied share."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__name
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+msgid "Bed name"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__bed_id
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__bed_id
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__bed_id
+msgid "Bed the crop is grown on."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_bed
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__bed_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__bed_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__bed_ids
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_bed
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+msgid "Beds"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__bed_ids
+msgid "Beds concerned (\"Bed\" scope)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+msgid "Beds of the Block"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__garden_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__garden_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__garden_id
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation__scope__garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__default_scope__garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "Block"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_garden
+msgid "Block (irrigation sector)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__garden_id
+msgid "Block concerned (\"Block\" scope)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__name
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+msgid "Block name"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__garden_main_id
+msgid ""
+"Block of the target (the first one if several); used to group the "
+"operations."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__garden_ids
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_form
+msgid "Blocks"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_form
+msgid "Blocks of the Site"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__family
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__family
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__family
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__family
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "Botanical Family"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop_template__propagation__bought_plants
+msgid "Bought Plants"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__brassicaceae
+msgid "Brassicaceae"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__res_config_settings__garden_revenue_method__lot
+msgid "By Delivery Lot"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_revenue_method
+msgid ""
+"By lot: the revenue of an invoice goes to the crops whose lots were "
+"delivered (lot-tracked products, invoices from sales orders). Pro rata: for "
+"each product and each month, the revenue is split between the crops "
+"according to their harvests of the month."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid ""
+"By lot: through the delivered lots (lot-tracked products, sales orders). Pro"
+" rata: according to the quantities harvested in the month for each product."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_crop_calendar
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_form
+msgid "Calendar"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_plan_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "Cancellation: %s"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_move__garden_reversal_ids
+msgid "Cancellations"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop__state__cancelled
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation__state__cancelled
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "Cancelled"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_move__garden_reverse_of_id
+msgid "Cancels the move"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__category
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__category
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__category
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__category
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_type_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_time_search
+msgid "Category"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__cause
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
+msgid "Cause"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__chenopodiaceae
+msgid "Chenopodiaceae"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "Choose at least one bed for an operation with the \"Bed\" scope."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "Choose at least one crop for an operation with the \"Crop\" scope."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "Choose the block for an operation with the \"Block\" scope."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_loss.py:0
+msgid ""
+"Choose the lost product: the variety of crop \"%s\" has no harvest product."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_bed__soil_type__clayey
+msgid "Clay"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+msgid "Close"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_season__state__closed
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_search
+msgid "Closed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__code
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__code
+msgid "Code"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_bed_label
+msgid "Code:"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__company_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__company_id
+msgid "Company"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__company_id
+msgid "Company owning the crop plan."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__company_id
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__company_id
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__company_id
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_worker__company_id
+msgid "Company owning the operation."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_kanban
+msgid "Complete"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop__state__done
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "Completed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__date
+msgid "Completion Date"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Compliance"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_compliance
+msgid "Compliance (regulatory registers, France)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
+msgid "Compute"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__weather_notes
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Conditions"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_configuration
+msgid "Configuration"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation_input.py:0
+msgid ""
+"Configure the storage location and the \"Market Gardening Consumption\" "
+"location of company \"%s\"."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid ""
+"Configure the storage location and the \"Market Gardening Production\" "
+"location of company \"%s\"."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_loss.py:0
+msgid "Configure the storage location of company \"%s\"."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__consumed
+msgid "Consumed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__input_ids
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Consumed Inputs"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__usage_input_ids
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Consumed by Operations"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__product_id
+msgid ""
+"Consumed product. Only products with a \"market gardening input type\" are "
+"suggested."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__stock_move__garden_kind__input_return
+msgid "Consumption Cancellation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__move_ids
+msgid ""
+"Consumption and harvest moves created by the operation, with their "
+"cancellations."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_variety__organic_status__derogation
+msgid "Conventional with Derogation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__cost
+msgid "Cost"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__unit_cost
+msgid ""
+"Cost of the product per unit of the line. Suggested from the product cost; "
+"frozen when the operation is done."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid ""
+"Counterpart locations of stock entries (harvests) and exits (consumed "
+"inputs)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_plan_wizard_form
+msgid "Create Crops"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_bed
+msgid "Create your first bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_garden
+msgid "Create your first block"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_crop
+msgid "Create your first crop on a bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_crop_template
+msgid "Create your first crop template"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_farm
+msgid "Create your first farm"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_season
+msgid "Create your first growing season"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_operation
+msgid "Create your first operation"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_operation_type
+msgid "Create your first operation type"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_site
+msgid "Create your first site"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_species
+msgid "Create your first species"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_variety
+msgid "Create your first variety"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__create_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__create_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__create_date
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Created on"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__is_refund
+msgid "Credit Note"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__crop_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__crop_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__crop_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__crop_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__crop_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__crop_id
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_lot__garden_crop_id
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_move__garden_crop_id
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation__scope__crop
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__default_scope__crop
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
+msgid "Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_bed
+msgid "Crop Bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_crop_calendar
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_calendar
+msgid "Crop Calendar"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_form
+msgid "Crop Concerned"
+msgstr ""
+
+#. module: odoo_garden
+#: model:res.groups,name:odoo_garden.group_garden_chef
+msgid "Crop Manager"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Crop Notes"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+#: model:ir.actions.client,name:odoo_garden.action_garden_bed_occupancy
+msgid "Crop Plan"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_bed_occupancy
+msgid "Crop Plan (Gantt)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_crop_sale
+msgid "Crop Sales"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_crop_template
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__template_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__template_id
+msgid "Crop Template"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_crop_template_step
+msgid "Crop Template Step"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_crop_template
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_crop_template
+msgid "Crop Templates"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__culture_type
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__culture_type
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_search
+msgid "Crop Type"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__crop_id
+msgid "Crop concerned by the loss."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__lot_id
+msgid "Crop lot the scrap was made on."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_crop
+msgid "Crop on Bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_traceability__crop_id
+msgid ""
+"Crop the lot comes from; without a chosen lot, all the harvest lots of the "
+"crop are traced."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_stock_lot__garden_crop_id
+msgid "Crop whose harvest produced this lot (upstream traceability)."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_crop
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__crop_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__crop_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__crop_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__crop_ids
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_crop
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+msgid "Crops"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_season_plan_wizard.py:0
+msgid "Crops Created"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__crop_ids
+msgid "Crops concerned (\"Crop\" scope)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__current_crop_ids
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+msgid "Crops in Place"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__crop_ids
+msgid "Crops planned during this season."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__cucurbitaceae
+msgid "Cucurbitaceae"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Cumulative Nitrogen (kg N/ha)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__partner_id
+msgid "Customer"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_profitability_dashboard
+msgid "Dashboard"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__target_date
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Date"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__occupation_start
+msgid ""
+"Date of arrival on the bed: planned transplanting for plants, otherwise "
+"actual start or planned sowing."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_harvest_start
+msgid ""
+"Date of the first targeted harvest. Changing it recomputes the sowing "
+"(backward planning)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__date
+msgid "Date the operation was carried out."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_transplant_date
+msgid "Date the plants are set on the bed (direct sowing: empty)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__preview
+msgid "Dates computed for each bed before creation."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__date
+msgid "Day the loss was noticed."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__planned_date
+msgid "Day the operation must be done; it appears in \"My Day\" from that date."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__date
+msgid ""
+"Day the operation was done (set when the operation is completed). Used to "
+"find the crops in place for the allocation."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__days_to_maturity
+msgid "Days before Harvest"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__days_to_transplant
+msgid "Days before Transplanting"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__occupation_days
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__occupation_days
+msgid "Days of Occupation"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_loss
+msgid "Declare your first loss"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_default_hourly_rate
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Default Hourly Rate"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__default_scope
+msgid "Default Scope"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Deliveries, Sales and Scraps"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__density
+msgid "Density (plants/m²)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__description
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__description
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Description"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Detailed time entry per employee (optional)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__worker_ids
+msgid ""
+"Detailed time entry per employee. When filled, it replaces \"duration × "
+"number of employees\"."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__notes
+msgid "Details about the loss."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__overlap_warning
+msgid "Details of the overlap with the other crops of the bed."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__rotation_warning
+msgid "Details of the previous crops of the same family on the bed."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__worker_ids
+msgid "Details per Employee"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop_template__propagation__direct_sowing
+msgid "Direct Sowing"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__cause__disease
+msgid "Disease"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_account_move__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_revenue__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_res_company__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_lot__display_name
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_move__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation__state__done
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "Done"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_traceability__out_line_ids
+msgid "Done moves taking the lot out of stock (delivery, sale, scrap...)."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__dose
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__dose
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Dose (per ha)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Downstream: Lot Outputs"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_season__state__draft
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_search
+msgid "Draft"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__state
+msgid ""
+"Draft: plan being prepared. Validated: plan frozen. Closed: season over."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_garden__irrigation_type__drip
+msgid "Drip"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__duration
+msgid "Duration"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__duration
+msgid "Duration (per employee)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_worker__labour_cost
+msgid ""
+"Duration × hourly cost of the employee (otherwise, default hourly rate)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__water_volume
+msgid ""
+"Duration × irrigation flow of the block (irrigation only). Editable if the "
+"volume is measured."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_product_template_form_garden
+msgid "E.g. 2010000"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_form
+msgid "E.g. Beefsteak"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_form
+msgid "E.g. Beefsteak tomato under shelter"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_species_form
+msgid "E.g. Tomato"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_hr_employee
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__employee_id
+msgid "Employee"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_worker__employee_id
+msgid "Employee who worked on the operation."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__employee_ids
+msgid "Employees"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__date_end
+msgid "End Date"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_harvest_end
+msgid "End of the harvest window (harvest start + window of the template)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__harvest_allowed_from
+msgid ""
+"End of the pre-harvest interval (PHI) of the last plant protection treatment"
+" done on the crop: treatment date + PHI of the most restrictive product. "
+"Empty if no treatment sets an interval."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__tracking
+msgid "Ensure the traceability of a storable product in your warehouse."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "Enter the harvested product before completing operation \"%s\"."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "Enter the harvested quantity before completing operation \"%s\"."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation_input.py:0
+msgid "Enter the lot of \"%(product)s\" (operation \"%(operation)s\")."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "Enter the reason for the pre-harvest interval waiver (operation \"%s\")."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Expected"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__expected_duration
+msgid "Expected Duration (h/m²)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__expected_yield_qty
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__expected_yield_qty
+msgid "Expected Harvest (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__expected_hours
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__expected_hours
+msgid "Expected Hours"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__expected_revenue
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__expected_revenue
+msgid "Expected Revenue"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__expected_price
+msgid "Expected Sale Price (€/kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__expected_yield
+msgid "Expected Yield (kg/m²)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__expected_revenue
+msgid "Expected harvest × expected sale price."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/js/garden_bed_occupancy.js:0
+msgid "Expected: %(start)s → %(end)s"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
+msgid "Export (XLSX)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid ""
+"Extra seeds planned on top of the germination rate to compute the seed "
+"needs."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_seed_margin
+msgid ""
+"Extra seeds planned to compensate sowing losses, on top of the germination "
+"rate."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__fabaceae
+msgid "Fabaceae"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_species_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_search
+msgid "Family"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_farm
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__farm_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_search
+msgid "Farm"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_exploitation
+msgid "Farm Setup"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__name
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_farm_form
+msgid "Farm name"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_farm
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_farm
+msgid "Farms"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_fertilization
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__fertilization
+msgid "Fertilization"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_compliance_fertilization
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_line__register__fertilization
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_wizard__register__fertilization
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_compliance_fertilization
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_fertilization_list
+msgid "Fertilization Register"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__fertilization_line_ids
+msgid "Fertilizations"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Fertilized Area (m²)"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields.selection,name:odoo_garden.selection__product_template__garden_input_type__fertilizer
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Fertilizer"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__nitrogen_kg
+msgid "Fertilizer quantity (kg) × nitrogen content / 100."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__quantity_kg
+msgid "Fertilizer quantity converted into kilograms."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_wizard__date_from
+msgid "First day of the period (date the operations were done)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__date_start
+msgid "First day of the season."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__fixed_cost
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__fixed_cost
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Fixed Costs"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_follower_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_follower_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_follower_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_follower_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_partner_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_partner_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_partner_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_partner_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__type_icon
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_type__icon
+msgid "Font Awesome class displayed on the \"My Day\" card (e.g. fa-tint)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__dar_warning
+msgid ""
+"For a harvest not yet done: crops whose pre-harvest interval (PHI) has not "
+"elapsed on the harvest date. Validation will be blocked while the interval "
+"runs, unless the manager grants a waiver."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Forecast"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__notes
+msgid "Free comments on the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__date_from
+msgid "From"
+msgstr ""
+
+#. module: odoo_garden
+#: model:res.groups,comment:odoo_garden.group_garden_manager
+msgid "Full access, including the configuration."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_hr_employee__garden_hourly_cost
+msgid ""
+"Fully loaded hourly cost of the employee to value the time of operations. At"
+" 0, the default hourly rate of the Market Gardening settings applies."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Gap (actual - planned)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+msgid "Generate Operations"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__name
+msgid ""
+"Generated at creation: species initial, year, bed code and sequence number "
+"(e.g. T-2027-P12-01). Used as the traceability lot name."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__germination_rate
+msgid "Germination Rate (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_form
+msgid "Goals"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__product_template__garden_input_type__substrate
+msgid "Growing Medium"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_harvest
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__harvest
+#: model:ir.model.fields.selection,name:odoo_garden.selection__stock_move__garden_kind__harvest
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Harvest"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid ""
+"Harvest \"%s\" is already in stock: set the operation back to planned before"
+" modifying it."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__stock_move__garden_kind__harvest_return
+msgid "Harvest Cancellation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__yield_gap
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__yield_gap
+msgid "Harvest Gap (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_lots
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__lot_ids
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_lots
+msgid "Harvest Lots"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Harvest Lots of the Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__harvest_move_ids
+msgid "Harvest Moves"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__harvest_allowed_warning
+msgid "Harvest Still Forbidden"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__harvest_uom_id
+msgid "Harvest Unit"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__harvest_window_days
+msgid "Harvest Window (days)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__harvest_allowed_from
+msgid "Harvest possible from"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid ""
+"Harvest put in stock without crop or lot: no crop in place on the date of "
+"the operation."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid ""
+"Harvest validated with a pre-harvest interval waiver (waiver by %(user)s). "
+"Reason: %(reason)s"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Harvested (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__harvest_product_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__harvest_product_id
+msgid "Harvested Product"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__harvest_qty
+msgid "Harvested Quantity"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__harvested_qty
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__harvested_qty
+msgid "Harvested Quantity (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_crop_id
+msgid "Harvested crop (harvest moves)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__harvest_product_id
+msgid ""
+"Harvested product (suggested from the variety of the crop). Harvest only."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__harvest_qty
+msgid "Harvested quantity (harvest only)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__yield_gap
+msgid "Harvested quantity - expected harvest."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__yield_per_m2
+msgid "Harvested quantity / area. On a group: sum of harvests / sum of areas."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop__state__harvesting
+msgid "Harvesting"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Harvests"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid ""
+"Harvests enter this location and inputs leave it. Empty: main stock of the "
+"warehouse of the company."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_crop.py:0
+msgid "Harvests: %s"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__has_message
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__has_message
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__has_message
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__has_message
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+msgid "Hide Free Beds"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_hr_employee__garden_hourly_cost
+msgid "Hourly Cost (Market Gardening)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_default_hourly_rate
+msgid ""
+"Hourly cost applied to work time when the employee has no hourly cost set or"
+" when no employee is assigned to the operation."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid ""
+"Hourly cost applied when the employee has no market gardening hourly cost or"
+" when no employee is assigned."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__hours
+msgid "Hours"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__hours_gap
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__hours_gap
+msgid "Hours Gap"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_time_statistics
+msgid "Hours appear when operations are done."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+msgid "Hours per Operation Category"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_bed__soil_type__humus
+msgid "Humus-rich"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_account_move__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_revenue__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__id
+#: model:ir.model.fields,field_description:odoo_garden.field_hr_employee__id
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__id
+#: model:ir.model.fields,field_description:odoo_garden.field_res_company__id
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__id
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_lot__id
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_move__id
+msgid "ID"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__icon
+msgid "Icon"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_bed__message_needaction
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__message_needaction
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__message_needaction
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__message_needaction
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_bed__message_has_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_bed__message_has_sms_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__message_has_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__message_has_sms_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__message_has_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__message_has_sms_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__message_has_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__message_has_sms_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__message_has_error
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop__state__in_place
+msgid "In Place"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation__state__in_progress
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "In Progress"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__on_hand_qty
+msgid "In Stock"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__target
+msgid ""
+"Indicates whether the date entered is the harvest start (backward planning) "
+"or the sowing."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_operation_input
+msgid "Input Consumed by an Operation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__stock_move__garden_kind__input
+msgid "Input Consumption"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__input_cost
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__input_cost
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__input_cost
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__input_cost
+msgid "Input Cost"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__input_type
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__garden_input_type
+msgid "Input Type"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__input_cost
+msgid "Input cost of the operation × share of the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__alert
+msgid "Input not allowed in organic farming used on an organic crop."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__organic_line_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__input_ids
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Inputs"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__alert_count
+msgid "Inputs Not Allowed in Organic"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_organic_list
+msgid "Inputs and Organic Certification"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_traceability__input_ids
+msgid "Inputs of the operations done on the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Instructions or Report"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__description
+msgid "Instructions or report of the work."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_loss.py:0
+msgid "Insufficient stock to scrap %(qty)s %(uom)s of \"%(product)s\"%(lot)s."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__invoice_name
+msgid "Invoice"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__irrigation
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Irrigation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__irrigation_flow
+msgid "Irrigation Flow (L/h)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__irrigation_type
+msgid "Irrigation Type"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_is_follower
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_is_follower
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_is_follower
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_is_follower
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__dar_override_reason
+msgid ""
+"Justification of the pre-harvest interval waiver (required when it is "
+"ticked)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_kind
+msgid ""
+"Kind of the move created by the market gardening module; cancellations are "
+"reverse moves."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__name
+msgid "Label"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Labor"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__labour_cost
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__labour_cost
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__labour_cost
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__labour_cost
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__labour_cost
+msgid "Labor Cost"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__labour_cost
+msgid "Labor cost of the operation × share of the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__write_uid
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__write_date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__move_id
+msgid "Last consumption move created when the operation was validated."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_wizard__date_to
+msgid "Last day of the period (included)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__date_end
+msgid "Last day of the season; cannot precede the start."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__latitude
+msgid "Latitude"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__length
+msgid "Length (m)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_wizard__season_id
+msgid "Limits the register to the crops of the season."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_wizard__crop_ids
+msgid "Limits the register to these crops (empty: all)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__line_amount
+msgid "Line Amount Excl. Tax"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__line_ids
+msgid "Lines"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_company__garden_stock_location_id
+msgid ""
+"Location where harvests enter and inputs leave. Empty: main stock of the "
+"first warehouse of the company."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_stock_location_id
+msgid ""
+"Location where harvests enter and inputs leave. Empty: main stock of the "
+"warehouse of the company."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__longitude
+msgid "Longitude"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_form
+msgid "Loss Details"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__loss_rate
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__loss_rate
+msgid "Loss Rate"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_loss
+msgid "Loss on a Crop"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_loss.py:0
+msgid "Loss: %s"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_loss
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__loss_ids
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_loss
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_pivot
+msgid "Losses"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__loss_rate
+msgid ""
+"Losses / (harvest + losses). Losses and harvest are assumed to be in the "
+"same unit (kg)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__loss_rate
+msgid "Losses / (harvest + losses). On a group: computed on the sums."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Losses Declared on the Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__loss_ids
+msgid "Losses declared on the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__loss_qty
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__quantity
+msgid "Lost Quantity"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__loss_qty
+msgid "Lost Quantity (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__product_id
+msgid ""
+"Lost product (suggested from the variety of the crop); it determines the "
+"post-harvest scrap."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__quantity
+msgid "Lost quantity, in the chosen unit."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__lot_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__lot_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__lot_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__lot_id
+msgid "Lot"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation_input.py:0
+msgid "Lot \"%(lot)s\" is not a lot of product \"%(product)s\"."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__out_line_ids
+msgid "Lot Outputs"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Lot Receipt (Supplier)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__lot_id
+msgid ""
+"Lot of the consumed product, required for a product tracked by lots (e.g. "
+"seed lot)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_stock_lot
+msgid "Lot/Serial"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Lots"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_crop.py:0
+msgid "Lots: %s"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__amm_number
+#: model:ir.model.fields,field_description:odoo_garden.field_product_product__amm_number
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__amm_number
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "MA No."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__garden_main_id
+msgid "Main Block"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__cause
+msgid "Main cause of the loss."
+msgstr ""
+
+#. module: odoo_garden
+#: model:res.groups,name:odoo_garden.group_garden_manager
+msgid "Manager"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__dar_override_user_id
+msgid "Manager who ticked the pre-harvest interval waiver."
+msgstr ""
+
+#. module: odoo_garden
+#: model:res.groups,comment:odoo_garden.group_garden_chef
+msgid "Manages the catalog, templates, structure and crops."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_garden__irrigation_type__manual
+msgid "Manual"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__margin
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__margin
+msgid "Margin"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__margin_per_m2
+msgid "Margin / area. On a group: sum of margins / sum of areas."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__margin_per_m2
+msgid "Margin / occupied area (0 without area)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__margin_per_hour
+msgid "Margin / work hours (0 without hours)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__margin_per_hour
+msgid "Margin / work hours. On a group: sum of margins / sum of hours."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__margin_per_hour
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__margin_per_hour
+msgid "Margin per Hour"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+msgid "Margin per Species"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__margin_per_m2
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__margin_per_m2
+msgid "Margin per m²"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+msgid "Margin/h"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.module.category,name:odoo_garden.module_category_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_root
+#: model:res.groups.privilege,name:odoo_garden.res_groups_privilege_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.hr_employee_view_form_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_product_template_form_garden
+msgid "Market Gardening"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_company__garden_consumption_location_id
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_consumption_location_id
+msgid "Market Gardening Consumption Location"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_product_product__garden_input_type
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__garden_input_type
+msgid "Market Gardening Input Type"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_product_template_search_garden
+msgid "Market Gardening Inputs"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_move__garden_kind
+msgid "Market Gardening Move Type"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_stock_move__garden_operation_id
+msgid "Market Gardening Operation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_product_product__is_garden_product
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__is_garden_product
+msgid "Market Gardening Product"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_company__garden_production_location_id
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_production_location_id
+msgid "Market Gardening Production Location"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_product
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_product
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_product_template_search_garden
+msgid "Market Gardening Products"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_company__garden_stock_location_id
+msgid "Market Gardening Storage Location"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_product_product__garden_variety_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__garden_variety_ids
+msgid "Market Gardening Varieties"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.server,name:odoo_garden.ir_cron_garden_profitability_ir_actions_server
+msgid "Market Gardening: Refresh the Profitability Report"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_product_product__amm_number
+#: model:ir.model.fields,help:odoo_garden.field_product_template__amm_number
+msgid ""
+"Marketing authorization number of the plant protection product (mandatory "
+"entry of the plant protection register)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_tree
+msgid "Max Occupation (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__overlap_share
+msgid "Maximum Occupation (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__overlap_share
+msgid ""
+"Maximum sum of the bed shares occupied simultaneously, this crop included."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_has_error
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_has_error
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_has_error
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_has_error
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_species__rotation_years
+msgid "Minimum time before the family returns to the same bed."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_time_search
+msgid "Month"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+msgid "Monthly Revenue"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_mulching
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__mulching
+msgid "Mulching"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_operation_today
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_today
+msgid "My Day"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "My Operations"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "N (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__name
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_farm_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_form
+msgid "Name"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_search
+msgid "Name or code"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__type_id
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__type_id
+msgid "Nature of the work (sowing, watering, harvest...)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_seed_needs
+msgid ""
+"Needs are computed from the planned crops: area × density, germination and "
+"sowing margin."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "Negative Margin"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_bed.py:0
+#: code:addons/odoo_garden/models/garden_crop.py:0
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "New Operation"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Nitrogen (kg N)"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__nitrogen_per_ha
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Nitrogen (kg N/ha)"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__nitrogen_kg
+msgid "Nitrogen Applied (kg N)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Nitrogen Applied per Bed and Season"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__nitrogen_content
+#: model:ir.model.fields,field_description:odoo_garden.field_product_product__nitrogen_content
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__nitrogen_content
+msgid "Nitrogen Content (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__nitrogen_per_ha
+msgid "Nitrogen applied per hectare of fertilized area."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Nitrogen content not set on the product."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_fertilization_pivot
+msgid "Nitrogen per Bed and Season"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_line__organic_allowed__no
+msgid "No"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+msgid "No bed to display."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid ""
+"No crop in place on the date of the operation: time and cost are not "
+"allocated to any crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_profitability
+msgid "No crop to analyze"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+msgid "No crop with hours."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+msgid "No data."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "No fertilization in the period."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_lots
+msgid "No harvest lot"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_loss.py:0
+msgid ""
+"No harvest lot of crop \"%(crop)s\" for \"%(product)s\": record a harvest "
+"first before declaring a post-harvest loss."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_time_statistics
+msgid "No labor time allocated"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_seed_needs
+msgid "No seed needs"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_crop_profitability.py:0
+msgid "No species"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "No treatment in the period."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_garden__irrigation_type__none
+msgid "None"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__alert
+msgid "Not Allowed in Organic"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Not allowed in organic on an organic crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_line__organic_allowed__na
+msgid "Not applicable"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__notes
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__notes
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__notes
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__notes
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__notes
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__notes
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_form
+msgid "Notes"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_operation_today
+msgid "Nothing to do for now"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_needaction_counter
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_needaction_counter
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_needaction_counter
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_needaction_counter
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__crop_count
+msgid "Number of Crops"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__line_count
+msgid "Number of Lines"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__loss_count
+msgid "Number of Losses"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__lot_count
+msgid "Number of Lots"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__operation_count
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__operation_count
+msgid "Number of Operations"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__row_count
+msgid "Number of Rows"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__crop_count
+msgid "Number of crops attached to the season."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__sale_line_count
+msgid ""
+"Number of customer invoice lines attributed (wholly or partly) to the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__stagger_days
+msgid ""
+"Number of days added to the target date for each successive bed, to stagger "
+"the crops (0 = all beds on the same date)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__occupation_days
+msgid ""
+"Number of days between the start and the end of the occupation (both "
+"included); used for fixed costs."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_has_error_counter
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_has_error_counter
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_has_error_counter
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_has_error_counter
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_wizard__alert_count
+msgid ""
+"Number of lines of inputs not allowed in organic used on an organic crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_bed__message_needaction_counter
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__message_needaction_counter
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__message_needaction_counter
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__message_needaction_counter
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_bed__message_has_error_counter
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__message_has_error_counter
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__message_has_error_counter
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__message_has_error_counter
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__planted_quantity
+msgid "Number of plants actually planted."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__sowing_quantity
+msgid "Number of plants actually sown."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__occupation_end
+msgid "Occupation End"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__occupation_start
+msgid "Occupation Start"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__area
+msgid "Occupied Area (m²)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__expected_yield_qty
+msgid "Occupied area × expected yield of the template."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_plant_qty
+msgid "Occupied area × template density."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__day_offset
+msgid "Offset (days from sowing)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__stagger_days
+msgid "Offset between Beds (days)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_crop_profitability_crop_unique
+msgid "Only one profitability line per crop."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_crop.py:0
+msgid "Only the crop manager and the manager can view sales."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop_template__culture_type__open_air
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_garden__culture_type__open_air
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_search
+msgid "Open Field"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__operation_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__operation_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__operation_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_worker__operation_id
+msgid "Operation"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation_input.py:0
+msgid "Operation \"%s\" is done: set it back to planned to modify its inputs."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_operation
+msgid "Operation (work on a crop, bed or block)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_operation_calendar
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_operation_calendar
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_calendar
+msgid "Operation Calendar"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Operation Label"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__operation_state
+msgid "Operation Status"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_operation_type
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__operation_type_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__type_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__type_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_kanban
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_time_search
+msgid "Operation Type"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_operation_type
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_operation_type
+msgid "Operation Types"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_operation_id
+msgid "Operation that created this move (input consumption or harvest)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_type_form
+msgid "Operation type description"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_operation
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__operation_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__operation_ids
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_operation
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Operations"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__operation_ids
+msgid "Operations Done"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Operations Done on the Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_bed__operation_ids
+msgid "Operations directly targeting this bed (\"Bed\" scope)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__operation_ids
+msgid "Operations directly targeting this crop (\"Crop\" scope)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_traceability__operation_ids
+msgid ""
+"Operations done on the crop (directly or through the allocation of a bed or "
+"block)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Operations on this crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_bed__operation_count
+msgid "Operations targeting the bed, one of its crops or its block."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__operation_count
+msgid "Operations targeting the crop or allocated to it (bed, block)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+msgid "Operations targeting this bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_traceability__usage_input_ids
+msgid ""
+"Operations that consumed this lot as an input (seed lot, fertilizer lot...)."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__operator
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Operator"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__fixed_cost
+msgid ""
+"Option: annual cost per m² (settings) × area × days of occupation / 365. "
+"Zero if the cost per m² is zero."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_fixed_cost_per_m2
+msgid ""
+"Option: annual cost per m² charged to the crops (cost × area × days of "
+"occupation / 365). Leave at 0 to charge no fixed costs."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_variety__organic_status__organic
+msgid "Organic"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Organic Alerts"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_compliance_organic
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_line__register__organic
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_wizard__register__organic
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_compliance_organic
+msgid "Organic Certification Export"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__organic_crop
+msgid "Organic Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__organic_status
+msgid "Organic Status"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Organic status of the variety"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Origin of the Lots (Receipt)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_reverse_of_id
+msgid "Original move, for a move that cancels a consumption or a harvest."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_crop_profitability.py:0
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_bed__soil_type__other
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__cause__other
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__other
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__other
+#: model:ir.model.fields.selection,name:odoo_garden.selection__product_template__garden_input_type__other
+msgid "Other"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__has_overlap
+msgid "Overlap"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__overlap_warning
+msgid "Overlap Warning"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_crop.py:0
+msgid ""
+"Overlap on bed %(bed)s: %(share).0f %% of the bed occupied at the same time "
+"(with %(crops)s)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop_template__propagation__own_plants
+msgid "Own Plants"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__dar_warning
+msgid "PHI Warning"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_product_product__pre_harvest_interval_days
+#: model:ir.model.fields,help:odoo_garden.field_product_template__pre_harvest_interval_days
+msgid ""
+"PHI: number of days to respect between the last treatment with this product "
+"and the harvest. 0: no interval. A harvest closer to the treatment is "
+"blocked (can be waived by the manager)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_packing
+msgid "Packing"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+msgid "Parent Block"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_form
+msgid "Parent Farm"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+msgid "Parent Site"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__employee_ids
+msgid "People who carry out the operation."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_product_product__nitrogen_content
+#: model:ir.model.fields,help:odoo_garden.field_product_template__nitrogen_content
+msgid ""
+"Percentage of nitrogen (N) by mass of the fertilizer. Used for the "
+"fertilization register: nitrogen applied = quantity (kg) × content / 100."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__cause__pest
+msgid "Pest"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_season_plan_wizard
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_season_plan_wizard
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_plan_wizard_form
+msgid "Plan in Batch"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop__state__planned
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation__state__planned
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "Planned"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__planned_date
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "Planned Date"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Planned Dates"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__planned_harvest_end
+msgid "Planned Harvest End"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__planned_harvest_start
+msgid "Planned Harvest Start"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__planned_plant_qty
+msgid "Planned Plants"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__planned_seed_qty
+msgid "Planned Seeds (g)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__planned_sowing_date
+msgid "Planned Sowing"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__planned_transplant_date
+msgid "Planned Transplanting"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_seed_count
+msgid ""
+"Planned plants / germination rate × (1 + sowing margin). Zero for bought "
+"plants."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__state
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__operation_state
+msgid ""
+"Planned: to do. In progress: started. Done: finished, the time is allocated "
+"to the crops. Cancelled: will not be done."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_planning
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Planning"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__product_template__garden_input_type__plant
+msgid "Plant"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__plant_product_id
+msgid "Plant Product"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__product_template__garden_input_type__phytosanitary
+msgid "Plant Protection"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_compliance_phyto
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_line__register__phyto
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_wizard__register__phyto
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_compliance_phyto
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_phyto_list
+msgid "Plant Protection Register"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__plant_spacing
+msgid "Plant Spacing (cm)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_species
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_species
+msgid "Plant Species"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid ""
+"Plant protection register, fertilization register and organic certification "
+"export, specific to French regulations. Disable for other markets."
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_planting
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__planting
+msgid "Planting"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__propagation
+msgid "Planting Method"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__planted_quantity
+msgid "Plants Planted"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__sowing_quantity
+msgid "Plants Sown"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__parcel
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Plot"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__poaceae
+msgid "Poaceae"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__stage__post_harvest
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
+msgid "Post-Harvest"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__post_harvest
+msgid "Post-harvest (washing, packing)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__stage__pre_harvest
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
+msgid "Pre-Harvest"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_product_product__pre_harvest_interval_days
+#: model:ir.model.fields,field_description:odoo_garden.field_product_template__pre_harvest_interval_days
+msgid "Pre-Harvest Interval (days)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__dar_override
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Pre-Harvest Interval Waiver"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid ""
+"Pre-harvest interval (PHI) not respected, harvest \"%(operation)s\" is blocked:\n"
+"%(details)s\n"
+"Only a manager can lift this block (waiver with a reason)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Pre-harvest interval (PHI) running: harvest possible from"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid "Pre-harvest interval waiver granted by %(user)s. Reason: %(reason)s"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__stage
+msgid ""
+"Pre-harvest: loss in the field, no effect on stock. Post-harvest: a stock "
+"scrap is created on the crop lot."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__preview
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_plan_wizard_form
+msgid "Preview"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
+msgid "Print (PDF)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__res_config_settings__garden_revenue_method__prorata
+msgid "Pro rata of the month's harvests"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model,name:odoo_garden.model_product_template
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__product_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__product_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__product_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__product_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__product_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_search
+msgid "Product"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+msgid ""
+"Product \"%s\" is tracked by lots: no crop in place on the date of the "
+"operation to name the lot."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_production
+msgid "Production"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__input_ids
+msgid ""
+"Products consumed by the operation. Stock moves are created when it is done."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_profitability
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_graph
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_pivot
+msgid "Profitability"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+#: model:ir.actions.client,name:odoo_garden.action_garden_dashboard
+msgid "Profitability Dashboard"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_profitability_report
+msgid "Profitability Report"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_profitability_settings
+msgid "Profitability Settings"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_profitability
+#: model:ir.actions.server,name:odoo_garden.action_garden_profitability_open
+#: model:ir.model,name:odoo_garden.model_garden_crop_profitability
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_list
+msgid "Profitability per Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__state
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__state
+msgid ""
+"Progress: planned, sown, in place, harvesting, done or cancelled. A "
+"cancelled crop is no longer taken into account in the checks or the seed "
+"needs."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_form
+msgid "QR Label"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_sale__quantity
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__quantity
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Quantity"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__quantity_kg
+msgid "Quantity (kg)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__quantity_ref
+msgid "Quantity (product unit)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__requires_quantity
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__requires_quantity
+msgid "Quantity Required"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__quantity
+msgid "Quantity Used"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__dose
+msgid ""
+"Quantity applied per hectare, in the unit of the line (e.g. kg/ha, L/ha): "
+"quantity × 10,000 / treated area."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__quantity
+msgid "Quantity consumed, in the unit of the line."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__quantity_ref
+msgid ""
+"Quantity converted into the unit of the harvested product, used for the loss"
+" rate."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__cost
+msgid "Quantity × unit cost."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Receipt Date"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_traceability__seed_receipt_line_ids
+msgid "Receipts of these lots from a supplier."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Recompute from Harvest"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Recompute from Sowing"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__name
+msgid "Reference"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_list
+msgid "Refresh"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__wizard_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__register
+msgid "Register"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__register
+msgid "Register of the line"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
+msgid ""
+"Register specific to French regulations, computed from the operations done.\n"
+"                        Choose the period, the season or the crops then click \"Compute\", \"Print\"\n"
+"                        or \"Export\"."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.report,name:odoo_garden.action_report_garden_compliance
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
+msgid "Regulatory Register"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_compliance_wizard
+msgid "Regulatory Register (France)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_compliance_line
+msgid "Regulatory Register Line"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_compliance_enabled
+#: model:res.groups,name:odoo_garden.group_garden_compliance
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Regulatory Registers (France)"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid ""
+"Regulatory registers (France) are disabled: enable them in Settings > Market"
+" Gardening."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Regulatory registers are reserved to the crop manager and the manager."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__note
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Remark"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Reset to Planned"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_dashboard.xml:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__revenue
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__revenue
+msgid "Revenue"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__revenue_gap
+msgid "Revenue - expected revenue."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__margin
+msgid "Revenue - labor cost - input cost - fixed costs."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_revenue_method
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Revenue Attribution"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_revenue
+msgid "Revenue Attribution to Crops"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__revenue_gap
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__revenue_gap
+msgid "Revenue Gap"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_stock_move__garden_reversal_ids
+msgid "Reverse moves that cancel this one."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__rotation_years
+msgid "Rotation Interval (years)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__has_rotation_conflict
+msgid "Rotation Not Respected"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__rotation_warning
+msgid "Rotation Warning"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_crop.py:0
+msgid ""
+"Rotation: the family %(family)s was already grown on this bed less than "
+"%(years)s year(s) before (%(crops)s)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__row_spacing
+msgid "Row Spacing (cm)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__message_has_sms_error
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__message_has_sms_error
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__message_has_sms_error
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__message_has_sms_error
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_crop_sale
+msgid "Sale Line Attributed to a Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__sale_line_count
+msgid "Sale Lines"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Sales"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_crop_sale.py:0
+msgid "Sales: %s"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_bed__soil_type__sandy
+msgid "Sandy"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_bed_label
+msgid "Scan to open the bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__scope
+msgid "Scope"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_type__default_scope
+msgid "Scope suggested when creating an operation of this type."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__scrap_id
+msgid "Scrap created for a post-harvest loss."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__season_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__season_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__season_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__season_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__season_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "Season"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_season
+msgid "Season (annual crop plan)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+msgid "Season 2027"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__name
+msgid "Season label, for example \"Season 2027\". Unique per company."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__season_id
+msgid "Season that will receive the crops created."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_season
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_season
+msgid "Seasons"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__product_template__garden_input_type__seed
+msgid "Seed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__seed_receipt_line_ids
+msgid "Seed Lot Receipt"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_seed_needs
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_seed_needs
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_seed_pivot
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_seed_tree
+msgid "Seed Needs"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__seed_product_id
+msgid "Seed Product"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__seed_lot_ids
+msgid "Seed or Plant Lots"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Seed or Plant Lots Used"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_traceability__seed_input_ids
+msgid "Seed or plant inputs of sowing, transplanting or planting operations."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Seeds"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__seed_input_ids
+msgid "Seeds and Plants"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Seeds and Plants Used"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__seeds_per_gram
+msgid "Seeds per Gram"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__planned_seed_count
+msgid "Seeds to Sow"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_seed_qty
+msgid "Seeds to sow / number of seeds per gram of the variety."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Select a template"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_season_plan_wizard.py:0
+msgid "Select at least one bed."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Select the bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__sequence
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__sequence
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_type__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__input_type
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__garden_input_type
+#: model:ir.model.fields,help:odoo_garden.field_product_product__garden_input_type
+#: model:ir.model.fields,help:odoo_garden.field_product_template__garden_input_type
+msgid ""
+"Set for products consumed by operations (seeds, plants, fertilizers, "
+"treatments...): only these products are suggested as operation inputs."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__allocation_warning
+msgid ""
+"Set if the operation is done but no crop was in place: nothing is allocated."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_settings
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_settings
+msgid "Settings"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__share
+msgid "Share (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__bed_share
+msgid "Share of each bed occupied by the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__bed_share
+msgid "Share of the bed occupied by this crop (100 = the whole bed)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__share
+msgid ""
+"Share of the operation attributed to the crop, proportional to its occupied "
+"area."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__allocation_ids
+msgid ""
+"Share of the operations done (on this crop, beds or a block) attributed to "
+"the crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_search
+msgid "Sheltered"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop_template__culture_type__sheltered
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_garden__culture_type__sheltered
+msgid "Sheltered (greenhouse, tunnel)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_compliance_enabled
+msgid ""
+"Shows the \"Compliance\" menu (plant protection register, fertilization "
+"register, organic certification export) to the crop manager and the manager."
+" Untick outside France: the menus and exports are then hidden and refused. "
+"The pre-harvest interval check stays active (it only blocks products that "
+"have an interval)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_bed__soil_type__silty
+msgid "Silt"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_bed__soil_type__loamy
+msgid "Silty Clay"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-javascript
+#: code:addons/odoo_garden/static/src/xml/garden_bed_occupancy.xml:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__site_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__site_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_garden__site_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "Site"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_site__name
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_site_form
+msgid "Site name"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_site
+msgid "Site of the farm"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__parcel
+msgid "Site, block and bed treated."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_site
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_farm__site_ids
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_site
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_farm_form
+msgid "Sites"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_farm_form
+msgid "Sites attached to this farm"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__product_template__garden_input_type__amendment
+msgid "Soil Amendment"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_soil_preparation
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__soil_preparation
+msgid "Soil Preparation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__soil_type
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_search
+msgid "Soil Type"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_species__family__solanaceae
+msgid "Solanaceae"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_sowing
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__sowing
+msgid "Sowing"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_season_plan_wizard__target__sowing
+msgid "Sowing Date"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Sowing Margin"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_seed_margin
+msgid "Sowing Margin (%)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_crop__state__sown
+msgid "Sown"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model,name:odoo_garden.model_garden_species
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__species_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__species_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__species_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__name
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__species_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_search
+msgid "Species"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_garden__irrigation_type__sprinkler
+msgid "Sprinkler"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_kanban
+msgid "Start"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__date
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__date_start
+msgid "Start Date"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop_profitability__date
+msgid "Start of the occupation of the bed (actual, otherwise planned)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_statistics
+msgid "Statistics"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__state
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__state
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__state
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__state
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "Status"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__stage
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_search
+msgid "Step"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__step_ids
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_template_form
+msgid "Steps"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Stock"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__harvest_line_ids
+msgid "Stock Entries (Harvest)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_stock_move
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__move_id
+msgid "Stock Move"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__move_ids
+msgid "Stock Moves"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__scrap_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_form
+msgid "Stock Scrap"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__harvest_move_ids
+msgid "Stock entries created by harvest operations, and their cancellations."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__lot_ids
+msgid ""
+"Stock lots created by the harvests of the crop (named after its reference)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Stop Timer"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_res_config_settings__garden_stock_location_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Storage Location"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__name
+msgid "Suggested automatically: operation type and target. Editable."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__labour_cost
+msgid ""
+"Sum of duration × hourly cost of each employee; without an hourly cost on "
+"the employee (or without employee), the default hourly rate of the settings "
+"applies."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__total_hours
+msgid ""
+"Sum of the details per employee if any, otherwise duration × number of "
+"employees (an operation without employee counts for one person)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__harvested_qty
+msgid ""
+"Sum of the done harvest stock moves (cancellations deducted), in the unit of"
+" the harvested product (assumed to be kg). Source of truth of the production"
+" statistics."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__expected_hours
+msgid ""
+"Sum of the expected durations (h/m²) of the template steps × occupied area."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__labour_hours
+msgid "Sum of the hours allocated to the crop by the operations done."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__input_cost
+msgid "Sum of the input cost (quantity × product cost)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__input_cost
+msgid "Sum of the input cost allocated to the crop by the operations done."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__labour_cost
+msgid "Sum of the labor cost allocated to the crop by the operations done."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__loss_qty
+msgid ""
+"Sum of the losses of the crop (pre- and post-harvest), in the unit of the "
+"harvested product."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
+msgid "Summary per Bed"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__supplier_id
+msgid "Supplier"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_traceability__seed_lot_ids
+msgid "Supplier lots of the seeds and plants used (upstream traceability)."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__target
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Target"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season_plan_wizard__target
+msgid "Target Date"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__target_date
+msgid "Target date for the first bed."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__scope
+msgid ""
+"Target of the work: one or several crops, one or several beds, or a whole "
+"block. Suggested according to the operation type."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_season_plan_wizard__target__harvest
+msgid "Targeted Harvest Start"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__target
+msgid "Targeted pest or disease (treatment only)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__planned_sowing_date
+msgid ""
+"Targeted sowing date. Changing it recomputes transplanting, harvest start "
+"and end."
+msgstr ""
+
+#. module: odoo_garden
+#: model:res.groups,comment:odoo_garden.group_garden_compliance
+msgid ""
+"Technical: menus of the French regulatory registers (enabled by the module "
+"setting)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template_step__template_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__template_id
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_time_search
+msgid "Template"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__template_step_id
+msgid "Template Step"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_season_plan_wizard__template_id
+msgid "Template applied to all the crops created."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__template_id
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__template_id
+msgid "Template providing the variety, density, intervals and expected yield."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__template_step_id
+msgid ""
+"Template step the planned operation comes from; prevents generating it "
+"twice."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__template_ids
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_variety_form
+msgid "Templates"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_bed_code_site_uniq
+msgid "The bed code must be unique per site."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_crop_bed_share_range
+msgid "The bed share must be between 0 (excluded) and 100 %."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation.py:0
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_operation_worker_duration_positive
+msgid "The duration cannot be negative."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_season.py:0
+msgid "The end of the season cannot precede its start."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_variety_germination_rate_range
+msgid "The germination rate must be between 0 and 100 %."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_loss_quantity_positive
+msgid "The lost quantity must be strictly positive."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/product_template.py:0
+msgid "The nitrogen content is a percentage between 0 and 100."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "The organic certification export is in XLSX format."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_operation_today
+msgid ""
+"The planned operations of the day and overdue ones assigned to you appear "
+"here. Remove the \"My Operations\" filter to see those of the whole team."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_product_template_pre_harvest_interval_positive
+msgid "The pre-harvest interval cannot be negative."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_operation_input_quantity_positive
+msgid "The quantity of an input must be strictly positive."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.actions.act_window,help:odoo_garden.action_garden_profitability
+msgid ""
+"The report compares, for each crop, the attributed revenue, the hours and "
+"the costs. It is recomputed on opening and with the \"Refresh\" button."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_species_rotation_years_positive
+msgid "The rotation interval cannot be negative."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_operation_input.py:0
+msgid "The treated area cannot be negative."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_compliance_line__organic_crop
+msgid "The variety of the crop has the \"Organic\" status."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "The xlsxwriter library is required for the XLSX export."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_operation_worker_operation_employee_uniq
+msgid "This employee is already in the operation details."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_loss.py:0
+msgid ""
+"This loss already scrapped stock: it can no longer be modified (only the "
+"cause and the notes can)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_species_name_uniq
+msgid "This species already exists."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.constraint,message:odoo_garden.constraint_garden_variety_name_species_uniq
+msgid "This variety already exists for this species."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__dar_override
+msgid ""
+"Ticked by the manager to allow a harvest before the end of the pre-harvest "
+"interval (PHI) of a plant protection treatment. A reason is required; the "
+"waiver is traced in the chatter."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__requires_quantity
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_type__requires_quantity
+msgid ""
+"Ticked for harvest: the operation cannot be completed without a harvested "
+"quantity."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_product_product__is_organic_allowed
+#: model:ir.model.fields,help:odoo_garden.field_product_template__is_organic_allowed
+msgid ""
+"Ticked if the product can be used on an organic-certified crop. Non-ticked "
+"inputs used on an organic crop are flagged in the certification export."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_operation_worker
+msgid "Time Spent per Employee on an Operation"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_worker__duration
+msgid "Time spent by this employee, in hours (hh:mm)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__timer_start
+msgid "Time the timer was started; set as long as the timer runs."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__timer_start
+msgid "Timer Start"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__date_to
+msgid "To"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "To Do"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "Today and Overdue"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_bed_tree
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_fertilization_list
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_line_phyto_list
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_sale_list
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_seed_tree
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_tree
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_garden_tree
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_loss_tree
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_tree
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_list
+msgid "Total"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__total_hours
+msgid "Total Time (h)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__bed_area
+msgid "Total area of the bed."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__hours
+msgid "Total time of the operation × share of the crop."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_traceability.py:0
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Traceability"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_traceability
+msgid "Traceability of a Lot or a Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_traceability__lot_ids
+msgid "Traced Lots"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__tracking
+msgid "Tracking"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_transplanting
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__transplanting
+msgid "Transplanting"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__treated_area
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__treated_area
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "Treated Area (m²)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_treatment
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__treatment
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Treatment"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__target
+msgid "Treatment Target"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_wizard__phyto_line_ids
+msgid "Treatments"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__consumed
+msgid ""
+"True if a consumption move is in force (not cancelled by a reverse move)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__has_overlap
+msgid ""
+"True if the bed is occupied at more than 100 % during the period of the "
+"crop."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__harvest_allowed_warning
+msgid ""
+"True if the end of the pre-harvest interval has not passed yet (on today's "
+"date)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__has_rotation_conflict
+msgid ""
+"True if the same botanical family was grown on the bed more recently than "
+"the rotation interval."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_search
+msgid "Type"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__type_icon
+msgid "Type Icon"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_compliance_line__uom_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__uom_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__uom_id
+msgid "Unit"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_input__unit_cost
+msgid "Unit Cost"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Unit not convertible into kg: nitrogen not computed."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__harvest_uom_id
+msgid "Unit of the harvested quantity (suggested from the product)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_input__uom_id
+msgid "Unit of the quantity (suggested from the product)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__uom_id
+msgid "Unit of the quantity (suggested from the product, otherwise kg)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__cause__unsold
+msgid "Unsold"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_variety__organic_status__untreated
+msgid "Untreated"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Upstream: Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_traceability_form
+msgid "Upstream: Seeds and Plants"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_form
+msgid "Validate"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_season__state__validated
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_season_search
+msgid "Validated"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_variety
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_species__variety_ids
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_variety
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_species_form
+msgid "Varieties"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_product_product__garden_variety_ids
+#: model:ir.model.fields,help:odoo_garden.field_product_template__garden_variety_ids
+msgid "Varieties whose seed or harvested product is this product."
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model,name:odoo_garden.model_garden_variety
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__variety_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__variety_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_template__variety_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation_allocation__variety_id
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_variety__name
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_search
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "Variety"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+msgid "Variety Supplier"
+msgstr ""
+
+#. module: odoo_garden
+#: model:res.groups,comment:odoo_garden.group_garden_worker
+msgid "Views the crop plan, records their operations, harvests and losses."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "Virtual Locations"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_consumption_location_id
+msgid "Virtual location consumed inputs go to (created at installation)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_config_settings__garden_production_location_id
+msgid "Virtual location harvests come from (created at installation)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_company__garden_production_location_id
+msgid ""
+"Virtual location harvests come from (stock entry of harvested products)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_res_company__garden_consumption_location_id
+msgid ""
+"Virtual location the inputs consumed by operations go to (seeds, "
+"fertilizers...)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__dar_override_user_id
+msgid "Waiver Granted by"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__dar_override_reason
+msgid "Waiver Reason"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_washing
+msgid "Washing"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__water_volume
+msgid "Water Volume (L)"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_irrigation
+msgid "Watering"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_loss__cause__weather
+msgid "Weather"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__weather_notes
+msgid "Weather Conditions"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__weather_notes
+msgid "Weather at the time of the treatment (treatment only)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__website_message_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__website_message_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_loss__website_message_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_operation__website_message_ids
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_season__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_bed__website_message_ids
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__website_message_ids
+#: model:ir.model.fields,help:odoo_garden.field_garden_loss__website_message_ids
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__website_message_ids
+#: model:ir.model.fields,help:odoo_garden.field_garden_season__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: odoo_garden
+#: model:garden.operation.type,name:odoo_garden.operation_type_weeding
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_operation_type__category__weeding
+msgid "Weeding"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_bed__width
+msgid "Width (m)"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_profitability_search
+msgid "With Revenue"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_operation_form
+msgid "Work"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_crop_form
+msgid "Work Allocated to the Crop"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop__labour_hours
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__hours
+msgid "Work Hours"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_time_statistics
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_time_statistics
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_time_graph
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_time_pivot
+msgid "Work Time"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop_template_step__category
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__category
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_allocation__category
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation_type__category
+msgid ""
+"Work category: it determines the specific fields of the operation (harvest, "
+"irrigation, treatment)."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_operation__duration
+msgid ""
+"Work duration in hours for each employee (hh:mm). Without detailed entry, "
+"the total time is the duration multiplied by the number of employees."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,help:odoo_garden.field_garden_crop__hours_gap
+msgid "Work hours - expected hours."
+msgstr ""
+
+#. module: odoo_garden
+#: model:res.groups,name:odoo_garden.group_garden_worker
+msgid "Worker"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_compliance.py:0
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_compliance_line__organic_allowed__yes
+msgid "Yes"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_crop_profitability__yield_per_m2
+msgid "Yield (kg/m²)"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_season_plan_wizard.py:0
+msgid "id"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
+msgid "input(s) not allowed in organic"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "kg N"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "kg N/ha"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_bed_label
+msgid "m²"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "per hour"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.res_config_settings_view_form_garden
+msgid "per m² per year"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "to"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_compliance_wizard_form
+msgid "used on an organic crop (red lines, \"Organic Alerts\" tab of the export)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "— crops:"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "— period:"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "— printed on"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.report_garden_compliance
+msgid "— season:"
+msgstr ""
+
+
