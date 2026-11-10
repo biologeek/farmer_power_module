@@ -302,12 +302,12 @@ class GardenCrop(models.Model):
     @api.depends('harvested_qty', 'lot_ids')
     def _compute_revenue(self):
         attribution = self.env['garden.revenue'].get_attribution(self)
-        extra = self.env['garden.revenue'].get_extra_entries(self)
+        extra = self.env['garden.revenue'].get_extra_totals(self)
         for crop in self:
             lines = attribution.get(crop.id, {})
-            entries = extra.get(crop.id, [])
-            crop.revenue = sum(lines.values()) + sum(entry['amount'] for entry in entries)
-            crop.sale_line_count = len(lines) + len(entries)
+            amount, count = extra.get(crop.id, (0.0, 0))
+            crop.revenue = sum(lines.values()) + amount
+            crop.sale_line_count = len(lines) + count
 
     @api.depends('revenue', 'labour_cost', 'input_cost', 'labour_hours', 'area', 'occupation_days')
     def _compute_margin(self):

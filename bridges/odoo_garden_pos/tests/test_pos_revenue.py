@@ -98,6 +98,37 @@ class TestGardenPosProrata(GardenPosCase):
 
 
 @tagged('post_install', '-at_install')
+class TestGardenPosTotals(GardenPosCase):
+    """The aggregated totals (used to compute the revenue of thousands of crops) must equal the entries."""
+
+    def _assert_totals_match_entries(self, crops, method):
+        Revenue = self.env['garden.revenue']
+        totals = Revenue.get_extra_totals(crops, method)
+        entries = Revenue.get_extra_entries(crops, method)
+        for crop in crops:
+            amount, count = totals.get(crop.id, (0.0, 0))
+            crop_entries = entries.get(crop.id, [])
+            self.assertEqual(count, len(crop_entries))
+            self.assertAlmostEqual(amount, sum(entry['amount'] for entry in crop_entries))
+
+    def test_prorata_totals_match_entries(self):
+        self._harvest(self.big, 30.0, date='2027-07-05')
+        self._harvest(self.small, 10.0, date='2027-07-25')
+        self._pos_order([(self.tomato, 8, 5.0)])
+        self._pos_order([(self.tomato, 3, 4.0), (self.tomato, -1, 4.0)], date='2027-07-22 10:00:00')
+        self._pos_order([(self.tomato, 5, 3.0)], date='2027-08-02 10:00:00')  # month without harvest
+        crops = self.big | self.small
+        self._assert_totals_match_entries(crops, 'prorata')
+        self.assertAlmostEqual(self.env['garden.revenue'].get_revenue(crops, 'prorata')[self.big.id], 48.0 * 0.75)
+
+    def test_lot_totals_match_entries(self):
+        self._harvest(self.big, 20.0, date='2027-07-05')
+        self._harvest(self.small, 5.0, date='2027-07-05')
+        self._pos_order([(self.tomato, 4, 5.0, [self.big.lot_ids.name, self.small.lot_ids.name, 'UNKNOWN'])])
+        self._assert_totals_match_entries(self.big | self.small, 'lot')
+
+
+@tagged('post_install', '-at_install')
 class TestGardenPosLot(GardenPosCase):
 
     @classmethod

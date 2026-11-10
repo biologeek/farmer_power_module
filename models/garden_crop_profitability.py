@@ -109,7 +109,15 @@ class GardenCropProfitability(models.Model):
     def _prepare_values(self, crops):
         """Valeurs des lignes de rentabilité des cultures (calculées en ``sudo``, en lot)."""
         values = {}
-        for crop in crops.sudo():
+        crops = crops.sudo()
+        # Le chiffre d'affaires est calculé en une seule passe pour toutes les cultures : l'ORM le calculerait sinon
+        # par blocs de 1 000 cultures, et chaque bloc relit les ventes (factures et point de vente).
+        stale = crops.filtered(lambda crop: not self.env.cache.contains(crop, crop._fields['revenue']))
+        if len(stale) > 1000:
+            revenue_fields = [crops._fields['revenue'], crops._fields['sale_line_count']]
+            with self.env.protecting(revenue_fields, stale):
+                stale._compute_revenue()
+        for crop in crops:
             bed = crop.bed_id
             hours, area = crop.labour_hours, crop.area
             lost = crop.loss_qty

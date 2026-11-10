@@ -66,11 +66,26 @@ class GardenRevenue(models.AbstractModel):
         return {crop.id: [] for crop in crops}
 
     @api.model
-    def get_revenue(self, crops, method=None):
-        """Chiffre d'affaires par culture : ``{id de culture: montant}`` (factures et ventes des passerelles)."""
+    def get_extra_totals(self, crops, method=None):
+        """Version agrégée de ``get_extra_entries`` : ``{id de culture: (montant total, nombre de lignes)}``.
+
+        Les passerelles peuvent la surcharger pour éviter de construire le détail de chaque entrée quand
+        seuls les totaux sont utiles (calcul du chiffre d'affaires de milliers de cultures). Une passerelle qui
+        surcharge ``get_extra_entries`` doit donc aussi surcharger cette méthode, sans quoi le défaut ci-dessous
+        reconstruit les totaux à partir des entrées (correct, mais lent).
+        """
         extra = self.get_extra_entries(crops, method)
         return {
-            crop_id: sum(lines.values()) + sum(entry['amount'] for entry in extra.get(crop_id, []))
+            crop_id: (sum(entry['amount'] for entry in entries), len(entries))
+            for crop_id, entries in extra.items()
+        }
+
+    @api.model
+    def get_revenue(self, crops, method=None):
+        """Chiffre d'affaires par culture : ``{id de culture: montant}`` (factures et ventes des passerelles)."""
+        extra = self.get_extra_totals(crops, method)
+        return {
+            crop_id: sum(lines.values()) + extra.get(crop_id, (0.0, 0))[0]
             for crop_id, lines in self.get_attribution(crops, method).items()
         }
 
