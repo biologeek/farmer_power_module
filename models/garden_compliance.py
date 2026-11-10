@@ -1,4 +1,5 @@
 import io
+from collections import defaultdict
 from datetime import date
 
 from odoo import api, fields, models
@@ -251,23 +252,58 @@ class GardenComplianceWizard(models.TransientModel):
         return vals_list
 
     def _get_organic_seed_rows(self):
-        """Origine et statut des semences, par culture (traçabilité amont de la phase 4)."""
+        """Origine et statut des semences, par culture (traçabilité amont de la phase 4).
+
+        Même résultat que ``garden.traceability`` culture par culture (opérations faites, intrants de
+        semis, plantation ou repiquage, lots de semence et leur réception), mais calculé en quelques
+        recherches groupées pour toutes les cultures : le coût ne dépend plus du nombre de cultures.
+        """
         self.ensure_one()
-        crops = self.crop_ids | self.line_ids.crop_id
+        crops = (self.crop_ids | self.line_ids.crop_id).sudo()
         status_labels = dict(self.env['garden.variety']._fields['organic_status'].selection)
+        crop_ids = set(crops.ids)
+        SEED_CATEGORIES = ('sowing', 'transplanting', 'planting')
+        SEED_TYPES = ('seed', 'plant')
+        seed_inputs = self.env['garden.operation.input'].sudo().search([
+            ('operation_id.state', '=', 'done'), ('operation_id.category', 'in', SEED_CATEGORIES),
+            ('garden_input_type', 'in', SEED_TYPES),
+            '|', ('operation_id.crop_ids', 'in', crops.ids), ('operation_id.allocation_ids.crop_id', 'in', crops.ids),
+        ])
+        # intrants de semence par culture, dans l'ordre des opérations (date, id) puis des lignes
+        by_crop = defaultdict(list)
+        for line in seed_inputs.sorted(lambda i: (i.operation_id.date or date.min, i.operation_id.id, i.sequence, i.id)):
+            operation = line.operation_id
+            for crop_id in (set(operation.crop_ids.ids) | set(operation.allocation_ids.crop_id.ids)) & crop_ids:
+                by_crop[crop_id].append(line)
+        # réceptions fournisseur des lots de semence, groupées par lot
+        receipts_by_lot = defaultdict(list)
+        seed_lots = seed_inputs.lot_id
+        if seed_lots:
+            for move_line in self.env['stock.move.line'].sudo().search([
+                ('lot_id', 'in', seed_lots.ids), ('state', '=', 'done'), ('location_id.usage', '=', 'supplier'),
+            ], order='date, id'):
+                receipts_by_lot[move_line.lot_id.id].append(move_line)
         rows = []
-        for crop in crops.sudo().sorted(lambda c: (c.season_id.name or '', c.name)):
-            trace = self.env['garden.traceability'].sudo().new({'crop_id': crop.id})
+        for crop in crops.sorted(lambda c: (c.season_id.name or '', c.name)):
             variety = crop.variety_id
-            receipts = trace.seed_receipt_line_ids
+            inputs = by_crop.get(crop.id, [])
+            lots = []
+            for line in inputs:
+                if line.lot_id and line.lot_id not in lots:
+                    lots.append(line.lot_id)
+            receipts = sorted((r for lot in lots for r in receipts_by_lot.get(lot.id, [])), key=lambda r: (r.date, r.id))
+            products = []
+            for line in inputs:
+                if line.product_id.display_name not in products:
+                    products.append(line.product_id.display_name)
             rows.append([
                 crop.name, crop.season_id.name or '', crop.bed_id.name or '', crop.species_id.name or '',
                 variety.name or '', status_labels.get(variety.organic_status, ''),
                 variety.supplier_id.name or '',
-                ", ".join(trace.seed_input_ids.product_id.mapped('display_name')),
-                ", ".join(trace.seed_lot_ids.mapped('name')),
-                ", ".join(sorted({p.name for p in receipts.picking_id.partner_id})),
-                receipts[:1].date.date() if receipts[:1].date else '',
+                ", ".join(products),
+                ", ".join(lot.name for lot in lots),
+                ", ".join(sorted({r.picking_id.partner_id.name for r in receipts if r.picking_id.partner_id})),
+                receipts[0].date.date() if receipts and receipts[0].date else '',
             ])
         return rows
 

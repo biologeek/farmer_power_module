@@ -1,3 +1,4 @@
+from collections import defaultdict
 from urllib.parse import quote
 
 from odoo import api, fields, models
@@ -186,8 +187,11 @@ class GardenBed(models.Model):
         groups = {}
         all_dates = []
         used_families = {}
+        crops_by_bed = defaultdict(list)
+        for crop in crops:
+            crops_by_bed[crop.bed_id.id].append(crop)
         for bed in beds:
-            items = [crop_data(crop) for crop in crops.filtered(lambda c: c.bed_id == bed)]
+            items = [crop_data(crop) for crop in crops_by_bed.get(bed.id, [])]
             lanes = assign_lanes(items)
             for item in items:
                 if item['_span']:
