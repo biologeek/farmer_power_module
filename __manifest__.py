@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Farmer Power',
-    'version': '19.0.1.8.0',
+    'version': '19.0.2.0.0',
     'category': 'Agriculture',
     'summary': 'Market gardening for Odoo: farms, beds, crop templates, crop plan, operations and labor, stock, profitability and French regulatory registers.',
     # TODO before publication (see README, "To be defined before publication"): publisher, website, price.
