@@ -1,0 +1,65 @@
+Base : 8309 cultures, 95964 opérations, 1176 planches
+
+dashboard occupation 2027                                          0.23s      31 req  4
+dashboard occupation 2025                                          0.21s      19 req  4
+dashboard crops 2027                                               0.07s      15 req  7
+dashboard crops 2025                                               0.06s      10 req  7
+dashboard work 2027                                                0.93s     107 req  7
+dashboard work 2025                                                0.84s      93 req  7
+dashboard finance 2027                                             7.45s     275 req  2
+dashboard finance 2025                                             6.96s     261 req  6
+dashboard years 2027                                             145.34s     242 req  8
+rentabilité : refresh() complet (création initiale)               31.00s     291 req  8309
+rentabilité : refresh() sans changement                           29.43s     286 req  8309
+rentabilité : get_dashboard_data()                               170.37s     295 req  6
+rentabilité : liste (80 premières lignes)                          0.03s      15 req  80
+rentabilité : groupement par saison                                0.01s       1 req  5
+chiffre d'affaires, méthode prorata, 8309 cultures               122.88s     229 req  8309
+chiffre d'affaires, méthode lot, 8309 cultures                     0.54s      31 req  8309
+chiffre d'affaires, 1 culture (prorata)                            0.23s      10 req  1
+Gantt occupation : toutes les planches/saisons                    17.79s    2517 req  1176
+Gantt occupation : saison 2027                                     5.29s    3833 req  1176
+Gantt occupation : saison 2027 + 1 site                            0.84s    1151 req  294
+besoins en semences : toutes cultures                              0.01s       2 req  135
+besoins en semences : saison 2027                                  0.00s       2 req  135
+registre phyto 2027 : calcul                                       0.41s      43 req  1264
+registre phyto 2023-2027 : calcul                                  1.74s     129 req  6173
+registre phyto 2023-2027 : calcul + export XLSX (octets)           3.89s     300 req  385066
+registre fertilization 2027 : calcul                               0.31s      33 req  1260
+registre fertilization 2023-2027 : calcul                          1.53s     109 req  6141
+registre fertilization 2023-2027 : calcul + export XLSX (octets)     3.60s     250 req  438222
+registre organic 2027 : calcul                                     0.88s      74 req  4199
+registre organic 2023-2027 : calcul                                4.44s     310 req  20623
+registre organic 2023-2027 : calcul + export XLSX (octets)      1112.59s   33955 req  1184337
+liste cultures : 80 lignes (champs stockés + calculés)             1.34s     107 req  80
+liste cultures : recherche texte « 27- »                           0.01s       1 req  80
+liste cultures : regroupement par saison/état                      0.00s       1 req  6
+liste opérations : 80 lignes                                       0.00s       2 req  80
+liste opérations : regroupement par type                           0.02s       1 req  8
+« Ma journée » : opérations planifiées d'un employé                0.01s       9 req  0
+formulaire d'une culture récoltée (champs calculés)                0.37s      54 req  78
+traçabilité d'un lot                                               0.01s       5 req  6
+création d'une culture sans nom (calcul automatique du nom)        0.02s      15 req  1
+opération « îlot » faite (302 cultures dans l'îlot)                0.08s      85 req  1
+récolte faite sur une culture (mouvement de stock + lot)           0.06s      53 req  1
+changement du taux horaire par défaut (recalcul de tous les coûts)     0.65s       8 req  1
+
+Mémoire max du processus : 709 Mo
+
+Lentes (> 1 s) :
+  1112.59s   33955 req  registre organic 2023-2027 : calcul + export XLSX (octets)
+   170.37s     295 req  rentabilité : get_dashboard_data()
+   145.34s     242 req  dashboard years 2027
+   122.88s     229 req  chiffre d'affaires, méthode prorata, 8309 cultures
+    31.00s     291 req  rentabilité : refresh() complet (création initiale)
+    29.43s     286 req  rentabilité : refresh() sans changement
+    17.79s    2517 req  Gantt occupation : toutes les planches/saisons
+     7.45s     275 req  dashboard finance 2027
+     6.96s     261 req  dashboard finance 2025
+     5.29s    3833 req  Gantt occupation : saison 2027
+     4.44s     310 req  registre organic 2023-2027 : calcul
+     3.89s     300 req  registre phyto 2023-2027 : calcul + export XLSX (octets)
+     3.60s     250 req  registre fertilization 2023-2027 : calcul + export XLSX (octets)
+     1.74s     129 req  registre phyto 2023-2027 : calcul
+     1.53s     109 req  registre fertilization 2023-2027 : calcul
+     1.34s     107 req  liste cultures : 80 lignes (champs stockés + calculés)
