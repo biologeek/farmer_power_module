@@ -1,2 +1,2 @@
-from . import odoo_garden
+from . import farmer_power
 from . import garden_compliance

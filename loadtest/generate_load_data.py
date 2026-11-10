@@ -1,9 +1,9 @@
-"""Générateur de données de charge pour Farmer Power (odoo_garden).
+"""Générateur de données de charge pour Farmer Power (farmer_power).
 
 Usage (depuis le dossier qui contient odoo/ et odoo.conf) :
 
     LOAD_SCALE=0.02 ./odoo-venv/bin/python odoo/odoo-bin shell -c odoo.conf -d farmer_power_load \
-        --no-http < custom_addons/odoo_garden/loadtest/generate_load_data.py
+        --no-http < custom_addons/farmer_power/loadtest/generate_load_data.py
 
 LOAD_SCALE : 1.0 = « grosse exploitation » (~1 200 planches, ~10 000 cultures, ~100 000 opérations,
 ~6 000 factures, ~40 000 commandes PdV). 0.02 = test de fumée. LOAD_STEPS limite les étapes
@@ -105,7 +105,7 @@ if 'catalog' in STEPS and not env['garden.variety'].search([('name', 'like', 'LO
                 'name': 'LOAD %s %d' % (sp.name, k), 'species_id': sp.id, 'harvest_product_id': hp.id,
                 'germination_rate': rnd.choice([80, 90, 95]),
             })
-    steps_cat = [(ref('odoo_garden.operation_type_%s' % c).id, o, h) for c, o, h in [
+    steps_cat = [(ref('farmer_power.operation_type_%s' % c).id, o, h) for c, o, h in [
         ('sowing', 0, 0.02), ('weeding', 25, 0.01), ('fertilization', 20, 0.005), ('harvest', 70, 0.03)]]
     templates = env['garden.crop.template']
     for v in varieties:
@@ -146,7 +146,7 @@ customers = env['res.partner'].search([('name', 'like', 'LOAD Customer%')])
 fert = env['product.product'].search([('name', 'like', 'LOAD Fertilizer%')])
 phyto = env['product.product'].search([('name', 'like', 'LOAD Treatment%')])
 seeds = env['product.product'].search([('name', 'like', 'LOAD Seed%')])
-OP = lambda c: ref('odoo_garden.operation_type_%s' % c)  # noqa: E731
+OP = lambda c: ref('farmer_power.operation_type_%s' % c)  # noqa: E731
 kg = ref('uom.product_uom_kgm')
 
 # ---------------------------------------------------------------------------------------------------------

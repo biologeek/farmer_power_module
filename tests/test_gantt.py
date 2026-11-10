@@ -61,7 +61,7 @@ class TestGardenGanttData(GardenPlanningCase):
     def test_calendar_view(self):
         view = self.env['garden.crop'].get_views([(False, 'calendar')])
         self.assertIn('calendar', view['views'])
-        action = self.env.ref('odoo_garden.action_garden_crop_calendar')
+        action = self.env.ref('farmer_power.action_garden_crop_calendar')
         self.assertTrue(action.view_mode.startswith('calendar'))
 
 
@@ -82,7 +82,7 @@ class TestGardenGanttTour(HttpCase, GardenPlanningCase):
             'template_id': template.id, 'bed_id': self.bed.id, 'season_id': season.id,
             'planned_sowing_date': '2027-03-01', 'date_start': '2027-03-05', 'date_end': '2027-06-30',
         })
-        self.start_tour('/odoo/action-odoo_garden.action_garden_bed_occupancy', 'garden_gantt_tour', login='admin')
+        self.start_tour('/odoo/action-farmer_power.action_garden_bed_occupancy', 'garden_gantt_tour', login='admin')
 
 
 @tagged('post_install', '-at_install')
@@ -100,7 +100,7 @@ class TestGardenMyDayTour(HttpCase):
             self.env['hr.employee'].create({'name': 'Admin tour', 'user_id': admin.id})
         operation = self.env['garden.operation'].create({
             'name': 'Weeding - Tour',
-            'type_id': self.env.ref('odoo_garden.operation_type_weeding').id,
+            'type_id': self.env.ref('farmer_power.operation_type_weeding').id,
             'scope': 'bed', 'bed_ids': [(6, 0, bed.ids)],
             # Le filtre « Du jour et en retard » compare à la date du navigateur (fuseau du processus de test,
             # UTC), alors que context_today() suit le fuseau de l'utilisateur (Europe/Brussels avec la démo) :
@@ -109,7 +109,7 @@ class TestGardenMyDayTour(HttpCase):
             'planned_date': fields.Date.today() - timedelta(days=2),
             'employee_ids': [(6, 0, employee.ids)], 'duration': 1.0,
         })
-        self.start_tour('/odoo/action-odoo_garden.action_garden_operation_today', 'garden_my_day_tour', login='admin')
+        self.start_tour('/odoo/action-farmer_power.action_garden_operation_today', 'garden_my_day_tour', login='admin')
         operation.invalidate_recordset()
         self.assertEqual(operation.state, 'done')
         self.assertFalse(operation.timer_start)
@@ -132,7 +132,7 @@ class TestGardenDashboardTour(HttpCase):
             'template_id': template.id, 'bed_id': bed.id, 'planned_sowing_date': '2027-03-01',
         })
         self.env['garden.operation'].create({
-            'type_id': self.env.ref('odoo_garden.operation_type_weeding').id,
+            'type_id': self.env.ref('farmer_power.operation_type_weeding').id,
             'crop_ids': [(6, 0, crop.ids)], 'duration': 2.0, 'date': '2027-04-01', 'state': 'done',
         })
-        self.start_tour('/odoo/action-odoo_garden.action_garden_dashboard', 'garden_dashboard_tour', login='admin')
+        self.start_tour('/odoo/action-farmer_power.action_garden_dashboard', 'garden_dashboard_tour', login='admin')

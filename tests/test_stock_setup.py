@@ -9,8 +9,8 @@ class TestGardenStockSetup(TransactionCase):
         company = self.env.ref('base.main_company')
         production = company.garden_production_location_id
         consumption = company.garden_consumption_location_id
-        self.assertEqual(production, self.env.ref('odoo_garden.stock_location_garden_production'))
-        self.assertEqual(consumption, self.env.ref('odoo_garden.stock_location_garden_consumption'))
+        self.assertEqual(production, self.env.ref('farmer_power.stock_location_garden_production'))
+        self.assertEqual(consumption, self.env.ref('farmer_power.stock_location_garden_consumption'))
         self.assertEqual((production.usage, consumption.usage), ('production', 'production'))
         self.assertEqual(production.company_id, company)
         self.assertNotEqual(production, consumption)

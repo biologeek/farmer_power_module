@@ -17,8 +17,8 @@
         <field name="name">Regulatory Register</field>
         <field name="model">garden.compliance.wizard</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">odoo_garden.report_garden_compliance</field>
-        <field name="report_file">odoo_garden.report_garden_compliance</field>
+        <field name="report_name">farmer_power.report_garden_compliance</field>
+        <field name="report_file">farmer_power.report_garden_compliance</field>
         <field name="print_report_name">'Register-%s' % object.register</field>
         <field name="paperformat_id" ref="paperformat_garden_compliance"/>
     </record>

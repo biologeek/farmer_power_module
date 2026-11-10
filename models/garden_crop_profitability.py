@@ -188,7 +188,7 @@ class GardenCropProfitability(models.Model):
         self.refresh()
 
     @api.model
-    def action_open(self, xmlid='odoo_garden.action_garden_profitability'):
+    def action_open(self, xmlid='farmer_power.action_garden_profitability'):
         """Actualise le rapport puis ouvre l'action donnée (menus Rentabilité)."""
         self.refresh()
         return self.env['ir.actions.act_window']._for_xml_id(xmlid)

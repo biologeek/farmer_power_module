@@ -14,9 +14,9 @@ class TestGardenAnalytics(GardenRevenueCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.manager = new_test_user(cls.env, login='garden_analytics_manager', groups='odoo_garden.group_garden_manager')
-        cls.chef = new_test_user(cls.env, login='garden_analytics_chef', groups='odoo_garden.group_garden_chef')
-        cls.worker = new_test_user(cls.env, login='garden_analytics_worker', groups='odoo_garden.group_garden_worker')
+        cls.manager = new_test_user(cls.env, login='garden_analytics_manager', groups='farmer_power.group_garden_manager')
+        cls.chef = new_test_user(cls.env, login='garden_analytics_chef', groups='farmer_power.group_garden_chef')
+        cls.worker = new_test_user(cls.env, login='garden_analytics_worker', groups='farmer_power.group_garden_worker')
         cls.Analytics = cls.env['garden.analytics']
         cls.Profit = cls.env['garden.crop.profitability']
 
@@ -124,10 +124,10 @@ class TestGardenAnalyticsTours(HttpCase):
             'template_id': template.id, 'bed_id': bed.id, 'planned_sowing_date': '2027-03-01',
         })
         self.env['garden.operation'].create({
-            'type_id': self.env.ref('odoo_garden.operation_type_weeding').id,
+            'type_id': self.env.ref('farmer_power.operation_type_weeding').id,
             'crop_ids': [(6, 0, crop.ids)], 'duration': 2.0, 'date': '2027-04-01', 'state': 'done',
         })
         for theme in THEMES:
             self.start_tour(
-                '/odoo/action-odoo_garden.action_garden_analytics_%s' % theme, 'garden_analytics_tour', login='admin',
+                '/odoo/action-farmer_power.action_garden_analytics_%s' % theme, 'garden_analytics_tour', login='admin',
             )

@@ -22,8 +22,8 @@ class GardenStockCase(GardenOperationCase):
         cls._set_stock(cls.fertilizer, 100)
         cls.seed_lot = cls.env['stock.lot'].create({'name': 'SEM-001', 'product_id': cls.seed.id})
         cls._set_stock(cls.seed, 50, cls.seed_lot)
-        cls.worker = new_test_user(cls.env, login='garden_stock_worker', groups='odoo_garden.group_garden_worker')
-        cls.chef = new_test_user(cls.env, login='garden_stock_chef', groups='odoo_garden.group_garden_chef')
+        cls.worker = new_test_user(cls.env, login='garden_stock_worker', groups='farmer_power.group_garden_worker')
+        cls.chef = new_test_user(cls.env, login='garden_stock_chef', groups='farmer_power.group_garden_chef')
 
     @classmethod
     def _storable(cls, name, **vals):
@@ -260,7 +260,7 @@ class TestGardenInputs(GardenStockCase):
         self.assertTrue(as_worker.input_ids.read(['quantity', 'product_id']))
         for model in ('garden.operation', 'garden.operation.input', 'garden.operation.allocation', 'garden.crop'):
             self.assertFalse({'input_cost', 'cost', 'unit_cost'} & set(self.env[model].with_user(self.worker).fields_get()))
-        arch = as_worker.get_view(as_worker.env.ref('odoo_garden.view_garden_operation_form').id)['arch']
+        arch = as_worker.get_view(as_worker.env.ref('farmer_power.view_garden_operation_form').id)['arch']
         self.assertNotIn('input_cost', arch)
         self.assertNotIn('unit_cost', arch)
         as_chef = operation.with_user(self.chef)

@@ -13,8 +13,8 @@
                 <field name="employee_ids" widget="many2many_tags" optional="show"/>
                 <field name="duration" widget="float_time" optional="show"/>
                 <field name="total_hours" widget="float_time" optional="show" sum="Total"/>
-                <field name="labour_cost" optional="show" sum="Total" groups="odoo_garden.group_garden_chef"/>
-                <field name="input_cost" optional="hide" sum="Total" groups="odoo_garden.group_garden_chef"/>
+                <field name="labour_cost" optional="show" sum="Total" groups="farmer_power.group_garden_chef"/>
+                <field name="input_cost" optional="hide" sum="Total" groups="farmer_power.group_garden_chef"/>
                 <field name="company_id" groups="base.group_multi_company" optional="hide"/>
                 <field name="state" widget="badge"
                        decoration-info="state in ('planned', 'in_progress')" decoration-success="state == 'done'"
@@ -82,14 +82,14 @@
                                 </group>
                                 <group>
                                     <field name="total_hours" widget="float_time"/>
-                                    <field name="labour_cost" groups="odoo_garden.group_garden_chef"/>
+                                    <field name="labour_cost" groups="farmer_power.group_garden_chef"/>
                                 </group>
                             </group>
                             <field name="worker_ids" nolabel="1" placeholder="Detailed time entry per employee (optional)">
                                 <list editable="bottom">
                                     <field name="employee_id" options="{'no_create': True}"/>
                                     <field name="duration" widget="float_time"/>
-                                    <field name="labour_cost" groups="odoo_garden.group_garden_chef" sum="Total"/>
+                                    <field name="labour_cost" groups="farmer_power.group_garden_chef" sum="Total"/>
                                 </list>
                             </field>
                         </page>
@@ -106,13 +106,13 @@
                                     <field name="tracking" column_invisible="True"/>
                                     <field name="lot_id" required="tracking != 'none'" invisible="tracking == 'none'"
                                            options="{'no_create': True}"/>
-                                    <field name="unit_cost" groups="odoo_garden.group_garden_chef" optional="show"/>
-                                    <field name="cost" groups="odoo_garden.group_garden_chef" sum="Total"/>
+                                    <field name="unit_cost" groups="farmer_power.group_garden_chef" optional="show"/>
+                                    <field name="cost" groups="farmer_power.group_garden_chef" sum="Total"/>
                                     <field name="consumed" optional="show"/>
                                 </list>
                             </field>
                             <group invisible="not input_ids">
-                                <field name="input_cost" groups="odoo_garden.group_garden_chef"/>
+                                <field name="input_cost" groups="farmer_power.group_garden_chef"/>
                             </group>
                         </page>
                         <page string="Harvest" name="harvest" invisible="category != 'harvest'">
@@ -124,7 +124,7 @@
                                     <field name="harvest_uom_id" options="{'no_create': True}"/>
                                 </div>
                             </group>
-                            <group string="Pre-Harvest Interval Waiver" groups="odoo_garden.group_garden_manager">
+                            <group string="Pre-Harvest Interval Waiver" groups="farmer_power.group_garden_manager">
                                 <field name="dar_override" readonly="state == 'done'"/>
                                 <field name="dar_override_reason" invisible="not dar_override"
                                        required="dar_override" readonly="state == 'done'"/>
@@ -149,8 +149,8 @@
                                     <field name="bed_id"/>
                                     <field name="share"/>
                                     <field name="hours" widget="float_time" sum="Total"/>
-                                    <field name="labour_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
-                                    <field name="input_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
+                                    <field name="labour_cost" sum="Total" groups="farmer_power.group_garden_chef"/>
+                                    <field name="input_cost" sum="Total" groups="farmer_power.group_garden_chef"/>
                                 </list>
                             </field>
                         </page>

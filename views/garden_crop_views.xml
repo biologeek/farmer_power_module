@@ -52,7 +52,7 @@
                             <field name="harvested_qty" widget="statinfo" string="Harvested (kg)"/>
                         </button>
                         <button name="action_view_sales" type="object" class="oe_stat_button" icon="fa-money"
-                                groups="odoo_garden.group_garden_chef">
+                                groups="farmer_power.group_garden_chef">
                             <field name="sale_line_count" widget="statinfo" string="Sales"/>
                         </button>
                         <button name="action_view_losses" type="object" class="oe_stat_button" icon="fa-trash-o">
@@ -125,8 +125,8 @@
                                     <field name="loss_qty"/>
                                     <field name="loss_rate" widget="percentage"/>
                                     <field name="labour_hours" widget="float_time"/>
-                                    <field name="labour_cost" groups="odoo_garden.group_garden_chef"/>
-                                    <field name="input_cost" groups="odoo_garden.group_garden_chef"/>
+                                    <field name="labour_cost" groups="farmer_power.group_garden_chef"/>
+                                    <field name="input_cost" groups="farmer_power.group_garden_chef"/>
                                 </group>
                             </group>
                         </page>
@@ -151,8 +151,8 @@
                                     <field name="date"/>
                                     <field name="share"/>
                                     <field name="hours" widget="float_time" sum="Total"/>
-                                    <field name="labour_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
-                                    <field name="input_cost" sum="Total" groups="odoo_garden.group_garden_chef"/>
+                                    <field name="labour_cost" sum="Total" groups="farmer_power.group_garden_chef"/>
+                                    <field name="input_cost" sum="Total" groups="farmer_power.group_garden_chef"/>
                                 </list>
                             </field>
                         </page>
@@ -177,7 +177,7 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Profitability" name="profitability" groups="odoo_garden.group_garden_chef">
+                        <page string="Profitability" name="profitability" groups="farmer_power.group_garden_chef">
                             <group>
                                 <group string="Actual" name="profit_actual">
                                     <field name="labour_hours" widget="float_time"/>

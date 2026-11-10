@@ -137,10 +137,10 @@ class TestGardenLoss(GardenHarvestCase):
         self.assertTrue(loss1.with_user(self.chef).search([('id', '=', loss1.id)]))
 
     def test_views_and_action(self):
-        action = self.env.ref('odoo_garden.action_garden_loss')
+        action = self.env.ref('farmer_power.action_garden_loss')
         self.assertEqual(action.res_model, 'garden.loss')
         for view in ('list', 'form', 'pivot', 'search'):
-            self.assertTrue(self.env.ref('odoo_garden.view_garden_loss_%s' % ('tree' if view == 'list' else view)))
+            self.assertTrue(self.env.ref('farmer_power.view_garden_loss_%s' % ('tree' if view == 'list' else view)))
         crop = self._crop(planned_sowing_date='2027-03-01')
         act = crop.action_view_losses()
         self.assertEqual(act['domain'], [('crop_id', '=', crop.id)])

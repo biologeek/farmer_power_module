@@ -1,6 +1,6 @@
 # Farmer Power — Support
 
-Farmer Power est un module Odoo 19 de gestion de maraîchage (`odoo_garden`). Cette page décrit ce que vous pouvez
+Farmer Power est un module Odoo 19 de gestion de maraîchage (`farmer_power`). Cette page décrit ce que vous pouvez
 attendre du support et comment nous joindre.
 
 ## Ce que le support vous apporte

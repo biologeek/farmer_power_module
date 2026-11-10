@@ -19,7 +19,7 @@ class GardenOperationWorker(models.Model):
     duration = fields.Float('Duration', help='Time spent by this employee, in hours (hh:mm).')
     labour_cost = fields.Float(
         'Labor Cost', compute='_compute_labour_cost', store=True, digits='Product Price',
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Duration × hourly cost of the employee (otherwise, default hourly rate).',
     )
 

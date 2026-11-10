@@ -42,8 +42,8 @@ class TestGardenCatalog(TransactionCase):
         self.assertEqual(template.density, 0.0)
 
     def test_template_steps(self):
-        sowing = self.env.ref('odoo_garden.operation_type_sowing')
-        harvest = self.env.ref('odoo_garden.operation_type_harvest')
+        sowing = self.env.ref('farmer_power.operation_type_sowing')
+        harvest = self.env.ref('farmer_power.operation_type_harvest')
         template = self.env['garden.crop.template'].create({
             'name': 'Template', 'variety_id': self.variety.id,
             'step_ids': [
@@ -87,24 +87,24 @@ class TestGardenProductionCatalog(TransactionCase):
     """Catalogue livré à l'installation (hors démonstration) : espèces, produits récoltés, intrants, types."""
 
     def test_species_are_complete_and_consistent(self):
-        self.assertEqual(self.env.ref('odoo_garden.species_leek').family, 'amaryllidaceae')
-        self.assertTrue(self.env.ref('odoo_garden.species_lambs_lettuce'))
+        self.assertEqual(self.env.ref('farmer_power.species_leek').family, 'amaryllidaceae')
+        self.assertTrue(self.env.ref('farmer_power.species_lambs_lettuce'))
         self.assertGreaterEqual(self.env['garden.species'].search_count([]), 50)
 
     def test_harvest_products_are_lot_tracked_in_kg(self):
-        product = self.env.ref('odoo_garden.product_harvest_tomato')
+        product = self.env.ref('farmer_power.product_harvest_tomato')
         self.assertEqual(product.tracking, 'lot')
         self.assertEqual(product.uom_id, self.env.ref('uom.product_uom_kgm'))
         self.assertFalse(product.purchase_ok)
 
     def test_inputs_have_a_garden_type_and_no_phytosanitary(self):
         inputs = self.env['product.template'].browse(self.env['ir.model.data'].search([
-            ('module', '=', 'odoo_garden'), ('model', '=', 'product.template'), ('name', '=like', 'product_input_%'),
+            ('module', '=', 'farmer_power'), ('model', '=', 'product.template'), ('name', '=like', 'product_input_%'),
         ]).mapped('res_id'))
         self.assertTrue(inputs)
         self.assertTrue(all(inputs.mapped('garden_input_type')))
         self.assertNotIn('phytosanitary', inputs.mapped('garden_input_type'))
-        self.assertEqual(self.env.ref('odoo_garden.product_input_horn_meal').nitrogen_content, 13)
+        self.assertEqual(self.env.ref('farmer_power.product_input_horn_meal').nitrogen_content, 13)
 
     def test_operation_types_cover_all_categories(self):
         types = self.env['garden.operation.type'].search([])
@@ -113,4 +113,4 @@ class TestGardenProductionCatalog(TransactionCase):
             'soil_preparation', 'sowing', 'transplanting', 'planting', 'irrigation', 'weeding', 'fertilization',
             'treatment', 'mulching', 'harvest', 'post_harvest', 'other',
         })
-        self.assertEqual(self.env.ref('odoo_garden.operation_type_hilling').default_scope, 'crop')
+        self.assertEqual(self.env.ref('farmer_power.operation_type_hilling').default_scope, 'crop')

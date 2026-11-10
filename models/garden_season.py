@@ -61,7 +61,7 @@ class GardenSeason(models.Model):
 
     def action_view_crops(self):
         self.ensure_one()
-        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_crop')
+        action = self.env['ir.actions.act_window']._for_xml_id('farmer_power.action_garden_crop')
         action['domain'] = [('season_id', '=', self.id)]
         action['context'] = {'default_season_id': self.id}
         return action

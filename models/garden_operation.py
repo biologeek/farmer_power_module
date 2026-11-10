@@ -96,7 +96,7 @@ class GardenOperation(models.Model):
     )
     labour_cost = fields.Float(
         'Labor Cost', compute='_compute_labour_cost', store=True, digits='Product Price',
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Sum of duration × hourly cost of each employee; without an hourly cost on the employee (or '
              'without employee), the default hourly rate of the settings applies.',
     )
@@ -125,12 +125,12 @@ class GardenOperation(models.Model):
     )
     input_cost = fields.Float(
         'Input Cost', compute='_compute_input_cost', store=True, digits='Product Price',
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Sum of the input cost (quantity × product cost).',
     )
     move_ids = fields.One2many(
         'stock.move', 'garden_operation_id', string='Stock Moves', readonly=True,
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Consumption and harvest moves created by the operation, with their cancellations.',
     )
 
@@ -153,17 +153,17 @@ class GardenOperation(models.Model):
 
     # Délai avant récolte (DAR, phase 6)
     dar_override = fields.Boolean(
-        'Pre-Harvest Interval Waiver', copy=False, tracking=True, groups='odoo_garden.group_garden_manager',
+        'Pre-Harvest Interval Waiver', copy=False, tracking=True, groups='farmer_power.group_garden_manager',
         help='Ticked by the manager to allow a harvest before the end of the pre-harvest interval (PHI) of a '
              'plant protection treatment. A reason is required; the waiver is traced in the chatter.',
     )
     dar_override_reason = fields.Char(
-        'Waiver Reason', copy=False, tracking=True, groups='odoo_garden.group_garden_manager',
+        'Waiver Reason', copy=False, tracking=True, groups='farmer_power.group_garden_manager',
         help='Justification of the pre-harvest interval waiver (required when it is ticked).',
     )
     dar_override_user_id = fields.Many2one(
         'res.users', string='Waiver Granted by', copy=False, readonly=True,
-        groups='odoo_garden.group_garden_manager',
+        groups='farmer_power.group_garden_manager',
         help='Manager who ticked the pre-harvest interval waiver.',
     )
     dar_warning = fields.Text(
@@ -178,8 +178,8 @@ class GardenOperation(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _get_default_hourly_rate(self):
-        """Taux horaire par défaut (paramètre système ``odoo_garden.default_hourly_rate``, défaut 15)."""
-        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.default_hourly_rate', '15')
+        """Taux horaire par défaut (paramètre système ``farmer_power.default_hourly_rate``, défaut 15)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('farmer_power.default_hourly_rate', '15')
         try:
             return float(value)
         except ValueError:

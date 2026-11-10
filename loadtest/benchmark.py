@@ -1,7 +1,7 @@
 """Mesures de charge de Farmer Power sur la base farmer_power_load.
 
     ./odoo-venv/bin/python odoo/odoo-bin shell -c odoo.conf -d farmer_power_load --db-filter=^farmer_power_load$ \
-        --no-http < custom_addons/odoo_garden/loadtest/benchmark.py
+        --no-http < custom_addons/farmer_power/loadtest/benchmark.py
 
 Chaque mesure : temps réel, nombre de requêtes SQL, nombre de lignes. Exécuté en administrateur (droits gérant).
 Les écritures de mesure sont annulées (rollback) : la base n'est pas modifiée.
@@ -19,7 +19,7 @@ results = []
 
 env = api.Environment(env.cr, 2, dict(env.context, tracking_disable=True))  # noqa: F821 (admin)
 admin = env.user
-mgr = env.ref('odoo_garden.group_garden_manager')
+mgr = env.ref('farmer_power.group_garden_manager')
 if mgr not in admin.group_ids:
     admin.write({'group_ids': [Command.link(mgr.id)]})
 env.cr.commit()
@@ -124,11 +124,11 @@ measure('création d\'une culture sans nom (calcul automatique du nom)', lambda:
 garden = env['garden.garden'].search([], limit=1)
 n_in_garden = Crop.search_count([('bed_id.garden_id', '=', garden.id), ('state', '!=', 'cancelled')])
 measure('opération « îlot » faite (%d cultures dans l\'îlot)' % n_in_garden, lambda: Op.create({
-    'type_id': env.ref('odoo_garden.operation_type_irrigation').id, 'scope': 'garden', 'garden_id': garden.id,
+    'type_id': env.ref('farmer_power.operation_type_irrigation').id, 'scope': 'garden', 'garden_id': garden.id,
     'planned_date': '2027-06-01', 'date': '2027-06-01', 'state': 'done', 'duration': 2.0}).id and 1)
 crop_h = Crop.search([('state', '=', 'harvesting')], limit=1) or Crop.search([], limit=1)
 measure('récolte faite sur une culture (mouvement de stock + lot)', lambda: Op.create({
-    'type_id': env.ref('odoo_garden.operation_type_harvest').id, 'scope': 'crop', 'crop_ids': [Command.set(crop_h.ids)],
+    'type_id': env.ref('farmer_power.operation_type_harvest').id, 'scope': 'crop', 'crop_ids': [Command.set(crop_h.ids)],
     'planned_date': '2027-07-01', 'date': '2027-07-01', 'state': 'done', 'duration': 1.0, 'harvest_qty': 12.0,
     'harvest_product_id': crop_h.template_id.variety_id.harvest_product_id.id, 'harvest_uom_id': env.ref('uom.product_uom_kgm').id}).id and 1)
 measure('changement du taux horaire par défaut (recalcul de tous les coûts)', lambda: Op.search([])._recompute_labour_cost() or 1, repeat=1)

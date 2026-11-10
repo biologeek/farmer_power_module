@@ -40,8 +40,8 @@ class ResCompany(models.Model):
         for company in self.sudo():
             vals = {}
             for field, xmlid, name in (
-                ('garden_production_location_id', 'odoo_garden.stock_location_garden_production', 'Market Gardening Production'),
-                ('garden_consumption_location_id', 'odoo_garden.stock_location_garden_consumption', 'Market Gardening Consumption'),
+                ('garden_production_location_id', 'farmer_power.stock_location_garden_production', 'Market Gardening Production'),
+                ('garden_consumption_location_id', 'farmer_power.stock_location_garden_consumption', 'Market Gardening Consumption'),
             ):
                 if company[field]:
                     continue

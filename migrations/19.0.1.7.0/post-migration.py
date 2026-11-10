@@ -7,7 +7,7 @@ The French name is kept as the ``fr_FR`` translation when the record is translat
 """
 from odoo import SUPERUSER_ID, api
 
-# (xml id of the odoo_garden module, model, former French name, new English name)
+# (xml id of the farmer_power module, model, former French name, new English name)
 RENAMES = [
     ('operation_type_soil_preparation', 'garden.operation.type', 'Préparation du sol', 'Soil Preparation'),
     ('operation_type_sowing', 'garden.operation.type', 'Semis', 'Sowing'),
@@ -43,7 +43,7 @@ RENAMES = [
 def rename_defaults(env):
     french_active = bool(env['res.lang'].with_context(active_test=False).search([('code', '=', 'fr_FR'), ('active', '=', True)]))
     for xmlid, _model, old, new in RENAMES:
-        record = env.ref('odoo_garden.%s' % xmlid, raise_if_not_found=False)
+        record = env.ref('farmer_power.%s' % xmlid, raise_if_not_found=False)
         if not record:
             continue
         english = record.with_context(lang='en_US')

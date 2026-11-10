@@ -37,17 +37,17 @@
     </record>
 
     <menuitem id="menu_garden_seed_order_wizard" name="Create Seed Requests for Quotation"
-              parent="odoo_garden.menu_garden_planning" action="action_garden_seed_order_wizard"
-              sequence="35" groups="odoo_garden.group_garden_chef"/>
+              parent="farmer_power.menu_garden_planning" action="action_garden_seed_order_wizard"
+              sequence="35" groups="farmer_power.group_garden_chef"/>
 
     <record id="view_garden_season_form_purchase" model="ir.ui.view">
         <field name="name">garden.season.form.purchase</field>
         <field name="model">garden.season</field>
-        <field name="inherit_id" ref="odoo_garden.view_garden_season_form"/>
+        <field name="inherit_id" ref="farmer_power.view_garden_season_form"/>
         <field name="arch" type="xml">
             <button name="action_close" position="before">
                 <button name="%(action_garden_seed_order_wizard)d" string="Create Requests for Quotation" type="action"
-                        groups="odoo_garden.group_garden_chef" context="{'default_season_id': id}"/>
+                        groups="farmer_power.group_garden_chef" context="{'default_season_id': id}"/>
             </button>
         </field>
     </record>

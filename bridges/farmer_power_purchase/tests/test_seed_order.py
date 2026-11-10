@@ -2,7 +2,7 @@ from odoo.exceptions import AccessError
 from odoo.tests import tagged
 from odoo.tests.common import new_test_user
 
-from odoo.addons.odoo_garden.tests.test_planning import GardenPlanningCase
+from odoo.addons.farmer_power.tests.test_planning import GardenPlanningCase
 
 
 @tagged('post_install', '-at_install')
@@ -20,8 +20,8 @@ class TestGardenSeedOrder(GardenPlanningCase):
         cls.seed_cabbage = cls._product('Cabbage seed', cls.unit)
         cls.variety.write({'supplier_id': cls.supplier.id, 'seed_product_id': cls.seed_tomato.id})
         cls.variety_cabbage.write({'supplier_id': cls.supplier.id, 'seed_product_id': cls.seed_cabbage.id})
-        cls.chef = new_test_user(cls.env, login='garden_purchase_chef', groups='odoo_garden.group_garden_chef')
-        cls.manager = new_test_user(cls.env, login='garden_purchase_manager', groups='odoo_garden.group_garden_manager')
+        cls.chef = new_test_user(cls.env, login='garden_purchase_chef', groups='farmer_power.group_garden_chef')
+        cls.manager = new_test_user(cls.env, login='garden_purchase_manager', groups='farmer_power.group_garden_manager')
         # tomato: 36 m2 x 4 plants = 144 plants -> 216 seeds -> 0.72 g ; cabbage: 36 m2 x 5 = 180 -> 216 seeds
         base = {'season_id': cls.season.id, 'planned_sowing_date': '2027-03-01'}
         cls.crop_tomato = cls.env['garden.crop'].create(dict(base, template_id=cls.template.id, bed_id=cls.bed.id))
@@ -153,6 +153,6 @@ class TestGardenSeedOrder(GardenPlanningCase):
         wizard = self._wizard(user=self.manager)
         wizard.action_create_rfq()
         self.assertEqual(wizard.state, 'done')
-        worker = new_test_user(self.env, login='garden_purchase_worker', groups='odoo_garden.group_garden_worker')
+        worker = new_test_user(self.env, login='garden_purchase_worker', groups='farmer_power.group_garden_worker')
         with self.assertRaises(AccessError):
             self.env['garden.seed.order.wizard'].with_user(worker).create({'season_id': self.season.id})

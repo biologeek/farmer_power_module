@@ -74,7 +74,7 @@ class GardenBed(models.Model):
 
     def action_view_operations(self):
         self.ensure_one()
-        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_operation')
+        action = self.env['ir.actions.act_window']._for_xml_id('farmer_power.action_garden_operation')
         action['domain'] = self._get_operations_domain()
         action['context'] = {'default_scope': 'bed', 'default_bed_ids': [(6, 0, self.ids)]}
         return action
@@ -94,7 +94,7 @@ class GardenBed(models.Model):
     def _get_qr_url(self):
         """Adresse encodée dans le QR code : ouvre la fiche de la planche dans le client web."""
         self.ensure_one()
-        return "%s/odoo/action-odoo_garden.action_garden_bed/%d" % (self.get_base_url(), self.id)
+        return "%s/odoo/action-farmer_power.action_garden_bed/%d" % (self.get_base_url(), self.id)
 
     def _get_qr_image_src(self, size=200):
         """Chemin de l'image du QR code (contrôleur ``/report/barcode`` du module web)."""

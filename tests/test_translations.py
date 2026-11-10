@@ -8,7 +8,7 @@ from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 from odoo.tools import file_path
 
-I18N_DIR = file_path('odoo_garden/i18n')
+I18N_DIR = file_path('farmer_power/i18n')
 PLACEHOLDER = re.compile(r'%\([A-Za-z_]+\)[sdf]|%\.\d+f|%[sd]')
 # Languages with a .po file in the module (French is the original vocabulary; the others are machine translations).
 PO_CODES = sorted(os.path.basename(path)[:-3] for path in glob.glob(os.path.join(I18N_DIR, '*.po')))
@@ -42,7 +42,7 @@ class TestGardenTranslationFiles(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.pot = {entry.msgid: entry for entry in polib.pofile(os.path.join(I18N_DIR, 'odoo_garden.pot'))}
+        cls.pot = {entry.msgid: entry for entry in polib.pofile(os.path.join(I18N_DIR, 'farmer_power.pot'))}
 
     def test_pot_has_source_terms_in_english(self):
         self.assertGreater(len(self.pot), 700)
@@ -57,15 +57,15 @@ class TestGardenTranslationFiles(TransactionCase):
         locations = {location for entry in self.pot.values() for location, _line in entry.occurrences}
         for prefix in ('model:ir.model.fields,field_description', 'model:ir.model.fields.selection', 'model:ir.ui.menu',
                        'model_terms:ir.ui.view', 'model:garden.operation.type,name', 'model:res.groups',
-                       'code:addons/odoo_garden/models', 'model:ir.actions.server'):
+                       'code:addons/farmer_power/models', 'model:ir.actions.server'):
             self.assertTrue(
                 any(location.startswith(prefix) for location in locations), "No term extracted for %s" % prefix,
             )
         self.assertTrue(any('static/src/js' in location for location in locations), "No JavaScript term")
         self.assertTrue(any('static/src/xml' in location for location in locations), "No OWL template term")
         # QR labels and registers (QWeb report templates)
-        self.assertTrue(any('odoo_garden.report_garden_bed_label' in location for location in locations))
-        self.assertTrue(any('odoo_garden.report_garden_compliance' in location for location in locations))
+        self.assertTrue(any('farmer_power.report_garden_bed_label' in location for location in locations))
+        self.assertTrue(any('farmer_power.report_garden_compliance' in location for location in locations))
 
     def test_languages_are_shipped(self):
         for code in ODOO_LANGS:
@@ -100,15 +100,15 @@ class TestGardenTranslationLoading(TransactionCase):
         cls.langs = {code: ODOO_LANGS[code] for code in PO_CODES if code in ODOO_LANGS}
         for lang in cls.langs.values():
             cls.env['res.lang']._activate_lang(lang)
-        cls.env['ir.module.module']._load_module_terms(['odoo_garden'], list(cls.langs.values()), overwrite=True)
+        cls.env['ir.module.module']._load_module_terms(['farmer_power'], list(cls.langs.values()), overwrite=True)
 
     def _field(self, lang, model, field):
         return self.env[model].with_context(lang=lang).fields_get([field])[field]
 
     def test_english_source(self):
         self.assertEqual(self._field('en_US', 'garden.bed', 'area')['string'], 'Area (m²)')
-        self.assertEqual(self.env.ref('odoo_garden.menu_garden_bed').with_context(lang='en_US').name, 'Beds')
-        self.assertEqual(self.env.ref('odoo_garden.operation_type_sowing').with_context(lang='en_US').name, 'Sowing')
+        self.assertEqual(self.env.ref('farmer_power.menu_garden_bed').with_context(lang='en_US').name, 'Beds')
+        self.assertEqual(self.env.ref('farmer_power.operation_type_sowing').with_context(lang='en_US').name, 'Sowing')
 
     def test_field_labels_and_selections(self):
         for code, lang in self.langs.items():
@@ -121,15 +121,15 @@ class TestGardenTranslationLoading(TransactionCase):
     def test_menus_groups_and_default_data(self):
         for code, lang in self.langs.items():
             expected = EXPECTED[code]
-            self.assertEqual(self.env.ref('odoo_garden.menu_garden_bed').with_context(lang=lang).name, expected['menu_beds'], lang)
-            self.assertEqual(self.env.ref('odoo_garden.menu_garden_root').with_context(lang=lang).name, expected['root'], lang)
+            self.assertEqual(self.env.ref('farmer_power.menu_garden_bed').with_context(lang=lang).name, expected['menu_beds'], lang)
+            self.assertEqual(self.env.ref('farmer_power.menu_garden_root').with_context(lang=lang).name, expected['root'], lang)
             self.assertEqual(
-                self.env.ref('odoo_garden.group_garden_chef').with_context(lang=lang).name, expected['crop_manager'], lang,
+                self.env.ref('farmer_power.group_garden_chef').with_context(lang=lang).name, expected['crop_manager'], lang,
             )
             self.assertEqual(
-                self.env.ref('odoo_garden.operation_type_sowing').with_context(lang=lang).name, expected['sowing'], lang,
+                self.env.ref('farmer_power.operation_type_sowing').with_context(lang=lang).name, expected['sowing'], lang,
             )
-            registers = self.env.ref('odoo_garden.menu_garden_compliance').with_context(lang=lang).name
+            registers = self.env.ref('farmer_power.menu_garden_compliance').with_context(lang=lang).name
             self.assertRegex(registers, r'Fran', lang)  # the registers stay presented as French ones
 
     def test_python_messages(self):
@@ -140,7 +140,7 @@ class TestGardenTranslationLoading(TransactionCase):
             self.assertEqual(wizard.with_context(lang=lang).env._(message), EXPECTED[code]['message'], lang)
 
     def test_view_terms(self):
-        view = self.env.ref('odoo_garden.view_garden_bed_form')
+        view = self.env.ref('farmer_power.view_garden_bed_form')
         english = self.env['garden.bed'].with_context(lang='en_US').get_view(view.id, 'form')['arch']
         for code, lang in self.langs.items():
             arch = self.env['garden.bed'].with_context(lang=lang).get_view(view.id, 'form')['arch']

@@ -18,11 +18,11 @@ class GardenAnalytics(models.AbstractModel):
     # multi-sociétés de l'utilisateur s'appliquent, sauf le chiffre d'affaires (``garden.revenue``, sudo).
 
     _THEME_GROUPS = {
-        'occupation': 'odoo_garden.group_garden_chef',
-        'crops': 'odoo_garden.group_garden_chef',
-        'work': 'odoo_garden.group_garden_chef',
-        'finance': 'odoo_garden.group_garden_manager',
-        'years': 'odoo_garden.group_garden_manager',
+        'occupation': 'farmer_power.group_garden_chef',
+        'crops': 'farmer_power.group_garden_chef',
+        'work': 'farmer_power.group_garden_chef',
+        'finance': 'farmer_power.group_garden_manager',
+        'years': 'farmer_power.group_garden_manager',
     }
 
     # ------------------------------------------------------------------

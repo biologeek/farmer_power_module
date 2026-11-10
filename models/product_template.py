@@ -67,7 +67,7 @@ class ProductTemplate(models.Model):
         if (
             vals and self._GARDEN_FIELDS.issuperset(vals)
             and not self.env.su
-            and self.env.user.has_group('odoo_garden.group_garden_chef')
+            and self.env.user.has_group('farmer_power.group_garden_chef')
             and not self.has_access('write')
         ):
             self = self.sudo()

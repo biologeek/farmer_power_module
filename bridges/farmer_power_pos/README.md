@@ -1,7 +1,7 @@
-# Farmer Power - Point of Sale bridge (`odoo_garden_pos`)
+# Farmer Power - Point of Sale bridge (`farmer_power_pos`)
 
-Optional module, installed automatically (`auto_install`) when `odoo_garden` and `point_of_sale` are both
-installed. It adds no dependency to `odoo_garden`.
+Optional module, installed automatically (`auto_install`) when `farmer_power` and `point_of_sale` are both
+installed. It adds no dependency to `farmer_power`.
 
 ## What it does
 
@@ -32,4 +32,4 @@ never the orders themselves.
 
 ## Tests
 
-`odoo-bin -d <db> -i odoo_garden_pos --test-enable --test-tags /odoo_garden_pos --stop-after-init`
+`odoo-bin -d <db> -i farmer_power_pos --test-enable --test-tags /farmer_power_pos --stop-after-init`

@@ -85,7 +85,7 @@ class TestGardenStructure(TransactionCase):
         user = self.env['res.users'].create({
             'name': 'Chef', 'login': 'chef_multi', 'company_id': self.env.company.id,
             'company_ids': [(6, 0, self.env.company.ids)],
-            'group_ids': [(6, 0, [self.env.ref('odoo_garden.group_garden_chef').id])],
+            'group_ids': [(6, 0, [self.env.ref('farmer_power.group_garden_chef').id])],
         })
         for record in (farm2, site2, garden2, bed2):
             self.assertFalse(record.with_user(user).search([('id', '=', record.id)]), record._name)

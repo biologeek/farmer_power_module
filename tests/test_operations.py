@@ -15,14 +15,14 @@ class GardenOperationCase(GardenPlanningCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env['ir.config_parameter'].sudo().set_param('odoo_garden.default_hourly_rate', '10')
+        cls.env['ir.config_parameter'].sudo().set_param('farmer_power.default_hourly_rate', '10')
         cls.alice = cls.env['hr.employee'].create({'name': 'Alice test', 'garden_hourly_cost': 20.0})
         cls.bob = cls.env['hr.employee'].create({'name': 'Bob test', 'garden_hourly_cost': 12.0})
         cls.carol = cls.env['hr.employee'].create({'name': 'Carol test'})  # sans taux : taux par défaut
-        cls.type_weeding = cls.env.ref('odoo_garden.operation_type_weeding')
-        cls.type_irrigation = cls.env.ref('odoo_garden.operation_type_irrigation')
-        cls.type_harvest = cls.env.ref('odoo_garden.operation_type_harvest')
-        cls.type_sowing = cls.env.ref('odoo_garden.operation_type_sowing')
+        cls.type_weeding = cls.env.ref('farmer_power.operation_type_weeding')
+        cls.type_irrigation = cls.env.ref('farmer_power.operation_type_irrigation')
+        cls.type_harvest = cls.env.ref('farmer_power.operation_type_harvest')
+        cls.type_sowing = cls.env.ref('farmer_power.operation_type_sowing')
 
     def _operation(self, **vals):
         vals.setdefault('type_id', self.type_weeding.id)
@@ -95,7 +95,7 @@ class TestGardenOperation(GardenOperationCase):
         harvest.action_done()
         self.assertEqual(harvest.state, 'done')
         treatment = self._operation(
-            type_id=self.env.ref('odoo_garden.operation_type_treatment').id,
+            type_id=self.env.ref('farmer_power.operation_type_treatment').id,
             target='Mildiou', weather_notes='Sec, vent faible',
         )
         self.assertEqual(treatment.target, 'Mildiou')
@@ -169,15 +169,15 @@ class TestGardenLabour(GardenOperationCase):
         self.assertEqual(operation.state, 'done')
 
     def test_timer_adds_current_employee(self):
-        user = new_test_user(self.env, login='garden_timer', groups='odoo_garden.group_garden_worker')
+        user = new_test_user(self.env, login='garden_timer', groups='farmer_power.group_garden_worker')
         employee = self.env['hr.employee'].create({'name': 'Dan test', 'user_id': user.id})
         operation = self._operation()
         operation.with_user(user).action_start()
         self.assertEqual(operation.employee_ids, employee)
 
     def test_cost_hidden_from_worker(self):
-        worker = new_test_user(self.env, login='garden_labour_worker', groups='odoo_garden.group_garden_worker')
-        chef = new_test_user(self.env, login='garden_labour_chef', groups='odoo_garden.group_garden_chef')
+        worker = new_test_user(self.env, login='garden_labour_worker', groups='farmer_power.group_garden_worker')
+        chef = new_test_user(self.env, login='garden_labour_chef', groups='farmer_power.group_garden_chef')
         own = self.env['hr.employee'].create({'name': 'Fred test', 'user_id': worker.id, 'garden_hourly_cost': 20.0})
         operation = self._operation(
             employee_ids=[(6, 0, own.ids)], duration=2.0,
@@ -194,15 +194,15 @@ class TestGardenLabour(GardenOperationCase):
         self.assertNotIn('labour_cost', as_worker.fields_get())
         self.assertNotIn('garden_hourly_cost', self.env['hr.employee'].with_user(worker).fields_get())
         # la vue de l'ouvrier ne contient pas les coûts
-        arch = as_worker.get_view(as_worker.env.ref('odoo_garden.view_garden_operation_form').id)['arch']
+        arch = as_worker.get_view(as_worker.env.ref('farmer_power.view_garden_operation_form').id)['arch']
         self.assertNotIn('labour_cost', arch)
-        arch = as_worker.get_view(as_worker.env.ref('odoo_garden.view_garden_operation_tree').id)['arch']
+        arch = as_worker.get_view(as_worker.env.ref('farmer_power.view_garden_operation_tree').id)['arch']
         self.assertNotIn('labour_cost', arch)
         # le chef de culture les voit
         as_chef = operation.with_user(chef)
         self.assertAlmostEqual(as_chef.read(['labour_cost'])[0]['labour_cost'], 40.0)
         self.assertAlmostEqual(as_chef.worker_ids.read(['labour_cost'])[0]['labour_cost'], 40.0)
-        self.assertIn('labour_cost', as_chef.get_view(as_chef.env.ref('odoo_garden.view_garden_operation_form').id)['arch'])
+        self.assertIn('labour_cost', as_chef.get_view(as_chef.env.ref('farmer_power.view_garden_operation_form').id)['arch'])
         # l'ouvrier saisit toujours du temps, sans voir le coût
         worker_op = self.env['garden.operation'].with_user(worker).create({
             'type_id': self.type_weeding.id, 'crop_ids': [(6, 0, operation.crop_ids.ids)], 'duration': 1.0,
@@ -407,7 +407,7 @@ class TestGardenOperationStatistics(GardenOperationCase):
         ).action_done()
         # une opération non faite n'est pas comptée
         self._operation(type_id=self.type_weeding.id, crop_ids=[(6, 0, other.ids)], duration=9.0)
-        action = self.env.ref('odoo_garden.action_garden_time_statistics')
+        action = self.env.ref('farmer_power.action_garden_time_statistics')
         self.assertEqual(action.res_model, 'garden.operation.allocation')
         by_category = dict(self.env['garden.operation.allocation']._read_group(
             [('crop_id', 'in', (crop | other).ids)], ['category'], ['hours:sum'],
@@ -424,15 +424,15 @@ class TestGardenMyDay(GardenOperationCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.worker = new_test_user(cls.env, login='garden_day_worker', groups='odoo_garden.group_garden_worker')
+        cls.worker = new_test_user(cls.env, login='garden_day_worker', groups='farmer_power.group_garden_worker')
         cls.worker_employee = cls.env['hr.employee'].create({'name': 'Eve test', 'user_id': cls.worker.id})
-        cls.chef = new_test_user(cls.env, login='garden_day_chef', groups='odoo_garden.group_garden_chef')
+        cls.chef = new_test_user(cls.env, login='garden_day_chef', groups='farmer_power.group_garden_chef')
         cls.today = fields.Date.context_today(cls.env['garden.operation'])
 
     def _day_domain(self, *filters):
         """Domaine des filtres de la vue de recherche, évalué comme le fait le client web."""
         arch = self.env['garden.operation'].get_view(
-            self.env.ref('odoo_garden.view_garden_operation_search').id, 'search',
+            self.env.ref('farmer_power.view_garden_operation_search').id, 'search',
         )['arch']
         from lxml import etree
         from odoo.tools.safe_eval import safe_eval
@@ -475,11 +475,11 @@ class TestGardenMyDay(GardenOperationCase):
         for view_type in ('kanban', 'calendar', 'list', 'form', 'search'):
             arch = Operation.with_user(self.worker).get_view(view_type=view_type)['arch']
             self.assertTrue(arch)
-        action = self.env.ref('odoo_garden.action_garden_operation_today')
+        action = self.env.ref('farmer_power.action_garden_operation_today')
         self.assertTrue(action.view_mode.startswith('kanban'))
         self.assertIn('search_default_filter_my_operations', action.context)
         # le kanban est regroupé par îlot
-        kanban = self.env.ref('odoo_garden.view_garden_operation_kanban')
+        kanban = self.env.ref('farmer_power.view_garden_operation_kanban')
         self.assertIn('default_group_by="garden_main_id"', kanban.arch_db)
         # la liste s'ouvre pour l'ouvrier avec le domaine du jour (lecture web)
         crop = self._crop(planned_sowing_date='2027-03-01')

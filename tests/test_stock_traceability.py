@@ -12,7 +12,7 @@ class TestGardenTraceability(GardenHarvestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.type_planting = cls.env.ref('odoo_garden.operation_type_planting')
+        cls.type_planting = cls.env.ref('farmer_power.operation_type_planting')
         cls.customer = cls.env['res.partner'].create({'name': 'Client traçabilité'})
         cls.supplier_location = cls.env.ref('stock.stock_location_suppliers')
         cls.customer_location = cls.env.ref('stock.stock_location_customers')
@@ -162,7 +162,7 @@ class TestGardenTraceability(GardenHarvestCase):
         crop, lot, *_rest = self._scenario()
         lot_arch = lot.get_view(self.env.ref('stock.view_production_lot_form').id)['arch']
         self.assertIn('action_garden_traceability', lot_arch)
-        crop_arch = crop.get_view(self.env.ref('odoo_garden.view_garden_crop_form').id)['arch']
+        crop_arch = crop.get_view(self.env.ref('farmer_power.view_garden_crop_form').id)['arch']
         for method in ('action_garden_traceability', 'action_view_harvests', 'action_view_lots', 'action_view_losses'):
             self.assertIn(method, crop_arch)
         action = crop.action_view_lots()
@@ -170,7 +170,7 @@ class TestGardenTraceability(GardenHarvestCase):
         harvests = crop.action_view_harvests()
         lines = self.env['stock.move.line'].search(harvests['domain'])
         self.assertEqual(lines.move_id.garden_kind, 'harvest')
-        self.assertTrue(self.env.ref('odoo_garden.menu_garden_lots'))
-        self.assertIn(lot, self.env['stock.lot'].search(literal_eval(self.env.ref('odoo_garden.action_garden_lots').domain)))
+        self.assertTrue(self.env.ref('farmer_power.menu_garden_lots'))
+        self.assertIn(lot, self.env['stock.lot'].search(literal_eval(self.env.ref('farmer_power.action_garden_lots').domain)))
         # le lot affiche sa culture
         self.assertEqual(lot.garden_crop_id, crop)

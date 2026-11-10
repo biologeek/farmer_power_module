@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+garden_seed_order_wizard_chef,garden.seed.order.wizard chef,model_garden_seed_order_wizard,farmer_power.group_garden_chef,1,1,1,1

@@ -11,7 +11,7 @@ class TestGardenProfitability(GardenRevenueCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.manager = new_test_user(cls.env, login='garden_profit_manager', groups='odoo_garden.group_garden_manager')
+        cls.manager = new_test_user(cls.env, login='garden_profit_manager', groups='farmer_power.group_garden_manager')
         cls.Profit = cls.env['garden.crop.profitability']
         cls.Profit.search([]).unlink()
 
@@ -117,13 +117,13 @@ class TestGardenProfitability(GardenRevenueCase):
             self.Profit.with_user(self.manager).create({'crop_id': self.big.id})
 
     def test_multi_company_rule(self):
-        rule = self.env.ref('odoo_garden.garden_crop_profitability_company_rule')
+        rule = self.env.ref('farmer_power.garden_crop_profitability_company_rule')
         self.assertEqual(rule.model_id.model, 'garden.crop.profitability')
         self.assertIn('company_ids', rule.domain_force)
 
     def test_menu_action_runs_for_manager(self):
         """L'entrée de menu est une action serveur : elle doit s'exécuter pour un gérant (lecture seule)."""
-        server_action = self.env.ref('odoo_garden.action_garden_profitability_open')
+        server_action = self.env.ref('farmer_power.action_garden_profitability_open')
         result = server_action.with_user(self.manager).run()
         self.assertEqual(result['res_model'], 'garden.crop.profitability')
         with self.assertRaises(AccessError):
@@ -133,9 +133,9 @@ class TestGardenProfitability(GardenRevenueCase):
         action = self.Profit.with_user(self.manager).action_open()
         self.assertEqual(action['res_model'], 'garden.crop.profitability')
         self.assertTrue(self.Profit.search([('crop_id', '=', self.big.id)]))
-        server_action = self.env.ref('odoo_garden.action_garden_profitability_open')
+        server_action = self.env.ref('farmer_power.action_garden_profitability_open')
         self.assertEqual(server_action.model_id.model, 'garden.crop.profitability')
-        cron = self.env.ref('odoo_garden.ir_cron_garden_profitability')
+        cron = self.env.ref('farmer_power.ir_cron_garden_profitability')
         self.assertEqual(cron.interval_type, 'days')
         self.assertEqual(cron.code, 'model._cron_refresh()')
         self.Profit._cron_refresh()

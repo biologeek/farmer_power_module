@@ -9,9 +9,9 @@ class TestGardenSecurity(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.worker = new_test_user(cls.env, login='garden_worker', groups='odoo_garden.group_garden_worker')
-        cls.chef = new_test_user(cls.env, login='garden_chef', groups='odoo_garden.group_garden_chef')
-        cls.manager = new_test_user(cls.env, login='garden_manager', groups='odoo_garden.group_garden_manager')
+        cls.worker = new_test_user(cls.env, login='garden_worker', groups='farmer_power.group_garden_worker')
+        cls.chef = new_test_user(cls.env, login='garden_chef', groups='farmer_power.group_garden_chef')
+        cls.manager = new_test_user(cls.env, login='garden_manager', groups='farmer_power.group_garden_manager')
         cls.outsider = new_test_user(cls.env, login='garden_outsider', groups='base.group_user')
         farm = cls.env['garden.farm'].create({'name': 'Farm'})
         site = cls.env['garden.site'].create({'name': 'Site', 'farm_id': farm.id})
@@ -22,14 +22,14 @@ class TestGardenSecurity(TransactionCase):
         cls.template = cls.env['garden.crop.template'].create({'name': 'T', 'variety_id': variety.id})
 
     def test_group_hierarchy(self):
-        worker_group = self.env.ref('odoo_garden.group_garden_worker')
-        chef_group = self.env.ref('odoo_garden.group_garden_chef')
-        manager_group = self.env.ref('odoo_garden.group_garden_manager')
+        worker_group = self.env.ref('farmer_power.group_garden_worker')
+        chef_group = self.env.ref('farmer_power.group_garden_chef')
+        manager_group = self.env.ref('farmer_power.group_garden_manager')
         self.assertIn(worker_group, chef_group.implied_ids)
         self.assertIn(chef_group, manager_group.implied_ids)
         self.assertEqual(worker_group.privilege_id, manager_group.privilege_id)
-        self.assertTrue(self.manager.has_group('odoo_garden.group_garden_worker'))
-        self.assertFalse(self.worker.has_group('odoo_garden.group_garden_chef'))
+        self.assertTrue(self.manager.has_group('farmer_power.group_garden_worker'))
+        self.assertFalse(self.worker.has_group('farmer_power.group_garden_chef'))
 
     def test_worker_read_only_on_structure_and_catalog(self):
         for record in (self.bed, self.species, self.template):

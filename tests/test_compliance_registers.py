@@ -129,7 +129,7 @@ class TestGardenPhytoRegister(GardenRegisterCase):
         other_chef = self.env['res.users'].with_company(other_company).create({
             'name': 'Chef autre', 'login': 'garden_other_chef', 'company_id': other_company.id,
             'company_ids': [(6, 0, other_company.ids)],
-            'group_ids': [(6, 0, [self.env.ref('odoo_garden.group_garden_chef').id])],
+            'group_ids': [(6, 0, [self.env.ref('farmer_power.group_garden_chef').id])],
         })
         other_wizard = self.env['garden.compliance.wizard'].with_user(other_chef).with_company(other_company).create({'date_from': '2030-01-01'})
         other_wizard._compute_lines()
@@ -162,7 +162,7 @@ class TestGardenPhytoRegister(GardenRegisterCase):
     def test_pdf_report_renders(self):
         self._treatment('2031-06-10', target='Mildiou')
         wizard = self._wizard()
-        report = self.env.ref('odoo_garden.action_report_garden_compliance')
+        report = self.env.ref('farmer_power.action_report_garden_compliance')
         self.assertEqual(report.report_type, 'qweb-pdf')
         self.assertEqual(report.model, 'garden.compliance.wizard')
         self.assertEqual(report.paperformat_id.orientation, 'Landscape')
@@ -172,7 +172,7 @@ class TestGardenPhytoRegister(GardenRegisterCase):
         for expected in ('Plant Protection Register', self.crop.name, 'AMM-TEST-0001', 'Mildiou', 'Phyto test'):
             self.assertIn(expected, text)
         action = wizard.action_print()
-        self.assertEqual(action['report_name'], 'odoo_garden.report_garden_compliance')
+        self.assertEqual(action['report_name'], 'farmer_power.report_garden_compliance')
         self.assertEqual(action['context']['active_ids'], wizard.ids)
 
 
@@ -184,14 +184,14 @@ class TestGardenComplianceDownload(HttpCase, GardenRegisterCase):
         self._treatment('2031-06-10')
         wizard = self._wizard()
         self.authenticate('garden_stock_chef', 'garden_stock_chef')
-        response = self.url_open('/odoo_garden/compliance/xlsx/%d' % wizard.id)
+        response = self.url_open('/farmer_power/compliance/xlsx/%d' % wizard.id)
         self.assertEqual(response.status_code, 200)
         self.assertIn('spreadsheetml', response.headers['Content-Type'])
         sheet = openpyxl.load_workbook(io.BytesIO(response.content)).worksheets[0]
         self.assertEqual(sheet.max_row, 2)
         # un ouvrier n'obtient rien
         self.authenticate('garden_stock_worker', 'garden_stock_worker')
-        response = self.url_open('/odoo_garden/compliance/xlsx/%d' % wizard.id)
+        response = self.url_open('/farmer_power/compliance/xlsx/%d' % wizard.id)
         self.assertNotEqual(response.status_code, 200)
 
 
@@ -286,7 +286,7 @@ class TestGardenFertilizationRegister(GardenRegisterCase):
         self.assertEqual(values['Bed'], self.bed.name)
         self.assertEqual(summary[1][1], self.bed.name)
         self.assertAlmostEqual(summary[1][2], 1.0)
-        html, _type = self.env['ir.actions.report']._render_qweb_html('odoo_garden.report_garden_compliance', wizard.ids)
+        html, _type = self.env['ir.actions.report']._render_qweb_html('farmer_power.report_garden_compliance', wizard.ids)
         text = html.decode()
         self.assertIn('Fertilization Register', text)
         self.assertIn('o_garden_register_fertilization_summary', text)
@@ -308,7 +308,7 @@ class TestGardenOrganicExport(GardenRegisterCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.supplier = cls.env['res.partner'].create({'name': 'Graineterie test'})
-        cls.type_sowing = cls.env.ref('odoo_garden.operation_type_sowing')
+        cls.type_sowing = cls.env.ref('farmer_power.operation_type_sowing')
 
     def setUp(self):
         super().setUp()
@@ -414,17 +414,17 @@ class TestGardenComplianceSetting(GardenRegisterCase):
     def test_enabled_by_default_for_chef_and_manager_only(self):
         self.assertTrue(self.env['garden.compliance.wizard']._is_compliance_enabled())
         for user in (self.chef, self.manager):
-            self.assertTrue(user.has_group('odoo_garden.group_garden_compliance'))
-        self.assertFalse(self.worker.has_group('odoo_garden.group_garden_compliance'))
-        menu = self.env.ref('odoo_garden.menu_garden_compliance')
-        self.assertIn(self.env.ref('odoo_garden.group_garden_compliance'), menu.group_ids)
+            self.assertTrue(user.has_group('farmer_power.group_garden_compliance'))
+        self.assertFalse(self.worker.has_group('farmer_power.group_garden_compliance'))
+        menu = self.env.ref('farmer_power.menu_garden_compliance')
+        self.assertIn(self.env.ref('farmer_power.group_garden_compliance'), menu.group_ids)
         visible = self.env['ir.ui.menu'].with_user(self.chef)._visible_menu_ids()
         self.assertIn(menu.id, visible)
-        self.assertIn(self.env.ref('odoo_garden.menu_garden_compliance_phyto').id, visible)
+        self.assertIn(self.env.ref('farmer_power.menu_garden_compliance_phyto').id, visible)
         visible_worker = self.env['ir.ui.menu'].with_user(self.worker)._visible_menu_ids()
         for xmlid in ('menu_garden_compliance', 'menu_garden_compliance_phyto',
                       'menu_garden_compliance_fertilization', 'menu_garden_compliance_organic'):
-            self.assertNotIn(self.env.ref('odoo_garden.' + xmlid).id, visible_worker)
+            self.assertNotIn(self.env.ref('farmer_power.' + xmlid).id, visible_worker)
 
     def test_disabling_hides_menus_and_blocks_exports(self):
         self._treatment('2031-06-10')
@@ -432,11 +432,11 @@ class TestGardenComplianceSetting(GardenRegisterCase):
         self._set_enabled(False)
         self.assertFalse(self.env['garden.compliance.wizard']._is_compliance_enabled())
         for user in (self.chef, self.manager):
-            self.assertFalse(user.has_group('odoo_garden.group_garden_compliance'))
-            self.assertTrue(user.has_group('odoo_garden.group_garden_chef'))
+            self.assertFalse(user.has_group('farmer_power.group_garden_compliance'))
+            self.assertTrue(user.has_group('farmer_power.group_garden_chef'))
         visible = self.env['ir.ui.menu'].with_user(self.chef)._visible_menu_ids()
-        self.assertNotIn(self.env.ref('odoo_garden.menu_garden_compliance').id, visible)
-        self.assertIn(self.env.ref('odoo_garden.menu_garden_today').id, visible)
+        self.assertNotIn(self.env.ref('farmer_power.menu_garden_compliance').id, visible)
+        self.assertIn(self.env.ref('farmer_power.menu_garden_today').id, visible)
         with self.assertRaises(UserError):
             wizard.with_user(self.chef).action_print()
         with self.assertRaises(UserError):
@@ -447,14 +447,14 @@ class TestGardenComplianceSetting(GardenRegisterCase):
             harvest.action_done()
         # réactivation
         self._set_enabled(True)
-        self.assertTrue(self.chef.has_group('odoo_garden.group_garden_compliance'))
+        self.assertTrue(self.chef.has_group('farmer_power.group_garden_compliance'))
         self.assertTrue(wizard.with_user(self.chef)._get_xlsx())
 
     def test_init_does_not_reactivate(self):
         self._set_enabled(False)
         self.env['res.config.settings']._garden_init_compliance()
         self.assertFalse(self.env['garden.compliance.wizard']._is_compliance_enabled())
-        self.assertFalse(self.chef.has_group('odoo_garden.group_garden_compliance'))
+        self.assertFalse(self.chef.has_group('farmer_power.group_garden_compliance'))
 
 
 @tagged('post_install', '-at_install')
@@ -464,6 +464,6 @@ class TestGardenComplianceTour(HttpCase, GardenRegisterCase):
         self.phyto.product_tmpl_id.amm_number = 'AMM-TOUR-0001'
         self._treatment('2031-06-10')
         self.start_tour(
-            '/odoo/action-odoo_garden.action_garden_compliance_phyto', 'garden_compliance_tour',
+            '/odoo/action-farmer_power.action_garden_compliance_phyto', 'garden_compliance_tour',
             login='garden_stock_chef',
         )

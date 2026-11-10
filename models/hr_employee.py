@@ -8,7 +8,7 @@ class HrEmployee(models.Model):
     # officiers RH : le coût horaire du travail maraîcher est donc porté par un champ propre,
     # visible du chef de culture et du gérant seulement.
     garden_hourly_cost = fields.Float(
-        'Hourly Cost (Market Gardening)', digits='Product Price', groups='odoo_garden.group_garden_chef',
+        'Hourly Cost (Market Gardening)', digits='Product Price', groups='farmer_power.group_garden_chef',
         help='Fully loaded hourly cost of the employee to value the time of operations. At 0, the default '
              'hourly rate of the Market Gardening settings applies.',
     )

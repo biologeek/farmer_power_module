@@ -160,8 +160,8 @@ class TestGardenPlanningSecurity(GardenPlanningCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.worker = new_test_user(cls.env, login='plan_worker', groups='odoo_garden.group_garden_worker')
-        cls.chef = new_test_user(cls.env, login='plan_chef', groups='odoo_garden.group_garden_chef')
+        cls.worker = new_test_user(cls.env, login='plan_worker', groups='farmer_power.group_garden_worker')
+        cls.chef = new_test_user(cls.env, login='plan_chef', groups='farmer_power.group_garden_chef')
 
     def test_worker_reads_but_cannot_edit_season(self):
         self.assertTrue(self.season.with_user(self.worker).read(['name']))
@@ -314,8 +314,8 @@ class TestGardenPlanWizard(GardenPlanningCase):
             wizard.action_create_crops()
 
     def test_wizard_reserved_to_chef(self):
-        worker = new_test_user(self.env, login='wiz_worker', groups='odoo_garden.group_garden_worker')
-        chef = new_test_user(self.env, login='wiz_chef', groups='odoo_garden.group_garden_chef')
+        worker = new_test_user(self.env, login='wiz_worker', groups='farmer_power.group_garden_worker')
+        chef = new_test_user(self.env, login='wiz_chef', groups='farmer_power.group_garden_chef')
         with self.assertRaises(AccessError):
             self._wizard(user=worker, target_date='2027-07-01')
         wizard = self._wizard(user=chef, target_date='2027-07-01', bed_ids=[(6, 0, self.bed.ids)])
@@ -418,10 +418,10 @@ class TestGardenSeedNeeds(GardenPlanningCase):
 
     def setUp(self):
         super().setUp()
-        self.env['ir.config_parameter'].sudo().set_param('odoo_garden.seed_margin', '20')
+        self.env['ir.config_parameter'].sudo().set_param('farmer_power.seed_margin', '20')
 
     def test_default_margin(self):
-        self.env['ir.config_parameter'].sudo().search([('key', '=', 'odoo_garden.seed_margin')]).unlink()
+        self.env['ir.config_parameter'].sudo().search([('key', '=', 'farmer_power.seed_margin')]).unlink()
         self.assertEqual(self.env['garden.crop']._get_seed_margin(), 20.0)
 
     def test_seed_computation(self):

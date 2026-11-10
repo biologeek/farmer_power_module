@@ -23,9 +23,9 @@
                     <button name="action_validate" string="Validate" type="object" class="btn-primary"
                             invisible="state != 'draft'"/>
                     <button name="%(action_garden_season_plan_wizard)d" string="Plan in Batch" type="action"
-                            groups="odoo_garden.group_garden_chef" context="{'default_season_id': id}"/>
+                            groups="farmer_power.group_garden_chef" context="{'default_season_id': id}"/>
                     <button name="action_generate_operations" string="Generate Operations" type="object"
-                            invisible="state != 'validated'" groups="odoo_garden.group_garden_chef"/>
+                            invisible="state != 'validated'" groups="farmer_power.group_garden_chef"/>
                     <button name="action_close" string="Close" type="object"
                             invisible="state != 'validated'"/>
                     <button name="action_reset_draft" string="Reset to Draft" type="object"

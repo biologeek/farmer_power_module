@@ -54,13 +54,13 @@ class TestGardenInstall(TransactionCase):
             'action_garden_statistics', 'action_garden_statistics_charts', 'action_garden_production_statistics',
             'menu_garden_statistics_graphics', 'menu_garden_production_statistics',
         ):
-            self.assertFalse(self.env.ref('odoo_garden.' + xmlid, raise_if_not_found=False), xmlid)
+            self.assertFalse(self.env.ref('farmer_power.' + xmlid, raise_if_not_found=False), xmlid)
         self.assertFalse(hasattr(self.env['garden.crop'], 'get_production_statistics_data'))
         self.assertFalse(hasattr(self.env['garden.operation.allocation'], 'get_statistics_data'))
-        self.assertTrue(self.env.ref('odoo_garden.menu_garden_time_statistics'))
+        self.assertTrue(self.env.ref('farmer_power.menu_garden_time_statistics'))
 
     def test_farm_action_xmlid(self):
-        self.assertTrue(self.env.ref('odoo_garden.action_garden_farm'))
+        self.assertTrue(self.env.ref('farmer_power.action_garden_farm'))
 
     def test_action_method_removed_from_operation_model(self):
         self.assertFalse(hasattr(self.env['garden.operation'], 'get_production_statistics_data'))

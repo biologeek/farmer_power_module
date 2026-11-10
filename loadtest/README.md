@@ -8,10 +8,10 @@ Tous les scripts se lancent depuis le dossier qui contient `odoo/` et `odoo.conf
 ```
 createdb farmer_power_load
 ./odoo-venv/bin/python odoo/odoo-bin -c odoo.conf -d farmer_power_load --db-filter=^farmer_power_load$ \
-    -i odoo_garden,odoo_garden_purchase,odoo_garden_pos,point_of_sale,purchase --without-demo=all --stop-after-init
+    -i farmer_power,farmer_power_purchase,farmer_power_pos,point_of_sale,purchase --without-demo=all --stop-after-init
 
 LOAD_SCALE=1.0 ./odoo-venv/bin/python odoo/odoo-bin shell -c odoo.conf -d farmer_power_load \
-    --db-filter=^farmer_power_load$ --no-http < custom_addons/odoo_garden/loadtest/generate_load_data.py
+    --db-filter=^farmer_power_load$ --no-http < custom_addons/farmer_power/loadtest/generate_load_data.py
 ```
 
 | Script | Rôle |

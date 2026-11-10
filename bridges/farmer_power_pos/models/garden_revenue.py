@@ -5,7 +5,7 @@ from odoo import api, fields, models
 
 class GardenRevenue(models.AbstractModel):
     _inherit = 'garden.revenue'
-    # Ventes de marché du point de vente (pont ``odoo_garden_pos``).
+    # Ventes de marché du point de vente (pont ``farmer_power_pos``).
     #
     # Lignes retenues : lignes de commandes PdV payées ou comptabilisées (états ``paid`` et ``done``), hors
     # commandes annulées ou en cours. Montant : ``price_subtotal`` (HT) converti en monnaie de la société à la

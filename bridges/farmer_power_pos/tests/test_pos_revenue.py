@@ -2,7 +2,7 @@ from odoo import Command
 from odoo.exceptions import AccessError
 from odoo.tests import tagged
 
-from odoo.addons.odoo_garden.tests.test_revenue import GardenRevenueCase
+from odoo.addons.farmer_power.tests.test_revenue import GardenRevenueCase
 
 
 class GardenPosCase(GardenRevenueCase):

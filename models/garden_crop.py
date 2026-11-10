@@ -145,7 +145,7 @@ class GardenCrop(models.Model):
     notes = fields.Text('Notes', help='Free comments on the crop.')
     harvest_move_ids = fields.One2many(
         'stock.move', 'garden_crop_id', string='Harvest Moves', readonly=True,
-        domain=[('garden_kind', 'in', ('harvest', 'harvest_return'))], groups='odoo_garden.group_garden_chef',
+        domain=[('garden_kind', 'in', ('harvest', 'harvest_return'))], groups='farmer_power.group_garden_chef',
         help='Stock entries created by harvest operations, and their cancellations.',
     )
     harvested_qty = fields.Float(
@@ -178,12 +178,12 @@ class GardenCrop(models.Model):
     )
     labour_cost = fields.Float(
         'Labor Cost', compute='_compute_labour', store=True, digits='Product Price',
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Sum of the labor cost allocated to the crop by the operations done.',
     )
     input_cost = fields.Float(
         'Input Cost', compute='_compute_labour', store=True, digits='Product Price',
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Sum of the input cost allocated to the crop by the operations done.',
     )
     expected_hours = fields.Float(
@@ -202,32 +202,32 @@ class GardenCrop(models.Model):
     # au chef de culture et au gérant.
     revenue = fields.Float(
         'Revenue', compute='_compute_revenue', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Amount excluding tax of the posted customer invoices attributed to the crop, according to the '
              "method chosen in the settings (by lot or pro rata of the month's harvests).",
     )
     sale_line_count = fields.Integer(
-        'Sale Lines', compute='_compute_revenue', compute_sudo=True, groups='odoo_garden.group_garden_chef',
+        'Sale Lines', compute='_compute_revenue', compute_sudo=True, groups='farmer_power.group_garden_chef',
         help='Number of customer invoice lines attributed (wholly or partly) to the crop.',
     )
     fixed_cost = fields.Float(
         'Fixed Costs', compute='_compute_margin', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Option: annual cost per m² (settings) × area × days of occupation / 365. Zero if the cost per m² '
              'is zero.',
     )
     margin = fields.Float(
         'Margin', compute='_compute_margin', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Revenue - labor cost - input cost - fixed costs.',
     )
     margin_per_hour = fields.Float(
         'Margin per Hour', compute='_compute_margin', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef', help='Margin / work hours (0 without hours).',
+        groups='farmer_power.group_garden_chef', help='Margin / work hours (0 without hours).',
     )
     margin_per_m2 = fields.Float(
         'Margin per m²', compute='_compute_margin', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef', help='Margin / occupied area (0 without area).',
+        groups='farmer_power.group_garden_chef', help='Margin / occupied area (0 without area).',
     )
     yield_gap = fields.Float(
         'Harvest Gap (kg)', compute='_compute_gaps', digits='Product Unit',
@@ -238,7 +238,7 @@ class GardenCrop(models.Model):
     )
     revenue_gap = fields.Float(
         'Revenue Gap', compute='_compute_revenue_gap', digits='Product Price', compute_sudo=True,
-        groups='odoo_garden.group_garden_chef', help='Revenue - expected revenue.',
+        groups='farmer_power.group_garden_chef', help='Revenue - expected revenue.',
     )
     operation_count = fields.Integer(
         'Number of Operations', compute='_compute_operation_count',
@@ -292,8 +292,8 @@ class GardenCrop(models.Model):
 
     @api.model
     def _get_fixed_cost_per_m2(self):
-        """Charges fixes annuelles par m² (paramètre système ``odoo_garden.fixed_cost_per_m2``, défaut 0)."""
-        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.fixed_cost_per_m2', '0')
+        """Charges fixes annuelles par m² (paramètre système ``farmer_power.fixed_cost_per_m2``, défaut 0)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('farmer_power.fixed_cost_per_m2', '0')
         try:
             return max(float(value), 0.0)
         except ValueError:
@@ -362,7 +362,7 @@ class GardenCrop(models.Model):
 
     def action_view_losses(self):
         self.ensure_one()
-        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_loss')
+        action = self.env['ir.actions.act_window']._for_xml_id('farmer_power.action_garden_loss')
         action['domain'] = [('crop_id', '=', self.id)]
         action['context'] = {'default_crop_id': self.id}
         return action
@@ -390,7 +390,7 @@ class GardenCrop(models.Model):
     def action_view_sales(self):
         """Bouton « Ventes » : lignes de factures clients attribuées à la culture (sans accès aux factures)."""
         self.ensure_one()
-        if not self.env.user.has_group('odoo_garden.group_garden_chef'):
+        if not self.env.user.has_group('farmer_power.group_garden_chef'):
             raise AccessError(self.env._('Only the crop manager and the manager can view sales.'))
         return self.env['garden.crop.sale']._open_for(self)
 
@@ -417,7 +417,7 @@ class GardenCrop(models.Model):
 
     def action_view_operations(self):
         self.ensure_one()
-        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_operation')
+        action = self.env['ir.actions.act_window']._for_xml_id('farmer_power.action_garden_operation')
         action['domain'] = self._get_operations_domain()
         action['context'] = {'default_scope': 'crop', 'default_crop_ids': [(6, 0, self.ids)]}
         return action
@@ -443,8 +443,8 @@ class GardenCrop(models.Model):
 
     @api.model
     def _get_seed_margin(self):
-        """Marge de semis en pourcentage (paramètre système ``odoo_garden.seed_margin``, défaut 20)."""
-        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.seed_margin', '20')
+        """Marge de semis en pourcentage (paramètre système ``farmer_power.seed_margin``, défaut 20)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('farmer_power.seed_margin', '20')
         try:
             return float(value)
         except ValueError:
@@ -762,7 +762,7 @@ class GardenCrop(models.Model):
         self._generate_operations()
         if len(self) == 1:
             return self.action_view_operations()
-        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_operation')
+        action = self.env['ir.actions.act_window']._for_xml_id('farmer_power.action_garden_operation')
         action['domain'] = [('crop_ids', 'in', self.ids)]
         return action
 

@@ -58,13 +58,13 @@ class GardenOperationInput(models.Model):
     )
     unit_cost = fields.Float(
         'Unit Cost', compute='_compute_unit_cost', store=True, readonly=False, digits=(16, 5),
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Cost of the product per unit of the line. Suggested from the product cost; frozen when the '
              'operation is done.',
     )
     cost = fields.Float(
         'Cost', compute='_compute_cost', store=True, digits='Product Price',
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Quantity × unit cost.',
     )
 

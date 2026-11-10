@@ -11,8 +11,8 @@ class TestGardenPurchaseTranslations(TransactionCase):
                  'it_IT': 'Crea richieste di offerta', 'pt_BR': 'Criar solicitações de cotação'}
         for lang in langs:
             self.env['res.lang']._activate_lang(lang)
-        self.env['ir.module.module']._load_module_terms(['odoo_garden_purchase'], list(langs), overwrite=True)
-        action = self.env.ref('odoo_garden_purchase.action_garden_seed_order_wizard')
+        self.env['ir.module.module']._load_module_terms(['farmer_power_purchase'], list(langs), overwrite=True)
+        action = self.env.ref('farmer_power_purchase.action_garden_seed_order_wizard')
         self.assertEqual(action.with_context(lang='en_US').name, 'Create Requests for Quotation')
         for lang, expected in langs.items():
             self.assertEqual(action.with_context(lang=lang).name, expected, lang)

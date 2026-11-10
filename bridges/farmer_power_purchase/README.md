@@ -1,7 +1,7 @@
-# Farmer Power - Purchase bridge (`odoo_garden_purchase`)
+# Farmer Power - Purchase bridge (`farmer_power_purchase`)
 
-Optional module, installed automatically (`auto_install`) when `odoo_garden` and `purchase` are both installed.
-It adds no dependency to `odoo_garden`.
+Optional module, installed automatically (`auto_install`) when `farmer_power` and `purchase` are both installed.
+It adds no dependency to `farmer_power`.
 
 ## What it does
 
@@ -35,4 +35,4 @@ Existing purchase orders stay invisible to them.
 
 ## Tests
 
-`odoo-bin -d <db> -i odoo_garden_purchase --test-enable --test-tags /odoo_garden_purchase --stop-after-init`
+`odoo-bin -d <db> -i farmer_power_purchase --test-enable --test-tags /farmer_power_purchase --stop-after-init`

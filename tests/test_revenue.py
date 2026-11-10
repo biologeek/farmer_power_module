@@ -22,7 +22,7 @@ class GardenRevenueCase(GardenHarvestCase):
 
     @classmethod
     def set_method(cls, method):
-        cls.env['ir.config_parameter'].sudo().set_param('odoo_garden.revenue_method', method)
+        cls.env['ir.config_parameter'].sudo().set_param('farmer_power.revenue_method', method)
 
     def _invoice(self, product, qty, price, date, move_type='out_invoice', currency=None, post=True):
         move = self.env['account.move'].create({
@@ -153,7 +153,7 @@ class TestGardenRevenueProrata(GardenRevenueCase):
         self.assertAlmostEqual(self._revenue(self.big)[self.big], 50.0)
 
     def test_settings_default_and_parameter(self):
-        self.env['ir.config_parameter'].sudo().search([('key', '=', 'odoo_garden.revenue_method')]).unlink()
+        self.env['ir.config_parameter'].sudo().search([('key', '=', 'farmer_power.revenue_method')]).unlink()
         self.assertEqual(self.env['garden.revenue']._get_method(), 'prorata')
         self.set_method('lot')
         self.assertEqual(self.env['garden.revenue']._get_method(), 'lot')
@@ -262,7 +262,7 @@ class TestGardenIndicators(GardenRevenueCase):
         self._harvest(crop, 30.0, date='2027-07-05')
         self._invoice(self.tomato, 30, 5.0, '2027-07-31')
         self.assertAlmostEqual(crop.fixed_cost, 0.0)
-        self.env['ir.config_parameter'].sudo().set_param('odoo_garden.fixed_cost_per_m2', '73')
+        self.env['ir.config_parameter'].sudo().set_param('farmer_power.fixed_cost_per_m2', '73')
         crop.invalidate_recordset()
         self.assertTrue(crop.occupation_days > 0)
         expected = 73.0 * 36.0 * crop.occupation_days / 365.0

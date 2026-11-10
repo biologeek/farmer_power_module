@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app data-string="Market Gardening" string="Market Gardening" name="odoo_garden" groups="odoo_garden.group_garden_manager">
+                <app data-string="Market Gardening" string="Market Gardening" name="farmer_power" groups="farmer_power.group_garden_manager">
                     <block title="Planning" name="garden_planning_setting_container">
                         <setting string="Sowing Margin" id="garden_seed_margin_setting"
                                  help="Extra seeds planned on top of the germination rate to compute the seed needs.">
@@ -82,6 +82,6 @@
         <field name="name">Settings</field>
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
-        <field name="context">{'module': 'odoo_garden', 'bin_size': False}</field>
+        <field name="context">{'module': 'farmer_power', 'bin_size': False}</field>
     </record>
 </odoo>

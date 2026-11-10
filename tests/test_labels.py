@@ -22,11 +22,11 @@ class TestGardenBedLabels(GardenOperationCase):
     def test_qr_url_opens_the_bed(self):
         url = self.bed._get_qr_url()
         self.assertTrue(url.startswith(self.bed.get_base_url()))
-        self.assertTrue(url.endswith('/odoo/action-odoo_garden.action_garden_bed/%d' % self.bed.id))
+        self.assertTrue(url.endswith('/odoo/action-farmer_power.action_garden_bed/%d' % self.bed.id))
         # la route /odoo/action-<xmlid>/<id> se résout en l'action des planches et l'enregistrement
         path = urlparse(url).path
         [(active_id, action, record_id)] = list(get_action_triples(self.env, path.removeprefix('/odoo')))
-        self.assertEqual(action, self.env.ref('odoo_garden.action_garden_bed'))
+        self.assertEqual(action, self.env.ref('farmer_power.action_garden_bed'))
         self.assertEqual(record_id, self.bed.id)
 
     def test_qr_image_source(self):
@@ -43,7 +43,7 @@ class TestGardenBedLabels(GardenOperationCase):
 
     def test_label_report_renders(self):
         beds = self.bed | self.bed2
-        report = self.env.ref('odoo_garden.action_report_garden_bed_label')
+        report = self.env.ref('farmer_power.action_report_garden_bed_label')
         self.assertEqual(report.report_type, 'qweb-pdf')
         self.assertEqual(report.model, 'garden.bed')
         html, report_type = self.env['ir.actions.report']._render_qweb_html(report.report_name, beds.ids)
@@ -88,6 +88,6 @@ class TestGardenBedLabelsHttp(HttpCase):
             self.assertEqual(response.headers['Content-Type'], 'image/png')
             self.assertTrue(response.content.startswith(b'\x89PNG'))
         # l'adresse du QR code ouvre le client web
-        path = '/odoo/action-odoo_garden.action_garden_bed/%d' % bed.id
+        path = '/odoo/action-farmer_power.action_garden_bed/%d' % bed.id
         response = self.url_open(path)
         self.assertEqual(response.status_code, 200)

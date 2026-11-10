@@ -2,7 +2,7 @@ from odoo.exceptions import AccessError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase, new_test_user
 
-from odoo.addons.odoo_garden import datasets
+from odoo.addons.farmer_power import datasets
 
 
 @tagged('post_install', '-at_install')
@@ -16,8 +16,8 @@ class TestGardenDatasetContent(TransactionCase):
             for species_key, names in data.VARIETIES.items():
                 with self.subTest(code=code, species=species_key):
                     self.assertIn(species_key, datasets.SPECIES_SEEDS)
-                    self.assertTrue(self.env.ref('odoo_garden.species_' + species_key, raise_if_not_found=False))
-                    self.assertTrue(self.env.ref('odoo_garden.product_harvest_' + species_key, raise_if_not_found=False))
+                    self.assertTrue(self.env.ref('farmer_power.species_' + species_key, raise_if_not_found=False))
+                    self.assertTrue(self.env.ref('farmer_power.product_harvest_' + species_key, raise_if_not_found=False))
                     self.assertEqual(len(names), len(set(names)), 'duplicate variety name')
             self.assertEqual(set(data.INPUT_NAMES), set(datasets.INPUTS), code)
             self.assertGreaterEqual(sum(len(v) for v in data.VARIETIES.values()), 90, code)
@@ -63,11 +63,11 @@ class TestGardenDatasetLoading(TransactionCase):
 
     def test_varieties_are_linked_to_species_and_harvest_product(self):
         self.Dataset._load_dataset('fr')
-        variety = self.env.ref("odoo_garden.dataset_fr_variety_tomato_coeur_de_boeuf")
+        variety = self.env.ref("farmer_power.dataset_fr_variety_tomato_coeur_de_boeuf")
         self.assertEqual(variety.name, 'Cœur de Bœuf')
-        self.assertEqual(variety.species_id, self.env.ref('odoo_garden.species_tomato'))
+        self.assertEqual(variety.species_id, self.env.ref('farmer_power.species_tomato'))
         self.assertEqual(
-            variety.harvest_product_id.product_tmpl_id, self.env.ref('odoo_garden.product_harvest_tomato'),
+            variety.harvest_product_id.product_tmpl_id, self.env.ref('farmer_power.product_harvest_tomato'),
         )
         self.assertEqual(variety.germination_rate, 90)
         self.assertEqual(variety.seeds_per_gram, 300)
@@ -76,15 +76,15 @@ class TestGardenDatasetLoading(TransactionCase):
 
     def test_inputs_feed_the_fertilization_register(self):
         self.Dataset._load_dataset('de')
-        feather = self.env.ref('odoo_garden.dataset_de_input_feather_meal')
+        feather = self.env.ref('farmer_power.dataset_de_input_feather_meal')
         self.assertEqual(feather.name, 'Federmehl (kg)')
         self.assertEqual(feather.garden_input_type, 'fertilizer')
         self.assertEqual(feather.nitrogen_content, 12.0)
         self.assertTrue(feather.is_organic_allowed)
         self.assertEqual(feather.uom_id, self.env.ref('uom.product_uom_kgm'))
-        npk = self.env.ref('odoo_garden.dataset_de_input_npk')
+        npk = self.env.ref('farmer_power.dataset_de_input_npk')
         self.assertFalse(npk.is_organic_allowed)  # flagged by the organic certification export
-        ash = self.env.ref('odoo_garden.dataset_de_input_wood_ash')
+        ash = self.env.ref('farmer_power.dataset_de_input_wood_ash')
         self.assertEqual(ash.garden_input_type, 'amendment')
         self.assertFalse(self.env['product.template'].search([
             ('garden_input_type', '=', 'phytosanitary'), ('name', 'like', 'dataset')]))
@@ -99,14 +99,14 @@ class TestGardenDatasetLoading(TransactionCase):
 
     def test_reload_is_idempotent_and_keeps_user_edits(self):
         self.Dataset._load_dataset('es')
-        variety = self.env.ref('odoo_garden.dataset_es_variety_tomato_raf')
+        variety = self.env.ref('farmer_power.dataset_es_variety_tomato_raf')
         variety.germination_rate = 77.0
         counts = self.Dataset._load_dataset('es')
         self.assertEqual(counts, {'varieties': 0, 'inputs': 0})
         self.assertEqual(variety.germination_rate, 77.0)
 
     def test_manual_variety_is_not_duplicated(self):
-        species = self.env.ref('odoo_garden.species_tomato')
+        species = self.env.ref('farmer_power.species_tomato')
         manual = self.env['garden.variety'].create({'name': 'Marmande', 'species_id': species.id})
         self.Dataset._load_dataset('fr')
         self.assertEqual(self.env['garden.variety'].search_count([('name', '=', 'Marmande'), ('species_id', '=', species.id)]), 1)
@@ -115,8 +115,8 @@ class TestGardenDatasetLoading(TransactionCase):
     def test_two_languages_coexist(self):
         self.Dataset._load_dataset('fr')
         self.Dataset._load_dataset('nl')
-        self.assertTrue(self.env.ref('odoo_garden.dataset_fr_variety_tomato_marmande'))
-        self.assertTrue(self.env.ref('odoo_garden.dataset_nl_variety_tomato_moneymaker'))
+        self.assertTrue(self.env.ref('farmer_power.dataset_fr_variety_tomato_marmande'))
+        self.assertTrue(self.env.ref('farmer_power.dataset_nl_variety_tomato_moneymaker'))
 
     def test_unknown_language_is_refused(self):
         with self.assertRaises(Exception):
@@ -136,14 +136,14 @@ class TestGardenDatasetLoading(TransactionCase):
 class TestGardenDatasetWizard(TransactionCase):
 
     def test_wizard_loads_catalog_and_notifies(self):
-        chef = new_test_user(self.env, login='dataset_chef', groups='odoo_garden.group_garden_chef,base.group_user')
+        chef = new_test_user(self.env, login='dataset_chef', groups='farmer_power.group_garden_chef,base.group_user')
         wizard = self.env['garden.dataset.wizard'].with_user(chef).create({'lang_code': 'pt_BR'})
         action = wizard.action_load()
         self.assertEqual(action['tag'], 'display_notification')
-        self.assertTrue(self.env.ref('odoo_garden.dataset_pt_BR_variety_tomato_santa_cruz'))
-        self.assertTrue(self.env.ref('odoo_garden.dataset_pt_BR_input_wood_ash'))
+        self.assertTrue(self.env.ref('farmer_power.dataset_pt_BR_variety_tomato_santa_cruz'))
+        self.assertTrue(self.env.ref('farmer_power.dataset_pt_BR_input_wood_ash'))
 
     def test_worker_cannot_open_wizard(self):
-        worker = new_test_user(self.env, login='dataset_worker', groups='odoo_garden.group_garden_worker,base.group_user')
+        worker = new_test_user(self.env, login='dataset_worker', groups='farmer_power.group_garden_worker,base.group_user')
         with self.assertRaises(AccessError):
             self.env['garden.dataset.wizard'].with_user(worker).create({'lang_code': 'fr'})

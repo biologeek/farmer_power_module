@@ -28,8 +28,8 @@ class GardenRevenue(models.AbstractModel):
 
     @api.model
     def _get_method(self):
-        """Méthode d'attribution (paramètre système ``odoo_garden.revenue_method``, défaut « prorata »)."""
-        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.revenue_method', 'prorata')
+        """Méthode d'attribution (paramètre système ``farmer_power.revenue_method``, défaut « prorata »)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('farmer_power.revenue_method', 'prorata')
         return value if value in ('lot', 'prorata') else 'prorata'
 
     @api.model
@@ -56,7 +56,7 @@ class GardenRevenue(models.AbstractModel):
 
     @api.model
     def get_extra_entries(self, crops, method=None):
-        """Point d'extension des modules passerelles (par exemple ``odoo_garden_pos``).
+        """Point d'extension des modules passerelles (par exemple ``farmer_power_pos``).
 
         Retourne ``{id de culture: [entrée, ...]}`` pour les ventes qui ne passent pas par une ligne de facture
         client comptabilisée. Chaque entrée est un dict : ``key`` (tuple ``(modèle, id)``), ``date``,
@@ -182,8 +182,8 @@ class GardenRevenue(models.AbstractModel):
     @api.model
     def _create_demo_lot_sale(self):
         """Démo : commande de tomates livrée sur le lot de la culture, facturée et comptabilisée (méthode par lot)."""
-        crop = self.env.ref('odoo_garden.demo_crop_2027_tomato_coeur_s1_01', raise_if_not_found=False)
-        partner = self.env.ref('odoo_garden.demo_customer_market', raise_if_not_found=False)
+        crop = self.env.ref('farmer_power.demo_crop_2027_tomato_coeur_s1_01', raise_if_not_found=False)
+        partner = self.env.ref('farmer_power.demo_customer_market', raise_if_not_found=False)
         if not crop or not partner or not crop.lot_ids:
             return
         lot = crop.lot_ids[:1]

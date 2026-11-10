@@ -325,13 +325,13 @@ class GardenComplianceWizard(models.TransientModel):
     # Calcul, impression, export
     # ------------------------------------------------------------------
     def _check_access_chef(self):
-        if not self.env.user.has_group('odoo_garden.group_garden_chef'):
+        if not self.env.user.has_group('farmer_power.group_garden_chef'):
             raise AccessError(self.env._('Regulatory registers are reserved to the crop manager and the manager.'))
 
     @api.model
     def _is_compliance_enabled(self):
-        """Paramètre système ``odoo_garden.compliance_enabled`` (activé par défaut)."""
-        value = self.env['ir.config_parameter'].sudo().get_param('odoo_garden.compliance_enabled', 'True')
+        """Paramètre système ``farmer_power.compliance_enabled`` (activé par défaut)."""
+        value = self.env['ir.config_parameter'].sudo().get_param('farmer_power.compliance_enabled', 'True')
         return str(value).strip().lower() not in ('false', '0', '')
 
     def _compute_lines(self):
@@ -371,15 +371,15 @@ class GardenComplianceWizard(models.TransientModel):
         if self.register == 'organic':
             raise UserError(self.env._('The organic certification export is in XLSX format.'))
         self._compute_lines()
-        return self.env.ref('odoo_garden.action_report_garden_compliance').report_action(self)
+        return self.env.ref('farmer_power.action_report_garden_compliance').report_action(self)
 
     def action_export_xlsx(self):
-        """Bouton « Exporter » : téléchargement du fichier XLSX (contrôleur ``/odoo_garden/compliance/xlsx``)."""
+        """Bouton « Exporter » : téléchargement du fichier XLSX (contrôleur ``/farmer_power/compliance/xlsx``)."""
         self.ensure_one()
         self._check_access_chef()
         return {
             'type': 'ir.actions.act_url',
-            'url': '/odoo_garden/compliance/xlsx/%d' % self.id,
+            'url': '/farmer_power/compliance/xlsx/%d' % self.id,
             'target': 'self',
         }
 
@@ -393,11 +393,11 @@ class GardenComplianceWizard(models.TransientModel):
             'res_model': 'garden.compliance.line',
             'view_mode': 'pivot,list',
             'views': [
-                (self.env.ref('odoo_garden.view_garden_compliance_line_fertilization_pivot').id, 'pivot'),
-                (self.env.ref('odoo_garden.view_garden_compliance_line_fertilization_list').id, 'list'),
+                (self.env.ref('farmer_power.view_garden_compliance_line_fertilization_pivot').id, 'pivot'),
+                (self.env.ref('farmer_power.view_garden_compliance_line_fertilization_list').id, 'list'),
             ],
             'domain': [('wizard_id', '=', self.id), ('register', '=', 'fertilization')],
-            'search_view_id': [self.env.ref('odoo_garden.view_garden_compliance_line_search').id, 'search'],
+            'search_view_id': [self.env.ref('farmer_power.view_garden_compliance_line_search').id, 'search'],
         }
 
     @api.model

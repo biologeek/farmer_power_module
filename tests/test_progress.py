@@ -10,7 +10,7 @@ class TestGardenCropProgress(GardenHarvestCase):
 
     def _do(self, crop, type_xmlid, date, **vals):
         operation = self._operation(
-            type_id=self.env.ref('odoo_garden.' + type_xmlid).id, crop_ids=[(6, 0, crop.ids)], **vals,
+            type_id=self.env.ref('farmer_power.' + type_xmlid).id, crop_ids=[(6, 0, crop.ids)], **vals,
         )
         operation.write({'date': date})
         operation.action_done()

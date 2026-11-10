@@ -40,12 +40,12 @@ class GardenOperationAllocation(models.Model):
     )
     labour_cost = fields.Float(
         'Labor Cost', compute='_compute_labour_cost', store=True, digits='Product Price',
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Labor cost of the operation × share of the crop.',
     )
     input_cost = fields.Float(
         'Input Cost', compute='_compute_input_cost', store=True, digits='Product Price',
-        groups='odoo_garden.group_garden_chef',
+        groups='farmer_power.group_garden_chef',
         help='Input cost of the operation × share of the crop.',
     )
 

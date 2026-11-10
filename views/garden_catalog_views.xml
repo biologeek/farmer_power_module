@@ -332,14 +332,14 @@
                 <group name="garden_group" string="Market Gardening">
                     <field name="garden_input_type"/>
                     <field name="amm_number" invisible="garden_input_type != 'phytosanitary'"
-                           groups="odoo_garden.group_garden_chef" placeholder="E.g. 2010000"/>
+                           groups="farmer_power.group_garden_chef" placeholder="E.g. 2010000"/>
                     <field name="pre_harvest_interval_days" invisible="garden_input_type != 'phytosanitary'"
-                           groups="odoo_garden.group_garden_chef"/>
+                           groups="farmer_power.group_garden_chef"/>
                     <field name="is_organic_allowed"
                            invisible="garden_input_type not in ('phytosanitary', 'fertilizer', 'amendment', 'substrate')"
-                           groups="odoo_garden.group_garden_chef"/>
+                           groups="farmer_power.group_garden_chef"/>
                     <field name="nitrogen_content" invisible="garden_input_type != 'fertilizer'"
-                           groups="odoo_garden.group_garden_chef"/>
+                           groups="farmer_power.group_garden_chef"/>
                 </group>
             </xpath>
         </field>

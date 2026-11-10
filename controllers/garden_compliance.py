@@ -4,7 +4,7 @@ from odoo.http import content_disposition, request
 
 class GardenComplianceController(http.Controller):
 
-    @http.route('/odoo_garden/compliance/xlsx/<int:wizard_id>', type='http', auth='user', readonly=False)
+    @http.route('/farmer_power/compliance/xlsx/<int:wizard_id>', type='http', auth='user', readonly=False)
     def compliance_xlsx(self, wizard_id, **kw):
         """Télécharge le registre réglementaire de l'écran ``wizard_id`` au format XLSX.
 

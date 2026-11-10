@@ -22,7 +22,7 @@
             <form>
                 <header>
                     <button name="action_new_operation" string="New Operation" type="object" class="btn-primary"/>
-                    <button name="%(odoo_garden.action_report_garden_bed_label)d" string="QR Label" type="action"/>
+                    <button name="%(farmer_power.action_report_garden_bed_label)d" string="QR Label" type="action"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">

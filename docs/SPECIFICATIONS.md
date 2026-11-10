@@ -1,4 +1,4 @@
-# Farmer Power (module `odoo_garden`) — Spécifications fonctionnelles et techniques (v2)
+# Farmer Power (module `farmer_power`) — Spécifications fonctionnelles et techniques (v2)
 
 Document de cadrage pour transformer le module actuel en application payante de gestion maraîchère, intégrée aux applications standard d'Odoo (Inventaire, Ventes, Employés, Achats, Point de vente).
 
@@ -11,9 +11,9 @@ Il est destiné à l'agent de développement : chaque phase (§ 7) est autonome,
 Toutes les phases du § 7 sont réalisées et commitées (version du module `19.0.1.8.0`). Le détail de ce qui existe (modèle de données, menus, sécurité, tests) est dans [`README.md`](../README.md), le vocabulaire dans [`GLOSSARY.md`](GLOSSARY.md). Le cahier des charges ci-dessous est conservé tel qu'il a été écrit ; ses libellés métier restent français (les chaînes sources du code sont en anglais, traduites par `i18n/*.po`).
 
 **Écarts connus au cahier des charges** (les points de détail des phases 0 à 6 sont dans la section « Points connus / à corriger » du README) :
-- **Ponts** (§ 4, § 7) : `odoo_garden_purchase` et `odoo_garden_pos` sont deux modules `auto_install` placés sous `bridges/` ; pour qu'Odoo les trouve il faut les lier ou les copier dans l'`addons_path` (README, « Installation »). Le pont Achats est un assistant par saison (quantités déjà demandées déduites) plutôt qu'un simple bouton ; le pont Point de vente rapproche les lots par **nom de lot** saisi sur la ligne (le lot de culture porte le nom de la culture) et ignore, au prorata, les commandes déjà facturées (§ 5.3).
-- **Traductions** (§ 7) : `i18n/odoo_garden.pot` (et non `fr.pot`), `fr.po` repris des anciens libellés français, puis es, de, nl, it, pt_BR **traduits par machine, à relire** ; arabe, chinois et japonais ne sont pas faits. « Îlot » est traduit « Block » en anglais.
-- **Registres français** (§ 7) : isolés derrière le paramètre `odoo_garden.compliance_enabled`, libellés « (France) » ; ils ne sont pas retirés du module.
+- **Ponts** (§ 4, § 7) : `farmer_power_purchase` et `farmer_power_pos` sont deux modules `auto_install` placés sous `bridges/` ; pour qu'Odoo les trouve il faut les lier ou les copier dans l'`addons_path` (README, « Installation »). Le pont Achats est un assistant par saison (quantités déjà demandées déduites) plutôt qu'un simple bouton ; le pont Point de vente rapproche les lots par **nom de lot** saisi sur la ligne (le lot de culture porte le nom de la culture) et ignore, au prorata, les commandes déjà facturées (§ 5.3).
+- **Traductions** (§ 7) : `i18n/farmer_power.pot` (et non `fr.pot`), `fr.po` repris des anciens libellés français, puis es, de, nl, it, pt_BR **traduits par machine, à relire** ; arabe, chinois et japonais ne sont pas faits. « Îlot » est traduit « Block » en anglais.
+- **Registres français** (§ 7) : isolés derrière le paramètre `farmer_power.compliance_enabled`, libellés « (France) » ; ils ne sont pas retirés du module.
 - **Publication** (§ 7, § 9 point 5) : licence `OPL-1`, `price`, `currency`, `author` et `website` sont **provisoires** (`TODO`), le texte de la licence n'est pas dans le dépôt ; page `static/description/index.html`, icône et six captures sont fournies ; rien n'a été publié. Voir « À définir avant publication » dans le README.
 - **Environnement** (§ 8) : le module n'est plus recopié dans `odoo/custom_addons/` ; `custom_addons/` (hors dépôt) contient des liens symboliques vers le module et les ponts.
 
@@ -226,8 +226,8 @@ Fonctionnalités :
 | `sale_management`, `account` | Chiffre d'affaires par culture (via lots ou au prorata, § 5.3) |
 | `hr` | Employés ; coût horaire porté par `garden_hourly_cost` (`hourly_cost` appartient à `hr_hourly_cost`) |
 | `mail` | Fil de discussion et pièces jointes (photos) sur cultures, planches et opérations |
-| `purchase` (pont optionnel `odoo_garden_purchase`) | Demandes de prix de semences depuis les besoins du plan |
-| `point_of_sale` (pont optionnel `odoo_garden_pos`) | Ventes des marchés intégrées au chiffre d'affaires |
+| `purchase` (pont optionnel `farmer_power_purchase`) | Demandes de prix de semences depuis les besoins du plan |
+| `point_of_sale` (pont optionnel `farmer_power_pos`) | Ventes des marchés intégrées au chiffre d'affaires |
 
 Le module doit rester **compatible Community** : aucune dépendance à `web_gantt`, `sale_subscription` ou à un autre module Enterprise.
 
@@ -298,7 +298,7 @@ Chaque phase se termine par : module installable sur une base vierge, mise à jo
 
 ### Phase 0 — Assainissement
 - Corriger les bugs listés dans `README.md` :
-  - référence `odoo_garden.action_garden_farm` dans le contrôleur
+  - référence `farmer_power.action_garden_farm` dans le contrôleur
   - droits manquants sur `garden.culture.mode` et `garden.plot`
   - le Gantt doit recevoir un domaine et non le contexte
   - `view_mode` `list`
@@ -343,7 +343,7 @@ Chaque phase se termine par : module installable sur une base vierge, mise à jo
 - Registre phytosanitaire (PDF + XLSX), contrôle DAR, registre de fertilisation, export bio.
 
 ### Phase 7 — Ponts optionnels et publication
-- `odoo_garden_purchase` (demandes de prix de semences), `odoo_garden_pos` (CA des marchés), en `auto_install`.
+- `farmer_power_purchase` (demandes de prix de semences), `farmer_power_pos` (CA des marchés), en `auto_install`.
 - Traductions : `i18n/fr.pot` et `fr.po` (les libellés sources passent en anglais, voir § 8).
   - **À prévoir : traductions dans les principaux marchés d'Odoo**, en plus du français. Langues à retenir (à confirmer avant la phase 7) : anglais (langue source), espagnol, allemand, néerlandais, italien, portugais (Brésil), éventuellement arabe, chinois et japonais.
   - Générer le `.pot` à partir de l'interface (export des termes d'Odoo), produire un `.po` par langue, et relire les termes agricoles (rotation, planche, îlot, délai avant récolte), qui se traduisent mal automatiquement.
@@ -358,7 +358,7 @@ Chaque phase se termine par : module installable sur une base vierge, mise à jo
 
 ## 8. Consignes techniques pour le développement
 
-- **Répertoire de travail** : ce dossier. Après chaque modification, recopier le module dans `odoo/custom_addons/odoo_garden` (voir `COPILOT.md`).
+- **Répertoire de travail** : ce dossier. Après chaque modification, recopier le module dans `odoo/custom_addons/farmer_power` (voir `COPILOT.md`).
 - **Conventions Odoo 19** : vérifier dans le code source d'Odoo 19 avant d'utiliser une API dont la forme a changé.
   - vues `list` (et non `tree`) ; attributs `invisible` / `readonly` / `required` en expressions (pas de `attrs` ni de `states`)
   - `<chatter/>` dans les formulaires
@@ -377,7 +377,7 @@ Chaque phase se termine par : module installable sur une base vierge, mise à jo
   - attribution du CA par lot et au prorata
   - contrôle DAR
   - droits d'accès de l'ouvrier (pas d'accès aux coûts)
-- **Commande de test** : `odoo-bin -d <base> -i odoo_garden --test-enable --stop-after-init` (à adapter à l'environnement local).
+- **Commande de test** : `odoo-bin -d <base> -i farmer_power --test-enable --stop-after-init` (à adapter à l'environnement local).
 - **Un commit par phase** (ou par sous-étape significative), message en français.
 
 ---

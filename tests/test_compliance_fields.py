@@ -12,9 +12,9 @@ class GardenComplianceCase(GardenStockCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.type_treatment = cls.env.ref('odoo_garden.operation_type_treatment')
-        cls.type_fertilization = cls.env.ref('odoo_garden.operation_type_fertilization')
-        cls.manager = new_test_user(cls.env, login='garden_comp_manager', groups='odoo_garden.group_garden_manager')
+        cls.type_treatment = cls.env.ref('farmer_power.operation_type_treatment')
+        cls.type_fertilization = cls.env.ref('farmer_power.operation_type_fertilization')
+        cls.manager = new_test_user(cls.env, login='garden_comp_manager', groups='farmer_power.group_garden_manager')
         cls.phyto = cls._storable(
             'Phyto test', garden_input_type='phytosanitary', standard_price=10.0,
             amm_number='AMM-TEST-0001', pre_harvest_interval_days=7,

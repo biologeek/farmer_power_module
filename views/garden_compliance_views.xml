@@ -134,11 +134,11 @@
                         used on an organic crop (red lines, "Organic Alerts" tab of the export).
                     </div>
                     <field name="phyto_line_ids" nolabel="1" invisible="register != 'phyto' or not line_count"
-                           readonly="1" context="{'list_view_ref': 'odoo_garden.view_garden_compliance_line_phyto_list'}"/>
+                           readonly="1" context="{'list_view_ref': 'farmer_power.view_garden_compliance_line_phyto_list'}"/>
                     <field name="organic_line_ids" nolabel="1" invisible="register != 'organic' or not line_count"
-                           readonly="1" context="{'list_view_ref': 'odoo_garden.view_garden_compliance_line_organic_list'}"/>
+                           readonly="1" context="{'list_view_ref': 'farmer_power.view_garden_compliance_line_organic_list'}"/>
                     <field name="fertilization_line_ids" nolabel="1" invisible="register != 'fertilization' or not line_count"
-                           readonly="1" context="{'list_view_ref': 'odoo_garden.view_garden_compliance_line_fertilization_list'}"/>
+                           readonly="1" context="{'list_view_ref': 'farmer_power.view_garden_compliance_line_fertilization_list'}"/>
                 </sheet>
             </form>
         </field>

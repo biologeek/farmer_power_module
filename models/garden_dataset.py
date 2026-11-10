@@ -49,12 +49,12 @@ class GardenDataset(models.AbstractModel):
 
     @api.model
     def _exists_xmlid(self, xmlid):
-        return bool(self.env['ir.model.data']._xmlid_to_res_id('odoo_garden.' + xmlid, raise_if_not_found=False))
+        return bool(self.env['ir.model.data']._xmlid_to_res_id('farmer_power.' + xmlid, raise_if_not_found=False))
 
     @api.model
     def _register_xmlids(self, records_by_xmlid):
         self.env['ir.model.data']._update_xmlids([
-            {'xml_id': 'odoo_garden.' + xmlid, 'record': record, 'noupdate': True}
+            {'xml_id': 'farmer_power.' + xmlid, 'record': record, 'noupdate': True}
             for xmlid, record in records_by_xmlid.items()
         ])
 
@@ -62,8 +62,8 @@ class GardenDataset(models.AbstractModel):
     def _load_varieties(self, code, varieties):
         vals_list, xmlids = [], []
         for species_key, names in varieties.items():
-            species = self.env.ref('odoo_garden.species_' + species_key, raise_if_not_found=False)
-            template = self.env.ref('odoo_garden.product_harvest_' + species_key, raise_if_not_found=False)
+            species = self.env.ref('farmer_power.species_' + species_key, raise_if_not_found=False)
+            template = self.env.ref('farmer_power.product_harvest_' + species_key, raise_if_not_found=False)
             if not species:
                 continue
             seeds_per_gram, germination = datasets.SPECIES_SEEDS[species_key]

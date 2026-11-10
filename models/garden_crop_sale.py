@@ -52,7 +52,7 @@ class GardenCropSale(models.TransientModel):
             'amount': attribution[line.id],
             'share': (attribution[line.id] / -line.balance * 100.0) if line.balance else 0.0,
         } for line in lines])
-        action = self.env['ir.actions.act_window']._for_xml_id('odoo_garden.action_garden_crop_sale')
+        action = self.env['ir.actions.act_window']._for_xml_id('farmer_power.action_garden_crop_sale')
         action['domain'] = [('crop_id', '=', crop.id), ('create_uid', '=', self.env.uid)]
         action['name'] = self.env._('Sales: %s', crop.name)
         return action
