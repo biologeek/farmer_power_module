@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Farmer Power',
-    'version': '19.0.1.7.0',
+    'version': '19.0.1.8.0',
     'category': 'Agriculture',
     'summary': 'Market gardening for Odoo: farms, beds, crop templates, crop plan, operations and labor, stock, profitability and French regulatory registers.',
     # TODO before publication (see README, "To be defined before publication"): publisher, website, price.
@@ -38,8 +38,10 @@
         'views/garden_analytics_views.xml',
         'views/garden_compliance_views.xml',
         'views/res_config_settings_views.xml',
+        'views/garden_dataset_views.xml',
         'views/garden_menu.xml',
     ],
+    'post_init_hook': '_post_init_hook',
     'demo': [
         'demo/garden_demo.xml',
         'demo/garden_stock_demo.xml',

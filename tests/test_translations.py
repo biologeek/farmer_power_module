@@ -13,6 +13,8 @@ PLACEHOLDER = re.compile(r'%\([A-Za-z_]+\)[sdf]|%\.\d+f|%[sd]')
 # Languages with a .po file in the module (French is the original vocabulary; the others are machine translations).
 PO_CODES = sorted(os.path.basename(path)[:-3] for path in glob.glob(os.path.join(I18N_DIR, '*.po')))
 ODOO_LANGS = {'fr': 'fr_FR', 'es': 'es_ES', 'de': 'de_DE', 'nl': 'nl_NL', 'it': 'it_IT', 'pt_BR': 'pt_BR'}
+# Names of the starter catalog languages, written in each language (not translated).
+NATIVE_LANGUAGE_NAMES = {'Français', 'Español', 'Deutsch', 'Nederlands', 'Italiano', 'Português (Brasil)'}
 # Expected translations of key terms, per language.
 EXPECTED = {
     'fr': {'bed': 'Planche', 'block': 'Îlot', 'menu_beds': 'Planches', 'root': 'Farmer Power', 'sowing': 'Semis',
@@ -47,6 +49,8 @@ class TestGardenTranslationFiles(TransactionCase):
         for term in ('Bed', 'Crop Template', 'Pre-Harvest Interval (days)', 'Regulatory Registers (France)', 'Sowing'):
             self.assertIn(term, self.pot)
         for msgid in self.pot:
+            if msgid in NATIVE_LANGUAGE_NAMES:
+                continue  # language names are shown in their own language on purpose
             self.assertNotRegex(msgid, r'[éèêàçôûîï]', "French text left in the template: %r" % msgid)
 
     def test_pot_covers_every_kind_of_term(self):

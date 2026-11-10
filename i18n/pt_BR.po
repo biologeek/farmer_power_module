@@ -6519,3 +6519,99 @@ msgstr "Rendimento por ano"
 #: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "You are not allowed to open this dashboard."
 msgstr "Você não tem permissão para abrir este painel."
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_dataset_wizard__lang_code
+msgid "Catalog Language"
+msgstr "Idioma do catálogo"
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_dataset_wizard_form
+msgid "Load Catalog"
+msgstr "Carregar o catálogo"
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_dataset_wizard
+msgid "Load a Starter Catalog"
+msgstr "Carregar um catálogo inicial"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_dataset.py:0
+msgid "No starter catalog exists for this language."
+msgstr "Não existe um catálogo inicial para este idioma."
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_dataset_wizard
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_dataset
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_dataset_wizard_form
+msgid "Starter Catalog"
+msgstr "Catálogo inicial"
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_dataset
+msgid "Starter Catalog by Language"
+msgstr "Catálogo inicial por idioma"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_dataset.py:0
+msgid "Starter catalog loaded"
+msgstr "Catálogo inicial carregado"
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_dataset.py:0
+msgid ""
+"%(varieties)s varieties and %(inputs)s inputs created (existing ones are "
+"left untouched)."
+msgstr ""
+"%(varieties)s cultivares e %(inputs)s insumos criados (os itens já "
+"existentes não são alterados)."
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_dataset_wizard_form
+msgid ""
+"Adds the varieties commonly grown in the country of your choice (linked to the plant species\n"
+"                    and harvested products of the module) and complementary inputs (feather, blood and bone meal,\n"
+"                    mineral fertilizers, dolomite, wood ash). Plant protection products are not included, and the\n"
+"                    inputs already shipped with the module are not repeated. Records already loaded or edited are\n"
+"                    never duplicated or overwritten. Values are indicative: check them against your own practice."
+msgstr ""
+"Adiciona as cultivares comumente plantadas no país escolhido (vinculadas às "
+"espécies e aos produtos colhidos do módulo) e os insumos complementares "
+"(farinhas de penas, sangue e ossos, adubos minerais, dolomita, cinza de "
+"madeira). Os produtos fitossanitários não estão incluídos e os insumos já "
+"fornecidos com o módulo não são repetidos. Os registros já carregados ou "
+"modificados nunca são duplicados nem sobrescritos. Os valores são "
+"indicativos: confira-os com as suas práticas."
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__de
+msgid "Deutsch"
+msgstr "Deutsch"
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__es
+msgid "Español"
+msgstr "Español"
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__fr
+msgid "Français"
+msgstr "Français"
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__it
+msgid "Italiano"
+msgstr "Italiano"
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__nl
+msgid "Nederlands"
+msgstr "Nederlands"
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__pt_br
+msgid "Português (Brasil)"
+msgstr "Português (Brasil)"

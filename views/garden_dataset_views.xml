@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_garden_dataset_wizard_form" model="ir.ui.view">
+        <field name="name">garden.dataset.wizard.form</field>
+        <field name="model">garden.dataset.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Starter Catalog">
+                <p class="text-muted">
+                    Adds the varieties commonly grown in the country of your choice (linked to the plant species
+                    and harvested products of the module) and complementary inputs (feather, blood and bone meal,
+                    mineral fertilizers, dolomite, wood ash). Plant protection products are not included, and the
+                    inputs already shipped with the module are not repeated. Records already loaded or edited are
+                    never duplicated or overwritten. Values are indicative: check them against your own practice.
+                </p>
+                <group>
+                    <field name="lang_code"/>
+                </group>
+                <footer>
+                    <button name="action_load" string="Load Catalog" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_garden_dataset_wizard" model="ir.actions.act_window">
+        <field name="name">Starter Catalog</field>
+        <field name="res_model">garden.dataset.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

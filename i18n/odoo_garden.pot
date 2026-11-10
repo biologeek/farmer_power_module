@@ -6230,3 +6230,90 @@ msgstr ""
 #: code:addons/odoo_garden/models/garden_analytics.py:0
 msgid "You are not allowed to open this dashboard."
 msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields,field_description:odoo_garden.field_garden_dataset_wizard__lang_code
+msgid "Catalog Language"
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_dataset_wizard_form
+msgid "Load Catalog"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_dataset_wizard
+msgid "Load a Starter Catalog"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_dataset.py:0
+msgid "No starter catalog exists for this language."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.actions.act_window,name:odoo_garden.action_garden_dataset_wizard
+#: model:ir.ui.menu,name:odoo_garden.menu_garden_dataset
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_dataset_wizard_form
+msgid "Starter Catalog"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model,name:odoo_garden.model_garden_dataset
+msgid "Starter Catalog by Language"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_dataset.py:0
+msgid "Starter catalog loaded"
+msgstr ""
+
+#. module: odoo_garden
+#. odoo-python
+#: code:addons/odoo_garden/models/garden_dataset.py:0
+msgid ""
+"%(varieties)s varieties and %(inputs)s inputs created (existing ones are "
+"left untouched)."
+msgstr ""
+
+#. module: odoo_garden
+#: model_terms:ir.ui.view,arch_db:odoo_garden.view_garden_dataset_wizard_form
+msgid ""
+"Adds the varieties commonly grown in the country of your choice (linked to the plant species\n"
+"                    and harvested products of the module) and complementary inputs (feather, blood and bone meal,\n"
+"                    mineral fertilizers, dolomite, wood ash). Plant protection products are not included, and the\n"
+"                    inputs already shipped with the module are not repeated. Records already loaded or edited are\n"
+"                    never duplicated or overwritten. Values are indicative: check them against your own practice."
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__de
+msgid "Deutsch"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__es
+msgid "Español"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__fr
+msgid "Français"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__it
+msgid "Italiano"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__nl
+msgid "Nederlands"
+msgstr ""
+
+#. module: odoo_garden
+#: model:ir.model.fields.selection,name:odoo_garden.selection__garden_dataset_wizard__lang_code__pt_br
+msgid "Português (Brasil)"
+msgstr ""

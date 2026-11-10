@@ -21,3 +21,4 @@ from . import test_compliance_registers
 from . import test_translations
 from . import test_migration
 from . import test_analytics
+from . import test_dataset

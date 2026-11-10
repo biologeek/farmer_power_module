@@ -1,6 +1,6 @@
 # Farmer Power
 
-Module Odoo 19 (`odoo_garden`, version `19.0.1.7.0`, licence `OPL-1` : voir « À définir avant publication ») pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), stock (intrants consommés, récoltes en entrée de stock avec lot de culture, pertes et rebuts, traçabilité), ventes et rentabilité (chiffre d'affaires attribué aux cultures, marge, tableau de bord), conformité française (registre phytosanitaire, délai avant récolte, registre de fertilisation, export de certification bio) et, en modules optionnels, demandes de prix de semences (Achats) et ventes de marché (Point de Vente).
+Module Odoo 19 (`odoo_garden`, version `19.0.1.8.0`, licence `OPL-1` : voir « À définir avant publication ») pour la gestion d'une exploitation maraîchère : structure de la ferme (ferme, site, îlot, planche, avec surfaces et irrigation), catalogue (espèces, variétés liées aux produits, itinéraires techniques), planification (saisons, plan de culture, rétro-planning, besoins en semences), opérations et main-d'œuvre (travail planifié puis réalisé, chronomètre, coût, répartition sur les cultures), stock (intrants consommés, récoltes en entrée de stock avec lot de culture, pertes et rebuts, traçabilité), ventes et rentabilité (chiffre d'affaires attribué aux cultures, marge, tableau de bord), conformité française (registre phytosanitaire, délai avant récolte, registre de fertilisation, export de certification bio) et, en modules optionnels, demandes de prix de semences (Achats) et ventes de marché (Point de Vente).
 
 Le module dépend de `product`, `uom`, `mail`, `hr`, `stock`, `account`, `sale_management` et `sale_stock` et s'installe comme une application (menu **Market Gardening**, « Maraîchage » en français). Il est livré à la **phase 7** (ponts optionnels, traductions, préparation de la publication) de la feuille de route (`docs/SPECIFICATIONS.md`, § 7) : toutes les phases (0 à 7) sont réalisées. La page de présentation destinée à l'Apps Store est `static/description/index.html` ; ce README est la documentation technique du dépôt.
 
@@ -45,6 +45,8 @@ report/
 security/
   garden_security.xml     Catégorie, privilège, groupes et règles multi-société
   ir.model.access.csv     Droits d'accès par groupe
+datasets/                 Catalogues de départ par langue (fr, es, de, nl, it, pt_BR) : variétés locales et intrants courants
+loadtest/                 Tests de charge (générateur de données, mesures, profils ; exclu de git archive)
 data/                     Types d'opération par défaut, emplacements virtuels de stock (noupdate), activation des registres réglementaires
 demo/                     Données de démonstration (ferme, sites, îlots, planches, catalogue, opérations, stock, récoltes et factures clients)
 i18n/                     odoo_garden.pot et fr, es, de, nl, it, pt_BR (.po)
@@ -148,6 +150,16 @@ Installés avec le module (fichiers `data/`, `noupdate`), sans lien avec les don
 - **Intrants** (même fichier) : composts, fumier, engrais organiques (azote indicatif), terreaux, semences et plants génériques, paille, films, filets. **Aucun produit phytosanitaire** n'est livré : le numéro d'AMM et le délai avant récolte relèvent de chaque exploitation.
 
 Les familles, rotations et teneurs en azote sont des valeurs usuelles à vérifier pour votre contexte.
+
+### Catalogues de départ par langue
+
+`datasets/` contient un catalogue par langue d'installation (`fr`, `es`, `de`, `nl`, `it`, `pt_BR`) : environ 100 à 120 variétés cultivées dans le pays (par exemple Cœur de Bœuf et Marmande en France, Raf et Rosa de Barbastro en Espagne, Ochsenherz et Harzfeuer en Allemagne, Moneymaker aux Pays-Bas, San Marzano et Cuore di bue en Italie, Santa Cruz et Débora au Brésil), rattachées aux espèces et aux produits récoltés génériques du module, et 7 intrants complémentaires nommés dans la langue (farines de plumes, de sang et d'os, NPK 15-15-15 et ammonitrate, non autorisés en bio, dolomie, cendres de bois). Compost, fumier, chaux, corne broyée, granulés de volaille et terreaux sont déjà livrés par `data/` (noms traduits) et ne sont pas répétés. Les phytosanitaires sont volontairement exclus (numéros d'AMM réglementaires).
+
+- **Données communes** (`datasets/__init__.py`) : graines par gramme et taux de germination par espèce, type d'intrant, teneur en azote (alimente le registre de fertilisation) et caractère « autorisé en bio ». Chaque fichier de langue ne contient que les noms.
+- **À l'installation** : le hook `post_init_hook` charge le catalogue de la langue de l'administrateur (à défaut, de la société). Une langue sans catalogue (anglais, `pt_PT`...) ne charge rien.
+- **Après coup** : menu **Configuration > Starter Catalog** (assistant `garden.dataset.wizard`, réservé au chef de culture), pour charger une autre langue ; plusieurs catalogues peuvent coexister.
+- **Idempotence** : chaque enregistrement a un identifiant externe `dataset_<langue>_variety_<espèce>_<nom>` / `dataset_<langue>_input_<clé>` (`noupdate`) ; un rechargement ne duplique rien et ne modifie pas ce que l'utilisateur a changé ; une variété de même nom et de même espèce créée à la main n'est pas doublonnée.
+- **Valeurs indicatives** : rédigées sans source de semencier ; à faire relire par un agronome et par des locuteurs avant publication (voir « Points connus »).
 
 ## Menus
 
@@ -354,6 +366,7 @@ Le dossier `tests/` contient (tests `post_install`, `-at_install`) :
 - `test_compliance_fields.py` : champs réglementaires des produits (contraintes, écriture limitée par le chef de culture, vue), surface traitée et dose ;
 - `test_compliance_dar.py` : blocage dans le délai (limites incluses), création directe à « faite », dérogation du gérant et traçabilité, chef de culture et ouvrier sans dérogation, absence de blocage (produit sans DAR, traitement annulé, planifié, postérieur ou d'une autre culture), récolte sur plusieurs cultures et de planche, avertissement et date « récolte possible à partir du » ;
 - `test_compliance_registers.py` : registre phytosanitaire (contenu, répartition entre cultures, filtres période / saison / cultures, droits, multi-société, XLSX lu avec `openpyxl`, PDF au niveau HTML QWeb, téléchargement HTTP), registre de fertilisation (azote, conversion d'unités, synthèse, XLSX, PDF, pivot), export bio (alertes, onglets), paramètre `compliance_enabled` (menus, groupe, blocage, mise à jour), tour navigateur `garden_compliance_tour` ;
+- `test_dataset.py` : cohérence des catalogues de départ (espèces, produits, noms uniques, valeurs agronomiques, aucun phytosanitaire), chargement des six langues, idempotence, modifications et variétés manuelles respectées, langue d'installation, assistant et droits ;
 - `test_migration.py` : migration 19.0.1.7.0 (renommage des enregistrements par défaut, nom modifié par l'utilisateur respecté, idempotence) ;
 - `test_translations.py` : cohérence des `.pot` / `.po` (mêmes termes, aucune traduction vide, mêmes variables `%s` / `%(x)s` et balises, mention « machine translation »), puis chargement de chaque langue (fr, es, de, nl, it, pt_BR) et vérification de libellés de champs, sélections, menus, groupes, données par défaut, messages Python et vues ;
 - `test_demo.py` : plan de culture, opérations, intrants, récolte, pertes et traçabilité de démonstration (ignoré sans données de démo).
@@ -397,6 +410,7 @@ Les tests sont lancés sans `--with-demo` par défaut ; avec elle, `test_demo.py
 - **Manifeste** : `author`, `website`, `price` et `currency` sont des valeurs provisoires (voir « À définir avant publication »).
 - **Ponts** : les tests du pont Point de vente construisent les commandes PdV à la main (ORM, états forcés) et non par l'interface du point de vente ni `sync_from_ui` ; le rapprochement des lots PdV se fait sur le **nom** du lot saisi (le lot de culture porte le nom de la culture) et suppose donc une saisie exacte. L'assistant d'achat suppose que les unités de mesure des semences sont des poids ou des « Unités » (1 unité = 1 graine) ; une autre unité (sachet de contenu inconnu) est ignorée avec avertissement.
 - **Traductions** : es, de, nl, it, pt_BR sont des traductions automatiques non relues ; le genre et le nombre des filtres (« Annulées », « Archivées »...) ne sont pas distingués des états dans les `.po` (un seul terme anglais) ; arabe, chinois et japonais non faits.
+- **Catalogues de départ** : rédigés de mémoire, sans source de semencier ni relecture agronomique ; les noms de variétés (graphies, existence sur le marché local) et les graines par gramme sont indicatifs. Aucun catalogue pour l'anglais ni le portugais du Portugal.
 - **Captures d'écran** : prises sur la base de démonstration avec Chrome headless ; à refaire si l'interface change.
 - **Mise à jour depuis la phase 0** : les cultures existantes perdent leur lien vers l'ancien catalogue (`template_id` vide, contrainte NOT NULL non posée) ; aucune migration de données n'est fournie (aucune donnée de production, hypothèse 1).
 - **Description du module** : Odoo lit `static/description/index.html` (et non plus le README interprété en reStructuredText) ; les avertissements docutils des phases précédentes ont disparu à l'installation. Le `<style>` de cette page peut être retiré par l'assainissement HTML d'Odoo dans la fiche du module (la page reste lisible) ; l'Apps Store l'affiche telle quelle.

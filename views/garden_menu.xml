@@ -48,6 +48,7 @@
     <menuitem id="menu_garden_variety" name="Varieties" parent="menu_garden_configuration" action="action_garden_variety" sequence="20"/>
     <menuitem id="menu_garden_crop_template" name="Crop Templates" parent="menu_garden_configuration" action="action_garden_crop_template" sequence="30"/>
     <menuitem id="menu_garden_operation_type" name="Operation Types" parent="menu_garden_configuration" action="action_garden_operation_type" sequence="40"/>
+    <menuitem id="menu_garden_dataset" name="Starter Catalog" parent="menu_garden_configuration" action="action_garden_dataset_wizard" sequence="90"/>
     <menuitem id="menu_garden_settings" name="Settings" parent="menu_garden_configuration" action="action_garden_settings" sequence="90" groups="base.group_system"/>
     <menuitem id="menu_garden_product" name="Market Gardening Products" parent="menu_garden_configuration" action="action_garden_product" sequence="50"/>
 </odoo>
