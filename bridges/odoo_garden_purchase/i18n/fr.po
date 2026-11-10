@@ -45,8 +45,8 @@ msgstr "%(variety)s : l'unité de mesure %(uom)s de %(product)s n'est ni un poid
 #. module: odoo_garden_purchase
 #. odoo-python
 #: code:addons/odoo_garden_purchase/wizard/garden_seed_order_wizard.py:0
-msgid "%s: no plant product on the route %s, skipped."
-msgstr "%s : pas de produit plant sur l'itinéraire %s, ignoré."
+msgid "%(crop)s: no plant product on the route %(route)s, skipped."
+msgstr "%(crop)s : pas de produit plant sur l'itinéraire %(route)s, ignoré."
 
 #. module: odoo_garden_purchase
 #. odoo-python

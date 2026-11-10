@@ -12,7 +12,5 @@
         'views/garden_seed_order_wizard_views.xml',
     ],
     'auto_install': True,
-    'installable': True,
-    'application': False,
     'license': 'OPL-1',
 }

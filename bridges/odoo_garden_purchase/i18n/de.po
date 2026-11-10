@@ -46,8 +46,8 @@ msgstr "%(variety)s: Die Maßeinheit %(uom)s von %(product)s ist weder ein Gewic
 #. module: odoo_garden_purchase
 #. odoo-python
 #: code:addons/odoo_garden_purchase/wizard/garden_seed_order_wizard.py:0
-msgid "%s: no plant product on the route %s, skipped."
-msgstr "%s: kein Jungpflanzenprodukt in der Vorlage %s, übersprungen."
+msgid "%(crop)s: no plant product on the route %(route)s, skipped."
+msgstr "%(crop)s: kein Jungpflanzenprodukt in der Vorlage %(route)s, übersprungen."
 
 #. module: odoo_garden_purchase
 #. odoo-python

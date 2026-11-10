@@ -86,7 +86,8 @@ class GardenSeedOrderWizard(models.TransientModel):
             for crop in crops:
                 if not crop.template_id.plant_product_id:
                     warnings.append(self.env._(
-                        "%s: no plant product on the route %s, skipped.", crop.display_name, crop.template_id.display_name,
+                        "%(crop)s: no plant product on the route %(route)s, skipped.",
+                        crop=crop.display_name, route=crop.template_id.display_name,
                     ))
                     continue
                 plants[(crop.variety_id, crop.template_id.plant_product_id)] += crop.planned_plant_qty

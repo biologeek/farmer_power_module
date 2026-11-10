@@ -7,9 +7,6 @@
     'author': 'TODO - publisher to be defined',
     'website': 'https://example.com/TODO',
     'depends': ['odoo_garden', 'point_of_sale'],
-    'data': [],
     'auto_install': True,
-    'installable': True,
-    'application': False,
     'license': 'OPL-1',
 }
