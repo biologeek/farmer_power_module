@@ -15,8 +15,8 @@ attendre du support et comment nous joindre.
 
 ## Nous contacter
 
-- Adresse de contact : `contact@example.com` — **TODO : adresse de l'éditeur à définir**
-- Site et page de support : `https://example.com/TODO` — **TODO**
+- Adresse de contact : `odoo@biologeek.info`
+- Site et page de support : `https://odoo.biologeek.info`
 
 ## Pour un signalement efficace
 

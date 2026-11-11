@@ -420,11 +420,11 @@ Valeurs **provisoires**, repérables par `TODO`, que seul le propriétaire du pr
 | Élément | Valeur actuelle | Où |
 |---|---|---|
 | Éditeur (`author`) | `TODO - publisher to be defined` | `__manifest__.py` du module et des deux ponts |
-| Site web (`website`) | `https://example.com/TODO` | idem |
+| Site web (`website`) | `https://odoo.biologeek.info` | idem |
 | Prix (`price`) et devise (`currency`) | `99.00` EUR, provisoires | `__manifest__.py` (les deux ponts sont **gratuits** : pas de `price`) |
 | Nom commercial | « Farmer Power » (retenu ; ancien nom technique `odoo_garden`, renommé en `farmer_power`) | `name`, `static/description/index.html`, icône |
 | Licence | `OPL-1` pour le module principal (voir ci-dessous) ; `LGPL-3` pour les deux ponts gratuits | `license` des manifestes |
-| Page de support / contact | rédigée (`docs/SUPPORT.md`, section Support de `static/description/index.html`) ; adresse et site à renseigner (`contact@example.com` provisoire) | idem |
+| Page de support / contact | rédigée (`docs/SUPPORT.md`, section Support de `static/description/index.html`) ; contact `odoo@biologeek.info`, site `https://odoo.biologeek.info` | idem |
 | Relecture des traductions | es, de, nl, it, pt_BR faites par machine, à faire relire par des locuteurs natifs, en particulier les termes agricoles | `i18n/*.po`, `docs/GLOSSARY.md` |
 | Captures d'écran | 6 captures réelles de la base de démonstration ; à refaire avec le nom définitif ou des données de l'éditeur | `static/description/screenshot_*.png` |
 

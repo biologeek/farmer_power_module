@@ -4,9 +4,9 @@
     'version': '19.0.1.0.0',
     'category': 'Agriculture',
     'summary': 'Market gardening for Odoo: farms, beds, crop templates, crop plan, operations and labor, stock, profitability and French regulatory registers.',
-    # TODO before publication (see README, "To be defined before publication"): publisher, website, price.
+    # TODO before publication: publisher name (author).
     'author': 'TODO - publisher to be defined',
-    'website': 'https://example.com/TODO',
+    'website': 'https://odoo.biologeek.info',
     'depends': [
         'product', 'uom', 'mail', 'hr', 'stock',
         'account', 'sale_management', 'sale_stock',
