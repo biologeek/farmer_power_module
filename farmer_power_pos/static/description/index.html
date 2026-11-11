@@ -1,13 +1,26 @@
-<section style="font-family: sans-serif; color: #212529; max-width: 800px; margin: 0 auto; padding: 24px 16px; line-height: 1.55;">
-    <h1 style="color: #1b5e20;">Farmer Power - Point of Sale bridge</h1>
-    <p>
-        Companion of <strong>Farmer Power</strong>, installed automatically when Farmer Power and Point of Sale are both installed.
-        Market sales rung up in the Point of Sale count in the revenue and the profitability of the crops.
-    </p>
-    <ul>
-        <li>Paid or posted POS order lines, attributed like customer invoices: pro rata of the monthly harvest of the product, or exactly by lot when the lot names typed on the line are crop lots.</li>
-        <li>Refunds count negatively.</li>
-        <li>An order already invoiced is never counted twice.</li>
-        <li>Shown in the Sales button of the crop, the profitability report and the dashboard.</li>
-    </ul>
+<section style="font-family:sans-serif;color:#212529;max-width:800px;margin:0 auto;padding:24px 16px;line-height:1.55;">
+<h1 style="color:#1b5e20;margin:0 0 4px 0;">Farmer Power - Point of Sale bridge</h1>
+<p style="margin:0;color:#6c757d;">Market sales in your crop profitability - <strong style="color:#2e7d32;">Free</strong></p>
+<p style="font-size:1.15em;margin-top:12px;">Market sales rung up in the <strong>Point of Sale</strong> count in the revenue and the profitability of your crops, exactly like customer invoices.</p>
+
+<h2 style="color:#2e7d32;border-bottom:2px solid #c8e6c9;padding-bottom:6px;margin:36px 0 12px 0;">Main features</h2>
+<table style="border-collapse:separate;border-spacing:12px;table-layout:fixed;margin:0 -12px;width:calc(100% + 24px);max-width:none;">
+<tr>
+<td style="vertical-align:top;border:1px solid #dee2e6;border-radius:6px;padding:12px 16px;background:#fafafa;"><h3 style="margin:0 0 8px 0;font-size:1.05em;color:#1b5e20;">Attribution like invoices</h3><ul style="margin:0;padding-left:20px;"><li style="margin-bottom:6px;">Pro rata of the monthly harvests of the product (default)</li><li style="margin-bottom:6px;">Or exactly by lot, when the lot names typed on the POS line are crop lots</li></ul></td>
+<td style="vertical-align:top;border:1px solid #dee2e6;border-radius:6px;padding:12px 16px;background:#fafafa;"><h3 style="margin:0 0 8px 0;font-size:1.05em;color:#1b5e20;">Reliable amounts</h3><ul style="margin:0;padding-left:20px;"><li style="margin-bottom:6px;">Only paid or posted POS orders; drafts and cancelled orders are ignored</li><li style="margin-bottom:6px;">Tax-excluded amounts, converted to the company currency</li><li style="margin-bottom:6px;">Refunds count negatively</li></ul></td>
+</tr>
+<tr>
+<td style="vertical-align:top;border:1px solid #dee2e6;border-radius:6px;padding:12px 16px;background:#fafafa;"><h3 style="margin:0 0 8px 0;font-size:1.05em;color:#1b5e20;">No double counting</h3><ul style="margin:0;padding-left:20px;"><li style="margin-bottom:6px;">An order already invoiced is counted once, by its invoice (pro rata method)</li><li style="margin-bottom:6px;">Safe to mix invoices and POS sales</li></ul></td>
+<td style="vertical-align:top;border:1px solid #dee2e6;border-radius:6px;padding:12px 16px;background:#fafafa;"><h3 style="margin:0 0 8px 0;font-size:1.05em;color:#1b5e20;">Where you see it</h3><ul style="margin:0;padding-left:20px;"><li style="margin-bottom:6px;">"Sales" button of the crop</li><li style="margin-bottom:6px;">Profitability report and dashboard (monthly revenue)</li><li style="margin-bottom:6px;">Crop managers see the amounts, not the POS orders</li></ul></td>
+</tr>
+</table>
+
+<h2 style="color:#2e7d32;border-bottom:2px solid #c8e6c9;padding-bottom:6px;margin:36px 0 12px 0;">How it works</h2>
+<ul style="margin:0;padding-left:20px;"><li style="margin-bottom:6px;">Add the bridge: nothing to configure. The attribution method is the one chosen in the Farmer Power settings.</li><li style="margin-bottom:6px;">For the by-lot method, track the product by lots in the Point of Sale and type the crop lot name on the line.</li><li style="margin-bottom:6px;">Tested at scale: 40,000 POS orders and 8,300 crops.</li></ul>
+
+<h2 style="color:#2e7d32;border-bottom:2px solid #c8e6c9;padding-bottom:6px;margin:36px 0 12px 0;">Requirements</h2>
+<ul style="margin:0;padding-left:20px;"><li style="margin-bottom:6px;">Odoo 19, Community or Enterprise.</li><li style="margin-bottom:6px;"><strong>Farmer Power</strong> (<code>farmer_power</code>) and the Odoo <strong>Point of Sale</strong> app.</li><li style="margin-bottom:6px;">Installed automatically as soon as both are present; uninstalling it leaves Farmer Power untouched.</li><li style="margin-bottom:6px;">No text of its own to translate: it reuses the screens of Farmer Power.</li></ul>
+
+<h2 style="color:#2e7d32;border-bottom:2px solid #c8e6c9;padding-bottom:6px;margin:36px 0 12px 0;">About</h2>
+<p>This module is <strong>free</strong> (LGPL-3). It is a companion of <strong>Farmer Power</strong>, which is required.</p>
 </section>

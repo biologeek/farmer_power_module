@@ -8,5 +8,5 @@
     'website': 'https://example.com/TODO',
     'depends': ['farmer_power', 'point_of_sale'],
     'auto_install': True,
-    'license': 'OPL-1',
+    'license': 'LGPL-3',  # free module (no price)
 }

@@ -421,14 +421,14 @@ Valeurs **provisoires**, repérables par `TODO`, que seul le propriétaire du pr
 |---|---|---|
 | Éditeur (`author`) | `TODO - publisher to be defined` | `__manifest__.py` du module et des deux ponts |
 | Site web (`website`) | `https://example.com/TODO` | idem |
-| Prix (`price`) et devise (`currency`) | `99.00` EUR, provisoires | `__manifest__.py` (les ponts n'ont pas de prix : à décider, gratuits ou vendus à part) |
+| Prix (`price`) et devise (`currency`) | `99.00` EUR, provisoires | `__manifest__.py` (les deux ponts sont **gratuits** : pas de `price`) |
 | Nom commercial | « Farmer Power » (retenu ; ancien nom technique `odoo_garden`, renommé en `farmer_power`) | `name`, `static/description/index.html`, icône |
-| Licence | `OPL-1` (voir ci-dessous) | `license` des trois manifestes |
+| Licence | `OPL-1` pour le module principal (voir ci-dessous) ; `LGPL-3` pour les deux ponts gratuits | `license` des manifestes |
 | Page de support / contact | rédigée (`docs/SUPPORT.md`, section Support de `static/description/index.html`) ; adresse et site à renseigner (`contact@example.com` provisoire) | idem |
 | Relecture des traductions | es, de, nl, it, pt_BR faites par machine, à faire relire par des locuteurs natifs, en particulier les termes agricoles | `i18n/*.po`, `docs/GLOSSARY.md` |
 | Captures d'écran | 6 captures réelles de la base de démonstration ; à refaire avec le nom définitif ou des données de l'éditeur | `static/description/screenshot_*.png` |
 
-**Licence.** Le cahier des charges prévoit `OPL-1` (Odoo Proprietary License v1.0) pour la vente sur l'Apps Store : les manifestes l'appliquent, ce qui **change la licence précédente (`LGPL-3`)** ; c'est une décision à confirmer par le propriétaire. Le texte de la licence n'est pas reproduit dans le dépôt : il appartient à Odoo S.A. et ne doit pas être réécrit. **TODO** : ajouter le fichier `LICENSE` avec le texte officiel d'OPL-1 (ou celui de la licence finalement choisie) et, au besoin, l'adresse de copyright de l'éditeur.
+**Licence.** Le cahier des charges prévoit `OPL-1` (Odoo Proprietary License v1.0) pour la vente sur l'Apps Store : le manifeste du module principal l'applique, ce qui **change la licence précédente (`LGPL-3`)** (les ponts, gratuits, restent en `LGPL-3`) ; c'est une décision à confirmer par le propriétaire. Le texte de la licence n'est pas reproduit dans le dépôt : il appartient à Odoo S.A. et ne doit pas être réécrit. **TODO** : ajouter le fichier `LICENSE` avec le texte officiel d'OPL-1 (ou celui de la licence finalement choisie) et, au besoin, l'adresse de copyright de l'éditeur.
 
 ## À venir
 

@@ -12,5 +12,5 @@
         'views/garden_seed_order_wizard_views.xml',
     ],
     'auto_install': True,
-    'license': 'OPL-1',
+    'license': 'LGPL-3',  # free module (no price)
 }
