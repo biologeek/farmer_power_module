@@ -64,8 +64,8 @@
     },
     'application': True,
     'license': 'OPL-1',
-    'price': 99.00,  # TODO: provisional price, to be decided by the project owner
-    'currency': 'EUR',  # TODO: provisional currency
+    'price': 89.00,
+    'currency': 'EUR',
     'images': [
         'static/description/screenshot_1_crop_plan.png',
         'static/description/screenshot_2_crop_form.png',
